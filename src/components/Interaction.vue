@@ -32,7 +32,7 @@ export default {
   setup() {
     const route = useRoute();
 
-    const urlShare = computed(() => [route.path]);
+    const urlShare = computed(() => route.path);
 
     return { urlShare };
   },
