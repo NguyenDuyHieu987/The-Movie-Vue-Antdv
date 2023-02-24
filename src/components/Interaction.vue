@@ -2,7 +2,7 @@
   <div class="like-share">
     <div
       class="fb-like"
-      data-href="https://www.youtube.com/watch?v=2KptY2bFBXA"
+      data-href="https://developers.facebook.com/docs/plugins/"
       data-width=""
       data-layout=""
       data-action=""
@@ -43,7 +43,7 @@ export default {
 .like-share {
   margin-top: 10px;
   // display: flex;
-  // flex-direction: row;
+  // flex-direction: column;
 
   a {
     color: #fff;
