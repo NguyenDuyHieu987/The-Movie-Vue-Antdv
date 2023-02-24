@@ -129,7 +129,7 @@ export default {
 
       getTrending(1)
         .then((movieResponed) => {
-          dataRecommend.value = movieResponed?.data.results;
+          dataRecommend.value = movieResponed?.data?.results;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
