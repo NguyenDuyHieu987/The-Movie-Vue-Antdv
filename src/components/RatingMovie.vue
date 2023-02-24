@@ -44,15 +44,15 @@ export default {
       const hint_rate = document.getElementById('hint-rate');
 
       for (let i = 0; i < stars.length; ++i) {
-        stars[i].classList.remove('active');
+        stars[i]?.classList.remove('active');
       }
 
       for (let i = 0; i <= temp.value; ++i) {
-        stars[i].classList.add('active');
+        stars[i]?.classList.add('active');
       }
 
       for (let i = 0; i < stars.length; ++i) {
-        stars[i].addEventListener('mouseenter', () => {
+        stars[i]?.addEventListener('mouseenter', () => {
           for (let j = 0; j <= i; j++) {
             stars[j].classList.add('active');
             // stars[j].style.color = 'yellow';

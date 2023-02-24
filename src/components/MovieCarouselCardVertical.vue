@@ -159,7 +159,7 @@ export default {
   }
 
   .ant-image {
-    height: 270px;
+    height: 250px;
     width: 100%;
 
     .ant-image-img {
