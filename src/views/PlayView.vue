@@ -1,13 +1,15 @@
 <template>
   <div class="play-container">
-    <iframe
-      width="100%"
-      height="500"
-      src="//ok.ru/videoembed/1765660822182"
-      frameborder="0"
-      allow="autoplay"
-      allowfullscreen
-    ></iframe>
+    <div class="video-player">
+      <iframe
+        width="100%"
+        height="100%"
+        src="//ok.ru/videoembed/3056793684585"
+        frameborder="0"
+        allow="autoplay"
+        allowfullscreen
+      ></iframe>
+    </div>
     <Interaction />
     <RatingMovie
       :voteAverage="dataMovie?.vote_average"
@@ -163,4 +165,10 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.play-container {
+  .video-player {
+    height: 80vh;
+  }
+}
+</style>

@@ -37,9 +37,12 @@
                 : item?.first_air_date?.slice(0, 4)
             }}
           </span>
-          <span class="genres">{{
-            getAllGenresById(item?.genre_ids).join(' • ')
-          }}</span>
+          <span class="genres" v-if="item?.genre_ids">
+            {{ getAllGenresById(item?.genre_ids).join(' • ') }}
+          </span>
+          <span class="genres" v-else-if="item?.genres">
+            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+          </span>
         </p>
       </div>
       <h1 class="title">
@@ -77,7 +80,7 @@ export default {
   font-size: 10px;
 
   .ant-image {
-    height: 85vh;
+    height: 82vh;
     width: 100%;
     img {
       object-fit: cover;

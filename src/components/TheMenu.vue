@@ -94,7 +94,7 @@
       <router-link :to="{ name: 'series' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
 
-    <a-menu-item key="ranking" style="margin-bottom: 80px">
+    <a-menu-item key="ranking" style="margin-bottom: 62vh">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-ranking-star" />
       </template>
