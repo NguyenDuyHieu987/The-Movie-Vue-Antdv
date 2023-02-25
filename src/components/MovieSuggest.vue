@@ -147,7 +147,7 @@ export default {
         .then((movieResponed) => {
           dataSimilar.value = movieResponed?.data?.results;
 
-          console.log(dataSimilar.value);
+          // console.log(dataSimilar.value);
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;

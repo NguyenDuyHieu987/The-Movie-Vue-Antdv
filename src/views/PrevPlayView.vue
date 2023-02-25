@@ -191,7 +191,7 @@
       "
     />
 
-    <h3 class="section-title">
+    <h3 class="section-title" @click="$router.currentRoute">
       <strong>Nội dung phim</strong>
     </h3>
     <div class="movie-content">
@@ -270,13 +270,22 @@
             items: 6,
           },
           1300: {
-            items: 7,
+            items: 6,
           },
           1400: {
             items: 7,
           },
+          1500: {
+            items: 8,
+          },
           1700: {
+            items: 9,
+          },
+          2000: {
             items: 10,
+          },
+          2200: {
+            items: 12,
           },
         }"
       >
@@ -298,8 +307,8 @@
   </div>
 </template>
 <script>
-import { ref, onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onBeforeMount, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import carousel from 'vue-owl-carousel/src/Carousel';
 import {
@@ -329,6 +338,7 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
@@ -390,6 +400,15 @@ export default {
           if (axios.isCancel(e)) return;
         });
     });
+
+    watch(route.path, (newVal, oldVal) => {
+      console.log(newVal, oldVal);
+      router.push(newVal);
+    });
+    document.title = `${Array.from(
+      route.params?.name.split('+'),
+      (x) => x.charAt(0).toUpperCase() + x.slice(1)
+    ).join(' ')} - Info`;
 
     return {
       genresName,
@@ -621,6 +640,7 @@ export default {
     }
 
     .toggle-content {
+      display: block;
       cursor: pointer;
 
       &:hover {

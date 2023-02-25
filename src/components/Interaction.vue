@@ -25,14 +25,15 @@
 
 <script>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+// import { useRoute } from 'vue-router';
 
 export default {
   components: {},
   setup() {
-    const route = useRoute();
+    // const route = useRoute();
 
-    const urlShare = computed(() => 'https://phimhay247.site' + route.fullPath);
+    alert(window.location);
+    const urlShare = computed(() => window.location);
     // alert(urlShare.value);
 
     return { urlShare };

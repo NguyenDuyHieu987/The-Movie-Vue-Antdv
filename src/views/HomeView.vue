@@ -13,5 +13,8 @@ export default {
   components: {
     SlideTopicHome,
   },
+  setup() {
+    document.title = 'Phimhay247';
+  },
 };
 </script>

@@ -13,14 +13,14 @@
     class="menu-sider-bar"
     theme="dark"
   >
-    <a-menu-item key="home">
+    <a-menu-item key="/">
       <template #icon>
         <HomeOutlined />
       </template>
       <router-link :to="{ name: 'home' }"><span>Trang chủ</span> </router-link>
     </a-menu-item>
 
-    <a-menu-item key="movie">
+    <a-menu-item key="/movie">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-video-camera" />
       </template>
@@ -29,14 +29,14 @@
       </router-link>
     </a-menu-item>
 
-    <a-menu-item key="series">
+    <a-menu-item key="/series">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-film" />
       </template>
       <router-link :to="{ name: 'series' }"> <span>Phim bộ</span></router-link>
     </a-menu-item>
 
-    <a-sub-menu key="genres">
+    <a-sub-menu key="/genres">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-list" />
       </template>
@@ -53,7 +53,7 @@
       </a-menu-item>
     </a-sub-menu>
 
-    <a-sub-menu key="years">
+    <a-sub-menu key="/years">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-calendar-days" />
       </template>
@@ -70,7 +70,7 @@
       </a-menu-item>
     </a-sub-menu>
 
-    <a-sub-menu key="countries">
+    <a-sub-menu key="/countries">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-globe" />
       </template>
@@ -87,14 +87,14 @@
       </a-menu-item>
     </a-sub-menu>
 
-    <a-menu-item key="follow">
+    <a-menu-item key="/follow">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-bookmark" />
       </template>
       <router-link :to="{ name: 'series' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
 
-    <a-menu-item key="ranking" style="margin-bottom: 62vh">
+    <a-menu-item key="/ranking" style="margin-bottom: 62vh">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-ranking-star" />
       </template>
@@ -112,14 +112,18 @@ import {
   getAllYear,
 } from '../services/MovieService';
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 
 export default {
   components: {
     HomeOutlined,
   },
   setup() {
+    const route = useRoute();
+
+    console.log();
     const state = reactive({
-      selectedKeys: ['home'],
+      selectedKeys: [route.path],
       openKeys: ['1'],
       preOpenKeys: ['1'],
     });

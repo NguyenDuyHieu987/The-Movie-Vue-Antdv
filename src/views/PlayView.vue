@@ -146,6 +146,11 @@ export default {
         });
     });
 
+    document.title = `${Array.from(
+      route.params?.name.split('+'),
+      (x) => x.charAt(0).toUpperCase() + x.slice(1)
+    ).join(' ')} - Play`;
+
     return {
       genresName,
       isEpisodes,
