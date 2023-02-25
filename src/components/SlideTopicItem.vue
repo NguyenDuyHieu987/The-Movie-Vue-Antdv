@@ -107,6 +107,10 @@ export default {
       height: 400px;
       transition: all 0.3s;
     }
+
+    .topic-item-info {
+      left: 30px;
+    }
   }
 
   .ant-carousel .slick-prev {
@@ -121,6 +125,10 @@ export default {
     .ant-image {
       height: 350px;
       transition: all 0.3s;
+    }
+
+    .topic-item-info {
+      left: 20px;
     }
   }
 
@@ -144,6 +152,10 @@ export default {
     .ant-image {
       height: 300px;
       transition: all 0.3s;
+    }
+
+    .topic-item-info {
+      left: 15px;
     }
   }
 
@@ -192,7 +204,7 @@ export default {
 
     p {
       max-width: 70%;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
       display: -webkit-box;
@@ -207,6 +219,11 @@ export default {
   h1 {
     font-size: 3.5em;
     font-weight: bold;
+    max-width: 70%;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
   }
 
   .overview {
