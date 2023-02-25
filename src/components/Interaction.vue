@@ -38,7 +38,7 @@ export default {
     console.log(route);
 
     // alert(window.location);
-    const urlShare = computed(() => 'https://antdv.com/components/carousel');
+    const urlShare = computed(() => window.location);
     // alert(encodeURIComponent(urlShare.value));
 
     return { urlShare };
