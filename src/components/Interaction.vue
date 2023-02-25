@@ -2,7 +2,7 @@
   <div class="like-share">
     <div
       class="fb-like"
-      :data-href="decodeURIComponent(urlShare)"
+      :data-href="urlShare"
       data-width=""
       data-layout=""
       data-action=""
@@ -12,7 +12,7 @@
 
     <ShareNetwork
       network="facebook"
-      :url="decodeURIComponent(urlShare)"
+      :url="urlShare"
       title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
       description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
       quote="The hot reload is so fast it\'s near instant. - Evan You"
@@ -26,16 +26,17 @@
 
 <script>
 import { computed } from 'vue';
-// import { useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 export default {
   components: {},
   setup() {
-    // const route = useRoute();
+    const route = useRoute();
+    console.log(route);
 
     // alert(window.location);
     const urlShare = computed(() => window.location);
-    // alert(urlShare.value);
+    // alert(encodeURIComponent(urlShare.value));
 
     return { urlShare };
   },
