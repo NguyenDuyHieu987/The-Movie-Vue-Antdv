@@ -18,6 +18,7 @@
     </h3>
     <Interaction />
     <RatingMovie
+      v-if="dataMovie?.id"
       :voteAverage="dataMovie?.vote_average"
       :voteCount="dataMovie?.vote_count"
       :isEpisodes="isEpisodes"
