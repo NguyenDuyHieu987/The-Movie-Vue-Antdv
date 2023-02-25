@@ -98,9 +98,9 @@ export default {
     height: 100%;
     background: transparent;
     border: none;
-    border-right: 0.25px solid var(--border-regular);
     cursor: pointer;
-    margin-right: 10px;
+    // border-right: 0.25px solid var(--border-regular);
+    // margin-right: 10px;
 
     svg {
       font-size: 1.4em;
