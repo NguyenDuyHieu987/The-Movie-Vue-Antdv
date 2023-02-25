@@ -66,7 +66,11 @@
       data-numposts="10"
     ></div>
 
-    <MovieSuggest :dataMovie="dataMovie" :isEpisodes="isEpisodes" />
+    <MovieSuggest
+      v-if="dataMovie?.id"
+      :dataMovie="dataMovie"
+      :isEpisodes="isEpisodes"
+    />
   </div>
 </template>
 
@@ -81,8 +85,6 @@ import {
   getMovieById,
   getLanguage,
   getMovieByCredit,
-  getMovieBySimilar,
-  getTrending,
 } from '../services/MovieService';
 import Interaction from '@/components/Interaction.vue';
 import RatingMovie from '@/components/RatingMovie.vue';
@@ -135,26 +137,6 @@ export default {
       getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', route.params?.id)
         .then((movieResponed) => {
           dataCredit.value = movieResponed?.data;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
-
-      getMovieBySimilar(
-        isEpisodes.value ? 'tv' : 'movie',
-        // dataMovie.value?.genres[0],
-        1
-      )
-        .then((movieResponed) => {
-          dataSimilar.value = movieResponed?.data?.results;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
-
-      getTrending(1)
-        .then((movieResponed) => {
-          dataRecommend.value = movieResponed?.data.results;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
