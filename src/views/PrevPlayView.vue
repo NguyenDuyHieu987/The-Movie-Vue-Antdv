@@ -39,28 +39,48 @@
           }}
         </strong>
 
-        <strong>
-          {{
-            isEpisodes
-              ? ' - Season ' + dataMovie?.last_episode_to_air?.season_number
-              : null
-          }}
+        <strong v-if="isEpisodes">
+          {{ ' - Season ' + dataMovie?.last_episode_to_air?.season_number }}
         </strong>
 
         <div class="widget">
           <router-link
+            v-if="isEpisodes"
             :to="{
-              path: `/play/${dataMovie?.id}/${
-                dataMovie?.name
+              name: 'play',
+              params: {
+                id: dataMovie?.id,
+                name: dataMovie?.name
                   ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase()
-              }`,
+                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                // tap: 'tap-1',
+              },
+              query: {
+                ep: 'tap-1',
+              },
             }"
             class="play-now"
           >
             <font-awesome-icon icon="fa-solid fa-play" />
             <span> Play now</span>
           </router-link>
+          <router-link
+            v-else
+            :to="{
+              name: 'play',
+              params: {
+                id: dataMovie?.id,
+                name: dataMovie?.name
+                  ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              },
+            }"
+            class="play-now"
+          >
+            <font-awesome-icon icon="fa-solid fa-play" />
+            <span> Play now</span>
+          </router-link>
+
           <a
             class="trailer"
             href="#trailer-youtube"
@@ -401,14 +421,20 @@ export default {
         });
     });
 
-    watch(route.path, (newVal, oldVal) => {
-      console.log(newVal, oldVal);
-      router.push(newVal);
+    watch(route, (newVal) => {
+      router.push({ path: newVal.path }).then(() => {
+        router.go();
+      });
+
+      // alert(newVal.path);
+      // console.log(router);
     });
+
     document.title = `${Array.from(
       route.params?.name.split('+'),
       (x) => x.charAt(0).toUpperCase() + x.slice(1)
     ).join(' ')} - Info`;
+    window.scrollTo(0, top);
 
     return {
       genresName,
@@ -430,10 +456,36 @@ export default {
 </script>
 
 <style lang="scss">
+@media only screen and (max-width: 1900px) {
+  .prev-play-conainer {
+    .trailer-youtube {
+      iframe {
+        height: 70vh !important;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .prev-play-conainer {
+    .trailer-youtube {
+      iframe {
+        height: 650px !important;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 1400px) {
   .prev-play-conainer {
     .backdrop-img {
       height: 450px !important;
+    }
+
+    .trailer-youtube {
+      iframe {
+        height: 550px !important;
+      }
     }
   }
 }
@@ -640,8 +692,8 @@ export default {
     }
 
     .toggle-content {
-      display: block;
       cursor: pointer;
+      display: inline-block;
 
       &:hover {
         color: #494949;
@@ -651,6 +703,10 @@ export default {
 
   .trailer-youtube {
     display: none;
+
+    iframe {
+      height: 82vh;
+    }
 
     &.active {
       display: block;

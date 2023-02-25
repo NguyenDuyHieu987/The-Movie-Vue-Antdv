@@ -1,7 +1,5 @@
 <template>
-  <a-layout-content
-    style="min-height: calc(100vh - 130px); background-color: #fff"
-  >
+  <a-layout-content>
     <BreadCrumb />
     <div class="container">
       <slot />
@@ -19,6 +17,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .ant-layout-content {
+  min-height: calc(100vh - 130px);
+  background-color: #000;
   .container {
     padding: 15px 30px;
     background-color: var(--background-content-color);

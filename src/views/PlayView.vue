@@ -10,6 +10,12 @@
         allowfullscreen
       ></iframe>
     </div>
+
+    <ListEpisodes v-if="isEpisodes" :dataMovie="dataMovie" />
+
+    <h3 class="section-title width-fit" style="margin-top: 10px">
+      <strong> Đánh giá phim</strong>
+    </h3>
     <Interaction />
     <RatingMovie
       :voteAverage="dataMovie?.vote_average"
@@ -35,11 +41,13 @@
         {{ dataMovie?.overview }}
         <router-link
           :to="{
-            path: `/info/${dataMovie?.id}/${
-              dataMovie?.name
+            name: 'info',
+            params: {
+              id: dataMovie?.id,
+              name: dataMovie?.name
                 ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase()
-            }`,
+                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+            },
           }"
         >
           <strong class="toggle-content" id="toggle-content"> Chi tiết </strong>
@@ -47,6 +55,9 @@
       </p>
     </div>
 
+    <h3 class="section-title">
+      <strong> Bình luận</strong>
+    </h3>
     <div
       class="fb-comments"
       data-href="https://www.youtube.com/watch?v=ZQkZRpGle-U"
@@ -59,8 +70,8 @@
 </template>
 
 <script>
-import { ref, onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onBeforeMount, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {
   getAllGenresById,
@@ -75,15 +86,18 @@ import {
 import Interaction from '@/components/Interaction.vue';
 import RatingMovie from '@/components/RatingMovie.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
+import ListEpisodes from '@/components/ListEpisodes.vue';
 
 export default {
   components: {
     Interaction,
     RatingMovie,
     MovieSuggest,
+    ListEpisodes,
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
@@ -146,10 +160,19 @@ export default {
         });
     });
 
+    watch(route, (newVal) => {
+      // router.push(newVal.path);
+      // alert(newVal.path);
+      router.push({ path: newVal.path }).then(() => {
+        router.go();
+      });
+    });
+
     document.title = `${Array.from(
       route.params?.name.split('+'),
       (x) => x.charAt(0).toUpperCase() + x.slice(1)
     ).join(' ')} - Play`;
+    window.scrollTo(0, top);
 
     return {
       genresName,
@@ -171,9 +194,71 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@media only screen and (max-width: 1800px) {
+  .play-container {
+    .video-player {
+      height: 70vh !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1500px) {
+  .play-container {
+    .video-player {
+      height: 60vh !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .play-container {
+    .video-player {
+      height: 50vh !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .play-container {
+    .video-player {
+      height: 550px !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .play-container {
+    .video-player {
+      height: 450px !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .play-container {
+    .video-player {
+      height: 350px !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .play-container {
+    .video-player {
+      height: 300px !important;
+    }
+  }
+}
+
 .play-container {
   .video-player {
     height: 80vh;
+  }
+
+  .movie-content {
+    p {
+      text-align: justify;
+    }
   }
 }
 </style>

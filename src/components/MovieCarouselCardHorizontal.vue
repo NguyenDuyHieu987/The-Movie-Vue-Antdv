@@ -1,11 +1,14 @@
 <template>
   <router-link
+    v-if="item?.id"
     :to="{
-      path: `/info/${item?.id}/${
-        item?.name
+      name: 'info',
+      params: {
+        id: item?.id,
+        name: item?.name
           ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase()
-      }`,
+          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+      },
     }"
     class="movie-carousel-horizontal-item"
   >

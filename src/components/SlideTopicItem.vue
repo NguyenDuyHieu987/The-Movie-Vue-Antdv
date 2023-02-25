@@ -1,11 +1,14 @@
 <template>
   <router-link
+    v-if="item?.id"
     :to="{
-      path: `/info/${item?.id}/${
-        item?.name
+      name: 'info',
+      params: {
+        id: item?.id,
+        name: item?.name
           ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase()
-      }`,
+          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+      },
     }"
     class="topic-item"
   >
@@ -76,19 +79,6 @@ export default {
 };
 </script>
 <style lang="scss">
-.topic-item {
-  font-size: 10px;
-
-  .ant-image {
-    height: 82vh;
-    width: 100%;
-    img {
-      object-fit: cover;
-      height: 100%;
-    }
-  }
-}
-
 @media only screen and (max-width: 1500px) {
   .topic-item {
     .ant-image {
@@ -199,6 +189,19 @@ export default {
 
   .ant-carousel .slick-next {
     font-size: 1.3em !important;
+  }
+}
+
+.topic-item {
+  font-size: 10px;
+
+  .ant-image {
+    height: 82vh;
+    width: 100%;
+    img {
+      object-fit: cover;
+      height: 100%;
+    }
   }
 }
 

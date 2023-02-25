@@ -1,9 +1,9 @@
 <template>
   <div class="lastest-episodes">
     <h3 class="section-title">
-      <strong>Tập mới nhất:</strong>
+      <strong>Tập mới nhất</strong>
     </h3>
-    <ul class="list-episodes">
+    <ul>
       <!-- {{Array.from({ length: lastestEpisode }, (_, i) => i + 1)
           .reverse()
           .slice(0, 6)
@@ -22,26 +22,38 @@
         :key="index"
       >
         <router-link
-          :to="{
-            path: `/play/${dataMovie?.id}/${
-              dataMovie?.name
-                ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase()
-            }?tap=${item}`,
-          }"
           v-if="item === numberOfEpisodes"
+          :to="{
+            name: 'play',
+            params: {
+              id: dataMovie?.id,
+              name: dataMovie?.name
+                ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              // tap: 'tap-1',
+            },
+            query: {
+              ep: `tap-${item}`,
+            },
+          }"
         >
           {{ 'Tập ' + item + '-End' }}
         </router-link>
         <router-link
+          v-else-if="item !== numberOfEpisodes"
           :to="{
-            path: `/play/${dataMovie?.id}/${
-              dataMovie?.name
+            name: 'play',
+            params: {
+              id: dataMovie?.id,
+              name: dataMovie?.name
                 ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase()
-            }?tap=${item}`,
+                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              // tap: 'tap-1',
+            },
+            query: {
+              ep: `tap-${item}`,
+            },
           }"
-          v-else
         >
           {{ 'Tập ' + item }}
         </router-link>
@@ -57,6 +69,7 @@ export default {
     lastestEpisode: Number,
     numberOfEpisodes: Number,
   },
+  components: {},
   setup() {
     return {};
   },
@@ -67,12 +80,13 @@ export default {
 .lastest-episodes {
   margin-top: 15px;
 
-  ul.list-episodes {
+  ul {
     // display: flex;
     // flex-direction: row;
     list-style-type: none;
     margin-top: 7px;
     overflow: hidden;
+    padding-left: 15px;
 
     & > li,
     li + li {

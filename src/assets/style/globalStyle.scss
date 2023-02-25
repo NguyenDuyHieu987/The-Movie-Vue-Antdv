@@ -94,17 +94,27 @@ span {
   strong {
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
-    background-image: linear-gradient(to right, #8e2de2, #000046, #1cb5e0);
+    background-image: linear-gradient(
+      to right,
+      var(--sider-header-background-color1),
+      var(--sider-header-background-color2),
+      var(--sider-header-background-color3)
+    );
   }
 
   &::before {
     content: '';
     position: absolute;
-    height: 1.5px;
+    height: 2px;
     width: 100%;
-    background-image: linear-gradient(to right, #8e2de2, #000046, #1cb5e0);
     left: 0;
     bottom: -5px;
+    background-image: linear-gradient(
+      to right,
+      var(--sider-header-background-color1),
+      var(--sider-header-background-color2),
+      var(--sider-header-background-color3)
+    );
   }
 }
 
@@ -114,20 +124,53 @@ span {
   font-size: 22px;
   position: relative;
 
+  &.width-fit {
+    display: inline-block;
+  }
+
   strong {
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
-    background-image: linear-gradient(to right, #000046, #1cb5e0);
+    background-image: linear-gradient(
+      to right,
+      var(--sider-header-background-color2),
+      var(--sider-header-background-color3)
+    );
   }
 
   &::before {
     content: '';
     position: absolute;
-    height: 1.5px;
+    height: 2px;
     width: 100%;
-    background-image: linear-gradient(to right, #000046, #1cb5e0);
+    background-image: linear-gradient(
+      to right,
+      var(--sider-header-background-color2),
+      var(--sider-header-background-color3)
+    );
     left: 0;
     bottom: -5px;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .logo {
+    .menu-btn {
+      display: block !important;
+    }
+  }
+
+  .ant-layout-sider.sider-bar {
+    width: 0px !important;
+    min-width: 0px !important;
+    overflow: hidden;
+  }
+
+  .body-content {
+    margin-left: 0px !important;
+  }
+  .ant-layout-header {
+    padding-left: 0px !important;
   }
 }
 
@@ -200,25 +243,4 @@ span {
 .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
   padding: 10px 20px;
   font-size: 16px;
-}
-
-@media only screen and (max-width: 650px) {
-  .logo {
-    .menu-btn {
-      display: block !important;
-    }
-  }
-
-  .ant-layout-sider.sider-bar {
-    width: 0px !important;
-    min-width: 0px !important;
-    overflow: hidden;
-  }
-
-  .body-content {
-    margin-left: 0px !important;
-  }
-  .ant-layout-header {
-    padding-left: 0px !important;
-  }
 }
