@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { ratingTV, ratingMovie } from '../services/MovieService';
 
 export default {
@@ -37,6 +37,10 @@ export default {
     ]);
 
     const temp = computed(() => Math.round(props?.voteAverage) - 1);
+
+    watch(props, (newVal) => {
+      temp.value = newVal?.voteAverage;
+    });
 
     onMounted(() => {
       const stars = document.querySelectorAll('.fa-star');
@@ -140,6 +144,7 @@ export default {
 <style lang="scss" scoped>
 .rating-movie {
   margin-top: 15px;
+  display: inline-block;
   // display: flex;
   // flex-direction: row;
 
