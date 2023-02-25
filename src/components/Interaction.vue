@@ -2,7 +2,7 @@
   <div class="like-share">
     <div
       class="fb-like"
-      data-href="https://developers.facebook.com/docs/plugins/"
+      :data-href="urlShare"
       data-width=""
       data-layout=""
       data-action=""
