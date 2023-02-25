@@ -3,7 +3,7 @@
     :placement="placement"
     :visible="$store.state.openDrawer"
     @close="onClose"
-    :width="230"
+    :width="250"
     :closable="true"
   >
     <template #extra>

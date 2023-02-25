@@ -1,13 +1,5 @@
 <template>
-  <a-layout-footer
-    style="
-      text-align: center;
-      /* color: var(--text-color); */
-      background-color: var(--footer-background-color);
-      border-top: 1px solid var(--border-regular);
-      margin-top: auto;
-    "
-  >
+  <a-layout-footer class="footer">
     <div class="support-container">
       <div class="logo">
         <router-link :to="{ name: 'home' }">
@@ -27,26 +19,40 @@
 </template>
 
 <style scoped lang="scss">
-.support-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+.ant-layout-footer.footer {
+  text-align: center;
+  /* color: var(--text-color); */
+  background-color: var(--footer-background-color);
+  border-top: 1px solid var(--border-regular);
+  margin-top: auto;
 
-  .logo {
+  .support-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    flex-direction: column;
 
-    img {
-      margin-right: 20px;
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        margin-right: 20px;
+      }
+    }
+
+    p {
+      margin-top: 20px;
     }
   }
-
-  p {
-    margin-top: 20px;
+  .copyright {
+    margin-top: 30px;
   }
 }
-.copyright {
-  margin-top: 30px;
+
+@media only screen and (max-width: 900px) {
+  .ant-layout-footer.footer {
+    padding: 24px 25px;
+  }
 }
 </style>

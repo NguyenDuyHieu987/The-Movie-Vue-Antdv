@@ -148,6 +148,18 @@ export default {
     }
   }
 }
+
+@media only screen and (max-width: 1050px) {
+  .movie-group.upcoming {
+    grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
+
+    .ant-image {
+      transition: all 0.3s;
+      height: 230px;
+    }
+  }
+}
+
 @media only screen and (max-width: 970px) {
   .movie-group.upcoming {
     .ant-image {

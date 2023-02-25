@@ -77,11 +77,19 @@ export default {
   font-size: 10px;
 
   .ant-image {
-    height: 550px;
+    height: 85vh;
     width: 100%;
     img {
       object-fit: cover;
       height: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 1500px) {
+  .topic-item {
+    .ant-image {
+      height: 550px;
     }
   }
 }

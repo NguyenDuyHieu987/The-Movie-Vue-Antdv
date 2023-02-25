@@ -56,6 +56,18 @@
       1400: {
         items: 5,
       },
+      1550: {
+        items: 6,
+      },
+      1700: {
+        items: 6,
+      },
+      1900: {
+        items: 7,
+      },
+      2200: {
+        items: 8,
+      },
     }"
   >
     <MovieCarouselCardHorizontal
@@ -158,6 +170,18 @@
       1400: {
         items: 6,
       },
+      1550: {
+        items: 7,
+      },
+      1700: {
+        items: 8,
+      },
+      1900: {
+        items: 9,
+      },
+      2200: {
+        items: 10,
+      },
     }"
   >
     <MovieCarouselCardVertical
@@ -257,7 +281,7 @@ export default {
 
 .movie-group.upcoming {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(180px, auto));
   margin-top: 10px;
   gap: 10px;
 }

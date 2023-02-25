@@ -1,7 +1,9 @@
 <template>
   <a-layout-header>
     <div class="logo">
-      <menu-unfold-outlined @click="$store.state.openDrawer = true" />
+      <button class="menu-btn" @click="$store.state.openDrawer = true">
+        <menu-outlined />
+      </button>
       <router-link :to="{ name: 'home' }">
         <a-tooltip title="Trang chủ">
           <h1>PhimHay247</h1>
@@ -64,14 +66,14 @@
 import {
   UserOutlined,
   CaretDownOutlined,
-  MenuUnfoldOutlined,
+  MenuOutlined,
 } from '@ant-design/icons-vue';
 
 export default {
   components: {
     UserOutlined,
     CaretDownOutlined,
-    MenuUnfoldOutlined,
+    MenuOutlined,
   },
   setup() {
     const handleLogout = () => {
@@ -90,12 +92,22 @@ export default {
   align-items: center;
   justify-content: center;
 
-  svg {
+  .menu-btn {
     display: none;
-    font-size: 1.4em;
+    padding: 16px 18px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    border-right: 0.25px solid var(--border-regular);
     cursor: pointer;
     margin-right: 10px;
-    margin-bottom: 3px;
+
+    svg {
+      font-size: 1.4em;
+      // cursor: pointer;
+      // margin-right: 10px;
+      margin-bottom: 3px;
+    }
   }
 
   h1 {
@@ -118,6 +130,7 @@ export default {
     font-weight: 200;
     font-size: 2em;
   }
+
   @keyframes textclip {
     from {
       background-position: 0% center;

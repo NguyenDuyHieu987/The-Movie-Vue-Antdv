@@ -275,6 +275,9 @@
           1400: {
             items: 7,
           },
+          1700: {
+            items: 10,
+          },
         }"
       >
         <CastCard
@@ -408,6 +411,14 @@ export default {
 </script>
 
 <style lang="scss">
+@media only screen and (max-width: 1400px) {
+  .prev-play-conainer {
+    .backdrop-img {
+      height: 450px !important;
+    }
+  }
+}
+
 @media only screen and (max-width: 1130px) {
   .prev-play-conainer {
     .main-info {
@@ -495,7 +506,8 @@ export default {
   }
 
   .backdrop-img {
-    height: 450px;
+    // height: 450px;
+    height: 55vh;
     width: 62%;
     position: relative;
 

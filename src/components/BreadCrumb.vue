@@ -1,11 +1,5 @@
 <template>
-  <a-breadcrumb
-    style="
-      padding: 15px 30px;
-      background-color: var(--breadcrumb-background-color);
-      border-bottom: 1px solid var(--border-regular);
-    "
-  >
+  <a-breadcrumb style="">
     <a-breadcrumb-item
       ><router-link :to="{ path: '/' }"> Trang chủ </router-link>
     </a-breadcrumb-item>
@@ -47,3 +41,17 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.ant-breadcrumb {
+  padding: 15px 30px;
+  background-color: var(--breadcrumb-background-color);
+  border-bottom: 1px solid var(--border-regular);
+}
+
+@media only screen and (max-width: 900px) {
+  .ant-breadcrumb {
+    padding: 15px 15px;
+  }
+}
+</style>

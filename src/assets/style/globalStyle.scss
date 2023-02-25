@@ -204,7 +204,7 @@ span {
 
 @media only screen and (max-width: 650px) {
   .logo {
-    svg {
+    .menu-btn {
       display: block !important;
     }
   }
@@ -217,5 +217,8 @@ span {
 
   .body-content {
     margin-left: 0px !important;
+  }
+  .ant-layout-header {
+    padding-left: 0px !important;
   }
 }
