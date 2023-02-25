@@ -62,7 +62,7 @@
     </h3>
     <div
       class="fb-comments"
-      :data-href="`'${urlComment}'`"
+      :data-href="`${urlComment}`"
       data-width="100%"
       data-numposts="10"
     ></div>
