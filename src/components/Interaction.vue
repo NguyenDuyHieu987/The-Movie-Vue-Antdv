@@ -13,10 +13,10 @@
     <ShareNetwork
       network="facebook"
       :url="urlShare"
-      title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-      description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
+      :title="dataMovie?.name ? dataMovie?.name : dataMovie?.title"
+      :description="dataMovie?.overview"
       quote="The hot reload is so fast it\'s near instant. - Evan You"
-      hashtags="vuejs,vite"
+      hashtags="phimhay247,vite"
       style="white-space: nowrap"
     >
       <span>Chia sẻ</span>
@@ -30,12 +30,15 @@ import { useRoute } from 'vue-router';
 
 export default {
   components: {},
+  props: {
+    dataMovie: Object,
+  },
   setup() {
     const route = useRoute();
     console.log(route);
 
     // alert(window.location);
-    const urlShare = computed(() => window.location);
+    const urlShare = computed(() => 'https://antdv.com/components/carousel');
     // alert(encodeURIComponent(urlShare.value));
 
     return { urlShare };

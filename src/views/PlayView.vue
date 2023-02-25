@@ -16,7 +16,7 @@
     <h3 class="section-title width-fit" style="margin-top: 10px">
       <strong> Đánh giá phim</strong>
     </h3>
-    <Interaction />
+    <Interaction :dataMovie="dataMovie" />
     <RatingMovie
       v-if="dataMovie?.id"
       :voteAverage="dataMovie?.vote_average"

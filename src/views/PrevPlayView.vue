@@ -188,7 +188,7 @@
             {{ dataMovie?.status }}
           </p>
         </div>
-        <Interaction />
+        <Interaction :dataMovie="dataMovie" />
         <RatingMovie
           v-if="dataMovie?.id"
           :voteAverage="dataMovie?.vote_average"
