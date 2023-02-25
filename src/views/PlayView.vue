@@ -62,7 +62,7 @@
     </h3>
     <div
       class="fb-comments"
-      data-href="https://www.youtube.com/watch?v=ZQkZRpGle-U"
+      :data-href="urlComment"
       data-width="100%"
       data-numposts="10"
     ></div>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, watch } from 'vue';
+import { ref, onBeforeMount, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {
@@ -110,6 +110,7 @@ export default {
     const dataRecommend = ref([]);
     const isOpenContent = ref(false);
     const isOpenTrailerYoutube = ref(false);
+    const urlComment = computed(() => window.location);
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
@@ -170,6 +171,7 @@ export default {
       dataRecommend,
       btnPrev,
       btnNext,
+      urlComment,
       getPoster,
       getAllGenresById,
       getLanguage,
