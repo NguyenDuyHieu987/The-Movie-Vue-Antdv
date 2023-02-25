@@ -9,7 +9,7 @@
       data-size=""
       data-share="true"
     ></div>
-
+    <a :href="`https://www.facebook.com/share.php?u=${urlShare}`">Hiếu</a>
     <ShareNetwork
       network="facebook"
       :url="urlShare"

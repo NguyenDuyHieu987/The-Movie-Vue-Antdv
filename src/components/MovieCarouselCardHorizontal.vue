@@ -12,6 +12,16 @@
     }"
     class="movie-carousel-horizontal-item"
   >
+    <!-- v-if="item?.id"
+    :to="{
+      name: 'info',
+      params: {
+        id: item?.id,
+        name: item?.name
+          ? item?.name?.replace(/\s/g, '+').toLowerCase()
+          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+      },
+    }" -->
     <div class="img-box">
       <a-image
         :src="

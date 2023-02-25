@@ -149,15 +149,14 @@ const getMovieByRecommend = async (type, movieId, page) =>
 //     `https://api.themoviedb.org/3/${type}/${movieId}?api_key=fe1b70d9265fdb22caa86dca918116eb&append_to_response=similar&page=${page}`
 //   );
 
-const getMovieBySimilar = async (type, genres_name, page) => {
-  return await axios.get(
+const getMovieBySimilar = async (type, genres_name, page) =>
+  await axios.get(
     !genres_name.name.includes('&')
       ? `${URL_API}/discover/${type}?api=hieu987&with_genres=${genres_name.id},${genres_name.name}&page=${page}`
       : `${URL_API}/discover/${type}?api=hieu987&with_genres=${
           genres_name.id
         },${genres_name.name.replace('&', '%26')}&page=${page}`
   );
-};
 
 // const getMovieByCountry = async (country_name, page) =>
 //   await axios.get(

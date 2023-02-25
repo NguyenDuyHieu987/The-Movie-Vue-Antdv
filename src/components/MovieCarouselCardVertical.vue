@@ -1,6 +1,15 @@
 <template>
   <router-link
-    v-if="item?.id"
+    :to="{
+      path: `/info/${item?.id}/${
+        item?.name
+          ? item?.name?.replace(/\s/g, '+').toLowerCase()
+          : item?.title?.replace(/\s/g, '+').toLowerCase()
+      }`,
+    }"
+    class="movie-carousel-vertical-item"
+  >
+    <!-- v-if="item?.id"
     :to="{
       name: 'info',
       params: {
@@ -9,9 +18,8 @@
           ? item?.name?.replace(/\s/g, '+').toLowerCase()
           : item?.title?.replace(/\s/g, '+').toLowerCase(),
       },
-    }"
-    class="movie-carousel-vertical-item"
-  >
+    }" -->
+
     <div class="img-box">
       <a-image
         class="movie-carousel-img"
