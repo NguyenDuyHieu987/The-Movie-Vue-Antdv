@@ -105,10 +105,14 @@ export default {
       selectedSeason.value = value;
     };
 
-    watch(route.params?.id, (newVal, oldVal) => {
-      alert(newVal);
-      console.log('old: ', oldVal);
-      console.log('new: ', newVal);
+    watch(selectedSeason, () => {
+      getMoviesBySeason(route.params?.id, selectedSeason.value)
+        .then((episodesRespones) => {
+          dataSeason.value = episodesRespones?.data;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     });
 
     return { dataSeason, selectedSeason, currentEpisode, handleChange };

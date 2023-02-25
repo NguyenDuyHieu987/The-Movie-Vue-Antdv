@@ -421,10 +421,11 @@ export default {
         });
     });
 
-    watch(route, (newVal) => {
-      router.push({ path: newVal.path }).then(() => {
-        router.go();
-      });
+    watch(route, () => {
+      // router.push({ path: newVal.path }).then(() => {
+      //   router.go();
+      // });
+      router.go();
 
       // alert(newVal.path);
       // console.log(router);

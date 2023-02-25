@@ -160,12 +160,13 @@ export default {
         });
     });
 
-    watch(route, (newVal) => {
+    watch(route, () => {
       // router.push(newVal.path);
       // alert(newVal.path);
-      router.push({ path: newVal.path }).then(() => {
-        router.go();
-      });
+      // router.push({ path: newVal.path }).then(() => {
+      //   router.go();
+      // });
+      router.go();
     });
 
     document.title = `${Array.from(
