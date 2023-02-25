@@ -136,6 +136,24 @@ export default {
   }
 }
 
+@media only screen and (max-width: 1010px) {
+  .movie-group.popular {
+    grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 435px) {
+  .movie-group.popular {
+    grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
+  }
+
+  .movie-carousel-horizontal-item {
+    .ant-image {
+      height: 110px !important;
+    }
+  }
+}
+
 .movie-carousel-horizontal-item {
   color: #fff;
   cursor: pointer;

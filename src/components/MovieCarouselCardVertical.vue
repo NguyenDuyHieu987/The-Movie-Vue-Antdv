@@ -140,11 +140,50 @@ export default {
 <style lang="scss">
 @media only screen and (max-width: 1150px) {
   .movie-group.upcoming {
-    grid-template-columns: repeat(auto-fit, minmax(160px, auto));
+    // grid-template-columns: repeat(auto-fit, minmax(160px, auto));
 
     .ant-image {
       transition: all 0.3s;
       height: 220px;
+    }
+  }
+}
+@media only screen and (max-width: 970px) {
+  .movie-group.upcoming {
+    .ant-image {
+      transition: all 0.3s;
+      height: 250px;
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .movie-group.upcoming {
+    grid-template-columns: repeat(auto-fit, minmax(140px, auto)) !important;
+
+    .ant-image {
+      transition: all 0.3s;
+      height: 210px;
+    }
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  .movie-group.upcoming {
+    grid-template-columns: repeat(auto-fit, minmax(160px, auto)) !important;
+
+    .ant-image {
+      transition: all 0.3s;
+      height: 250px;
+    }
+  }
+}
+
+@media only screen and (max-width: 410px) {
+  .movie-group.upcoming {
+    .ant-image {
+      transition: all 0.3s;
+      height: 210px;
     }
   }
 }
