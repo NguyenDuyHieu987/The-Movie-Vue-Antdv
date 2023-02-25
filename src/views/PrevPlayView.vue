@@ -516,22 +516,25 @@ export default {
   }
 
   .widget {
-    margin-top: 15px;
-    white-space: nowrap;
+    margin-top: 7px;
+
+    & > a,
+    a + a {
+      margin-right: 7px;
+      margin-top: 7px;
+    }
 
     a {
       color: #fff;
       padding: 10px 15px;
       border-radius: 3px;
       transition: all 0.3s;
+      display: inline-block;
+      white-space: nowrap;
 
       span {
         margin-left: 3px;
       }
-    }
-
-    a + a {
-      margin-left: 10px;
     }
 
     .play-now {
@@ -560,7 +563,7 @@ export default {
   }
 
   .misc {
-    margin-top: 20px;
+    margin-top: 15px;
 
     p {
       line-height: 1.7;
