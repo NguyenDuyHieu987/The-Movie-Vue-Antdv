@@ -160,13 +160,14 @@ export default {
   }
 
   .ant-carousel .slick-prev {
+    top: 36% !important;
     font-size: 1.3em !important;
-    left: calc(100% - 65px) !important;
+    left: calc(100% - 60px) !important;
   }
 
   .ant-carousel .slick-next {
     font-size: 1.3em !important;
-    right: 45px !important;
+    right: 40px !important;
   }
 }
 
@@ -181,6 +182,7 @@ export default {
   }
 
   .ant-carousel .slick-prev {
+    top: 34% !important;
     font-size: 1.3em !important;
   }
 
