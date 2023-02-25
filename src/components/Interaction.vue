@@ -32,7 +32,8 @@ export default {
   setup() {
     const route = useRoute();
 
-    const urlShare = computed(() => route.path);
+    const urlShare = computed(() => 'https://phimhay247.site' + route.fullPath);
+    // alert(urlShare.value);
 
     return { urlShare };
   },
