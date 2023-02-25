@@ -106,7 +106,7 @@ export default {
       font-size: 1.4em;
       // cursor: pointer;
       // margin-right: 10px;
-      margin-bottom: 3px;
+      // margin-bottom: 3px;
     }
   }
 
