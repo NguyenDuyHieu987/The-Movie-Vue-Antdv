@@ -252,10 +252,10 @@
         :navText="[btnPrev, btnNext]"
         :responsive="{
           0: {
-            items: 3,
+            items: 2,
           },
           590: {
-            items: 3,
+            items: 2,
           },
           750: {
             items: 4,
@@ -456,6 +456,34 @@ export default {
     .trailer-youtube {
       iframe {
         height: 350px !important;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 530px) {
+  .prev-play-conainer {
+    .backdrop-img {
+      height: 300px !important;
+    }
+
+    .trailer-youtube {
+      iframe {
+        height: 300px !important;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 435px) {
+  .prev-play-conainer {
+    .backdrop-img {
+      height: 250px !important;
+    }
+
+    .trailer-youtube {
+      iframe {
+        height: 250px !important;
       }
     }
   }

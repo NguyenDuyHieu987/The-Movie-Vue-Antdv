@@ -28,17 +28,19 @@
     </a-image>
     <div class="topic-item-info">
       <div class="topic-item-info-head">
-        <img src="../assets/images/pngegg.png" />
-        <span class="release-date">
-          {{
-            item?.release_date
-              ? item?.release_date?.slice(0, 4)
-              : item?.first_air_date?.slice(0, 4)
-          }}
-        </span>
-        <span class="genres">{{
-          getAllGenresById(item?.genre_ids).join(' • ')
-        }}</span>
+        <img class="pngegg" src="../assets/images/pngegg.png" />
+        <p>
+          <span class="release-date">
+            {{
+              item?.release_date
+                ? item?.release_date?.slice(0, 4)
+                : item?.first_air_date?.slice(0, 4)
+            }}
+          </span>
+          <span class="genres">{{
+            getAllGenresById(item?.genre_ids).join(' • ')
+          }}</span>
+        </p>
       </div>
       <h1 class="title">
         {{ item?.name ? item?.name : item?.title }}
@@ -129,6 +131,50 @@ export default {
   .ant-carousel .slick-next {
     font-size: 1.5em !important;
   }
+
+  .pngegg {
+    height: 40px;
+  }
+}
+
+@media only screen and (max-width: 530px) {
+  .topic-item {
+    font-size: 7px;
+
+    .ant-image {
+      height: 300px;
+      transition: all 0.3s;
+    }
+  }
+
+  .ant-carousel .slick-prev {
+    font-size: 1.3em !important;
+    left: calc(100% - 65px) !important;
+  }
+
+  .ant-carousel .slick-next {
+    font-size: 1.3em !important;
+    right: 45px !important;
+  }
+}
+
+@media only screen and (max-width: 435px) {
+  .topic-item {
+    font-size: 7px;
+
+    .ant-image {
+      height: 250px;
+      transition: all 0.3s;
+    }
+  }
+
+  .ant-carousel .slick-prev {
+    font-size: 1.3em !important;
+  }
+
+  .ant-carousel .slick-next {
+    font-size: 1.3em !important;
+  }
 }
 
 .topic-item-info {
@@ -138,12 +184,19 @@ export default {
   left: 50px;
   transition: opacity 0.85s ease-in-out;
   color: #fff;
-  max-width: 70%;
 
   .topic-item-info-head {
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    p {
+      max-width: 70%;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      display: -webkit-box;
+    }
 
     span {
       margin-left: 20px;
