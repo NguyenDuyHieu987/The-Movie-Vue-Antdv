@@ -32,7 +32,7 @@ export default {
   setup() {
     // const route = useRoute();
 
-    alert(window.location);
+    // alert(window.location);
     const urlShare = computed(() => window.location);
     // alert(urlShare.value);
 
