@@ -45,7 +45,7 @@
 
         <div class="widget">
           <router-link
-            v-if="isEpisodes"
+            v-if="isEpisodes && dataMovie?.id"
             :to="{
               name: 'play',
               params: {
@@ -65,7 +65,7 @@
             <span> Play now</span>
           </router-link>
           <router-link
-            v-else
+            v-else-if="!isEpisodes && dataMovie?.id"
             :to="{
               name: 'play',
               params: {
@@ -425,10 +425,9 @@ export default {
       // router.push({ path: newVal.path }).then(() => {
       //   router.go();
       // });
-      router.go();
 
-      // alert(newVal.path);
       // console.log(router);
+      router.go();
     });
 
     document.title = `${Array.from(

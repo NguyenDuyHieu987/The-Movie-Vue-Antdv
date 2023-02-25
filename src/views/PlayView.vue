@@ -40,6 +40,7 @@
       <p :class="{ open: isOpenContent }">
         {{ dataMovie?.overview }}
         <router-link
+          v-if="dataMovie?.id"
           :to="{
             name: 'info',
             params: {
@@ -161,11 +162,11 @@ export default {
     });
 
     watch(route, () => {
-      // router.push(newVal.path);
-      // alert(newVal.path);
       // router.push({ path: newVal.path }).then(() => {
       //   router.go();
       // });
+
+      // console.log(router);
       router.go();
     });
 
