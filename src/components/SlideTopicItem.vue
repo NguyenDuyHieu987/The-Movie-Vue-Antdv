@@ -147,7 +147,7 @@ export default {
 
 @media only screen and (max-width: 530px) {
   .topic-item {
-    font-size: 7px;
+    font-size: 8px;
 
     .ant-image {
       height: 300px;
@@ -172,7 +172,7 @@ export default {
 
 @media only screen and (max-width: 435px) {
   .topic-item {
-    font-size: 7px;
+    font-size: 8px;
 
     .ant-image {
       height: 250px;
