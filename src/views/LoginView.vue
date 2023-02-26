@@ -95,6 +95,16 @@
       <button class="facebook-login" @click="handleLoginFacebook">
         Facebook log in
       </button>
+
+      <div
+        class="fb-login-button"
+        data-width="100%"
+        data-size=""
+        data-button-type=""
+        data-layout=""
+        data-auto-logout-link="false"
+        data-use-continue-as="false"
+      ></div>
     </div>
 
     <p style="text-align: center; margin: 20px 0px 15px 0px">Or</p>
@@ -118,7 +128,7 @@ import axios from 'axios';
 // import facebookLogin from 'facebook-login-vuejs';
 import md5 from 'md5';
 import { signIn } from '../services/MovieService';
-import { fbLogin } from 'facebook-login-vuejs/src/helpers';
+import { fbLogin } from '../untils/facebook-login-vue';
 
 export default defineComponent({
   components: {
