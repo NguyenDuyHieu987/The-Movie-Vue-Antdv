@@ -115,6 +115,10 @@ export default {
         });
     });
 
+    watch(route, (newVal) => {
+      currentEpisode.value = +newVal.query?.ep?.replace('tap-', '');
+    });
+
     return { dataSeason, selectedSeason, currentEpisode, handleChange };
   },
 };

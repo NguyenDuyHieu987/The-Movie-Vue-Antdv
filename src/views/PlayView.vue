@@ -77,7 +77,10 @@
 
 <script>
 import { ref, onBeforeMount, watch, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {
+  useRoute,
+  //  useRouter
+} from 'vue-router';
 import axios from 'axios';
 import {
   getAllGenresById,
@@ -101,7 +104,7 @@ export default {
   },
   setup() {
     const route = useRoute();
-    const router = useRouter();
+    // const router = useRouter();
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
@@ -149,9 +152,8 @@ export default {
       // router.push({ path: newVal.path }).then(() => {
       //   router.go();
       // });
-
       // console.log(router);
-      router.go();
+      // router.go();
     });
 
     document.title = `${Array.from(
@@ -181,7 +183,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media only screen and (max-width: 1800px) {
+@media only screen and (max-width: 2050px) {
+  .play-container {
+    .video-player {
+      height: 75vh !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1900px) {
   .play-container {
     .video-player {
       height: 70vh !important;
@@ -189,7 +199,15 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1500px) {
+@media only screen and (max-width: 1800px) {
+  .play-container {
+    .video-player {
+      height: 65vh !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1650px) {
   .play-container {
     .video-player {
       height: 60vh !important;
@@ -197,10 +215,18 @@ export default {
   }
 }
 
+@media only screen and (max-width: 1500px) {
+  .play-container {
+    .video-player {
+      height: 55vh !important;
+    }
+  }
+}
+
 @media only screen and (max-width: 1300px) {
   .play-container {
     .video-player {
-      height: 50vh !important;
+      height: 550px !important;
     }
   }
 }
@@ -208,7 +234,7 @@ export default {
 @media only screen and (max-width: 1100px) {
   .play-container {
     .video-player {
-      height: 550px !important;
+      height: 450px !important;
     }
   }
 }
@@ -229,10 +255,18 @@ export default {
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 750px) {
   .play-container {
     .video-player {
       height: 300px !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .play-container {
+    .video-player {
+      height: 250px !important;
     }
   }
 }

@@ -259,70 +259,69 @@
     <h3 class="section-title">
       <strong>Diễn viên</strong>
     </h3>
-    <div class="cast">
-      <carousel
-        v-if="dataCredit?.credits?.cast"
-        :items="4"
-        :autoplay="true"
-        :loop="true"
-        :dots="false"
-        :autoplayHoverPause="true"
-        :autoplayTimeout="5000"
-        :margin="7"
-        :autoplaySpeed="500"
-        :navText="[btnPrev, btnNext]"
-        :responsive="{
-          0: {
-            items: 2,
-          },
-          590: {
-            items: 2,
-          },
-          750: {
-            items: 4,
-          },
-          830: {
-            items: 5,
-          },
-          1000: {
-            items: 5,
-          },
-          1175: {
-            items: 6,
-          },
-          1300: {
-            items: 6,
-          },
-          1400: {
-            items: 7,
-          },
-          1500: {
-            items: 8,
-          },
-          1700: {
-            items: 9,
-          },
-          2000: {
-            items: 10,
-          },
-          2200: {
-            items: 12,
-          },
-        }"
-      >
-        <CastCard
-          v-for="(item, index) in dataCredit?.credits?.cast"
-          :src="
-            getPoster(
-              item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-            )
-          "
-          :item="item"
-          :index="index"
-          :key="item.id"
-        />
-      </carousel>
-    </div>
+    <carousel
+      v-if="dataCredit?.credits?.cast?.length"
+      class="cast"
+      :items="4"
+      :autoplay="true"
+      :loop="true"
+      :dots="false"
+      :autoplayHoverPause="true"
+      :autoplayTimeout="5000"
+      :margin="7"
+      :autoplaySpeed="500"
+      :navText="[btnPrev, btnNext]"
+      :responsive="{
+        0: {
+          items: 2,
+        },
+        590: {
+          items: 2,
+        },
+        750: {
+          items: 4,
+        },
+        830: {
+          items: 5,
+        },
+        1000: {
+          items: 5,
+        },
+        1175: {
+          items: 6,
+        },
+        1300: {
+          items: 6,
+        },
+        1400: {
+          items: 7,
+        },
+        1500: {
+          items: 8,
+        },
+        1700: {
+          items: 9,
+        },
+        2000: {
+          items: 10,
+        },
+        2200: {
+          items: 12,
+        },
+      }"
+    >
+      <CastCard
+        v-for="(item, index) in dataCredit?.credits?.cast"
+        :src="
+          getPoster(
+            item?.backdrop_path ? item?.backdrop_path : item?.poster_path
+          )
+        "
+        :item="item"
+        :index="index"
+        :key="item.id"
+      />
+    </carousel>
 
     <MovieSuggest
       v-if="dataMovie?.id"
@@ -333,7 +332,10 @@
 </template>
 <script>
 import { ref, onBeforeMount, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {
+  useRoute,
+  // useRouter
+} from 'vue-router';
 import axios from 'axios';
 import carousel from 'vue-owl-carousel/src/Carousel';
 import {
@@ -363,7 +365,7 @@ export default {
   },
   setup() {
     const route = useRoute();
-    const router = useRouter();
+    // const router = useRouter();
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
@@ -406,13 +408,42 @@ export default {
         });
     });
 
-    watch(route, () => {
+    watch(route, (newVal) => {
       // router.push({ path: newVal.path }).then(() => {
       //   router.go();
       // });
 
       // console.log(router);
-      router.go();
+      // router.go();
+      dataCredit.value = [];
+
+      getMovieSeriesById(newVal.params?.id)
+        .then((tvResponed) => {
+          if (tvResponed?.data === null)
+            getMovieById(newVal.params?.id)
+              .then((movieResponed) => {
+                isEpisodes.value = false;
+                dataMovie.value = movieResponed?.data;
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+          else {
+            isEpisodes.value = true;
+            dataMovie.value = tvResponed?.data;
+          }
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+
+      getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', newVal.params?.id)
+        .then((movieResponed) => {
+          dataCredit.value = movieResponed?.data;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     });
 
     document.title = `${Array.from(
