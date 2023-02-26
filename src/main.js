@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import VueSocialSharing from 'vue-social-sharing';
 import VueLazyload from 'vue-lazyload';
+import { initFacebookSdk } from './untils/facebook-login-vue';
 
 import {
   faVideoCamera,
@@ -54,5 +55,11 @@ app
   .use(store)
   .use(VueSocialSharing)
   .use(VueLazyload)
-  .component('font-awesome-icon', FontAwesomeIcon)
-  .mount('#app');
+  .component('font-awesome-icon', FontAwesomeIcon);
+// .mount('#app');
+
+initFacebookSdk().then(startApp);
+
+function startApp() {
+  app.mount('#app');
+}

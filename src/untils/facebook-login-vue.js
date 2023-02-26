@@ -1,46 +1,29 @@
-export function loadFbSdk(appId, version) {
+export function initFacebookSdk() {
   return new Promise((resolve) => {
+    // wait for facebook sdk to initialize before starting the vue app
     window.fbAsyncInit = function () {
-      // eslint-disable-line func-names
-      window.FB.init({
+      const FB = window.FB;
+      FB.init({
         appId: 820070179113499,
-        xfbml: false,
-        version,
         cookie: true,
+        xfbml: true,
+        version: 'v15.0',
       });
-
-      window.FB.AppEvents.logPageView();
-      resolve('SDK Loaded!');
+      resolve();
+      // auto authenticate with the api if already logged in with facebook
     };
+
+    // load facebook sdk script
     (function (d, s, id) {
-      // eslint-disable-line func-names
-      const fjs = d.getElementsByTagName(s)[0];
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {
         return;
       }
-      const js = d.createElement(s);
+      js = d.createElement(s);
       js.id = id;
       js.src = 'https://connect.facebook.net/en_US/sdk.js';
       fjs.parentNode.insertBefore(js, fjs);
     })(document, 'script', 'facebook-jssdk');
-  });
-}
-
-export function getLoginStatus() {
-  return new Promise((resolve) => {
-    window.FB.getLoginStatus((responseStatus) => {
-      resolve(responseStatus);
-    });
-  });
-}
-
-export function fbLogin(options) {
-  return new Promise((resolve) => {
-    window.FB.login((response) => resolve(response), options);
-  });
-}
-export function fbLogout() {
-  return new Promise((resolve) => {
-    window.FB.logout((response) => resolve(response));
   });
 }

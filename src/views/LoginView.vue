@@ -128,7 +128,6 @@ import axios from 'axios';
 // import facebookLogin from 'facebook-login-vuejs';
 import md5 from 'md5';
 import { signIn } from '../services/MovieService';
-import { fbLogin } from '../untils/facebook-login-vue';
 
 export default defineComponent({
   components: {
@@ -170,8 +169,7 @@ export default defineComponent({
     });
 
     const handleLoginFacebook = async () => {
-      // const { authResponse } = await new Promise(window.FB.login);
-      const { authResponse } = await new Promise(fbLogin);
+      const { authResponse } = await new Promise(window.FB.login);
       console.log(authResponse);
     };
 
