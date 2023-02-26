@@ -44,6 +44,9 @@
             <strong>{{
               dataMovie?.name ? dataMovie?.name : dataMovie?.title
             }}</strong>
+            <strong v-if="isEpisodes">
+              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+            </strong>
           </h2>
 
           <strong>

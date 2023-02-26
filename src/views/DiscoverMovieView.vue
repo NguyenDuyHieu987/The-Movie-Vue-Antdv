@@ -11,17 +11,21 @@
         :item="item"
       />
     </section>
-    <a-pagination
-      v-model:current="current"
-      :total="400"
-      :showSizeChanger="false"
-    />
+
+    <div class="control-page">
+      <a-pagination
+        v-model:current="page"
+        :total="400"
+        :showSizeChanger="false"
+        @change="onChangePage"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { onBeforeMount, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { getMovies } from '../services/MovieService';
 import MovieCarouselCardHorizontal from '@/components/MovieCarouselCardHorizontal.vue';
@@ -30,9 +34,10 @@ export default {
   components: { MovieCarouselCardHorizontal },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const metaHead = ref();
     const dataMovieList = ref([]);
-    const page = ref(1);
+    const page = ref(route.query?.page ? +route.query?.page : 1);
 
     const setMetaHead = () => {
       switch (route.params?.slug) {
@@ -75,7 +80,22 @@ export default {
         });
     });
 
-    return { metaHead, dataMovieList };
+    const onChangePage = (
+      pageSelected
+      // pageSize
+    ) => {
+      router.push({ query: { page: pageSelected } });
+
+      getMovies(pageSelected)
+        .then((movieResponse) => {
+          dataMovieList.value = movieResponse?.data?.results;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+    };
+
+    return { metaHead, page, dataMovieList, onChangePage };
   },
 };
 </script>
@@ -86,5 +106,10 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(250px, auto));
   margin-top: 10px;
   gap: 10px;
+}
+.control-page {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 </style>
