@@ -220,34 +220,34 @@ const getTheMostVoteCount = async (page) =>
 //         `https://api.themoviedb.org/3/discover/movie?api_key=fe1b70d9265fdb22caa86dca918116eb&sort_by=${sortby}&primary_release_date.lte=2000-01-01&with_genres=${genre}&with_original_language=${country}&page=${page}`
 //       );
 
-const FilterDataMovie = async (type, sortby, genre, country, year, page) => {
-  const yearLte = year === '' ? '' : year + '-12-30';
+const FilterDataMovie = async (formSelect) => {
+  const yearLte = formSelect.year === '' ? '' : formSelect.year + '-12-30';
   const yearGte =
-    year === ''
+    formSelect.year === ''
       ? ''
-      : year === 'truoc-nam-2000'
+      : formSelect.year === 'truoc-nam-2000'
       ? '2000-01-01'
-      : year + '-01-01';
+      : formSelect.year + '-01-01';
 
-  const genresName = await getIdGenresByName(genre);
+  const genresName = await getIdGenresByName(formSelect.genre);
 
   const genreStr =
-    genre !== ''
-      ? !genre.includes('&')
+    formSelect.genre !== ''
+      ? !formSelect.genre.includes('&')
         ? `${genresName.id},${genresName.name}`
         : `${genresName.id},${genresName.name.replace('&', '%26')}`
       : '';
 
-  return year !== 'truoc-nam-2000'
+  return formSelect.year !== 'truoc-nam-2000'
     ? await axios.get(
-        genre !== ''
-          ? `${URL_API}/discover/${type}?api=hieu987&sort_by=${sortby}&primary_release_date_gte=${yearGte}&primary_release_date_lte=${yearLte}&with_genres=${genreStr}&with_original_language=${country}&page=${page}`
-          : `${URL_API}/discover/${type}?api=hieu987&sort_by=${sortby}&primary_release_date_gte=${yearGte}&primary_release_date_lte=${yearLte}&with_genres=&with_original_language=${country}&page=${page}`
+        formSelect.genre !== ''
+          ? `${URL_API}/discover/${formSelect.type}?api=hieu987&sort_by=${formSelect.sortBy}&primary_release_date_gte=${yearGte}&primary_release_date_lte=${yearLte}&with_genres=${genreStr}&with_original_language=${formSelect.country}&page=${formSelect.pageFilter}`
+          : `${URL_API}/discover/${formSelect.type}?api=hieu987&sort_by=${formSelect.sortBy}&primary_release_date_gte=${yearGte}&primary_release_date_lte=${yearLte}&with_genres=&with_original_language=${formSelect.country}&page=${formSelect.pageFilter}`
       )
     : await axios.get(
-        genre !== ''
-          ? `${URL_API}/discover/${type}?api=hieu987&sort_by=${sortby}&primary_release_date_lte=${yearGte}&with_genres=${genreStr}&with_original_language=${country}&page=${page}`
-          : `${URL_API}/discover/${type}?api=hieu987&sort_by=${sortby}&primary_release_date_lte=${yearGte}&with_genres=&with_original_language=${country}&page=${page}`
+        formSelect.genre !== ''
+          ? `${URL_API}/discover/${formSelect.type}?api=hieu987&sort_by=${formSelect.sortBy}&primary_release_date_lte=${yearGte}&with_genres=${genreStr}&with_original_language=${formSelect.country}&page=${formSelect.pageFilter}`
+          : `${URL_API}/discover/${formSelect.type}?api=hieu987&sort_by=${formSelect.sortBy}&primary_release_date_lte=${yearGte}&with_genres=&with_original_language=${formSelect.country}&page=${formSelect.pageFilter}`
       );
 };
 
@@ -323,13 +323,13 @@ const getAllCountry = () => {
 };
 
 const getIdGenresByName = async (genres_name) =>
-  // genreResponse.genres.find((gen) => (gen.name === genres_name ? gen : null));
-  {
-    const genres = await getAllGenre().then((res) => {
-      return res.data;
-    });
-    return genres.find((gen) => (gen.name === genres_name ? gen : null));
-  };
+  ALLGENRES.genres.find((gen) => (gen.name === genres_name ? gen : null));
+// {
+//   const genres = await getAllGenre().then((res) => {
+//     return res.data;
+//   });
+//   return genres.find((gen) => (gen.name === genres_name ? gen : null));
+// };
 
 // const getGenresNameById = (genreId:number) =>
 //   ALLGENRES.genres.find((gen) => (gen.id === genreId ? gen : null));

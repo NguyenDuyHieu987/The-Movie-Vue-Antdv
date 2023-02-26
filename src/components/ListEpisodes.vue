@@ -10,7 +10,7 @@
       </strong>
       <a-select
         ref="select"
-        :value="selectedSeason"
+        v-model:value="selectedSeason"
         style="width: 150px"
         @focus="focus"
         @change="handleChange"

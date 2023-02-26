@@ -86,7 +86,7 @@
       <facebook-login
         class="facebook-login"
         appId="820070179113499"
-        @login="getUserData"
+        @login="handleLoginFacebook"
         @logout="onLogout"
         @get-initial-status="getUserData"
         loginLabel="Log in with Facebook"
@@ -155,7 +155,9 @@ export default defineComponent({
       );
     });
 
-    const handleLoginFacebook = () => {};
+    const handleLoginFacebook = (data) => {
+      console.log(data);
+    };
 
     const rand = function () {
       return Math.random().toString(36).substring(2); // remove `0.`

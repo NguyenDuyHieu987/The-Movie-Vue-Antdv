@@ -59,7 +59,6 @@
       <template #title>Thể loại</template>
       <a-menu-item
         v-for="(item, index) in genres"
-        :item="item"
         :index="index"
         :key="item.id"
       >
@@ -67,8 +66,8 @@
           :to="{
             name: 'discover',
             params: {
-              slug1: 'genres',
-              slug2: item?.name,
+              slug: 'genres',
+              slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
             },
           }"
           style="display: flex"
@@ -85,7 +84,6 @@
       <template #title>Năm phát hành</template>
       <a-menu-item
         v-for="(item, index) in years"
-        :item="item"
         :index="index"
         :key="item.name"
       >
@@ -93,7 +91,7 @@
           :to="{
             name: 'discover',
             params: {
-              slug1: 'years',
+              slug: 'years',
               slug2: item?.name,
             },
           }"
@@ -111,7 +109,6 @@
       <template #title>Quốc gia</template>
       <a-menu-item
         v-for="(item, index) in countries"
-        :item="item"
         :index="index"
         :key="item.iso_639_1"
       >
@@ -119,8 +116,8 @@
           :to="{
             name: 'discover',
             params: {
-              slug1: 'countries',
-              slug2: item?.name,
+              slug: 'countries',
+              slug2: item?.name2?.replace('-', '+').toLowerCase(),
             },
           }"
           style="display: flex"
@@ -166,7 +163,6 @@ export default {
   setup() {
     const route = useRoute();
 
-    console.log();
     const state = reactive({
       selectedKeys: [route.path],
       openKeys: ['1'],

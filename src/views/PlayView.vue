@@ -237,7 +237,7 @@ export default {
 @media only screen and (max-width: 1500px) {
   .play-container {
     .video-player {
-      height: 55vh !important;
+      height: 500px !important;
     }
   }
 }
@@ -245,7 +245,7 @@ export default {
 @media only screen and (max-width: 1300px) {
   .play-container {
     .video-player {
-      height: 550px !important;
+      height: 500px !important;
     }
   }
 }

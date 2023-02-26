@@ -1,5 +1,5 @@
 <template>
-  <a-layout-header>
+  <a-layout-header class="header">
     <div class="logo">
       <button class="menu-btn" @click="$store.state.openDrawer = true">
         <menu-outlined />
@@ -86,6 +86,10 @@ export default {
 </script>
 
 <style lang="scss">
+.ant-layout-header.header {
+  z-index: 100000;
+}
+
 .logo {
   height: 100%;
   display: flex;

@@ -1,6 +1,11 @@
 <template>
   <div class="discover-container">
-    <h2 class="carousel-title" style="margin-top: 0px">
+    <FilterBar
+      @dataFiltered="(data, formSelect) => setDataFiltered(data, formSelect)"
+      @cancelFilter="cancelFilter"
+    />
+
+    <h2 class="carousel-title">
       <strong>{{ metaHead }}</strong>
     </h2>
     <section class="movie-discovered">
@@ -27,93 +32,162 @@
 import { onBeforeMount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { getMovies, getMovieSeries } from '../services/MovieService';
+import {
+  getMovies,
+  getMovieSeries,
+  FilterDataMovie,
+  getMoviesByGenres,
+} from '../services/MovieService';
 import MovieCarouselCardHorizontal from '@/components/MovieCarouselCardHorizontal.vue';
+import FilterBar from '@/components/FilterBar.vue';
 
 export default {
-  components: { MovieCarouselCardHorizontal },
+  components: { MovieCarouselCardHorizontal, FilterBar },
   setup() {
     const route = useRoute();
     const router = useRouter();
     const metaHead = ref();
     const dataMovieList = ref([]);
     const page = ref(route.query?.page ? +route.query?.page : 1);
+    const isFilter = ref(false);
+    const formFilterSelect = ref({});
 
     const setMetaHead = () => {
-      switch (route.params?.slug) {
-        case 'movie':
-          getMovies(page.value)
-            .then((movieResponse) => {
-              dataMovieList.value = movieResponse?.data?.results;
-            })
-            .catch((e) => {
-              if (axios.isCancel(e)) return;
-            });
-          metaHead.value = 'Phim lẻ';
-          break;
-        case 'series':
-          getMovieSeries(page.value)
-            .then((movieResponse) => {
-              dataMovieList.value = movieResponse?.data?.results;
-            })
-            .catch((e) => {
-              if (axios.isCancel(e)) return;
-            });
-          metaHead.value = 'Phim bộ';
-          break;
-        case 'genres':
-          metaHead.value = 'Thể loại';
-          break;
-        case 'years':
-          metaHead.value = 'Năm';
-          break;
-        case 'countries':
-          metaHead.value = 'Quốc gia';
-          break;
-        default:
-          break;
+      if (isFilter.value) {
+        FilterDataMovie(formFilterSelect.value)
+          .then((movieResponse) => {
+            dataMovieList.value = movieResponse?.data?.results;
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      } else {
+        switch (route.params?.slug) {
+          case 'movie':
+            metaHead.value = 'Phim lẻ';
+
+            getMovies(page.value)
+              .then((movieResponse) => {
+                dataMovieList.value = movieResponse?.data?.results;
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+            break;
+          case 'series':
+            metaHead.value = 'Phim bộ';
+            getMovieSeries(page.value)
+              .then((movieResponse) => {
+                dataMovieList.value = movieResponse?.data?.results;
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+            break;
+          case 'genres':
+            getMoviesByGenres(
+              Array.from(
+                route.params?.slug2.split('+'),
+                (x) => x.charAt(0).toUpperCase() + x.slice(1)
+              ).join(' '),
+              page.value
+            )
+              .then((movieResponse) => {
+                dataMovieList.value = movieResponse?.data?.results;
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+            metaHead.value = 'Thể loại';
+            break;
+          case 'years':
+            metaHead.value = 'Năm';
+            break;
+          case 'countries':
+            metaHead.value = 'Quốc gia';
+            break;
+          default:
+            break;
+        }
       }
     };
 
     watch(route, () => {
+      isFilter.value = false;
       setMetaHead();
       document.title = `Phimhay247 - ${metaHead.value}`;
     });
-
-    document.title = `Phimhay247 - ${metaHead.value}`;
+    // setMetaHead();
 
     onBeforeMount(() => {
+      isFilter.value = false;
       setMetaHead();
+      document.title = `Phimhay247 - ${metaHead.value}`;
     });
 
     const onChangePage = (
       pageSelected
       // pageSize
     ) => {
-      router.push({ query: { page: pageSelected } });
-      setMetaHead();
-
-      // getMovies(pageSelected)
-      //   .then((movieResponse) => {
-      //     dataMovieList.value = movieResponse?.data?.results;
-      //   })
-      //   .catch((e) => {
-      //     if (axios.isCancel(e)) return;
-      //   });
+      if (isFilter.value) {
+        formFilterSelect.value['pageFilter'] = pageSelected;
+        setMetaHead();
+      } else {
+        router.push({ query: { page: pageSelected } });
+      }
     };
 
-    return { metaHead, page, dataMovieList, onChangePage };
+    const setDataFiltered = (data, formSelect) => {
+      dataMovieList.value = data;
+      formFilterSelect.value = formSelect;
+      isFilter.value = true;
+      page.value = formSelect.pageFilter;
+      metaHead.value = 'Danh sách phim đã lọc';
+    };
+
+    const cancelFilter = () => {
+      isFilter.value = false;
+      setMetaHead();
+    };
+
+    return {
+      metaHead,
+      page,
+      dataMovieList,
+      onChangePage,
+      setDataFiltered,
+      cancelFilter,
+    };
   },
 };
 </script>
 
 <style scoped lang="scss">
+@media only screen and (max-width: 1010px) {
+  .movie-discovered {
+    grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 435px) {
+  .movie-discovered {
+    grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
+  }
+
+  .movie-carousel-horizontal-item {
+    .ant-image {
+      height: 110px !important;
+    }
+  }
+}
+
 .movie-discovered {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(230px, auto));
   margin-top: 10px;
   gap: 10px;
 }
+
 .control-page {
   display: flex;
   justify-content: center;
