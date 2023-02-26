@@ -27,7 +27,7 @@
 import { onBeforeMount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { getMovies } from '../services/MovieService';
+import { getMovies, getMovieSeries } from '../services/MovieService';
 import MovieCarouselCardHorizontal from '@/components/MovieCarouselCardHorizontal.vue';
 
 export default {
@@ -42,9 +42,23 @@ export default {
     const setMetaHead = () => {
       switch (route.params?.slug) {
         case 'movie':
+          getMovies(page.value)
+            .then((movieResponse) => {
+              dataMovieList.value = movieResponse?.data?.results;
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
           metaHead.value = 'Phim lẻ';
           break;
         case 'series':
+          getMovieSeries(page.value)
+            .then((movieResponse) => {
+              dataMovieList.value = movieResponse?.data?.results;
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
           metaHead.value = 'Phim bộ';
           break;
         case 'genres':
@@ -61,8 +75,6 @@ export default {
       }
     };
 
-    setMetaHead();
-
     watch(route, () => {
       setMetaHead();
       document.title = `Phimhay247 - ${metaHead.value}`;
@@ -71,13 +83,7 @@ export default {
     document.title = `Phimhay247 - ${metaHead.value}`;
 
     onBeforeMount(() => {
-      getMovies(page.value)
-        .then((movieResponse) => {
-          dataMovieList.value = movieResponse?.data?.results;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      setMetaHead();
     });
 
     const onChangePage = (
@@ -85,14 +91,15 @@ export default {
       // pageSize
     ) => {
       router.push({ query: { page: pageSelected } });
+      setMetaHead();
 
-      getMovies(pageSelected)
-        .then((movieResponse) => {
-          dataMovieList.value = movieResponse?.data?.results;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      // getMovies(pageSelected)
+      //   .then((movieResponse) => {
+      //     dataMovieList.value = movieResponse?.data?.results;
+      //   })
+      //   .catch((e) => {
+      //     if (axios.isCancel(e)) return;
+      //   });
     };
 
     return { metaHead, page, dataMovieList, onChangePage };
