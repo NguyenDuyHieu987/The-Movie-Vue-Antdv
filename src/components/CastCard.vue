@@ -27,7 +27,7 @@
     </div>
 
     <div class="info">
-      <p class="title">
+      <p class="name">
         {{ item?.name ? item?.name : item?.title }}
       </p>
     </div>
@@ -100,6 +100,7 @@ export default {
   color: #fff;
   cursor: pointer;
   display: block;
+  font-size: 1.6rem;
 
   .cast-img-box {
     position: relative;
@@ -141,6 +142,12 @@ export default {
   .info {
     // padding: 0px 0px !important;
     color: #3b3b3b;
+
+    .name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
 </style>

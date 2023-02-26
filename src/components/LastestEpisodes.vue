@@ -3,7 +3,26 @@
     <h3 class="section-title">
       <strong>Tập mới nhất</strong>
     </h3>
-    <ul>
+
+    <div v-if="loading" class="list-lastest-episodes skeleton">
+      <a-skeleton-button
+        :active="true"
+        :size="size"
+        :shape="'default'"
+        :block="block"
+        v-for="(item, index) in Array.from(
+          { length: lastestEpisode },
+          (_, i) => i + 1
+        )
+          .reverse()
+          .slice(0, 10)"
+        :index="index"
+        :key="index"
+      >
+      </a-skeleton-button>
+    </div>
+
+    <ul v-else class="list-lastest-episodes">
       <!-- {{Array.from({ length: lastestEpisode }, (_, i) => i + 1)
           .reverse()
           .slice(0, 6)
@@ -68,6 +87,7 @@ export default {
     dataMovie: Object,
     lastestEpisode: Number,
     numberOfEpisodes: Number,
+    loading: Boolean,
   },
   components: {},
   setup() {
@@ -80,12 +100,19 @@ export default {
 .lastest-episodes {
   margin-top: 15px;
 
-  ul {
+  .list-lastest-episodes.skeleton {
+    .ant-skeleton {
+      margin: 7px 7px 0px 0px;
+    }
+  }
+
+  ul,
+  .list-lastest-episodes {
     // display: flex;
     // flex-direction: row;
+    overflow: hidden;
     list-style-type: none;
     margin-top: 7px;
-    overflow: hidden;
     padding-left: 15px;
 
     & > li,

@@ -10,10 +10,7 @@ const store = createStore({
       loadingDetailAccount: false,
       loadingSearch: false,
       loadingTable: false,
-      userAccount: {
-        fullname: '',
-        role: '',
-      },
+      userAccount: {},
       listAccount: [],
       numberOfAccount: 0,
       detailAccountData: {},

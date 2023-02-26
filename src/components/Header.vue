@@ -44,7 +44,7 @@
                   ><span>My Profile</span>
                   <br />
                   <span style="font-size: 12px">{{
-                    $store.state.userAccount.fullname
+                    $store.state.userAccount?.user_name
                   }}</span>
                 </router-link>
               </a-menu-item>

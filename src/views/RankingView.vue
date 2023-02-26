@@ -7,7 +7,7 @@
 <script>
 export default {
   setup() {
-    document.title = 'Phim lẻ';
+    document.title = 'Phimhay247 - Xếp hạng';
   },
 };
 </script>

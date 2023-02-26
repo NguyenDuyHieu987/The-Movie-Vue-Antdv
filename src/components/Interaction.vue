@@ -26,7 +26,7 @@
 
 <script>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+// import { useRoute } from 'vue-router';
 
 export default {
   components: {},
@@ -34,8 +34,7 @@ export default {
     dataMovie: Object,
   },
   setup() {
-    const route = useRoute();
-    console.log(route);
+    // const route = useRoute();
 
     // alert(window.location);
     const urlShare = computed(() => window.location);

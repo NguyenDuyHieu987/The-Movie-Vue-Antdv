@@ -11,22 +11,44 @@ const routes = [
       import(/* webpackChunkName: "home" */ '../views/HomeView.vue'),
   },
   {
-    path: '/movie',
-    name: 'movie',
+    path: '/:slug',
+    name: 'typemovie',
     meta: {
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "movie" */ '../views/MovieView.vue'),
+      import(
+        /* webpackChunkName: "typemovie" */ '../views/DiscoverMovieView.vue'
+      ),
   },
   {
-    path: '/series',
-    name: 'series',
+    path: '/discover/:slug/:slug2',
+    name: 'discover',
     meta: {
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "series" */ '../views/SeriesView.vue'),
+      import(
+        /* webpackChunkName: "discover" */ '../views/DiscoverMovieView.vue'
+      ),
+  },
+  {
+    path: '/follow',
+    name: 'follow',
+    meta: {
+      layout: 'default',
+    },
+    component: () =>
+      import(/* webpackChunkName: "follow" */ '../views/FollowView.vue'),
+  },
+  {
+    path: '/ranking',
+    name: 'ranking',
+    meta: {
+      layout: 'default',
+    },
+    component: () =>
+      import(/* webpackChunkName: "ranking" */ '../views/RankingView.vue'),
   },
   {
     path: '/info/:id/:name',

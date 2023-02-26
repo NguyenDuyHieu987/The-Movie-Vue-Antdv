@@ -6,7 +6,7 @@
 <script>
 export default {
   setup() {
-    document.title = 'Phim bộ';
+    document.title = 'Phimhay247 - Phim bộ';
   },
 };
 </script>

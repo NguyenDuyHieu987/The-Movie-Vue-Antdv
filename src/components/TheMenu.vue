@@ -24,7 +24,14 @@
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-video-camera" />
       </template>
-      <router-link :to="{ name: 'movie' }">
+      <router-link
+        :to="{
+          name: 'typemovie',
+          params: {
+            slug: 'movie',
+          },
+        }"
+      >
         <span>Phim lẻ</span>
       </router-link>
     </a-menu-item>
@@ -33,7 +40,16 @@
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-film" />
       </template>
-      <router-link :to="{ name: 'series' }"> <span>Phim bộ</span></router-link>
+      <router-link
+        :to="{
+          name: 'typemovie',
+          params: {
+            slug: 'series',
+          },
+        }"
+      >
+        <span>Phim bộ</span></router-link
+      >
     </a-menu-item>
 
     <a-sub-menu key="/genres">
@@ -47,9 +63,18 @@
         :index="index"
         :key="item.id"
       >
-        <div style="display: flex">
-          <span>{{ item.name }}</span>
-        </div>
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug1: 'genres',
+              slug2: item?.name,
+            },
+          }"
+          style="display: flex"
+        >
+          <span>{{ item?.name }}</span>
+        </router-link>
       </a-menu-item>
     </a-sub-menu>
 
@@ -64,9 +89,18 @@
         :index="index"
         :key="item.name"
       >
-        <div style="display: flex">
-          <span>{{ item.name }}</span>
-        </div>
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug1: 'years',
+              slug2: item?.name,
+            },
+          }"
+          style="display: flex"
+        >
+          <span>{{ item?.name }}</span>
+        </router-link>
       </a-menu-item>
     </a-sub-menu>
 
@@ -81,9 +115,18 @@
         :index="index"
         :key="item.iso_639_1"
       >
-        <div style="display: flex">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug1: 'countries',
+              slug2: item?.name,
+            },
+          }"
+          style="display: flex"
+        >
           <span>{{ item?.name }}</span>
-        </div>
+        </router-link>
       </a-menu-item>
     </a-sub-menu>
 
@@ -91,14 +134,16 @@
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-bookmark" />
       </template>
-      <router-link :to="{ name: 'series' }"> <span>Theo dõi</span></router-link>
+      <router-link :to="{ name: 'follow' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
 
     <a-menu-item key="/ranking" style="margin-bottom: 62vh">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-ranking-star" />
       </template>
-      <router-link :to="{ name: 'series' }"> <span>Xếp hạng</span></router-link>
+      <router-link :to="{ name: 'ranking' }">
+        <span>Xếp hạng</span></router-link
+      >
     </a-menu-item>
   </a-menu>
 </template>

@@ -9,16 +9,18 @@
     <a-layout-header class="ant-list-header">
       <div style="display: flex; justify-content: center; align-items: center">
         <h3 style="color: #fff" v-if="!$store.state.collapsed">
-          {{ $store.state.userAccount.fullname }}
+          {{ $store.state.userAccount?.user_name }}
         </h3>
         <a-tooltip
           v-else
-          :title="$store.state.userAccount.fullname"
+          :title="$store.state.userAccount?.user_name"
           placement="rightTop"
         >
           <div class="user-name-container" shape="circle">
             <h4 style="color: #fff">
-              {{ $store.state.userAccount.fullname.slice(0, 2).toUpperCase() }}
+              {{
+                $store.state.userAccount?.user_name.slice(0, 2).toUpperCase()
+              }}
             </h4>
           </div>
         </a-tooltip>

@@ -46,6 +46,25 @@
       </a-form-item>
 
       <a-form-item
+        label="Email"
+        name="email"
+        :rules="[
+          {
+            required: true,
+            message: 'Please input correct format email!',
+            pattern: new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
+            trigger: ['change', 'blur'],
+          },
+        ]"
+      >
+        <a-input v-model:value="formState.email">
+          <template #prefix>
+            <font-awesome-icon icon="fa-solid fa-at" />
+          </template>
+        </a-input>
+      </a-form-item>
+
+      <a-form-item
         label="Password"
         name="password"
         :rules="[
@@ -72,13 +91,6 @@
         </a-input-password>
       </a-form-item>
 
-      <a-form-item label="Role" name="role" style="flex-direction: row">
-        <a-select v-model:value="formState.role" style="width: 90px">
-          <a-select-option value="admin">Admin</a-select-option>
-          <a-select-option value="normal">Normal</a-select-option>
-        </a-select>
-      </a-form-item>
-
       <a-button
         :disabled="disabled"
         type="primary"
@@ -87,6 +99,7 @@
         size="large"
         @click="handleSubmit"
         style="background: transparent"
+        :loading="loadingSignUp"
       >
         Sign up
       </a-button>
@@ -99,7 +112,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, reactive, computed, h } from 'vue';
+import { defineComponent, reactive, computed, h, ref } from 'vue';
 import {
   UserOutlined,
   LockOutlined,
@@ -108,6 +121,8 @@ import {
 } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
 import axios from 'axios';
+import { signUp } from '../services/MovieService';
+import md5 from 'md5';
 
 export default defineComponent({
   components: {
@@ -120,15 +135,16 @@ export default defineComponent({
       username: '',
       password: '',
       checkPass: '',
-      role: 'admin',
+      email: '',
     });
+    const loadingSignUp = ref(false);
 
     const reset = () => {
       formState.fullname = '';
       formState.username = '';
       formState.password = '';
       formState.checkPass = '';
-      formState.role = 'admin';
+      formState.email = '';
     };
 
     const onFinish = () => {
@@ -143,6 +159,7 @@ export default defineComponent({
       return !(
         formState.fullname &&
         formState.username &&
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(formState.email) &&
         formState.password &&
         formState.checkPass &&
         formState.password == formState.checkPass
@@ -171,60 +188,123 @@ export default defineComponent({
       ],
     };
 
+    const rand = function () {
+      return Math.random().toString(36).substring(2); // remove `0.`
+    };
+
+    const token = function () {
+      return rand() + rand() + rand() + rand(); // to make it longer
+    };
+
     const handleSubmit = () => {
-      formState['usertoken'] = Date.now();
-      axios
-        .post(`${process.env.VUE_APP_SERVICE_URL}/auth/signup`, formState)
+      loadingSignUp.value = true;
+
+      signUp({
+        id: Date.now(),
+        user_name: formState.username,
+        email: formState.email,
+        password: md5(formState.password),
+        created_by: formState.fullname,
+        avatar: `${Math.floor(Math.random() * 10) + 1}`,
+        user_token: token(),
+      })
         .then((response) => {
-          if (!response.data.accountExist) {
-            if (response.data.success) {
+          if (response?.data?.isSignUp === true) {
+            setTimeout(() => {
+              loadingSignUp.value = false;
               notification.open({
                 message: 'Congratulation!',
-                description: 'You have successfully signed up account.',
+                description:
+                  'You have successfully signed up account from Phimhay247.',
                 icon: () =>
                   h(CheckCircleFilled, {
                     style: 'color: green',
                   }),
               });
-            } else {
+            }, 1000);
+            reset();
+          } else {
+            setTimeout(() => {
+              loadingSignUp.value = false;
               notification.open({
                 message: 'Failed!',
-                description: 'Something went wrong.',
+                description: 'Account is already exists.',
                 icon: () =>
                   h(CheckCircleFilled, {
                     style: 'color: red',
                   }),
               });
-            }
-            reset();
-          } else {
+            }, 1000);
+          }
+        })
+        .catch((e) => {
+          setTimeout(() => {
+            loadingSignUp.value = false;
             notification.open({
               message: 'Failed!',
-              description: 'Account is already exists.',
+              description: 'Some thing went wrong.',
               icon: () =>
                 h(CloseCircleFilled, {
                   style: 'color: red',
                 }),
             });
-          }
-        })
-        .catch((e) => {
-          notification.open({
-            message: 'Failed!',
-            description: 'Some thing went wrong.',
-            icon: () =>
-              h(CloseCircleFilled, {
-                style: 'color: red',
-              }),
-          });
+          }, 1000);
           if (axios.isCancel(e)) return;
         });
+
+      // axios
+      //   .post(`${process.env.VUE_APP_SERVICE_URL}/auth/signup`, formState)
+      //   .then((response) => {
+      //     if (!response.data.accountExist) {
+      //       if (response.data.success) {
+      //         notification.open({
+      //           message: 'Congratulation!',
+      //           description: 'You have successfully signed up account.',
+      //           icon: () =>
+      //             h(CheckCircleFilled, {
+      //               style: 'color: green',
+      //             }),
+      //         });
+      //       } else {
+      //         notification.open({
+      //           message: 'Failed!',
+      //           description: 'Something went wrong.',
+      //           icon: () =>
+      //             h(CheckCircleFilled, {
+      //               style: 'color: red',
+      //             }),
+      //         });
+      //       }
+      //       reset();
+      //     } else {
+      //       notification.open({
+      //         message: 'Failed!',
+      //         description: 'Account is already exists.',
+      //         icon: () =>
+      //           h(CloseCircleFilled, {
+      //             style: 'color: red',
+      //           }),
+      //       });
+      //     }
+      //   })
+      //   .catch((e) => {
+      //     notification.open({
+      //       message: 'Failed!',
+      //       description: 'Some thing went wrong.',
+      //       icon: () =>
+      //         h(CloseCircleFilled, {
+      //           style: 'color: red',
+      //         }),
+      //     });
+      //     if (axios.isCancel(e)) return;
+      //   });
     };
 
     return {
       formState,
       disabled,
       rules,
+      loadingSignUp,
       onFinish,
       onFinishFailed,
       handleSubmit,
@@ -275,7 +355,7 @@ export default defineComponent({
   justify-content: center;
   flex-direction: column;
   padding: 50px 70px;
-  padding-top: 130px;
+  // padding-top: 130px;
   border-radius: 5px;
   box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px 0 #00000014,
     0 9px 28px 8px #0000000d;
@@ -315,5 +395,43 @@ export default defineComponent({
     #000046 51%,
     #1cb5e0 100%
   );
+}
+@media only screen and (max-width: 660px) {
+  .signup-form-container {
+    padding: 30px 40px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .signup-form {
+    width: 450px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .signup-form {
+    width: 400px;
+  }
+  .signup-form-container {
+    padding: 30px 30px;
+  }
+}
+
+@media only screen and (max-width: 470px) {
+  .signup-form {
+    width: 350px;
+  }
+  .signup-form-container {
+    padding: 20px 30px;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .signup-form {
+    width: 350px;
+  }
+  .signup-form-container {
+    padding: 20px 20px;
+  }
 }
 </style>

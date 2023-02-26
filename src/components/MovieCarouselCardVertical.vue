@@ -8,6 +8,11 @@
       }`,
     }"
     class="movie-carousel-vertical-item"
+    v-lazy="
+      getPoster(
+        getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
+      )
+    "
   >
     <!-- v-if="item?.id"
     :to="{
@@ -22,30 +27,19 @@
 
     <div class="img-box">
       <a-image
+        v-if="!loading"
         class="movie-carousel-img"
         :src="
           getPoster(item?.poster_path ? item?.poster_path : item?.backdrop_path)
         "
         :preview="false"
+        v-lazy="
+          getPoster(item?.poster_path ? item?.poster_path : item?.backdrop_path)
+        "
       >
-        <!-- <template #placeholder>
-          <a-image
-            :src="
-              getPoster(
-                item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-              )
-            "
-            :height="200"
-            :preview="false"
-          />
-        </template> -->
       </a-image>
 
-      <!-- <a-skeleton-image
-        style="width: 100%; height: 100%"
-        :active="true"
-        v-else
-      /> -->
+      <a-skeleton-image v-else class="ant-image" />
 
       <div class="duration-episode-box">
         <p class="duration-episode">
@@ -74,17 +68,24 @@
 
     <a-tooltip :title="getLanguage(item?.original_language)?.english_name">
       <div class="info">
-        <p class="title">
-          {{ item?.name ? item?.name : item?.title }}
-        </p>
-        <div class="info-bottom">
-          <p class="genres" v-if="item?.genre_ids">
-            {{ getAllGenresById(item?.genre_ids).join(' • ') }}
+        <a-skeleton
+          :loading="loading"
+          :active="true"
+          :paragraph="{ rows: 2 }"
+          :title="false"
+        >
+          <p class="title">
+            {{ item?.name ? item?.name : item?.title }}
           </p>
-          <p class="genres" v-else-if="item?.genres">
-            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
-          </p>
-        </div>
+          <div class="info-bottom">
+            <p class="genres" v-if="item?.genre_ids">
+              {{ getAllGenresById(item?.genre_ids).join(' • ') }}
+            </p>
+            <p class="genres" v-else-if="item?.genres">
+              {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+            </p>
+          </div>
+        </a-skeleton>
       </div>
     </a-tooltip>
   </router-link>
@@ -111,10 +112,11 @@ export default {
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
-    const loadImage = ref(false);
+    const loading = ref(false);
 
-    loadImage.value = true;
     onBeforeMount(() => {
+      loading.value = true;
+
       getMovieSeriesById(props.item?.id)
         .then((tvResponed) => {
           if (tvResponed?.data === null)
@@ -137,13 +139,14 @@ export default {
     });
 
     setTimeout(() => {
-      loadImage.value = false;
-    }, 2000);
+      loading.value = false;
+    }, 1500);
+
     return {
       genresName,
       isEpisodes,
       dataMovie,
-      loadImage,
+      loading,
       getPoster,
       getAllGenresById,
       getLanguage,

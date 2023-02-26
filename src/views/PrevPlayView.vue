@@ -11,39 +11,76 @@
             )
           "
           :preview="true"
+          v-lazy="
+            getPoster(
+              dataMovie?.backdrop_path
+                ? dataMovie?.backdrop_path
+                : dataMovie?.poster_path
+            )
+          "
         >
+          <template #placeholder>
+            <a-image
+              :src="
+                getPoster(
+                  dataMovie?.backdrop_path
+                    ? dataMovie?.backdrop_path
+                    : dataMovie?.poster_path
+                )
+              "
+            />
+          </template>
         </a-image>
       </div>
 
       <div class="info-movie">
-        <h2>
-          <strong>{{
-            dataMovie?.name ? dataMovie?.name : dataMovie?.title
-          }}</strong>
-        </h2>
+        <a-skeleton
+          :loading="loading"
+          :active="true"
+          :paragraph="{ rows: 2 }"
+          :title="false"
+        >
+          <h2>
+            <strong>{{
+              dataMovie?.name ? dataMovie?.name : dataMovie?.title
+            }}</strong>
+          </h2>
 
-        <strong>
-          {{
-            dataMovie?.original_title
-              ? dataMovie?.original_title
-              : dataMovie?.original_name
-          }}
-          {{
-            isEpisodes
-              ? `(${
-                  dataMovie?.last_air_date?.slice(0, 4)
-                    ? dataMovie?.last_air_date?.slice(0, 4)
-                    : dataMovie?.last_episode_to_air?.air_date?.slice(0, 4)
-                })`
-              : `(${dataMovie?.release_date?.slice(0, 4)})`
-          }}
-        </strong>
+          <strong>
+            {{
+              dataMovie?.original_title
+                ? dataMovie?.original_title
+                : dataMovie?.original_name
+            }}
+            {{
+              isEpisodes
+                ? `(${
+                    dataMovie?.last_air_date?.slice(0, 4)
+                      ? dataMovie?.last_air_date?.slice(0, 4)
+                      : dataMovie?.last_episode_to_air?.air_date?.slice(0, 4)
+                  })`
+                : `(${dataMovie?.release_date?.slice(0, 4)})`
+            }}
+          </strong>
 
-        <strong v-if="isEpisodes">
-          {{ ' - Season ' + dataMovie?.last_episode_to_air?.season_number }}
-        </strong>
+          <strong v-if="isEpisodes">
+            {{ ' - Season ' + dataMovie?.last_episode_to_air?.season_number }}
+          </strong>
+        </a-skeleton>
 
-        <div class="widget">
+        <div v-if="loading" class="widget-skeleton">
+          <a-skeleton-button
+            :active="true"
+            :size="'default'"
+            :block="false"
+            v-for="(item, index) in 3"
+            :index="index"
+            :key="index"
+          >
+          </a-skeleton-button>
+        </div>
+
+        <div v-else class="widget">
           <router-link
             v-if="isEpisodes && dataMovie?.id"
             :to="{
@@ -59,7 +96,7 @@
                 ep: 'tap-1',
               },
             }"
-            class="play-now"
+            class="btn-play-now"
           >
             <font-awesome-icon icon="fa-solid fa-play" />
             <span> Play now</span>
@@ -75,127 +112,153 @@
                   : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
               },
             }"
-            class="play-now"
+            class="btn-play-now"
           >
             <font-awesome-icon icon="fa-solid fa-play" />
             <span> Play now</span>
           </router-link>
 
-          <a
-            class="trailer"
-            href="#trailer-youtube"
-            @click="isOpenTrailerYoutube = !isOpenTrailerYoutube"
+          <span
+            class="btn-trailer"
+            id="btn-trailer"
+            @click="
+              () => {
+                isOpenTrailerYoutube = !isOpenTrailerYoutube;
+                if (isOpenTrailerYoutube) scrolltoTrailerYoutube();
+              }
+            "
           >
             <font-awesome-icon icon="fa-brands fa-youtube" />
             <span>Trailer</span>
-          </a>
-          <router-link class="add-to-list" :to="{ path: '/' }">
+          </span>
+          <span class="btn-add-to-list">
             <font-awesome-icon icon="fa-solid fa-bookmark" />
             <span> Add to list</span>
-          </router-link>
+          </span>
         </div>
 
         <div class="misc">
-          <p>
-            <label>Đang phát: </label>
-            <span style="color: red; font-weight: bold"> HD VietSub </span>
-          </p>
+          <a-skeleton
+            :loading="loading"
+            :active="true"
+            :paragraph="{ rows: 8 }"
+            :title="false"
+          >
+            <p>
+              <label>Đang phát: </label>
+              <span style="color: red; font-weight: bold"> HD VietSub </span>
+            </p>
 
-          <p>
-            <label>Ngày Phát Hành: </label>
-            <router-link
-              :to="{
-                path: `/filter/year/${
+            <p>
+              <label>Ngày Phát Hành: </label>
+              <router-link
+                :to="{
+                  path: `/filter/year/${
+                    dataMovie?.last_air_date?.slice(0, 4)
+                      ? dataMovie?.last_air_date?.slice(0, 4)
+                      : dataMovie?.release_date?.slice(0, 4)
+                  }`,
+                }"
+              >
+                {{
                   dataMovie?.last_air_date?.slice(0, 4)
                     ? dataMovie?.last_air_date?.slice(0, 4)
                     : dataMovie?.release_date?.slice(0, 4)
-                }`,
-              }"
-            >
+                }}
+              </router-link>
               {{
-                dataMovie?.last_air_date?.slice(0, 4)
-                  ? dataMovie?.last_air_date?.slice(0, 4)
-                  : dataMovie?.release_date?.slice(0, 4)
+                dataMovie?.last_air_date?.slice(4, 10)
+                  ? dataMovie?.last_air_date?.slice(4, 10)
+                  : dataMovie?.release_date?.slice(
+                      4,
+                      dataMovie?.release_date.length
+                    )
               }}
-            </router-link>
-            {{
-              dataMovie?.last_air_date?.slice(4, 10)
-                ? dataMovie?.last_air_date?.slice(4, 10)
-                : dataMovie?.release_date?.slice(
-                    4,
-                    dataMovie?.release_date.length
-                  )
-            }}
-          </p>
+            </p>
 
-          <p>
-            <label>Quốc gia: </label>
-            {{
-              dataMovie?.production_countries
-                ? dataMovie?.production_countries[0]?.name
-                : null
-            }}
-          </p>
-          <p>
-            <label>Thể loại: </label>
-
-            <router-link
-              v-for="(item, index) in dataMovie?.genres"
-              :key="item?.id"
-              :index="index"
-              :to="{ path: `/filter/genre/${item?.name}` }"
-            >
+            <p>
+              <label>Quốc gia: </label>
               {{
-                index !== dataMovie?.genres.length - 1
-                  ? item?.name + ', '
-                  : item?.name
-              }}
-            </router-link>
-          </p>
-
-          <p>
-            <label>Diểm IMDb: </label>
-            <span style="color: yellow; font-weight: bold">
-              {{ dataMovie?.vote_average?.toFixed(2) }}
-            </span>
-          </p>
-
-          <p v-if="dataMovie?.number_of_episodes">
-            <label>Số lượng tập: </label>
-            {{
-              dataMovie?.seasons?.find((item) =>
-                item?.season_number ===
-                dataMovie?.last_episode_to_air?.season_number
-                  ? item
+                dataMovie?.production_countries
+                  ? dataMovie?.production_countries[0]?.name
                   : null
-              ).episode_count + ' tập'
-            }}
-          </p>
+              }}
+            </p>
+            <p>
+              <label>Thể loại: </label>
 
-          <p>
-            <label v-if="dataMovie?.episode_run_time">
-              {{ 'Thờ lượng trên tập: ' }}
-            </label>
-            <label v-else>Thời lượng: </label>
-            <span v-if="dataMovie?.episode_run_time">
-              {{ dataMovie?.episode_run_time[0] + ' phút' }}
-            </span>
-            <span v-else>{{ dataMovie?.runtime + ' phút' }}</span>
-          </p>
+              <router-link
+                v-for="(item, index) in dataMovie?.genres"
+                :key="item?.id"
+                :index="index"
+                :to="{ path: `/filter/genre/${item?.name}` }"
+              >
+                {{
+                  index !== dataMovie?.genres.length - 1
+                    ? item?.name + ', '
+                    : item?.name
+                }}
+              </router-link>
+            </p>
 
-          <p>
-            <label>Trạng thái: </label>
-            {{ dataMovie?.status }}
-          </p>
+            <p>
+              <label>Diểm IMDb: </label>
+              <span style="color: yellow; font-weight: bold">
+                {{ dataMovie?.vote_average?.toFixed(2) }}
+              </span>
+            </p>
+
+            <p v-if="dataMovie?.number_of_episodes">
+              <label>Số lượng tập: </label>
+              {{
+                dataMovie?.seasons?.find((item) =>
+                  item?.season_number ===
+                  dataMovie?.last_episode_to_air?.season_number
+                    ? item
+                    : null
+                ).episode_count + ' tập'
+              }}
+            </p>
+
+            <p>
+              <label v-if="dataMovie?.episode_run_time">
+                {{ 'Thờ lượng trên tập: ' }}
+              </label>
+              <label v-else>Thời lượng: </label>
+              <span v-if="dataMovie?.episode_run_time">
+                {{ dataMovie?.episode_run_time[0] + ' phút' }}
+              </span>
+              <span v-else>{{ dataMovie?.runtime + ' phút' }}</span>
+            </p>
+
+            <p>
+              <label>Trạng thái: </label>
+              {{ dataMovie?.status }}
+            </p>
+          </a-skeleton>
         </div>
-        <Interaction :dataMovie="dataMovie" />
-        <RatingMovie
-          v-if="dataMovie?.id"
-          :voteAverage="dataMovie?.vote_average"
-          :voteCount="dataMovie?.vote_count"
-          :isEpisodes="isEpisodes"
-          :movieId="dataMovie?.id"
-        />
+
+        <div v-if="loading">
+          <a-skeleton-button :active="true" :size="'default'" :block="false">
+          </a-skeleton-button>
+        </div>
+        <Interaction v-else :dataMovie="dataMovie" />
+
+        <a-skeleton
+          style="margin-top: 15px"
+          :loading="loading"
+          :active="true"
+          :paragraph="{ rows: 2 }"
+          :title="false"
+        >
+          <RatingMovie
+            v-if="dataMovie?.id"
+            :voteAverage="dataMovie?.vote_average"
+            :voteCount="dataMovie?.vote_count"
+            :isEpisodes="isEpisodes"
+            :movieId="dataMovie?.id"
+          />
+        </a-skeleton>
       </div>
     </div>
 
@@ -210,118 +273,193 @@
             : null
         )?.episode_count
       "
+      :loading="loading"
     />
 
     <h3 class="section-title" @click="$router.currentRoute">
       <strong>Nội dung phim</strong>
     </h3>
+
     <div class="movie-content">
-      <p :class="{ open: isOpenContent }">
-        {{ dataMovie?.overview }}
-      </p>
-      <strong
-        class="toggle-content"
-        id="toggle-content"
-        @click="isOpenContent = !isOpenContent"
+      <a-skeleton
+        :loading="loading"
+        :active="true"
+        :paragraph="{ rows: 3, width: '40%' }"
+        :title="false"
       >
-        {{ !isOpenContent ? 'Xem thêm >' : '< Ẩn' }}
-      </strong>
+        <p :class="{ open: isOpenContent }">
+          {{ dataMovie?.overview }}
+        </p>
+        <strong class="toggle-content" @click="isOpenContent = !isOpenContent">
+          {{ !isOpenContent ? 'Xem thêm >' : '< Ẩn' }}
+        </strong>
+      </a-skeleton>
     </div>
 
-    <div
-      class="trailer-youtube"
-      id="trailer-youtube"
-      :class="{ active: isOpenTrailerYoutube }"
-    >
-      <h3 class="section-title">
-        <strong>Trailer</strong>
-      </h3>
-      <iframe
-        height="650px"
-        width="100%"
-        :src="
-          dataMovie?.videos?.results?.length !== 0
-            ? `https://www.youtube.com/embed/${
-                dataMovie?.videos?.results[
-                  Math.floor(Math.random() * dataMovie?.videos?.results?.length)
-                ]?.key
-              }`
-            : 'https://www.youtube.com/embed/ndl1W4ltcmg'
-        "
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media;
-      gyroscope; picture-in-picture"
-        allowFullScreen
-        frameBorder="{0}"
-      />
+    <div id="trailer-youtube">
+      <div class="trailer-youtube" :class="{ active: isOpenTrailerYoutube }">
+        <h3 class="section-title">
+          <strong>Trailer</strong>
+        </h3>
+        <iframe
+          height="650px"
+          width="100%"
+          :src="
+            dataMovie?.videos?.results?.length !== 0
+              ? `https://www.youtube.com/embed/${
+                  dataMovie?.videos?.results[
+                    Math.floor(
+                      Math.random() * dataMovie?.videos?.results?.length
+                    )
+                  ]?.key
+                }`
+              : 'https://www.youtube.com/embed/ndl1W4ltcmg'
+          "
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+        gyroscope; picture-in-picture"
+          allowFullScreen
+          frameBorder="{0}"
+        />
+      </div>
     </div>
 
-    <h3 class="section-title">
+    <!-- <h3 class="section-title">
       <strong>Diễn viên</strong>
-    </h3>
-    <carousel
-      v-if="dataCredit?.credits?.cast?.length"
-      class="cast"
-      :items="4"
-      :autoplay="true"
-      :loop="true"
-      :dots="false"
-      :autoplayHoverPause="true"
-      :autoplayTimeout="5000"
-      :margin="7"
-      :autoplaySpeed="500"
-      :navText="[btnPrev, btnNext]"
-      :responsive="{
-        0: {
-          items: 2,
-        },
-        590: {
-          items: 2,
-        },
-        750: {
-          items: 4,
-        },
-        830: {
-          items: 5,
-        },
-        1000: {
-          items: 5,
-        },
-        1175: {
-          items: 6,
-        },
-        1300: {
-          items: 6,
-        },
-        1400: {
-          items: 7,
-        },
-        1500: {
-          items: 8,
-        },
-        1700: {
-          items: 9,
-        },
-        2000: {
-          items: 10,
-        },
-        2200: {
-          items: 12,
-        },
-      }"
-    >
-      <CastCard
-        v-for="(item, index) in dataCredit?.credits?.cast"
-        :src="
-          getPoster(
-            item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-          )
-        "
-        :item="item"
-        :index="index"
-        :key="item.id"
-      />
-    </carousel>
+    </h3> -->
+
+    <a-tabs v-model:activeKey="activeTabCast" class="section-title">
+      <a-tab-pane key="1" tab="Diễn viên">
+        <carousel
+          v-if="dataCredit?.credits?.cast?.length"
+          class="cast"
+          :items="4"
+          :autoplay="true"
+          :loop="true"
+          :dots="false"
+          :autoplayHoverPause="true"
+          :autoplayTimeout="5000"
+          :margin="7"
+          :autoplaySpeed="500"
+          :navText="[btnPrev, btnNext]"
+          :responsive="{
+            0: {
+              items: 2,
+            },
+            590: {
+              items: 2,
+            },
+            750: {
+              items: 4,
+            },
+            830: {
+              items: 5,
+            },
+            1000: {
+              items: 5,
+            },
+            1175: {
+              items: 6,
+            },
+            1300: {
+              items: 6,
+            },
+            1400: {
+              items: 7,
+            },
+            1500: {
+              items: 8,
+            },
+            1700: {
+              items: 9,
+            },
+            2000: {
+              items: 10,
+            },
+            2200: {
+              items: 12,
+            },
+          }"
+        >
+          <CastCard
+            v-for="(item, index) in dataCredit?.credits?.cast"
+            :src="
+              getPoster(
+                item?.backdrop_path ? item?.backdrop_path : item?.poster_path
+              )
+            "
+            :item="item"
+            :index="index"
+            :key="item.id"
+          />
+        </carousel>
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="Đội ngũ" force-render>
+        <carousel
+          v-if="dataCredit?.credits?.cast?.length"
+          class="cast"
+          :items="4"
+          :autoplay="true"
+          :loop="true"
+          :dots="false"
+          :autoplayHoverPause="true"
+          :autoplayTimeout="5000"
+          :margin="7"
+          :autoplaySpeed="500"
+          :navText="[btnPrev, btnNext]"
+          :responsive="{
+            0: {
+              items: 2,
+            },
+            590: {
+              items: 2,
+            },
+            750: {
+              items: 4,
+            },
+            830: {
+              items: 5,
+            },
+            1000: {
+              items: 5,
+            },
+            1175: {
+              items: 6,
+            },
+            1300: {
+              items: 6,
+            },
+            1400: {
+              items: 7,
+            },
+            1500: {
+              items: 8,
+            },
+            1700: {
+              items: 9,
+            },
+            2000: {
+              items: 10,
+            },
+            2200: {
+              items: 12,
+            },
+          }"
+        >
+          <CastCard
+            v-for="(item, index) in dataCredit?.credits?.crew"
+            :src="
+              getPoster(
+                item?.backdrop_path ? item?.backdrop_path : item?.poster_path
+              )
+            "
+            :item="item"
+            :index="index"
+            :key="item.id"
+          />
+        </carousel>
+      </a-tab-pane>
+    </a-tabs>
 
     <MovieSuggest
       v-if="dataMovie?.id"
@@ -331,7 +469,7 @@
   </div>
 </template>
 <script>
-import { ref, onBeforeMount, watch } from 'vue';
+import { ref, onBeforeMount, watch, onMounted } from 'vue';
 import {
   useRoute,
   // useRouter
@@ -374,11 +512,12 @@ export default {
     const dataRecommend = ref([]);
     const isOpenContent = ref(false);
     const isOpenTrailerYoutube = ref(false);
+    const loading = ref(false);
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
 
-    onBeforeMount(() => {
+    const getData = () => {
       getMovieSeriesById(route.params?.id)
         .then((tvResponed) => {
           if (tvResponed?.data === null)
@@ -406,51 +545,59 @@ export default {
         .catch((e) => {
           if (axios.isCancel(e)) return;
         });
+    };
+
+    onBeforeMount(() => {
+      loading.value = true;
+      getData();
+
+      setTimeout(() => {
+        loading.value = false;
+      }, 1500);
     });
 
-    watch(route, (newVal) => {
+    const scrolltoTrailerYoutube = () => {
+      const trailer_youtube = document.getElementById('trailer-youtube');
+      trailer_youtube.scrollIntoView();
+    };
+
+    onMounted(() => {
+      // btn_trailer.scrollIntoView();
+    });
+
+    watch(route, () => {
       // router.push({ path: newVal.path }).then(() => {
       //   router.go();
       // });
 
       // console.log(router);
       // router.go();
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+
       dataCredit.value = [];
+      loading.value = true;
 
-      getMovieSeriesById(newVal.params?.id)
-        .then((tvResponed) => {
-          if (tvResponed?.data === null)
-            getMovieById(newVal.params?.id)
-              .then((movieResponed) => {
-                isEpisodes.value = false;
-                dataMovie.value = movieResponed?.data;
-              })
-              .catch((e) => {
-                if (axios.isCancel(e)) return;
-              });
-          else {
-            isEpisodes.value = true;
-            dataMovie.value = tvResponed?.data;
-          }
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      getData();
 
-      getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', newVal.params?.id)
-        .then((movieResponed) => {
-          dataCredit.value = movieResponed?.data;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      setTimeout(() => {
+        loading.value = false;
+      }, 1500);
     });
 
     document.title = `${Array.from(
       route.params?.name.split('+'),
       (x) => x.charAt(0).toUpperCase() + x.slice(1)
     ).join(' ')} - Info`;
-    window.scrollTo(0, top);
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
 
     return {
       genresName,
@@ -463,9 +610,12 @@ export default {
       dataRecommend,
       btnPrev,
       btnNext,
+      loading,
+      activeTabCast: ref('1'),
       getPoster,
       getAllGenresById,
       getLanguage,
+      scrolltoTrailerYoutube,
     };
   },
 };
@@ -514,6 +664,10 @@ export default {
 
       .backdrop-img {
         width: 100%;
+      }
+
+      .info-movie.skeleton {
+        width: 100% !important;
       }
 
       .info-movie {
@@ -605,7 +759,7 @@ export default {
       .ant-image-img {
         height: 100%;
         width: 100%;
-        object-fit: cover;
+        // object-fit: cover;
       }
     }
   }
@@ -617,26 +771,25 @@ export default {
   .widget {
     margin-top: 7px;
 
-    & > a,
-    a + a {
+    a,
+    span.btn-add-to-list,
+    span.btn-trailer {
       margin-right: 7px;
       margin-top: 7px;
-    }
-
-    a {
       color: #fff;
       padding: 10px 15px;
       border-radius: 3px;
       transition: all 0.3s;
       display: inline-block;
       white-space: nowrap;
+      cursor: pointer;
 
       span {
         margin-left: 3px;
       }
     }
 
-    .play-now {
+    .btn-play-now {
       background-color: #006b8f;
 
       &:hover {
@@ -644,7 +797,7 @@ export default {
       }
     }
 
-    .trailer {
+    .btn-trailer {
       background-color: #db0832;
 
       &:hover {
@@ -652,7 +805,7 @@ export default {
       }
     }
 
-    .add-to-list {
+    .btn-add-to-list {
       background-color: #505050;
 
       &:hover {
@@ -686,7 +839,6 @@ export default {
     }
 
     p:not(.open) {
-      display: inline-block;
       position: relative;
       text-overflow: ellipsis;
       max-height: 100px;
@@ -711,6 +863,10 @@ export default {
       cursor: pointer;
       display: inline-block;
 
+      strong {
+        display: block;
+      }
+
       &:hover {
         color: #494949;
       }
@@ -726,6 +882,26 @@ export default {
 
     &.active {
       display: block;
+    }
+  }
+}
+
+.widget-skeleton {
+  .ant-skeleton {
+    margin-right: 7px;
+
+    .ant-skeleton-button {
+      padding: 22px 55px;
+    }
+  }
+}
+
+.list-lastest-episodes.skeleton {
+  .ant-skeleton {
+    margin: 7px 7px 0px 0px;
+
+    .ant-skeleton-button {
+      padding: 19px 40px;
     }
   }
 }

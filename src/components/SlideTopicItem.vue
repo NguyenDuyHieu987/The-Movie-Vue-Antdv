@@ -17,17 +17,10 @@
         getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
       "
       :preview="false"
+      v-lazy="
+        getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
+      "
     >
-      <!-- <template #placeholder>
-        <a-image
-          :src="
-            getPoster(
-              item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-            )
-          "
-          :preview="false"
-        />
-      </template> -->
     </a-image>
     <div class="topic-item-info">
       <div class="topic-item-info-head">
@@ -89,7 +82,7 @@ export default {
     width: 100%;
 
     img {
-      object-fit: cover;
+      // object-fit: cover;
       height: 100%;
     }
   }

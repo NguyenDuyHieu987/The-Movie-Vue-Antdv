@@ -24,24 +24,23 @@
     }" -->
     <div class="img-box">
       <a-image
+        v-if="!loading"
         :src="
           getPoster(
             item?.backdrop_path ? item?.backdrop_path : item?.poster_path
           )
         "
         :preview="false"
+        v-lazy="
+          getPoster(
+            item?.backdrop_path ? item?.backdrop_path : item?.poster_path
+          )
+        "
       >
-        <!-- <template #placeholder>
-            <a-image
-              :src="
-                getPoster(
-                  item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-                )
-              "
-              :preview="false"
-            />
-          </template> -->
       </a-image>
+
+      <a-skeleton-image v-else class="ant-image" />
+
       <div class="duration-episode-box">
         <p class="duration-episode">
           {{
@@ -68,17 +67,24 @@
     </div>
     <a-tooltip :title="getLanguage(item?.original_language)?.english_name">
       <div class="info">
-        <p class="title">
-          {{ item?.name ? item?.name : item?.title }}
-        </p>
-        <div class="info-bottom">
-          <p class="genres" v-if="item?.genre_ids">
-            {{ getAllGenresById(item?.genre_ids).join(' • ') }}
+        <a-skeleton
+          :loading="loading"
+          :active="true"
+          :paragraph="{ rows: 2 }"
+          :title="false"
+        >
+          <p class="title">
+            {{ item?.name ? item?.name : item?.title }}
           </p>
-          <p class="genres" v-else-if="item?.genres">
-            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
-          </p>
-        </div>
+          <div class="info-bottom">
+            <p class="genres" v-if="item?.genre_ids">
+              {{ getAllGenresById(item?.genre_ids).join(' • ') }}
+            </p>
+            <p class="genres" v-else-if="item?.genres">
+              {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+            </p>
+          </div>
+        </a-skeleton>
       </div>
     </a-tooltip>
   </router-link>
@@ -105,8 +111,11 @@ export default {
     const genresName = ref([]);
     const dataMovie = ref({});
     const isEpisodes = ref(false);
+    const loading = ref(false);
 
     onBeforeMount(() => {
+      loading.value = true;
+
       getMovieSeriesById(props.item?.id)
         .then((tvResponed) => {
           if (tvResponed?.data === null)
@@ -126,11 +135,16 @@ export default {
         .catch((e) => {
           if (axios.isCancel(e)) return;
         });
+
+      setTimeout(() => {
+        loading.value = false;
+      }, 1500);
     });
     return {
       genresName,
       isEpisodes,
       dataMovie,
+      loading,
       getPoster,
       getAllGenresById,
       getLanguage,
@@ -139,10 +153,6 @@ export default {
 };
 </script>
 <style lang="scss">
-.owl-carousel .owl-item img {
-  display: inline;
-}
-
 @media only screen and (max-width: 1150px) {
   .movie-carousel-horizontal-item {
     .ant-image {

@@ -9,6 +9,7 @@ import { registerGlobalComponent } from './untils/layout';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import VueSocialSharing from 'vue-social-sharing';
+import VueLazyload from 'vue-lazyload';
 
 import {
   faVideoCamera,
@@ -22,6 +23,7 @@ import {
   faChevronRight,
   faPlay,
   faStar,
+  faAt,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 // import { faVideoCamera } from '@fortawesome/free-regular-svg-icons';
@@ -38,7 +40,8 @@ library.add(
   faChevronRight,
   faPlay,
   faYoutube,
-  faStar
+  faStar,
+  faAt
 );
 
 const app = createApp(App);
@@ -49,5 +52,6 @@ app
   .use(router)
   .use(store)
   .use(VueSocialSharing)
+  .use(VueLazyload)
   .component('font-awesome-icon', FontAwesomeIcon)
   .mount('#app');

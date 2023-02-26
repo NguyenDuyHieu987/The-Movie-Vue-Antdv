@@ -19,7 +19,9 @@
     />
   </a-carousel>
 
-  <h2 class="carousel-title"><strong>Phim nổi bật</strong></h2>
+  <h2 class="carousel-title">
+    <strong>Phim nổi bật</strong>
+  </h2>
   <carousel
     v-if="nowPlayings?.length"
     :items="4"
@@ -222,11 +224,11 @@ export default {
     const pagePopular = ref(1);
     const pageTopRated = ref(1);
 
-    const trendings = ref(1);
-    const nowPlayings = ref(1);
-    const upComings = ref(1);
-    const populars = ref(1);
-    const topRateds = ref(1);
+    const trendings = ref([]);
+    const nowPlayings = ref([]);
+    const upComings = ref([]);
+    const populars = ref([]);
+    const topRateds = ref([]);
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
@@ -269,9 +271,41 @@ export default {
 };
 </script>
 <style lang="scss">
+@media only screen and (min-width: 1500px) {
+  .ant-carousel {
+    .slick-prev {
+      top: 44% !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1900px) {
+  .ant-carousel {
+    .slick-track {
+      height: 70vh !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1670px) {
+  .ant-carousel {
+    .slick-track {
+      height: 65vh !important;
+    }
+  }
+}
+
 @media only screen and (max-width: 1500px) {
   .ant-carousel {
-    .slick-slide {
+    .slick-track {
+      height: 650px !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .ant-carousel {
+    .slick-track {
       height: 550px !important;
     }
   }
@@ -279,7 +313,7 @@ export default {
 
 @media only screen and (max-width: 1000px) {
   .ant-carousel {
-    .slick-slide {
+    .slick-track {
       font-size: 9px;
       height: 450px !important;
       transition: all 0.3s;
@@ -297,7 +331,7 @@ export default {
 
 @media only screen and (max-width: 900px) {
   .ant-carousel {
-    .slick-slide {
+    .slick-track {
       height: 400px !important;
       transition: all 0.3s;
     }
@@ -316,7 +350,7 @@ export default {
 
 @media only screen and (max-width: 790px) {
   .ant-carousel {
-    .slick-slide {
+    .slick-track {
       height: 350px !important;
       transition: all 0.3s;
     }
@@ -351,7 +385,7 @@ export default {
 
 @media only screen and (max-width: 530px) {
   .ant-carousel {
-    .slick-slide {
+    .slick-track {
       height: 300px !important;
       transition: all 0.3s;
     }
@@ -376,7 +410,7 @@ export default {
 
 @media only screen and (max-width: 435px) {
   .ant-carousel {
-    .slick-slide {
+    .slick-track {
       height: 250px !important;
       transition: all 0.3s;
     }
@@ -388,11 +422,15 @@ export default {
 }
 
 .ant-carousel {
-  .slick-slide {
+  .slick-track {
     height: 82vh;
 
-    & > div {
+    .slick-slide {
       height: 100%;
+
+      & > div {
+        height: 100%;
+      }
     }
   }
 
@@ -444,8 +482,4 @@ export default {
   margin-top: 10px;
   gap: 10px;
 }
-
-// .ant-col {
-//   margin-bottom: 7px;
-// }
 </style>

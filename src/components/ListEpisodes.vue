@@ -33,12 +33,25 @@
       <strong> Chọn phần</strong>
     </h3> -->
 
-    <ul>
+    <div v-if="loading" class="ul-list">
+      <a-skeleton-button
+        :active="true"
+        :size="size"
+        :shape="'default'"
+        :block="block"
+        v-for="(item, index) in dataSeason?.episodes"
+        :index="index"
+        :key="index"
+      >
+      </a-skeleton-button>
+    </div>
+
+    <ul class="ul-list" v-else>
       <li
         v-for="(item, index) in dataSeason?.episodes"
         :index="index"
         :key="index"
-        :class="{ active: currentEpisode == item.episode_number }"
+        :class="{ active: currentEpisode == item?.episode_number }"
       >
         <router-link
           v-if="dataMovie?.id"
@@ -90,8 +103,11 @@ export default {
         ? +route.query?.ep.replace('tap-', '')
         : 1
     );
+    const loading = ref(false);
 
     onBeforeMount(() => {
+      loading.value = true;
+
       getMoviesBySeason(route.params?.id, selectedSeason.value)
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
@@ -99,6 +115,10 @@ export default {
         .catch((e) => {
           if (axios.isCancel(e)) return;
         });
+
+      setTimeout(() => {
+        loading.value = false;
+      }, 1500);
     });
 
     const handleChange = (value) => {
@@ -106,6 +126,8 @@ export default {
     };
 
     watch(selectedSeason, () => {
+      loading.value = true;
+
       getMoviesBySeason(route.params?.id, selectedSeason.value)
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
@@ -113,13 +135,23 @@ export default {
         .catch((e) => {
           if (axios.isCancel(e)) return;
         });
+
+      setTimeout(() => {
+        loading.value = false;
+      }, 1000);
     });
 
     watch(route, (newVal) => {
       currentEpisode.value = +newVal.query?.ep?.replace('tap-', '');
     });
 
-    return { dataSeason, selectedSeason, currentEpisode, handleChange };
+    return {
+      dataSeason,
+      selectedSeason,
+      currentEpisode,
+      loading,
+      handleChange,
+    };
   },
 };
 </script>
@@ -128,6 +160,7 @@ export default {
 .list-episodes {
   margin-top: 15px;
 
+  .ul-list,
   ul {
     // display: flex;
     // flex-direction: row;

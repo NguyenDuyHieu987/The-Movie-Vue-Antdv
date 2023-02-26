@@ -38,23 +38,30 @@
       </strong>
     </h3>
     <div class="movie-content">
-      <p :class="{ open: isOpenContent }">
-        {{ dataMovie?.overview }}
-        <router-link
-          v-if="dataMovie?.id"
-          :to="{
-            name: 'info',
-            params: {
-              id: dataMovie?.id,
-              name: dataMovie?.name
-                ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-            },
-          }"
-        >
-          <strong class="toggle-content" id="toggle-content"> Chi tiết </strong>
-        </router-link>
-      </p>
+      <a-skeleton
+        :loading="loading"
+        :active="true"
+        :paragraph="{ rows: 3, width: '40%' }"
+        :title="false"
+      >
+        <p :class="{ open: isOpenContent }">
+          {{ dataMovie?.overview }}
+          <router-link
+            v-if="dataMovie?.id"
+            :to="{
+              name: 'info',
+              params: {
+                id: dataMovie?.id,
+                name: dataMovie?.name
+                  ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              },
+            }"
+          >
+            <strong class="toggle-content"> Chi tiết </strong>
+          </router-link>
+        </p>
+      </a-skeleton>
     </div>
 
     <h3 class="section-title">
@@ -114,11 +121,14 @@ export default {
     const isOpenContent = ref(false);
     const isOpenTrailerYoutube = ref(false);
     const urlComment = computed(() => window.location);
+    const loading = ref(false);
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
 
     onBeforeMount(() => {
+      loading.value = true;
+
       getMovieSeriesById(route.params?.id)
         .then((tvResponed) => {
           if (tvResponed?.data === null)
@@ -138,6 +148,10 @@ export default {
         .catch((e) => {
           if (axios.isCancel(e)) return;
         });
+
+      setTimeout(() => {
+        loading.value = false;
+      }, 1500);
 
       getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', route.params?.id)
         .then((movieResponed) => {
@@ -160,7 +174,12 @@ export default {
       route.params?.name.split('+'),
       (x) => x.charAt(0).toUpperCase() + x.slice(1)
     ).join(' ')} - Play`;
-    window.scrollTo(0, top);
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
 
     return {
       genresName,
@@ -174,6 +193,7 @@ export default {
       btnPrev,
       btnNext,
       urlComment,
+      loading,
       getPoster,
       getAllGenresById,
       getLanguage,
@@ -182,7 +202,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @media only screen and (max-width: 2050px) {
   .play-container {
     .video-player {
@@ -279,6 +299,16 @@ export default {
   .movie-content {
     p {
       text-align: justify;
+    }
+  }
+}
+
+.list-episodes {
+  .ant-skeleton {
+    margin: 7px 7px 0px 0px;
+
+    .ant-skeleton-button {
+      padding: 19px 35px;
     }
   }
 }

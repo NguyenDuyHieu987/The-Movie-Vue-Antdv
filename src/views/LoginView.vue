@@ -9,12 +9,13 @@
       @finishFailed="onFinishFailed"
     >
       <a-form-item
-        label="Username"
+        label="Email"
         name="username"
         :rules="[
           {
             required: true,
-            message: 'Please input your username!',
+            message: 'Please input correct format email!',
+            pattern: new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
             trigger: ['change', 'blur'],
           },
         ]"
@@ -112,6 +113,8 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import facebookLogin from 'facebook-login-vuejs/src/facebook-login.vue';
+import md5 from 'md5';
+import { signIn } from '../services/MovieService';
 
 export default defineComponent({
   components: {
@@ -145,22 +148,38 @@ export default defineComponent({
     };
 
     const disabled = computed(() => {
-      return !(formState.username && formState.password);
+      return !(
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+          formState.username
+        ) && formState.password
+      );
     });
 
     const handleLoginFacebook = () => {};
 
+    const rand = function () {
+      return Math.random().toString(36).substring(2); // remove `0.`
+    };
+
+    const token = function () {
+      return rand() + rand() + rand() + rand(); // to make it longer
+    };
+
     const handleSubmit = () => {
       loadingLogin.value = true;
-      axios
-        .post(`${process.env.VUE_APP_SERVICE_URL}/auth/login1`, formState)
+
+      signIn({
+        email: formState.username,
+        password: md5(formState.password),
+        user_token: token(),
+      })
         .then((response) => {
-          if (response.data.length == 0) {
+          if (response.data?.success === false) {
             setTimeout(() => {
               loadingLogin.value = false;
               notification.open({
                 message: 'Failed!',
-                description: 'Wrong username or password.',
+                description: 'Account is not available.',
                 icon: () =>
                   h(CloseCircleFilled, {
                     style: 'color: red',
@@ -168,19 +187,31 @@ export default defineComponent({
               });
             }, 1000);
           } else {
-            store.state.userAccount = response.data[0];
-            if (formState.remember) {
+            if (response.data.isLogin === true) {
+              store.state.userAccount = response?.data?.result;
               window.localStorage.setItem('remember', formState.remember);
               window.localStorage.setItem(
                 'userToken',
-                response.data[0].usertoken
+                response?.data?.result?.user_token
               );
+              setTimeout(() => {
+                loadingLogin.value = false;
+                router.push({ path: '/' });
+              }, 1000);
+              reset();
+            } else {
+              setTimeout(() => {
+                loadingLogin.value = false;
+                notification.open({
+                  message: 'Failed!',
+                  description: 'Wrong username or password.',
+                  icon: () =>
+                    h(CloseCircleFilled, {
+                      style: 'color: red',
+                    }),
+                });
+              }, 1000);
             }
-            setTimeout(() => {
-              loadingLogin.value = false;
-              router.push({ path: '/' });
-            }, 1000);
-            reset();
           }
         })
         .catch((e) => {
@@ -195,9 +226,55 @@ export default defineComponent({
                 }),
             });
           }, 1000);
-
           if (axios.isCancel(e)) return;
         });
+
+      // axios
+      //   .post(`${process.env.VUE_APP_SERVICE_URL}/auth/login1`, formState)
+      //   .then((response) => {
+      //     if (response.data.length == 0) {
+      //       setTimeout(() => {
+      //         loadingLogin.value = false;
+      //         notification.open({
+      //           message: 'Failed!',
+      //           description: 'Wrong username or password.',
+      //           icon: () =>
+      //             h(CloseCircleFilled, {
+      //               style: 'color: red',
+      //             }),
+      //         });
+      //       }, 1000);
+      //     } else {
+      //       store.state.userAccount = response.data[0];
+      //       if (formState.remember) {
+      //         window.localStorage.setItem('remember', formState.remember);
+      //         window.localStorage.setItem(
+      //           'userToken',
+      //           response.data[0].usertoken
+      //         );
+      //       }
+      //       setTimeout(() => {
+      //         loadingLogin.value = false;
+      //         router.push({ path: '/' });
+      //       }, 1000);
+      //       reset();
+      //     }
+      //   })
+      //   .catch((e) => {
+      //     setTimeout(() => {
+      //       loadingLogin.value = false;
+      //       notification.open({
+      //         message: 'Failed!',
+      //         description: 'Some thing went wrong.',
+      //         icon: () =>
+      //           h(CloseCircleFilled, {
+      //             style: 'color: red',
+      //           }),
+      //       });
+      //     }, 1000);
+
+      //     if (axios.isCancel(e)) return;
+      //   });
     };
 
     return {
@@ -277,8 +354,8 @@ export default defineComponent({
   flex-direction: column;
   padding: 50px 70px;
   border-radius: 5px;
-  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px 0 #00000014,
-    0 9px 28px 8px #0000000d;
+  box-shadow: 0 3px 6px -4px #00000077, 0 6px 16px 0 #00000054,
+    0 9px 28px 8px #0000002d;
   border: 0.5px solid #fff;
   z-index: 11;
 }
@@ -289,9 +366,33 @@ export default defineComponent({
   -webkit-text-fill-color: transparent;
   background-image: linear-gradient(
     to right,
-    #8e2de2 0%,
-    #000046 51%,
-    #1cb5e0 100%
+    var(--sider-header-background-color1),
+    var(--sider-header-background-color2),
+    var(--sider-header-background-color3)
   );
+}
+
+@media only screen and (max-width: 600px) {
+  .login-form {
+    width: 350px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .login-form {
+    width: 300px;
+  }
+  .login-form-container {
+    padding: 30px 50px;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .login-form {
+    width: 300px;
+  }
+  .login-form-container {
+    padding: 20px 30px;
+  }
 }
 </style>
