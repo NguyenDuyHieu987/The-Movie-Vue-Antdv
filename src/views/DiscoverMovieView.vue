@@ -11,6 +11,11 @@
         :item="item"
       />
     </section>
+    <a-pagination
+      v-model:current="current"
+      :total="400"
+      :showSizeChanger="false"
+    />
   </div>
 </template>
 

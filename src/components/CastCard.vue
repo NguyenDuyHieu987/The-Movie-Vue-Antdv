@@ -4,26 +4,13 @@
       <a-image
         class="movie-carousel-img"
         :src="getPosterCast(item?.profile_path)"
+        v-lazy="getPosterCast(item?.profile_path)"
         :preview="false"
+        v-if="!loading"
       >
-        <!-- <template #placeholder>
-            <a-image
-              :src="
-                getPosterCast(
-                  item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-                )
-              "
-              :height="200"
-              :preview="false"
-            />
-          </template> -->
       </a-image>
 
-      <!-- <a-skeleton-image
-          style="width: 100%; height: 100%"
-          :active="true"
-          v-else
-        /> -->
+      <a-skeleton-image v-else class="ant-image" />
     </div>
 
     <div class="info">
@@ -34,15 +21,7 @@
   </div>
 </template>
 <script>
-import { ref, onBeforeMount } from 'vue';
-import axios from 'axios';
-import {
-  getAllGenresById,
-  getPosterCast,
-  getMovieSeriesById,
-  getMovieById,
-  getLanguage,
-} from '../services/MovieService';
+import { getPosterCast } from '../services/MovieService';
 
 export default {
   components: {},
@@ -50,47 +29,11 @@ export default {
     item: {
       type: Object,
     },
+    loading: Boolean,
   },
-  setup(props) {
-    const genresName = ref([]);
-    const isEpisodes = ref(false);
-    const dataMovie = ref({});
-    const loadImage = ref(false);
-
-    loadImage.value = true;
-    onBeforeMount(() => {
-      getMovieSeriesById(props.item?.id)
-        .then((tvResponed) => {
-          if (tvResponed?.data === null)
-            getMovieById(props.item?.id)
-              .then((movieResponed) => {
-                isEpisodes.value = false;
-                dataMovie.value = movieResponed?.data;
-              })
-              .catch((e) => {
-                if (axios.isCancel(e)) return;
-              });
-          else {
-            isEpisodes.value = true;
-            dataMovie.value = tvResponed?.data;
-          }
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
-    });
-
-    setTimeout(() => {
-      loadImage.value = false;
-    }, 2000);
+  setup() {
     return {
-      genresName,
-      isEpisodes,
-      dataMovie,
-      loadImage,
       getPosterCast,
-      getAllGenresById,
-      getLanguage,
     };
   },
 };

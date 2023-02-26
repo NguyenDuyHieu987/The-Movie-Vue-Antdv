@@ -21,7 +21,6 @@
       v-if="dataMovie?.id"
       :voteAverage="dataMovie?.vote_average"
       :voteCount="dataMovie?.vote_count"
-      :isEpisodes="isEpisodes"
       :movieId="dataMovie?.id"
     />
 
@@ -98,7 +97,7 @@ import {
   getMovieByCredit,
 } from '../services/MovieService';
 import Interaction from '@/components/Interaction.vue';
-import RatingMovie from '@/components/RatingMovie.vue';
+import RatingMovie from '@/components/RatingMovieAnt.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
 import ListEpisodes from '@/components/ListEpisodes.vue';
 

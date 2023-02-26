@@ -20,12 +20,12 @@ export default {
   props: {
     voteAverage: Number,
     voteCount: Number,
-    isEpisodes: Boolean,
     movieId: Number,
   },
   setup(props) {
     const hintRating = ref([
       'Dở tệ',
+      'Dở',
       'Không hay',
       'Không hay lắm',
       'Bình thường',

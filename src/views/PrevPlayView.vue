@@ -255,7 +255,6 @@
             v-if="dataMovie?.id"
             :voteAverage="dataMovie?.vote_average"
             :voteCount="dataMovie?.vote_count"
-            :isEpisodes="isEpisodes"
             :movieId="dataMovie?.id"
           />
         </a-skeleton>
@@ -342,44 +341,7 @@
           :margin="7"
           :autoplaySpeed="500"
           :navText="[btnPrev, btnNext]"
-          :responsive="{
-            0: {
-              items: 2,
-            },
-            590: {
-              items: 2,
-            },
-            750: {
-              items: 4,
-            },
-            830: {
-              items: 5,
-            },
-            1000: {
-              items: 5,
-            },
-            1175: {
-              items: 6,
-            },
-            1300: {
-              items: 6,
-            },
-            1400: {
-              items: 7,
-            },
-            1500: {
-              items: 8,
-            },
-            1700: {
-              items: 9,
-            },
-            2000: {
-              items: 10,
-            },
-            2200: {
-              items: 12,
-            },
-          }"
+          :responsive="responsiveCarousel"
         >
           <CastCard
             v-for="(item, index) in dataCredit?.credits?.cast"
@@ -391,12 +353,13 @@
             :item="item"
             :index="index"
             :key="item.id"
+            :loading="loading"
           />
         </carousel>
       </a-tab-pane>
       <a-tab-pane key="2" tab="Đội ngũ" force-render>
         <carousel
-          v-if="dataCredit?.credits?.cast?.length"
+          v-if="dataCredit?.credits?.crew?.length"
           class="cast"
           :items="4"
           :autoplay="true"
@@ -407,44 +370,7 @@
           :margin="7"
           :autoplaySpeed="500"
           :navText="[btnPrev, btnNext]"
-          :responsive="{
-            0: {
-              items: 2,
-            },
-            590: {
-              items: 2,
-            },
-            750: {
-              items: 4,
-            },
-            830: {
-              items: 5,
-            },
-            1000: {
-              items: 5,
-            },
-            1175: {
-              items: 6,
-            },
-            1300: {
-              items: 6,
-            },
-            1400: {
-              items: 7,
-            },
-            1500: {
-              items: 8,
-            },
-            1700: {
-              items: 9,
-            },
-            2000: {
-              items: 10,
-            },
-            2200: {
-              items: 12,
-            },
-          }"
+          :responsive="responsiveCarousel"
         >
           <CastCard
             v-for="(item, index) in dataCredit?.credits?.crew"
@@ -456,6 +382,7 @@
             :item="item"
             :index="index"
             :key="item.id"
+            :loading="loading"
           />
         </carousel>
       </a-tab-pane>
@@ -487,7 +414,7 @@ import {
   // getTrending,
 } from '../services/MovieService';
 import Interaction from '@/components/Interaction.vue';
-import RatingMovie from '@/components/RatingMovie.vue';
+import RatingMovie from '@/components/RatingMovieAnt.vue';
 import LastestEpisodes from '@/components/LastestEpisodes.vue';
 import CastCard from '@/components/CastCard.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
@@ -510,12 +437,62 @@ export default {
     const dataCredit = ref([]);
     const dataSimilar = ref([]);
     const dataRecommend = ref([]);
+    const responsiveCarousel = ref({
+      0: {
+        items: 2,
+      },
+      590: {
+        items: 2,
+      },
+      750: {
+        items: 4,
+      },
+      830: {
+        items: 5,
+      },
+      1000: {
+        items: 5,
+      },
+      1175: {
+        items: 6,
+      },
+      1300: {
+        items: 6,
+      },
+      1400: {
+        items: 7,
+      },
+      1500: {
+        items: 8,
+      },
+      1700: {
+        items: 9,
+      },
+      2000: {
+        items: 10,
+      },
+      2200: {
+        items: 12,
+      },
+    });
     const isOpenContent = ref(false);
     const isOpenTrailerYoutube = ref(false);
     const loading = ref(false);
+    const tooltipRating = ref([
+      'Dở tệ',
+      'Dở',
+      'Không hay',
+      'Không hay lắm',
+      'Bình thường',
+      'Xem được',
+      'Có vẻ hay',
+      'Hay',
+      'Rất hay',
+      'Tuyệt hay',
+    ]);
 
-    const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
-    const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
+    const btnPrev = ref('<i class="fa-solid fa-chevron-left"></i>');
+    const btnNext = ref('<i class="fa-solid fa-chevron-right"></i>');
 
     const getData = () => {
       getMovieSeriesById(route.params?.id)
@@ -600,6 +577,7 @@ export default {
     });
 
     return {
+      responsiveCarousel,
       genresName,
       isEpisodes,
       dataMovie,
@@ -612,6 +590,7 @@ export default {
       btnNext,
       loading,
       activeTabCast: ref('1'),
+      tooltipRating,
       getPoster,
       getAllGenresById,
       getLanguage,
