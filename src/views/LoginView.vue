@@ -83,15 +83,18 @@
         </a-button> -->
     </a-form>
     <div style="width: 100%">
-      <facebook-login
+      <!-- <facebookLogin
         class="facebook-login"
         appId="820070179113499"
         @login="handleLoginFacebook"
         @logout="onLogout"
         @get-initial-status="getUserData"
         loginLabel="Log in with Facebook"
-      >
-      </facebook-login>
+      ></facebookLogin> -->
+
+      <button class="facebook-login" @click="handleLoginFacebook">
+        Facebook log in
+      </button>
     </div>
 
     <p style="text-align: center; margin: 20px 0px 15px 0px">Or</p>
@@ -112,16 +115,17 @@ import { notification } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import axios from 'axios';
-import facebookLogin from 'facebook-login-vuejs/src/facebook-login.vue';
+// import facebookLogin from 'facebook-login-vuejs';
 import md5 from 'md5';
 import { signIn } from '../services/MovieService';
+import { fbLogin } from 'facebook-login-vuejs/src/helpers';
 
 export default defineComponent({
   components: {
     UserOutlined,
     LockOutlined,
     // FacebookFilled,
-    facebookLogin,
+    // facebookLogin,
   },
   setup() {
     const loadingLogin = ref(false);
@@ -155,8 +159,10 @@ export default defineComponent({
       );
     });
 
-    const handleLoginFacebook = (data) => {
-      console.log(data);
+    const handleLoginFacebook = async () => {
+      // const { authResponse } = await new Promise(window.FB.login);
+      const { authResponse } = await new Promise(fbLogin);
+      console.log(authResponse);
     };
 
     const rand = function () {
