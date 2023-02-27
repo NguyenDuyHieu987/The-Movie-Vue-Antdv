@@ -140,119 +140,114 @@
           </span>
         </div>
 
-        <a-skeleton
-          v-if="loading"
-          :active="true"
-          :paragraph="{ rows: 8 }"
-          :title="false"
-          style="margin-top: 15px"
-        >
-        </a-skeleton>
+        <div class="misc">
+          <a-skeleton
+            :loading="loading"
+            :active="true"
+            :paragraph="{ rows: 8 }"
+            :title="false"
+          >
+            <p>
+              <label>Đang phát: </label>
+              <span style="color: red; font-weight: bold"> HD VietSub </span>
+            </p>
 
-        <div v-else class="misc">
-          <p>
-            <label>Đang phát: </label>
-            <span style="color: red; font-weight: bold"> HD VietSub </span>
-          </p>
-
-          <p>
-            <label>Ngày Phát Hành: </label>
-            <router-link
-              :to="{
-                name: 'discover',
-                params: {
-                  slug: 'years',
-                  slug2: /^\d+$/.test(dataMovie?.last_air_date?.slice(0, 4))
+            <p>
+              <label>Ngày Phát Hành: </label>
+              <router-link
+                v-if="dataMovie"
+                :to="{
+                  name: 'discover',
+                  params: {
+                    slug: 'years',
+                    slug2: dataMovie?.last_air_date?.slice(0, 4)
+                      ? dataMovie?.last_air_date?.slice(0, 4)
+                      : dataMovie?.release_date?.slice(0, 4),
+                  },
+                }"
+              >
+                {{
+                  dataMovie?.last_air_date?.slice(0, 4)
                     ? dataMovie?.last_air_date?.slice(0, 4)
-                    : removeVietnameseTones(
-                        dataMovie?.last_air_date?.slice(0, 4)
-                      )
-                        ?.replace(/\s/g, '-')
-                        .toLowerCase(),
-                },
-              }"
-            >
+                    : dataMovie?.release_date?.slice(0, 4)
+                }}
+              </router-link>
               {{
-                dataMovie?.last_air_date?.slice(0, 4)
-                  ? dataMovie?.last_air_date?.slice(0, 4)
-                  : dataMovie?.release_date?.slice(0, 4)
+                dataMovie?.last_air_date?.slice(4, 10)
+                  ? dataMovie?.last_air_date?.slice(4, 10)
+                  : dataMovie?.release_date?.slice(
+                      4,
+                      dataMovie?.release_date.length
+                    )
               }}
-            </router-link>
-            {{
-              dataMovie?.last_air_date?.slice(4, 10)
-                ? dataMovie?.last_air_date?.slice(4, 10)
-                : dataMovie?.release_date?.slice(
-                    4,
-                    dataMovie?.release_date.length
-                  )
-            }}
-          </p>
+            </p>
 
-          <p>
-            <label>Quốc gia: </label>
-            {{
-              dataMovie?.production_countries
-                ? dataMovie?.production_countries[0]?.name
-                : null
-            }}
-          </p>
-          <p>
-            <label>Thể loại: </label>
-
-            <router-link
-              v-for="(item, index) in dataMovie?.genres"
-              :key="item?.id"
-              :index="index"
-              :to="{
-                name: 'discover',
-                params: {
-                  slug: 'genres',
-                  slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
-                },
-              }"
-            >
+            <p>
+              <label>Quốc gia: </label>
               {{
-                index !== dataMovie?.genres.length - 1
-                  ? item?.name + ', '
-                  : item?.name
-              }}
-            </router-link>
-          </p>
-
-          <p>
-            <label>Diểm IMDb: </label>
-            <span style="color: yellow; font-weight: bold">
-              {{ dataMovie?.vote_average?.toFixed(2) }}
-            </span>
-          </p>
-
-          <p v-if="dataMovie?.number_of_episodes">
-            <label>Số lượng tập: </label>
-            {{
-              dataMovie?.seasons?.find((item) =>
-                item?.season_number ===
-                dataMovie?.last_episode_to_air?.season_number
-                  ? item
+                dataMovie?.production_countries
+                  ? dataMovie?.production_countries[0]?.name
                   : null
-              ).episode_count + ' tập'
-            }}
-          </p>
+              }}
+            </p>
+            <p>
+              <label>Thể loại: </label>
 
-          <p>
-            <label v-if="dataMovie?.episode_run_time">
-              {{ 'Thờ lượng trên tập: ' }}
-            </label>
-            <label v-else>Thời lượng: </label>
-            <span v-if="dataMovie?.episode_run_time">
-              {{ dataMovie?.episode_run_time[0] + ' phút' }}
-            </span>
-            <span v-else>{{ dataMovie?.runtime + ' phút' }}</span>
-          </p>
+              <router-link
+                v-for="(item, index) in dataMovie?.genres"
+                :key="item?.id"
+                :index="index"
+                :to="{
+                  name: 'discover',
+                  params: {
+                    slug: 'genres',
+                    slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
+                  },
+                }"
+              >
+                {{
+                  index !== dataMovie?.genres.length - 1
+                    ? item?.name + ', '
+                    : item?.name
+                }}
+              </router-link>
+            </p>
 
-          <p>
-            <label>Trạng thái: </label>
-            {{ dataMovie?.status }}
-          </p>
+            <p>
+              <label>Diểm IMDb: </label>
+              <span style="color: yellow; font-weight: bold">
+                {{ dataMovie?.vote_average?.toFixed(2) }}
+              </span>
+            </p>
+
+            <p v-if="dataMovie?.number_of_episodes">
+              <label>Số lượng tập: </label>
+              {{
+                dataMovie?.seasons?.find((item) =>
+                  item?.season_number ===
+                  dataMovie?.last_episode_to_air?.season_number
+                    ? item
+                    : null
+                ).episode_count + ' tập'
+              }}
+            </p>
+
+            <p>
+              <label v-if="dataMovie?.episode_run_time">
+                {{ 'Thờ lượng trên tập: ' }}
+              </label>
+              <label v-else>Thời lượng: </label>
+              <span v-if="dataMovie?.episode_run_time">
+                {{ dataMovie?.episode_run_time[0] + ' phút' }}
+              </span>
+              <span v-else>{{ dataMovie?.runtime + ' phút' }}</span>
+            </p>
+
+            <p>
+              <label>Trạng thái: </label>
+              {{ dataMovie?.status }}
+            </p>
+          </a-skeleton>
         </div>
 
         <div v-if="loading">
@@ -436,7 +431,6 @@ import RatingMovie from '@/components/RatingMovieAnt.vue';
 import LastestEpisodes from '@/components/LastestEpisodes.vue';
 import CastCard from '@/components/CastCard.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
-import { removeVietnameseTones } from '../untils/RemoveVietnameseTones';
 
 export default {
   components: {
@@ -608,7 +602,6 @@ export default {
       getAllGenresById,
       getLanguage,
       scrolltoTrailerYoutube,
-      removeVietnameseTones,
     };
   },
 };
