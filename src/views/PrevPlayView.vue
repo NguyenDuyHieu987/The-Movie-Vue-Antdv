@@ -436,6 +436,7 @@ import RatingMovie from '@/components/RatingMovieAnt.vue';
 import LastestEpisodes from '@/components/LastestEpisodes.vue';
 import CastCard from '@/components/CastCard.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
+import { removeVietnameseTones } from '../untils/RemoveVietnameseTones';
 
 export default {
   components: {
@@ -607,6 +608,7 @@ export default {
       getAllGenresById,
       getLanguage,
       scrolltoTrailerYoutube,
+      removeVietnameseTones,
     };
   },
 };
