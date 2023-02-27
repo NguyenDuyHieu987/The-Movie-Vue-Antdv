@@ -309,25 +309,25 @@ export default defineComponent({
 <style lang="scss">
 @media only screen and (max-width: 600px) {
   .login-form {
-    width: 350px;
+    width: 350px !important;
   }
 }
 
 @media only screen and (max-width: 500px) {
   .login-form {
-    width: 300px;
+    width: 300px !important;
   }
   .login-form-container {
-    padding: 30px 50px;
+    padding: 30px 50px !important;
   }
 }
 
 @media only screen and (max-width: 460px) {
   .login-form {
-    width: 300px;
+    width: 300px !important;
   }
   .login-form-container {
-    padding: 20px 30px;
+    padding: 20px 30px !important;
   }
 }
 

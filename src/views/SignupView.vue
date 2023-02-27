@@ -318,40 +318,40 @@ export default defineComponent({
 <style lang="scss">
 @media only screen and (max-width: 660px) {
   .signup-form-container {
-    padding: 30px 40px;
+    padding: 30px 40px !important;
   }
 }
 
 @media only screen and (max-width: 600px) {
   .signup-form {
-    width: 450px;
+    width: 450px !important;
   }
 }
 
 @media only screen and (max-width: 550px) {
   .signup-form {
-    width: 400px;
+    width: 400px !important;
   }
   .signup-form-container {
-    padding: 30px 30px;
+    padding: 30px 30px !important;
   }
 }
 
 @media only screen and (max-width: 470px) {
   .signup-form {
-    width: 350px;
+    width: 350px !important;
   }
   .signup-form-container {
-    padding: 20px 30px;
+    padding: 20px 30px !important;
   }
 }
 
 @media only screen and (max-width: 430px) {
   .signup-form {
-    width: 350px;
+    width: 350px !important;
   }
   .signup-form-container {
-    padding: 20px 20px;
+    padding: 20px 20px !important;
   }
 }
 
