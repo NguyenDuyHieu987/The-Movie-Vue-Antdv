@@ -55,7 +55,7 @@ span {
   margin: 0px;
 }
 
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 800px) {
   .logo {
     .menu-btn {
       display: block !important;
@@ -95,6 +95,9 @@ span {
   .ant-dropdown-menu.dropdown-search {
     max-height: 500px;
     overflow-y: scroll;
+    .ant-dropdown-menu-item {
+      padding: 10px;
+    }
 
     &::-webkit-scrollbar-thumb {
       display: none;

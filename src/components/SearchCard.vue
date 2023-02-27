@@ -8,23 +8,7 @@
       }`,
     }"
     class="movie-search-item"
-    v-lazy="
-      getPoster(
-        getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
-      )
-    "
   >
-    <!-- v-if="item?.id"
-    :to="{
-      name: 'info',
-      params: {
-        id: item?.id,
-        name: item?.name
-          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase(),
-      },
-    }" -->
-
     <div class="img-box">
       <a-image
         v-if="!loading"
@@ -40,30 +24,6 @@
       </a-image>
 
       <a-skeleton-image v-else class="ant-image" />
-
-      <div class="duration-episode-box">
-        <p class="duration-episode">
-          {{
-            isEpisodes
-              ? dataMovie?.number_of_episodes
-                ? dataMovie?.number_of_episodes + '-Tập'
-                : ''
-              : dataMovie?.runtime
-              ? dataMovie?.runtime + ' min'
-              : ''
-          }}
-        </p>
-      </div>
-
-      <div class="release-date-box">
-        <p class="release-date">
-          {{
-            item?.release_date
-              ? item?.release_date?.slice(0, 4)
-              : item?.first_air_date?.slice(0, 4)
-          }}
-        </p>
-      </div>
     </div>
 
     <a-tooltip :title="getLanguage(item?.original_language)?.english_name">
@@ -71,20 +31,34 @@
         <a-skeleton
           :loading="loading"
           :active="true"
-          :paragraph="{ rows: 2 }"
+          :paragraph="{ rows: 4 }"
           :title="false"
         >
           <p class="title">
             {{ item?.name ? item?.name : item?.title }}
           </p>
-          <div class="info-bottom">
-            <p class="genres" v-if="item?.genre_ids">
-              {{ getAllGenresById(item?.genre_ids).join(' • ') }}
-            </p>
-            <p class="genres" v-else-if="item?.genres">
-              {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
-            </p>
-          </div>
+          <p class="genres" v-if="item?.genre_ids">
+            {{ getAllGenresById(item?.genre_ids).join(' • ') }}
+          </p>
+          <p class="genres" v-else-if="item?.genres">
+            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+          </p>
+          <p class="release-date">
+            Năm:
+            {{ item?.release_date ? item?.release_date : item?.first_air_date }}
+          </p>
+          <p class="duration-episode">
+            Thời lượng:
+            {{
+              isEpisodes
+                ? dataMovie?.number_of_episodes
+                  ? dataMovie?.number_of_episodes + '-Tập'
+                  : ''
+                : dataMovie?.runtime
+                ? dataMovie?.runtime + ' min'
+                : ''
+            }}
+          </p>
         </a-skeleton>
       </div>
     </a-tooltip>
@@ -158,14 +132,28 @@ export default {
 .movie-search-item {
   display: flex;
 
+  &:hover {
+    .info {
+      color: #fff;
+    }
+  }
+
   .ant-image {
-    height: 180px;
+    height: 130px;
     width: 100px;
 
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+    }
+  }
+  .info {
+    font-size: 1.4rem;
+    margin-left: 10px;
+    color: #3b3b3b;
+
+    .duration-episode {
+      // margin-left: 10px;
     }
   }
 }

@@ -12,7 +12,7 @@
     background-position: center;
     background-repeat: no-repeat;
     position: absolute;
-    opacity: 0.7;
+    opacity: 1;
     object-fit: cover;
   }
   height: 100vh;

@@ -140,117 +140,119 @@
           </span>
         </div>
 
-        <div class="misc">
-          <a-skeleton
-            :loading="loading"
-            :active="true"
-            :paragraph="{ rows: 8 }"
-            :title="false"
-          >
-            <p>
-              <label>Đang phát: </label>
-              <span style="color: red; font-weight: bold"> HD VietSub </span>
-            </p>
+        <a-skeleton
+          v-if="loading"
+          :active="true"
+          :paragraph="{ rows: 8 }"
+          :title="false"
+          style="margin-top: 15px"
+        >
+        </a-skeleton>
 
-            <p>
-              <label>Ngày Phát Hành: </label>
-              <router-link
-                :to="{
-                  name: 'discover',
-                  params: {
-                    slug: 'years',
-                    slug2: /^\d+$/.test(dataMovie?.last_air_date?.slice(0, 4))
-                      ? dataMovie?.last_air_date?.slice(0, 4)
-                      : removeVietnameseTones(
-                          dataMovie?.last_air_date?.slice(0, 4)
-                        )
-                          ?.replace(/\s/g, '-')
-                          .toLowerCase(),
-                  },
-                }"
-              >
-                {{
-                  dataMovie?.last_air_date?.slice(0, 4)
+        <div v-else class="misc">
+          <p>
+            <label>Đang phát: </label>
+            <span style="color: red; font-weight: bold"> HD VietSub </span>
+          </p>
+
+          <p>
+            <label>Ngày Phát Hành: </label>
+            <router-link
+              :to="{
+                name: 'discover',
+                params: {
+                  slug: 'years',
+                  slug2: /^\d+$/.test(dataMovie?.last_air_date?.slice(0, 4))
                     ? dataMovie?.last_air_date?.slice(0, 4)
-                    : dataMovie?.release_date?.slice(0, 4)
-                }}
-              </router-link>
+                    : removeVietnameseTones(
+                        dataMovie?.last_air_date?.slice(0, 4)
+                      )
+                        ?.replace(/\s/g, '-')
+                        .toLowerCase(),
+                },
+              }"
+            >
               {{
-                dataMovie?.last_air_date?.slice(4, 10)
-                  ? dataMovie?.last_air_date?.slice(4, 10)
-                  : dataMovie?.release_date?.slice(
-                      4,
-                      dataMovie?.release_date.length
-                    )
+                dataMovie?.last_air_date?.slice(0, 4)
+                  ? dataMovie?.last_air_date?.slice(0, 4)
+                  : dataMovie?.release_date?.slice(0, 4)
               }}
-            </p>
+            </router-link>
+            {{
+              dataMovie?.last_air_date?.slice(4, 10)
+                ? dataMovie?.last_air_date?.slice(4, 10)
+                : dataMovie?.release_date?.slice(
+                    4,
+                    dataMovie?.release_date.length
+                  )
+            }}
+          </p>
 
-            <p>
-              <label>Quốc gia: </label>
+          <p>
+            <label>Quốc gia: </label>
+            {{
+              dataMovie?.production_countries
+                ? dataMovie?.production_countries[0]?.name
+                : null
+            }}
+          </p>
+          <p>
+            <label>Thể loại: </label>
+
+            <router-link
+              v-for="(item, index) in dataMovie?.genres"
+              :key="item?.id"
+              :index="index"
+              :to="{
+                name: 'discover',
+                params: {
+                  slug: 'genres',
+                  slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
+                },
+              }"
+            >
               {{
-                dataMovie?.production_countries
-                  ? dataMovie?.production_countries[0]?.name
+                index !== dataMovie?.genres.length - 1
+                  ? item?.name + ', '
+                  : item?.name
+              }}
+            </router-link>
+          </p>
+
+          <p>
+            <label>Diểm IMDb: </label>
+            <span style="color: yellow; font-weight: bold">
+              {{ dataMovie?.vote_average?.toFixed(2) }}
+            </span>
+          </p>
+
+          <p v-if="dataMovie?.number_of_episodes">
+            <label>Số lượng tập: </label>
+            {{
+              dataMovie?.seasons?.find((item) =>
+                item?.season_number ===
+                dataMovie?.last_episode_to_air?.season_number
+                  ? item
                   : null
-              }}
-            </p>
-            <p>
-              <label>Thể loại: </label>
+              ).episode_count + ' tập'
+            }}
+          </p>
 
-              <router-link
-                v-for="(item, index) in dataMovie?.genres"
-                :key="item?.id"
-                :index="index"
-                :to="{
-                  name: 'discover',
-                  params: {
-                    slug: 'genres',
-                    slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
-                  },
-                }"
-              >
-                {{
-                  index !== dataMovie?.genres.length - 1
-                    ? item?.name + ', '
-                    : item?.name
-                }}
-              </router-link>
-            </p>
+          <p>
+            <label v-if="dataMovie?.episode_run_time">
+              {{ 'Thờ lượng trên tập: ' }}
+            </label>
+            <label v-else>Thời lượng: </label>
+            <span v-if="dataMovie?.episode_run_time">
+              {{ dataMovie?.episode_run_time[0] + ' phút' }}
+            </span>
+            <span v-else>{{ dataMovie?.runtime + ' phút' }}</span>
+          </p>
 
-            <p>
-              <label>Diểm IMDb: </label>
-              <span style="color: yellow; font-weight: bold">
-                {{ dataMovie?.vote_average?.toFixed(2) }}
-              </span>
-            </p>
-
-            <p v-if="dataMovie?.number_of_episodes">
-              <label>Số lượng tập: </label>
-              {{
-                dataMovie?.seasons?.find((item) =>
-                  item?.season_number ===
-                  dataMovie?.last_episode_to_air?.season_number
-                    ? item
-                    : null
-                ).episode_count + ' tập'
-              }}
-            </p>
-
-            <p>
-              <label v-if="dataMovie?.episode_run_time">
-                {{ 'Thờ lượng trên tập: ' }}
-              </label>
-              <label v-else>Thời lượng: </label>
-              <span v-if="dataMovie?.episode_run_time">
-                {{ dataMovie?.episode_run_time[0] + ' phút' }}
-              </span>
-              <span v-else>{{ dataMovie?.runtime + ' phút' }}</span>
-            </p>
-
-            <p>
-              <label>Trạng thái: </label>
-              {{ dataMovie?.status }}
-            </p>
-          </a-skeleton>
+          <p>
+            <label>Trạng thái: </label>
+            {{ dataMovie?.status }}
+          </p>
         </div>
 
         <div v-if="loading">
@@ -412,7 +414,7 @@
   </div>
 </template>
 <script>
-import { ref, onBeforeMount, watch, onMounted } from 'vue';
+import { ref, onBeforeMount, watch } from 'vue';
 import {
   useRoute,
   // useRouter
@@ -511,6 +513,8 @@ export default {
     const btnNext = ref('<i class="fa-solid fa-chevron-right"></i>');
 
     const getData = () => {
+      loading.value = true;
+
       getMovieSeriesById(route.params?.id)
         .then((tvResponed) => {
           if (tvResponed?.data === null)
@@ -528,6 +532,7 @@ export default {
           }
         })
         .catch((e) => {
+          loading.value = false;
           if (axios.isCancel(e)) return;
         });
 
@@ -536,27 +541,23 @@ export default {
           dataCredit.value = movieResponed?.data;
         })
         .catch((e) => {
+          loading.value = false;
           if (axios.isCancel(e)) return;
         });
-    };
-
-    onBeforeMount(() => {
-      loading.value = true;
-      getData();
 
       setTimeout(() => {
         loading.value = false;
       }, 1500);
+    };
+
+    onBeforeMount(() => {
+      getData();
     });
 
     const scrolltoTrailerYoutube = () => {
       const trailer_youtube = document.getElementById('trailer-youtube');
       trailer_youtube.scrollIntoView();
     };
-
-    onMounted(() => {
-      // btn_trailer.scrollIntoView();
-    });
 
     watch(route, () => {
       // router.push({ path: newVal.path }).then(() => {
@@ -572,13 +573,8 @@ export default {
       });
 
       dataCredit.value = [];
-      loading.value = true;
 
       getData();
-
-      setTimeout(() => {
-        loading.value = false;
-      }, 1500);
     });
 
     document.title = `${Array.from(

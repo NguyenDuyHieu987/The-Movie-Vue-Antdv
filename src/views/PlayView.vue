@@ -95,7 +95,7 @@ import {
   getMovieSeriesById,
   getMovieById,
   getLanguage,
-  getMovieByCredit,
+  // getMovieByCredit,
 } from '../services/MovieService';
 import Interaction from '@/components/Interaction.vue';
 import RatingMovie from '@/components/RatingMovieAnt.vue';
@@ -152,14 +152,6 @@ export default {
       setTimeout(() => {
         loading.value = false;
       }, 1500);
-
-      getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', route.params?.id)
-        .then((movieResponed) => {
-          dataCredit.value = movieResponed?.data;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
     });
 
     watch(route, () => {

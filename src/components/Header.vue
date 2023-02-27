@@ -10,7 +10,7 @@
         </a-tooltip>
       </router-link>
     </div>
-    <a-dropdown :trigger="['click']" :visible="valueInput.length != 0">
+    <a-dropdown :trigger="['click']">
       <a-input-search
         class="center-header"
         v-model:value="valueInput"
@@ -24,7 +24,7 @@
         @change="handleChangeInput"
         style="width: 40%; min-width: 300px; max-width: 550px"
       />
-      <template #overlay v-if="dataSearch.length">
+      <template #overlay v-if="valueInput.length">
         <a-menu class="dropdown-search">
           <a-menu-item
             v-for="(item, index) in dataSearch"

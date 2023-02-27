@@ -8,11 +8,6 @@
       }`,
     }"
     class="movie-carousel-vertical-item"
-    v-lazy="
-      getPoster(
-        getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
-      )
-    "
   >
     <!-- v-if="item?.id"
     :to="{
