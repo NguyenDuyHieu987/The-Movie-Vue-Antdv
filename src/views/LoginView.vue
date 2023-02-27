@@ -355,6 +355,7 @@ export default defineComponent({
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-weight: bold;
     background-image: linear-gradient(
       to right,
       var(--sider-header-background-color1),

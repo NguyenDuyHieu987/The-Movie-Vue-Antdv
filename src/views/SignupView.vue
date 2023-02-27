@@ -358,7 +358,6 @@ export default defineComponent({
 .signup-form-container {
   margin: auto auto;
   background-color: transparent;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -380,13 +379,17 @@ export default defineComponent({
   .title-signup {
     margin-bottom: 20px;
     background-clip: text;
+    text-align: center;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-weight: bold;
     background-image: linear-gradient(
       to right,
-      #8e2de2 0%,
-      #000046 51%,
-      #1cb5e0 100%
+      var(--sider-header-background-color1),
+      var(--sider-header-background-color1),
+      var(--sider-header-background-color2),
+      var(--sider-header-background-color3),
+      var(--sider-header-background-color3)
     );
   }
 
