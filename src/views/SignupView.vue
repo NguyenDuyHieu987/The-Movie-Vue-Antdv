@@ -370,6 +370,7 @@ export default defineComponent({
   max-height: 95vh;
   overflow-y: scroll;
   border: 0.5px solid #919191;
+  background-color: #0000002d;
 
   &::-webkit-scrollbar-thumb,
   &::-webkit-scrollbar {
@@ -385,11 +386,9 @@ export default defineComponent({
     font-weight: bold;
     background-image: linear-gradient(
       to right,
-      var(--sider-header-background-color1),
-      var(--sider-header-background-color1),
-      var(--sider-header-background-color2),
-      var(--sider-header-background-color3),
-      var(--sider-header-background-color3)
+      var(--sider-header-background-color1) 0%,
+      var(--sider-header-background-color2) 40%,
+      var(--sider-header-background-color3) 65%
     );
   }
 

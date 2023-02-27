@@ -345,6 +345,7 @@ export default defineComponent({
     0 9px 28px 8px #0000002d;
   border: 0.5px solid #919191;
   z-index: 11;
+  background-color: #0000002d;
 
   .login-form {
     width: 420px;
