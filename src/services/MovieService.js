@@ -225,13 +225,10 @@ const getTheMostVoteCount = async (page) =>
 //       );
 
 const FilterDataMovie = async (formSelect) => {
-  const yearLte = formSelect.year === '' ? '' : formSelect.year + '-12-30';
-  const yearGte =
-    formSelect.year === ''
-      ? ''
-      : formSelect.year === 'truoc-nam-2000'
-      ? '2000-01-01'
-      : formSelect.year + '-01-01';
+  const yearLte = formSelect.year + '-12-30';
+  const yearGte = !/^\d+$/.test(formSelect.year)
+    ? formSelect.year.slice(-4) + '-01-01'
+    : formSelect.year + '-01-01';
 
   const genresName = await getIdGenresByName(formSelect.genre);
 
@@ -242,7 +239,7 @@ const FilterDataMovie = async (formSelect) => {
         : `${genresName.id},${genresName.name.replace('&', '%26')}`
       : '';
 
-  return formSelect.year !== 'truoc-nam-2000'
+  return /^\d+$/.test(formSelect.year)
     ? await axios.get(
         formSelect.genre !== ''
           ? `${URL_API}/discover/${formSelect.type}?api=hieu987&sort_by=${formSelect.sortBy}&primary_release_date_gte=${yearGte}&primary_release_date_lte=${yearLte}&with_genres=${genreStr}&with_original_language=${formSelect.country}&page=${formSelect.pageFilter}`

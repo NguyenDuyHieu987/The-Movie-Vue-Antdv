@@ -25,6 +25,7 @@ import {
   faPlay,
   faStar,
   faAt,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 
@@ -43,7 +44,8 @@ library.add(
   faPlay,
   faYoutube,
   faStar,
-  faAt
+  faAt,
+  faCheck
 );
 
 const app = createApp(App);

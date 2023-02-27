@@ -134,8 +134,13 @@
             <font-awesome-icon icon="fa-brands fa-youtube" />
             <span>Trailer</span>
           </span>
-          <span class="btn-add-to-list">
-            <font-awesome-icon icon="fa-solid fa-bookmark" />
+          <span
+            class="btn-add-to-list"
+            :class="{ active: isAddToList }"
+            @click="handelAddToList"
+          >
+            <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
+            <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
             <span> Add to list</span>
           </span>
         </div>
@@ -160,15 +165,15 @@
                   name: 'discover',
                   params: {
                     slug: 'years',
-                    slug2: dataMovie?.last_air_date?.slice(0, 4)
-                      ? dataMovie?.last_air_date?.slice(0, 4)
+                    slug2: dataMovie?.first_air_date?.slice(0, 4)
+                      ? dataMovie?.first_air_date?.slice(0, 4)
                       : dataMovie?.release_date?.slice(0, 4),
                   },
                 }"
               >
                 {{
-                  dataMovie?.last_air_date?.slice(0, 4)
-                    ? dataMovie?.last_air_date?.slice(0, 4)
+                  dataMovie?.first_air_date?.slice(0, 4)
+                    ? dataMovie?.first_air_date?.slice(0, 4)
                     : dataMovie?.release_date?.slice(0, 4)
                 }}
               </router-link>
@@ -423,6 +428,9 @@ import {
   getMovieById,
   getLanguage,
   getMovieByCredit,
+  addItemList,
+  removeItemList,
+  getList,
   // getMovieBySimilar,
   // getTrending,
 } from '../services/MovieService';
@@ -431,6 +439,7 @@ import RatingMovie from '@/components/RatingMovieAnt.vue';
 import LastestEpisodes from '@/components/LastestEpisodes.vue';
 import CastCard from '@/components/CastCard.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
+import { useStore } from 'vuex';
 
 export default {
   components: {
@@ -442,12 +451,14 @@ export default {
     MovieSuggest,
   },
   setup() {
+    const store = useStore();
     const route = useRoute();
     // const router = useRouter();
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
     const dataCredit = ref([]);
+    const dataAddToList = ref([]);
     const dataSimilar = ref([]);
     const dataRecommend = ref([]);
     const responsiveCarousel = ref({
@@ -491,18 +502,8 @@ export default {
     const isOpenContent = ref(false);
     const isOpenTrailerYoutube = ref(false);
     const loading = ref(false);
-    const tooltipRating = ref([
-      'Dở tệ',
-      'Dở',
-      'Không hay',
-      'Không hay lắm',
-      'Bình thường',
-      'Xem được',
-      'Có vẻ hay',
-      'Hay',
-      'Rất hay',
-      'Tuyệt hay',
-    ]);
+
+    const isAddToList = ref(false);
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left"></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right"></i>');
@@ -540,6 +541,14 @@ export default {
           if (axios.isCancel(e)) return;
         });
 
+      getList(store.state?.userAccount?.id)
+        .then((movieRespone) => {
+          dataAddToList.value = movieRespone?.data?.items;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+
       setTimeout(() => {
         loading.value = false;
       }, 1500);
@@ -554,6 +563,21 @@ export default {
       trailer_youtube.scrollIntoView();
     };
 
+    const handelAddToList = () => {
+      if (isAddToList.value === false) {
+        addItemList(store.state?.userAccount?.id, {
+          media_type: isEpisodes.value ? 'tv' : 'movie',
+          media_id: dataMovie.value?.id,
+        });
+        isAddToList.value = true;
+      } else {
+        removeItemList(store.state?.userAccount?.id, {
+          media_id: dataMovie.value?.id,
+        });
+        isAddToList.value = false;
+      }
+    };
+
     watch(route, () => {
       // router.push({ path: newVal.path }).then(() => {
       //   router.go();
@@ -561,6 +585,7 @@ export default {
 
       // console.log(router);
       // router.go();
+
       window.scrollTo({
         top: 0,
         left: 0,
@@ -597,11 +622,12 @@ export default {
       btnNext,
       loading,
       activeTabCast: ref('1'),
-      tooltipRating,
+      isAddToList,
       getPoster,
       getAllGenresById,
       getLanguage,
       scrolltoTrailerYoutube,
+      handelAddToList,
     };
   },
 };
@@ -793,6 +819,13 @@ export default {
 
     .btn-add-to-list {
       background-color: #505050;
+      &.active {
+        background-color: #006d4e;
+
+        &:hover {
+          background-color: #006d4e6c;
+        }
+      }
 
       &:hover {
         background-color: #505050a9;
