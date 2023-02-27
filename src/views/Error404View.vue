@@ -1,5 +1,5 @@
 <template>
-  <a-result status="500" title="404" sub-title="Ops, The page was not found.">
+  <a-result status="500" title="404" sub-title="Ops!, The page was not found.">
     <template #extra>
       <a-button size="large" @click="$router.push({ path: '/' })"
         >Back Home</a-button

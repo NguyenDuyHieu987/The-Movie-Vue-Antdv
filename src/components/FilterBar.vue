@@ -235,5 +235,8 @@ export default {
   .filter-btn {
     background-color: #003b58;
   }
+  .cancel-filter-btn {
+    padding: 8px 30px;
+  }
 }
 </style>
