@@ -26,42 +26,42 @@
       <a-skeleton-image v-else class="ant-image" />
     </div>
 
-    <a-tooltip :title="getLanguage(item?.original_language)?.english_name">
-      <div class="info">
-        <a-skeleton
-          :loading="loading"
-          :active="true"
-          :paragraph="{ rows: 4 }"
-          :title="false"
-        >
-          <p class="title">
-            {{ item?.name ? item?.name : item?.title }}
-          </p>
-          <p class="genres" v-if="item?.genre_ids">
-            {{ getAllGenresById(item?.genre_ids).join(' • ') }}
-          </p>
-          <p class="genres" v-else-if="item?.genres">
-            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
-          </p>
-          <p class="release-date">
-            Năm:
-            {{ item?.release_date ? item?.release_date : item?.first_air_date }}
-          </p>
-          <p class="duration-episode">
-            Thời lượng:
-            {{
-              isEpisodes
-                ? dataMovie?.number_of_episodes
-                  ? dataMovie?.number_of_episodes + '-Tập'
-                  : ''
-                : dataMovie?.runtime
-                ? dataMovie?.runtime + ' min'
+    <!-- <a-tooltip :title="getLanguage(item?.original_language)?.english_name"> -->
+    <div class="info">
+      <a-skeleton
+        :loading="loading"
+        :active="true"
+        :paragraph="{ rows: 4 }"
+        :title="false"
+      >
+        <p class="title">
+          {{ item?.name ? item?.name : item?.title }}
+        </p>
+        <p class="genres" v-if="item?.genre_ids">
+          {{ getAllGenresById(item?.genre_ids).join(' • ') }}
+        </p>
+        <p class="genres" v-else-if="item?.genres">
+          {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+        </p>
+        <p class="release-date">
+          Năm:
+          {{ item?.release_date ? item?.release_date : item?.first_air_date }}
+        </p>
+        <p class="duration-episode">
+          Thời lượng:
+          {{
+            isEpisodes
+              ? dataMovie?.number_of_episodes
+                ? dataMovie?.number_of_episodes + '-Tập'
                 : ''
-            }}
-          </p>
-        </a-skeleton>
-      </div>
-    </a-tooltip>
+              : dataMovie?.runtime
+              ? dataMovie?.runtime + ' min'
+              : ''
+          }}
+        </p>
+      </a-skeleton>
+    </div>
+    <!-- </a-tooltip> -->
   </router-link>
 </template>
 <script>
@@ -131,6 +131,7 @@ export default {
 <style lang="scss">
 .movie-search-item {
   display: flex;
+  padding: 10px 5px;
 
   &:hover {
     .info {
@@ -156,5 +157,8 @@ export default {
       // margin-left: 10px;
     }
   }
+}
+.movie-search-item + .movie-search-item {
+  border-top: 1px solid #6d6d6d;
 }
 </style>

@@ -42,6 +42,7 @@ import {
   getMoviesByGenres,
   getMoviesByYear,
   getMovieByCountry,
+  getDaTaSearch,
 } from '../services/MovieService';
 import MovieCarouselCardHorizontal from '@/components/MovieCarouselCardHorizontal.vue';
 import FilterBar from '@/components/FilterBar.vue';
@@ -69,9 +70,18 @@ export default {
           });
       } else {
         switch (route.params?.slug) {
+          case 'search':
+            metaHead.value = 'Kết quả tìm kiếm cho: ' + route.params?.slug2;
+            getDaTaSearch(route.params?.slug2.replaceAll('+', ' '), page.value)
+              .then((searchMovieResponse) => {
+                dataMovieList.value = searchMovieResponse?.data?.results;
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+            break;
           case 'movie':
             metaHead.value = 'Phim lẻ';
-
             getMovies(page.value)
               .then((movieResponse) => {
                 dataMovieList.value = movieResponse?.data?.results;
@@ -141,9 +151,9 @@ export default {
               COUNTRIES.find((country) =>
                 country.name2 === route.params?.slug2 ? country : null
               ).name;
-
             break;
           default:
+            router.push('/404');
             break;
         }
       }
@@ -219,7 +229,13 @@ export default {
 
 @media only screen and (max-width: 860px) {
   .movie-discovered {
-    grid-template-columns: repeat(2, minmax(160px, auto)) !important;
+    grid-template-columns: repeat(3, minmax(160px, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 615px) {
+  .movie-discovered {
+    grid-template-columns: repeat(2, minmax(150px, auto)) !important;
   }
 }
 
@@ -243,7 +259,6 @@ export default {
   gap: 10px;
   overflow: hidden;
   grid-template-columns: repeat(4, minmax(23%, auto));
-
   .movie-carousel-horizontal-item {
     float: left;
   }

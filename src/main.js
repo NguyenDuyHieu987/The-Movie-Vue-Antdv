@@ -22,10 +22,12 @@ import {
   faList,
   faChevronLeft,
   faChevronRight,
+  faChevronUp,
   faPlay,
   faStar,
   faAt,
   faCheck,
+  faFilter,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 
@@ -41,11 +43,13 @@ library.add(
   faList,
   faChevronLeft,
   faChevronRight,
+  faChevronUp,
   faPlay,
   faYoutube,
   faStar,
   faAt,
-  faCheck
+  faCheck,
+  faFilter
 );
 
 const app = createApp(App);

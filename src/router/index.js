@@ -95,6 +95,17 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "signup" */ '../views/SignupView.vue'),
   },
+  {
+    // path: "*",
+    path: '/404',
+    name: '404',
+    component: () =>
+      import(/* webpackChunkName: "NotFound" */ '../views/Error404View.vue'),
+  },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '404',
+  },
 ];
 
 const router = createRouter({

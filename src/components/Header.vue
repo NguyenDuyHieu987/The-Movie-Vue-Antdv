@@ -10,7 +10,7 @@
         </a-tooltip>
       </router-link>
     </div>
-    <a-dropdown :trigger="['click']">
+    <!-- <a-dropdown :trigger="['click']">
       <a-input-search
         class="center-header"
         v-model:value="valueInput"
@@ -31,16 +31,52 @@
             :index="index"
             :key="item?.id"
           >
-            <SearchCard :item="item">
-              {{ item?.name ? item?.name : item?.title }}</SearchCard
+            <SearchCard :item="item" />
+
             >
           </a-menu-item>
         </a-menu>
       </template>
-    </a-dropdown>
+    </a-dropdown> -->
+
+    <a-auto-complete
+      v-model:value="valueInput"
+      class="center-header"
+      dropdown-class-name="certain-category-search-dropdown"
+      :options="dataSearch"
+      style="width: 40%; min-width: 350px; max-width: 550px"
+      :open="isOpenAutoComplete"
+      @change="handleChangeInput"
+      @focus="isOpenAutoComplete = true"
+      @blur="isOpenAutoComplete = false"
+    >
+      <template #option>
+        <SearchCard
+          v-for="(item, index) in dataSearch"
+          :index="index"
+          :key="item?.id"
+          :item="item"
+        />
+      </template>
+      <a-input-search
+        class="center-header"
+        enter-button
+        placeholder="Nhập tên phim để tìm kiếm..."
+        size="large"
+        allowClear
+        bordered
+        :loading="loadingSearch"
+        @search="handleSearch"
+      ></a-input-search>
+    </a-auto-complete>
 
     <div class="right-header">
-      <a-button type="primary" shape="circle" size="large">
+      <a-button
+        type="primary"
+        shape="circle"
+        size="large"
+        @click="handleOpenSearchBar"
+      >
         <template #icon><SearchOutlined /></template>
       </a-button>
       <a-menu
@@ -94,6 +130,7 @@ import {
 import { ref } from 'vue';
 import { getDaTaSearch } from '../services/MovieService';
 import SearchCard from '@/components/SearchCard.vue';
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
@@ -104,13 +141,14 @@ export default {
     SearchCard,
   },
   setup() {
+    const router = useRouter();
     const dataSearch = ref([]);
     const page = ref(1);
     const valueInput = ref('');
     const loadingSearch = ref(false);
+    const isOpenAutoComplete = ref(true);
 
-    const handleChangeInput = (value) => {
-      console.log(value);
+    const handleChangeInput = () => {
       if (valueInput.value.length > 0) {
         loadingSearch.value = true;
         getDaTaSearch(valueInput.value, page.value).then((movieRespone) => {
@@ -124,7 +162,19 @@ export default {
       }
     };
 
-    const handleSearch = () => {};
+    const handleSearch = (value) => {
+      if (value.length > 0) {
+        router.push({
+          name: 'discover',
+          params: {
+            slug: 'search',
+            slug2: value?.replaceAll(' ', '+').toLowerCase(),
+          },
+        });
+        valueInput.value = '';
+        isOpenAutoComplete.value = false;
+      }
+    };
 
     const handleLogout = () => {
       window.localStorage.removeItem('userToken');
@@ -134,6 +184,7 @@ export default {
       dataSearch,
       valueInput,
       loadingSearch,
+      isOpenAutoComplete,
       handleSearch,
       handleChangeInput,
       handleLogout,

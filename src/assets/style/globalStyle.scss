@@ -54,6 +54,12 @@ p,
 span {
   margin: 0px;
 }
+@media only screen and (max-width: 1000px) {
+  .movie-search-item {
+    display: flex;
+    padding: 5px 5px;
+  }
+}
 
 @media only screen and (max-width: 800px) {
   .logo {
@@ -71,26 +77,29 @@ span {
   .body-content {
     margin-left: 0px !important;
   }
+
   .ant-layout-header {
     padding-left: 0px !important;
     padding-right: 0px !important;
-
-    .center-header.ant-input-group-wrapper {
-      display: none;
-    }
-
-    .right-header {
-      display: flex;
-      align-items: center;
-
-      .ant-btn {
-        display: block !important;
-        margin-right: 0px;
-      }
-    }
   }
 }
 
+@media only screen and (max-width: 690px) {
+  .center-header.ant-input-group-wrapper,
+  .center-header {
+    display: none;
+  }
+
+  .right-header {
+    display: flex;
+    align-items: center;
+
+    .ant-btn {
+      display: block !important;
+      margin-right: 0px;
+    }
+  }
+}
 .ant-dropdown {
   .ant-dropdown-menu.dropdown-search {
     max-height: 500px;

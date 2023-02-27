@@ -134,15 +134,26 @@
             <font-awesome-icon icon="fa-brands fa-youtube" />
             <span>Trailer</span>
           </span>
-          <span
+          <a-popconfirm
+            ok-text="Có"
+            cancel-text="Không"
             class="btn-add-to-list"
             :class="{ active: isAddToList }"
-            @click="handelAddToList"
+            @confirm="handelAddToList"
           >
-            <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
-            <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
-            <span> Add to list</span>
-          </span>
+            <!-- @click="handelAddToList" -->
+            <template #title>
+              <p>Bạn có muốn thêm phìm vào</p>
+              <p>danh sách phát không?</p>
+            </template>
+            <template #icon><question-circle-outlined /></template>
+
+            <span>
+              <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
+              <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
+              <span> Add to list</span>
+            </span>
+          </a-popconfirm>
         </div>
 
         <div class="misc">
@@ -440,6 +451,7 @@ import LastestEpisodes from '@/components/LastestEpisodes.vue';
 import CastCard from '@/components/CastCard.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
 import { useStore } from 'vuex';
+import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 
 export default {
   components: {
@@ -449,6 +461,7 @@ export default {
     LastestEpisodes,
     CastCard,
     MovieSuggest,
+    QuestionCircleOutlined,
   },
   setup() {
     const store = useStore();

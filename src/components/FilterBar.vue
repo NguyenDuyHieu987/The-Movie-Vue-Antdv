@@ -1,109 +1,121 @@
 <template>
-  <div class="filter-bar">
-    <div class="list-input-filter">
-      <a-button
-        class="filter-btn"
-        :disabled="disableBtnFilter"
-        @click="handleFilterMovie"
-      >
-        Lọc phim
-      </a-button>
+  <a-collapse :bordered="false">
+    <!-- ghost -->
+    <template #expandIcon="{ isActive }">
+      <CaretRightFilled :rotate="isActive ? 90 : 0" />
+    </template>
 
-      <a-select
-        ref="select"
-        v-model:value="formSelect.country"
-        style="width: 150px"
-        @focus="focus"
-        @change="handleChange"
-        size="large"
-      >
-        <a-select-option value="">Quốc gia</a-select-option>
-        <a-select-option
-          v-for="(item, index) in countries"
-          :index="index"
-          :key="item?.iso_639_1"
-          :value="item?.iso_639_1"
-          >{{ item?.name }}
-        </a-select-option>
-      </a-select>
+    <a-collapse-panel key="1" header="Tìm kiếm nâng cao">
+      <div class="filter-bar">
+        <div class="list-input-filter">
+          <a-button
+            class="filter-btn"
+            :disabled="disableBtnFilter"
+            @click="handleFilterMovie"
+          >
+            Lọc phim
+          </a-button>
 
-      <a-select
-        ref="select"
-        v-model:value="formSelect.year"
-        style="width: 170px"
-        @focus="focus"
-        @change="handleChange"
-        size="large"
-      >
-        <a-select-option value="">Năm phát hành</a-select-option>
-        <a-select-option
-          v-for="(item, index) in years"
-          :index="index"
-          :key="item?.name"
-          :value="item?.name"
-          >{{ item?.name }}
-        </a-select-option>
-      </a-select>
+          <a-select
+            ref="select"
+            v-model:value="formSelect.country"
+            style="width: 150px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+          >
+            <a-select-option value="">Quốc gia</a-select-option>
+            <a-select-option
+              v-for="(item, index) in countries"
+              :index="index"
+              :key="item?.iso_639_1"
+              :value="item?.iso_639_1"
+              >{{ item?.name }}
+            </a-select-option>
+          </a-select>
 
-      <a-select
-        ref="select"
-        v-model:value="formSelect.genre"
-        style="width: 170px"
-        @focus="focus"
-        @change="handleChange"
-        size="large"
-      >
-        <a-select-option value="">Thể loại</a-select-option>
-        <a-select-option
-          v-for="(item, index) in genres"
-          :index="index"
-          :key="item?.id"
-          :value="item?.name"
-          >{{ item?.name }}
-        </a-select-option>
-      </a-select>
+          <a-select
+            ref="select"
+            v-model:value="formSelect.year"
+            style="width: 170px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+          >
+            <a-select-option value="">Năm phát hành</a-select-option>
+            <a-select-option
+              v-for="(item, index) in years"
+              :index="index"
+              :key="item?.name"
+              :value="item?.name"
+              >{{ item?.name }}
+            </a-select-option>
+          </a-select>
 
-      <a-select
-        ref="select"
-        v-model:value="formSelect.sortBy"
-        style="width: 170px"
-        @focus="focus"
-        @change="handleChange"
-        size="large"
-      >
-        <a-select-option value="">Sắp xếp theo</a-select-option>
-        <a-select-option
-          v-for="(item, index) in listSortBy"
-          :index="index"
-          :key="item?.id"
-          :value="item?.id"
-          >{{ item?.name }}
-        </a-select-option>
-      </a-select>
+          <a-select
+            ref="select"
+            v-model:value="formSelect.genre"
+            style="width: 170px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+          >
+            <a-select-option value="">Thể loại</a-select-option>
+            <a-select-option
+              v-for="(item, index) in genres"
+              :index="index"
+              :key="item?.id"
+              :value="item?.name"
+              >{{ item?.name }}
+            </a-select-option>
+          </a-select>
 
-      <a-select
-        ref="select"
-        v-model:value="formSelect.type"
-        style="width: 150px"
-        @focus="focus"
-        @change="handleChange"
-        size="large"
-      >
-        <a-select-option value="all"> Tất cả</a-select-option>
-        <a-select-option value="movie"> Phim lẻ</a-select-option>
-        <a-select-option value="tv"> Phim bộ</a-select-option>
-      </a-select>
+          <a-select
+            ref="select"
+            v-model:value="formSelect.sortBy"
+            style="width: 170px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+          >
+            <a-select-option value="">Sắp xếp theo</a-select-option>
+            <a-select-option
+              v-for="(item, index) in listSortBy"
+              :index="index"
+              :key="item?.id"
+              :value="item?.id"
+              >{{ item?.name }}
+            </a-select-option>
+          </a-select>
 
-      <a-button
-        class="cancel-filter-btn"
-        :disabled="disableBtnFilter"
-        @click="handleCancelFilter"
-        :danger="true"
-      >
-        Hủy lọc
-      </a-button>
-    </div>
-  </div>
+          <a-select
+            ref="select"
+            v-model:value="formSelect.type"
+            style="width: 150px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+          >
+            <a-select-option value="all"> Tất cả</a-select-option>
+            <a-select-option value="movie"> Phim lẻ</a-select-option>
+            <a-select-option value="tv"> Phim bộ</a-select-option>
+          </a-select>
+
+          <a-button
+            class="cancel-filter-btn"
+            :disabled="disableBtnFilter"
+            @click="handleCancelFilter"
+            :danger="true"
+          >
+            Hủy lọc
+          </a-button>
+        </div>
+      </div>
+      <template #extra>
+        <font-awesome-icon icon="fa-solid fa-filter" />
+      </template>
+    </a-collapse-panel>
+  </a-collapse>
 </template>
 
 <script>
@@ -117,9 +129,10 @@ import {
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 import listSortBy from '../constants/Sortby';
+import { CaretRightFilled } from '@ant-design/icons-vue';
 
 export default {
-  components: {},
+  components: { CaretRightFilled },
   setup(props, { emit }) {
     const route = useRoute();
     const formSelect = reactive({

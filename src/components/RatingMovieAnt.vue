@@ -50,7 +50,7 @@ export default {
       if (props?.isEpisodes) {
         ratingTV(props?.movieId, { value: Math.round(value) });
         notification.open({
-          message: 'Cảm ơn!',
+          message: 'Cảm ơn bạn đã đánh giá!',
           description: `Đánh giá thành công ${value} điểm.`,
           icon: () =>
             h(CheckCircleFilled, {
@@ -60,7 +60,7 @@ export default {
       } else {
         ratingMovie(props?.movieId, { value: Math.round(value) });
         notification.open({
-          message: 'Cảm ơn!',
+          message: 'Cảm ơn bạn đã đánh giá!',
           description: `Đánh giá thành công ${value} điểm.`,
           icon: () =>
             h(CheckCircleFilled, {

@@ -301,7 +301,7 @@ export default {
 @media only screen and (max-width: 1500px) {
   .ant-carousel {
     .slick-track {
-      height: 650px !important;
+      height: 550px !important;
     }
   }
 }
@@ -309,7 +309,7 @@ export default {
 @media only screen and (max-width: 1300px) {
   .ant-carousel {
     .slick-track {
-      height: 550px !important;
+      height: 500px !important;
     }
   }
 }
