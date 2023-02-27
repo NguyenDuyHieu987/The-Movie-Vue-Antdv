@@ -71,14 +71,54 @@
     </a-auto-complete>
 
     <div class="right-header">
-      <a-button
-        type="primary"
-        shape="circle"
-        size="large"
-        @click="handleOpenSearchBar"
-      >
-        <template #icon><SearchOutlined /></template>
-      </a-button>
+      <a-popover v-model:visible="visible" trigger="click" placement="bottom">
+        <template #title>
+          <h3 class="section-title search">
+            <strong> Tìm kiếm </strong>
+          </h3>
+        </template>
+        <template #content>
+          <a-auto-complete
+            v-model:value="valueInput"
+            dropdown-class-name="certain-category-search-dropdown"
+            :options="dataSearch"
+            style="width: 100%"
+            :open="isOpenAutoComplete"
+            @change="handleChangeInput"
+            @focus="isOpenAutoComplete = true"
+            @blur="isOpenAutoComplete = false"
+          >
+            <template #option>
+              <SearchCard
+                v-for="(item, index) in dataSearch"
+                :index="index"
+                :key="item?.id"
+                :item="item"
+              />
+            </template>
+            <a-input-search
+              class="center-header-responsive"
+              enter-button
+              placeholder="Nhập tên phim để tìm kiếm..."
+              size="large"
+              allowClear
+              bordered
+              :loading="loadingSearch"
+              @search="handleSearch"
+            ></a-input-search>
+          </a-auto-complete>
+        </template>
+
+        <a-button
+          type="primary"
+          shape="circle"
+          size="large"
+          @click="handleOpenSearchBar"
+        >
+          <template #icon><SearchOutlined /></template>
+        </a-button>
+      </a-popover>
+
       <a-menu
         theme="dark"
         mode="horizontal"

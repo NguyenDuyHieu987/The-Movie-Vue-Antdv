@@ -54,6 +54,7 @@ p,
 span {
   margin: 0px;
 }
+
 @media only screen and (max-width: 1000px) {
   .movie-search-item {
     display: flex;
@@ -82,6 +83,27 @@ span {
     padding-left: 0px !important;
     padding-right: 0px !important;
   }
+  .ant-popover.ant-popover-placement-bottom {
+    margin: auto;
+    width: 100%;
+    left: auto !important;
+
+    .ant-popover-title {
+      border-bottom: none;
+    }
+
+    .section-title.search {
+      font-size: 1.8rem;
+      margin: 0px;
+    }
+
+    .ant-popover-content {
+      position: sticky;
+      width: 100%;
+      top: var(--header-height) !important;
+      z-index: 1000;
+    }
+  }
 }
 
 @media only screen and (max-width: 690px) {
@@ -100,6 +122,13 @@ span {
     }
   }
 }
+
+@media only screen and (max-width: 480px) {
+  // .ant-popover.ant-popover-placement-bottom {
+  //   width: 100vw;
+  // }
+}
+
 .ant-dropdown {
   .ant-dropdown-menu.dropdown-search {
     max-height: 500px;

@@ -235,7 +235,7 @@ export default {
 
 @media only screen and (max-width: 615px) {
   .movie-discovered {
-    grid-template-columns: repeat(2, minmax(150px, auto)) !important;
+    grid-template-columns: repeat(2, minmax(50%, auto)) !important;
   }
 }
 
