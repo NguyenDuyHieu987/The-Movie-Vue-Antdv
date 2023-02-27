@@ -153,10 +153,12 @@ export default {
 @media only screen and (max-width: 1150px) {
   .movie-group.upcoming {
     // grid-template-columns: repeat(auto-fit, minmax(160px, auto));
+  }
 
+  .movie-carousel-vertical-item {
     .ant-image {
       transition: all 0.3s;
-      height: 220px;
+      height: 220px !important;
     }
   }
 }
@@ -164,19 +166,24 @@ export default {
 @media only screen and (max-width: 1050px) {
   .movie-group.upcoming {
     grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
+  }
 
+  .movie-carousel-vertical-item {
     .ant-image {
       transition: all 0.3s;
-      height: 230px;
+      height: 230px !important;
     }
   }
 }
 
 @media only screen and (max-width: 970px) {
   .movie-group.upcoming {
+  }
+
+  .movie-carousel-vertical-item {
     .ant-image {
       transition: all 0.3s;
-      height: 250px;
+      height: 250px !important;
     }
   }
 }
@@ -184,10 +191,12 @@ export default {
 @media only screen and (max-width: 800px) {
   .movie-group.upcoming {
     grid-template-columns: repeat(auto-fit, minmax(140px, auto)) !important;
+  }
 
+  .movie-carousel-vertical-item {
     .ant-image {
       transition: all 0.3s;
-      height: 210px;
+      height: 210px !important;
     }
   }
 }
@@ -195,26 +204,31 @@ export default {
 @media only screen and (max-width: 740px) {
   .movie-group.upcoming {
     grid-template-columns: repeat(auto-fit, minmax(160px, auto)) !important;
+  }
 
+  .movie-carousel-vertical-item {
     .ant-image {
       transition: all 0.3s;
-      height: 250px;
+      height: 250px !important;
     }
   }
 }
 
 @media only screen and (max-width: 410px) {
   .movie-group.upcoming {
+  }
+
+  .movie-carousel-vertical-item {
     .ant-image {
       transition: all 0.3s;
-      height: 210px;
+      height: 210px !important;
     }
   }
 }
 
 .movie-carousel-vertical-item {
   .ant-image {
-    height: 250px;
+    height: 280px;
   }
 }
 </style>
