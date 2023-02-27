@@ -343,7 +343,7 @@ export default defineComponent({
   border-radius: 5px;
   box-shadow: 0 3px 6px -4px #00000077, 0 6px 16px 0 #00000054,
     0 9px 28px 8px #0000002d;
-  border: 0.5px solid #fff;
+  border: 0.5px solid #919191;
   z-index: 11;
 
   .login-form {
@@ -405,6 +405,7 @@ export default defineComponent({
       }
 
       input {
+        color: #fff;
         background-color: transparent;
       }
     }

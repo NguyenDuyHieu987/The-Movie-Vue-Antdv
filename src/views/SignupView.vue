@@ -369,7 +369,7 @@ export default defineComponent({
   z-index: 11;
   max-height: 95vh;
   overflow-y: scroll;
-  border: 0.5px solid #fff;
+  border: 0.5px solid #919191;
 
   &::-webkit-scrollbar-thumb,
   &::-webkit-scrollbar {
@@ -429,6 +429,7 @@ export default defineComponent({
       }
 
       input {
+        color: #fff;
         background-color: transparent;
       }
     }
