@@ -1,6 +1,5 @@
 <template>
   <router-link
-    v-if="item?.id"
     :to="{
       name: 'info',
       params: {
@@ -155,7 +154,7 @@ export default {
 <style lang="scss">
 @media only screen and (max-width: 1150px) {
   .movie-carousel-horizontal-item {
-    .ant-image {
+    .img-box {
       transition: all 0.3s;
       height: 130px !important;
     }
@@ -174,14 +173,14 @@ export default {
   }
 
   .movie-carousel-horizontal-item {
-    .ant-image {
+    .img-box {
       height: 110px !important;
     }
   }
 }
 
 .movie-carousel-horizontal-item {
-  .ant-image {
+  .img-box {
     height: 150px;
   }
 }

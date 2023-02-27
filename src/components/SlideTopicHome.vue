@@ -19,7 +19,7 @@
     />
   </a-carousel>
 
-  <h2 class="carousel-title">
+  <h2 class="carousel-title" v-if="nowPlayings?.length">
     <strong>Phim nổi bật</strong>
   </h2>
   <carousel
@@ -80,7 +80,9 @@
     />
   </carousel>
 
-  <h2 class="carousel-title"><strong>Phim mới cập nhật</strong></h2>
+  <h2 class="carousel-title" v-if="upComings?.length">
+    <strong>Phim mới cập nhật</strong>
+  </h2>
   <!-- <a-row type="flex" align="middle" :gutter="10">
     <a-col
       :span="4"
@@ -107,7 +109,9 @@
     />
   </section>
 
-  <h2 class="carousel-title"><strong>Trailer</strong></h2>
+  <h2 class="carousel-title" v-if="populars?.length">
+    <strong>Trailer</strong>
+  </h2>
   <!-- <a-row type="flex" align="middle" 
       :gutter="10"
       :xs="{ span: 8 }"
@@ -135,7 +139,9 @@
     />
   </section>
 
-  <h2 class="carousel-title"><strong>Phim chiếu rạp mới</strong></h2>
+  <h2 class="carousel-title" v-if="topRateds?.length">
+    <strong>Phim chiếu rạp mới</strong>
+  </h2>
   <carousel
     v-if="topRateds?.length"
     :items="4"

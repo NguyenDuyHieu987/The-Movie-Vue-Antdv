@@ -2,6 +2,7 @@
   <h2 class="carousel-title"><strong>Có thể bạn quan tâm</strong></h2>
   <carousel
     v-if="dataSimilar?.length"
+    class="similar-container"
     :items="4"
     :autoplay="true"
     :loop="true"
@@ -61,6 +62,7 @@
   <h2 class="carousel-title"><strong>Phim tương tự</strong></h2>
   <carousel
     v-if="dataRecommend?.length"
+    class="recommend-container"
     :items="4"
     :autoplay="true"
     :loop="true"
@@ -171,3 +173,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.similar-container,
+.recommend-container {
+  .movie-carousel-vertical-item {
+    .img-box {
+      height: 230px;
+    }
+    // .ant-image {
+    //   height: 230px;
+    // }
+  }
+}
+</style>
