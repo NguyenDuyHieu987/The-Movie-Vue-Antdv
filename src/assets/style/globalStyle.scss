@@ -84,6 +84,7 @@ span {
     padding-left: 0px !important;
     padding-right: 0px !important;
   }
+
   .ant-popover.ant-popover-placement-bottom {
     margin: auto;
     width: 100%;
@@ -128,6 +129,12 @@ span {
   // .ant-popover.ant-popover-placement-bottom {
   //   width: 100vw;
   // }
+}
+
+.certain-category-search-dropdown {
+  .rc-virtual-list-holder {
+    max-height: 50vh !important;
+  }
 }
 
 .ant-dropdown {
