@@ -44,10 +44,7 @@
     </a-list> -->
 
     <TheMenu />
-    <a-layout-footer
-      style=""
-      @click="$store.state.collapsed = !$store.state.collapsed"
-    >
+    <a-layout-footer @click="$store.state.collapsed = !$store.state.collapsed">
       <div :class="['trigger-collapse', { active: $store.state.collapsed }]">
         <DoubleLeftOutlined
           style="transition: all 0.3s"

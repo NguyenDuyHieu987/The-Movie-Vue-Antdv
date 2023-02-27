@@ -107,7 +107,7 @@
       ></div>
     </div>
 
-    <p style="text-align: center; margin: 20px 0px 15px 0px">Or</p>
+    <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">Or</p>
     <div style="display: flex; justify-content: center">
       <router-link :to="{ name: 'signup' }">Register now!</router-link>
     </div>
@@ -307,87 +307,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.login-form {
-  width: 420px;
-}
-
-.login-form-forgot {
-  float: right;
-}
-
-.login-form-button {
-  width: 100%;
-}
-
-.login-form-button.facebook {
-  background-color: #003465;
-}
-
-.login-form .ant-row.ant-form-item {
-  display: flex;
-  flex-direction: column;
-
-  .ant-form-item-label {
-    text-align: left;
-  }
-  .ant-col.ant-form-item-control {
-    flex: 0 1 auto;
-
-    .ant-input-affix-wrapper {
-      background-color: transparent;
-      padding: 7px 11px;
-    }
-
-    input {
-      background-color: transparent;
-    }
-  }
-}
-
-.container.facebook-login {
-  button {
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      // display: none;
-      height: 20px;
-      width: 20px;
-    }
-  }
-}
-
-.login-form-container {
-  margin: auto auto;
-  vertical-align: center;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 50px 70px;
-  border-radius: 5px;
-  box-shadow: 0 3px 6px -4px #00000077, 0 6px 16px 0 #00000054,
-    0 9px 28px 8px #0000002d;
-  border: 0.5px solid #fff;
-  z-index: 11;
-}
-.title-login {
-  margin-bottom: 20px;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(
-    to right,
-    var(--sider-header-background-color1),
-    var(--sider-header-background-color2),
-    var(--sider-header-background-color3)
-  );
-}
-
 @media only screen and (max-width: 600px) {
   .login-form {
     width: 350px;
@@ -409,6 +328,101 @@ export default defineComponent({
   }
   .login-form-container {
     padding: 20px 30px;
+  }
+}
+
+.login-form-container {
+  margin: auto auto;
+  vertical-align: center;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 50px 70px;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px -4px #00000077, 0 6px 16px 0 #00000054,
+    0 9px 28px 8px #0000002d;
+  border: 0.5px solid #fff;
+  z-index: 11;
+
+  .login-form {
+    width: 420px;
+  }
+
+  .title-login {
+    margin-bottom: 20px;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(
+      to right,
+      var(--sider-header-background-color1),
+      var(--sider-header-background-color2),
+      var(--sider-header-background-color3)
+    );
+  }
+
+  .login-form-forgot {
+    float: right;
+  }
+
+  .login-form-button {
+    width: 100%;
+    color: #fff;
+  }
+
+  .login-form-button.facebook {
+    background-color: #003465;
+  }
+
+  .login-form .ant-row.ant-form-item {
+    display: flex;
+    flex-direction: column;
+
+    .ant-form-item-label {
+      text-align: left;
+
+      & > label {
+        color: #fff;
+      }
+    }
+
+    .anticon {
+    }
+
+    .ant-checkbox-wrapper {
+      color: #fff;
+    }
+
+    .ant-col.ant-form-item-control {
+      flex: 0 1 auto;
+
+      .ant-input-affix-wrapper {
+        background-color: transparent;
+        padding: 7px 11px;
+      }
+
+      input {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.container.facebook-login {
+  button {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      // display: none;
+      height: 20px;
+      width: 20px;
+    }
   }
 }
 </style>

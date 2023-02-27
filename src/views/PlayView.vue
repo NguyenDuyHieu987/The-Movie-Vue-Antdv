@@ -22,6 +22,7 @@
       :voteAverage="dataMovie?.vote_average"
       :voteCount="dataMovie?.vote_count"
       :movieId="dataMovie?.id"
+      :isEpisodes="isEpisodes"
     />
 
     <h3 class="section-title">

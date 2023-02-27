@@ -103,7 +103,9 @@
       >
         Sign up
       </a-button>
-      <p style="text-align: center; margin: 20px 0px 15px 0px">Or</p>
+      <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
+        Or
+      </p>
 
       <div style="display: flex; justify-content: center">
         <router-link :to="{ name: 'login' }">Log in now!</router-link>
@@ -314,88 +316,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.signup-form {
-  width: 500px;
-}
-
-.signup-form-forgot {
-  float: right;
-}
-
-.signup-form-button {
-  width: 100%;
-}
-
-.signup-form .ant-row.ant-form-item {
-  display: flex;
-  flex-direction: column;
-
-  .ant-form-item-label {
-    text-align: left;
-  }
-  .ant-col.ant-form-item-control {
-    flex: 0 1 auto;
-
-    .ant-input-affix-wrapper {
-      background-color: transparent;
-      padding: 7px 11px;
-    }
-
-    input {
-      background-color: transparent;
-    }
-  }
-}
-
-.signup-form-container {
-  margin: auto auto;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 50px 70px;
-  // padding-top: 130px;
-  border-radius: 5px;
-  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px 0 #00000014,
-    0 9px 28px 8px #0000000d;
-  z-index: 11;
-  max-height: 95vh;
-  overflow-y: scroll;
-  border: 0.5px solid #fff;
-
-  &::-webkit-scrollbar-thumb,
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.ant-modal-body::-webkit-scrollbar {
-  width: 0px;
-  display: none;
-}
-
-.ant-modal-body::-webkit-scrollbar-thumb {
-  width: 0px;
-  display: none;
-}
-
-.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  background-color: transparent;
-}
-
-.title-signup {
-  margin-bottom: 20px;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(
-    to right,
-    #8e2de2 0%,
-    #000046 51%,
-    #1cb5e0 100%
-  );
-}
 @media only screen and (max-width: 660px) {
   .signup-form-container {
     padding: 30px 40px;
@@ -432,6 +352,83 @@ export default defineComponent({
   }
   .signup-form-container {
     padding: 20px 20px;
+  }
+}
+
+.signup-form-container {
+  margin: auto auto;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 50px 70px;
+  // padding-top: 130px;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px 0 #00000014,
+    0 9px 28px 8px #0000000d;
+  z-index: 11;
+  max-height: 95vh;
+  overflow-y: scroll;
+  border: 0.5px solid #fff;
+
+  &::-webkit-scrollbar-thumb,
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .title-signup {
+    margin-bottom: 20px;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(
+      to right,
+      #8e2de2 0%,
+      #000046 51%,
+      #1cb5e0 100%
+    );
+  }
+
+  .signup-form {
+    width: 500px;
+  }
+
+  .signup-form-forgot {
+    float: right;
+  }
+
+  .signup-form-button {
+    width: 100%;
+    color: #fff;
+  }
+
+  .signup-form .ant-row.ant-form-item {
+    display: flex;
+    flex-direction: column;
+
+    .ant-form-item-label {
+      text-align: left;
+      & > label {
+        color: #fff;
+      }
+    }
+
+    .anticon {
+    }
+
+    .ant-col.ant-form-item-control {
+      flex: 0 1 auto;
+
+      .ant-input-affix-wrapper {
+        background-color: transparent;
+        padding: 7px 11px;
+      }
+
+      input {
+        background-color: transparent;
+      }
+    }
   }
 }
 </style>

@@ -60,7 +60,7 @@
       <a-menu-item
         v-for="(item, index) in genres"
         :index="index"
-        :key="item.id"
+        :key="item?.id"
       >
         <router-link
           :to="{
@@ -85,14 +85,18 @@
       <a-menu-item
         v-for="(item, index) in years"
         :index="index"
-        :key="item.name"
+        :key="item?.name"
       >
         <router-link
           :to="{
             name: 'discover',
             params: {
               slug: 'years',
-              slug2: item?.name,
+              slug2: /^\d+$/.test(item?.name)
+                ? item?.name
+                : removeVietnameseTones(item?.name)
+                    ?.replace(/\s/g, '-')
+                    .toLowerCase(),
             },
           }"
           style="display: flex"
@@ -110,14 +114,14 @@
       <a-menu-item
         v-for="(item, index) in countries"
         :index="index"
-        :key="item.iso_639_1"
+        :key="item?.iso_639_1"
       >
         <router-link
           :to="{
             name: 'discover',
             params: {
               slug: 'countries',
-              slug2: item?.name2?.replace('-', '+').toLowerCase(),
+              slug2: item?.name2,
             },
           }"
           style="display: flex"
@@ -134,7 +138,7 @@
       <router-link :to="{ name: 'follow' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
 
-    <a-menu-item key="/ranking" style="margin-bottom: 62vh">
+    <a-menu-item key="/ranking" style="margin-bottom: 52vh">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-ranking-star" />
       </template>
@@ -155,6 +159,7 @@ import {
 } from '../services/MovieService';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
+import { removeVietnameseTones } from '../untils/RemoveVietnameseTones';
 
 export default {
   components: {
@@ -197,6 +202,7 @@ export default {
       genres,
       years,
       countries,
+      removeVietnameseTones,
     };
   },
 };

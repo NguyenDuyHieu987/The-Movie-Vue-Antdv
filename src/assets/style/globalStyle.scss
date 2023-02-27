@@ -73,6 +73,36 @@ span {
   }
   .ant-layout-header {
     padding-left: 0px !important;
+    padding-right: 0px !important;
+
+    .center-header.ant-input-group-wrapper {
+      display: none;
+    }
+
+    .right-header {
+      display: flex;
+      align-items: center;
+
+      .ant-btn {
+        display: block !important;
+        margin-right: 0px;
+      }
+    }
+  }
+}
+
+.ant-dropdown {
+  .ant-dropdown-menu.dropdown-search {
+    max-height: 500px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar-thumb {
+      display: none;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 

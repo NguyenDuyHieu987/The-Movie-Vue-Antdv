@@ -8,7 +8,10 @@
     <h2 class="carousel-title">
       <strong>{{ metaHead }}</strong>
     </h2>
-    <section class="movie-discovered">
+    <section
+      class="movie-discovered"
+      :class="{ collapse: $store.state.collapsed }"
+    >
       <MovieCarouselCardHorizontal
         v-for="(item, index) in dataMovieList"
         :index="index"
@@ -37,9 +40,12 @@ import {
   getMovieSeries,
   FilterDataMovie,
   getMoviesByGenres,
+  getMoviesByYear,
+  getMovieByCountry,
 } from '../services/MovieService';
 import MovieCarouselCardHorizontal from '@/components/MovieCarouselCardHorizontal.vue';
 import FilterBar from '@/components/FilterBar.vue';
+import COUNTRIES from '../constants/Country';
 
 export default {
   components: { MovieCarouselCardHorizontal, FilterBar },
@@ -87,7 +93,9 @@ export default {
           case 'genres':
             getMoviesByGenres(
               Array.from(
-                route.params?.slug2.split('+'),
+                route.params?.slug2 == 'sci-fi+&+fantasy'
+                  ? 'sci-Fi+&+fantasy'.split('+')
+                  : route.params?.slug2.split('+'),
                 (x) => x.charAt(0).toUpperCase() + x.slice(1)
               ).join(' '),
               page.value
@@ -98,13 +106,42 @@ export default {
               .catch((e) => {
                 if (axios.isCancel(e)) return;
               });
-            metaHead.value = 'Thể loại';
+            metaHead.value =
+              'Thể loại: ' +
+              Array.from(
+                route.params?.slug2 == 'sci-fi+&+fantasy'
+                  ? 'sci-Fi+&+fantasy'.split('+')
+                  : route.params?.slug2.split('+'),
+                (x) => x.charAt(0).toUpperCase() + x.slice(1)
+              ).join(' ');
             break;
           case 'years':
-            metaHead.value = 'Năm';
+            getMoviesByYear(route.params?.slug2, page.value)
+              .then((movieResponse) => {
+                dataMovieList.value = movieResponse?.data?.results;
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+            metaHead.value = /^\d+$/.test(route.params?.slug2)
+              ? 'Năm ' + route.params?.slug2
+              : 'Trước năm ' + route.params?.slug2?.slice(-4);
+
             break;
           case 'countries':
-            metaHead.value = 'Quốc gia';
+            getMovieByCountry(route.params?.slug2, page.value)
+              .then((movieResponse) => {
+                dataMovieList.value = movieResponse?.data?.results;
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+            metaHead.value =
+              'Quốc gia: ' +
+              COUNTRIES.find((country) =>
+                country.name2 === route.params?.slug2 ? country : null
+              ).name;
+
             break;
           default:
             break;
@@ -163,15 +200,33 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@media only screen and (max-width: 1400px) {
+  .movie-discovered.collapse {
+    grid-template-columns: repeat(5, minmax(230px, auto)) !important;
+  }
+  .movie-discovered {
+    // grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
+    grid-template-columns: repeat(4, minmax(23%, auto)) !important;
+  }
+}
+
 @media only screen and (max-width: 1010px) {
   .movie-discovered {
-    grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
+    // grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
+    grid-template-columns: repeat(3, minmax(170px, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 860px) {
+  .movie-discovered {
+    grid-template-columns: repeat(2, minmax(160px, auto)) !important;
   }
 }
 
 @media only screen and (max-width: 435px) {
   .movie-discovered {
-    grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
+    // grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
+    grid-template-columns: repeat(2, minmax(150px, auto)) !important;
   }
 
   .movie-carousel-horizontal-item {
@@ -183,9 +238,15 @@ export default {
 
 .movie-discovered {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, auto));
-  margin-top: 10px;
+  // grid-template-columns: repeat(auto-fit, minmax(230px, auto));
+  // margin-top: 10px;
   gap: 10px;
+  overflow: hidden;
+  grid-template-columns: repeat(4, minmax(23%, auto));
+
+  .movie-carousel-horizontal-item {
+    float: left;
+  }
 }
 
 .control-page {

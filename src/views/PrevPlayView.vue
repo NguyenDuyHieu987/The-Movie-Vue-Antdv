@@ -156,11 +156,17 @@
               <label>Ngày Phát Hành: </label>
               <router-link
                 :to="{
-                  path: `/filter/year/${
-                    dataMovie?.last_air_date?.slice(0, 4)
+                  name: 'discover',
+                  params: {
+                    slug: 'years',
+                    slug2: /^\d+$/.test(dataMovie?.last_air_date?.slice(0, 4))
                       ? dataMovie?.last_air_date?.slice(0, 4)
-                      : dataMovie?.release_date?.slice(0, 4)
-                  }`,
+                      : removeVietnameseTones(
+                          dataMovie?.last_air_date?.slice(0, 4)
+                        )
+                          ?.replace(/\s/g, '-')
+                          .toLowerCase(),
+                  },
                 }"
               >
                 {{
@@ -194,7 +200,13 @@
                 v-for="(item, index) in dataMovie?.genres"
                 :key="item?.id"
                 :index="index"
-                :to="{ path: `/filter/genre/${item?.name}` }"
+                :to="{
+                  name: 'discover',
+                  params: {
+                    slug: 'genres',
+                    slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
+                  },
+                }"
               >
                 {{
                   index !== dataMovie?.genres.length - 1
@@ -259,6 +271,7 @@
             :voteAverage="dataMovie?.vote_average"
             :voteCount="dataMovie?.vote_count"
             :movieId="dataMovie?.id"
+            :isEpisodes="isEpisodes"
           />
         </a-skeleton>
       </div>

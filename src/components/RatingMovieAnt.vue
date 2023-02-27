@@ -6,6 +6,7 @@
       :count="10"
       :tooltips="tooltipRating"
       character=""
+      @change="handleRating"
     />
     <span class="ant-rate-text">{{
       tooltipRating[Math.round(voteAverage) - 1]
@@ -17,7 +18,10 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, h } from 'vue';
+import { ratingMovie, ratingTV } from '../services/MovieService';
+import { notification } from 'ant-design-vue';
+import { CheckCircleFilled } from '@ant-design/icons-vue';
 
 export default {
   components: {},
@@ -25,6 +29,7 @@ export default {
     voteAverage: Number,
     voteCount: Number,
     movieId: Number,
+    isEpisodes: Boolean,
   },
   setup(props) {
     const vote_Average = ref(props.voteAverage);
@@ -41,7 +46,31 @@ export default {
       'Tuyệt hay',
     ]);
 
-    return { tooltipRating, vote_Average };
+    const handleRating = (value) => {
+      if (props?.isEpisodes) {
+        ratingTV(props?.movieId, { value: Math.round(value) });
+        notification.open({
+          message: 'Cảm ơn!',
+          description: `Đánh giá thành công ${value} điểm.`,
+          icon: () =>
+            h(CheckCircleFilled, {
+              style: 'color: green',
+            }),
+        });
+      } else {
+        ratingMovie(props?.movieId, { value: Math.round(value) });
+        notification.open({
+          message: 'Cảm ơn!',
+          description: `Đánh giá thành công ${value} điểm.`,
+          icon: () =>
+            h(CheckCircleFilled, {
+              style: 'color: green',
+            }),
+        });
+      }
+    };
+
+    return { tooltipRating, vote_Average, handleRating };
   },
 };
 </script>

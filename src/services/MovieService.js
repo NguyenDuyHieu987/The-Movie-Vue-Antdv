@@ -114,10 +114,14 @@ const getMoviesByGenres = async (genres_name, page) => {
 //   await axios.get(
 //     `https://api.themoviedb.org/3/discover/movie?api_key=fe1b70d9265fdb22caa86dca918116eb&primary_release_date.lte=${year}-12-30&primary_release_date.gte=${year}-01-01&page=${page}`
 //   );
-const getMoviesByYear = async (year, page) =>
-  await axios.get(
-    `${URL_API}/discover/all?api=hieu987&primary_release_date_gte=${year}-01-01&primary_release_date_lte=${year}-12-30&page=${page}`
-  );
+const getMoviesByYear = async (year, page) => {
+  const str = /^\d+$/.test(year)
+    ? `${URL_API}/discover/all?api=hieu987&primary_release_date_gte=${year}-01-01&primary_release_date_lte=${year}-12-30&page=${page}`
+    : `${URL_API}/discover/all?api=hieu987&primary_release_date_lte=${year.slice(
+        -4
+      )}-01-01&page=${page}`;
+  return await axios.get(str);
+};
 
 // const getMoviesByYearBeFore2000 = async (year, page) =>
 //   await axios.get(
