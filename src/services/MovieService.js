@@ -12,8 +12,8 @@ const URL_API = 'https://the-movie-node-content.onrender.com';
 // const URL_API = 'http://phimhay247.us-3.evennode.com';
 // const URL_API = 'https://the-movie-node.onrender.com';
 // const URL_API = 'https://quaint-goat-housecoat.cyclic.app';
-const URL_API_IMAGE = 'https://the-movie-node-image.onrender.com';
-// const URL_API_IMAGE = 'https://exceptional-dalia-vaicut6941.koyeb.app';
+// const URL_API_IMAGE = 'https://the-movie-node-image.onrender.com';
+const URL_API_IMAGE = 'https://python-api-basic.onrender.com';
 // const URL_API = 'http://localhost:3001';
 
 const signIn = async (params) =>

@@ -190,6 +190,7 @@ export default {
 
     const handleChangeInput = () => {
       if (valueInput.value.length > 0) {
+        dataSearch.value = [];
         loadingSearch.value = true;
         getDaTaSearch(valueInput.value, page.value).then((movieRespone) => {
           dataSearch.value = movieRespone?.data?.results;
