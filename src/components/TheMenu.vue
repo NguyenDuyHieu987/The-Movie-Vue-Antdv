@@ -1,26 +1,22 @@
 <template>
   <a-menu
+    :forceSubMenuRender="true"
     v-model:openKeys="openKeys"
     v-model:selectedKeys="selectedKeys"
     mode="inline"
-    style="
-      background-image: linear-gradient(
-        to right,
-        var(--sider-header-background-color3),
-        var(--sider-header-background-color2)
-      );
-    "
     class="menu-sider-bar"
     theme="dark"
+    :subMenuCloseDelay="0.1"
+    :subMenuOpenDelay="0.1"
   >
-    <a-menu-item key="/">
+    <a-menu-item key="">
       <template #icon>
         <HomeOutlined />
       </template>
       <router-link :to="{ name: 'home' }"><span>Trang chủ</span> </router-link>
     </a-menu-item>
 
-    <a-menu-item key="/movie">
+    <a-menu-item key="movie">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-video-camera" />
       </template>
@@ -36,7 +32,7 @@
       </router-link>
     </a-menu-item>
 
-    <a-menu-item key="/tv">
+    <a-menu-item key="tv">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-film" />
       </template>
@@ -52,7 +48,7 @@
       >
     </a-menu-item>
 
-    <a-sub-menu key="/genres">
+    <a-sub-menu key="genres">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-list" />
       </template>
@@ -60,7 +56,7 @@
       <a-menu-item
         v-for="(item, index) in genres"
         :index="index"
-        :key="item?.id"
+        :key="item?.name?.replace(/\s/g, '+').toLowerCase(),"
       >
         <router-link
           :to="{
@@ -77,7 +73,7 @@
       </a-menu-item>
     </a-sub-menu>
 
-    <a-sub-menu key="/years">
+    <a-sub-menu key="years">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-calendar-days" />
       </template>
@@ -106,7 +102,7 @@
       </a-menu-item>
     </a-sub-menu>
 
-    <a-sub-menu key="/countries">
+    <a-sub-menu key="countries">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-globe" />
       </template>
@@ -114,7 +110,7 @@
       <a-menu-item
         v-for="(item, index) in countries"
         :index="index"
-        :key="item?.iso_639_1"
+        :key="item?.name2"
       >
         <router-link
           :to="{
@@ -132,14 +128,14 @@
       </a-menu-item>
     </a-sub-menu>
 
-    <a-menu-item key="/follow">
+    <a-menu-item key="follow">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-bookmark" />
       </template>
       <router-link :to="{ name: 'follow' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
 
-    <a-menu-item key="/ranking" style="margin-bottom: 52vh">
+    <a-menu-item key="ranking" style="margin-bottom: 52vh">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-ranking-star" />
       </template>
@@ -170,8 +166,22 @@ export default {
     const route = useRoute();
 
     const state = reactive({
-      selectedKeys: [route.path],
-      openKeys: ['1'],
+      selectedKeys: [
+        route.path
+          .replaceAll('discover', route.params?.slug2 ? 'discover' : '')
+          .replaceAll(route.params?.slug2 ? route.params?.slug2 : '', '')
+          .replaceAll(route.params?.id ? route.params?.id : '', '')
+          .replaceAll(route.params?.name ? route.params?.name : '', '')
+          .replaceAll('/', ''),
+      ],
+      openKeys: [
+        route.path
+          .replaceAll('discover', '')
+          .replaceAll(route.params?.slug2 ? route.params?.slug2 : '', '')
+          .replaceAll(route.params?.id ? route.params?.id : '', '')
+          .replaceAll(route.params?.name ? route.params?.name : '', '')
+          .replaceAll('/', ''),
+      ],
       preOpenKeys: ['1'],
     });
 
@@ -183,7 +193,9 @@ export default {
       Promise.all([getAllGenre(), getAllYear(), getAllNational()])
         .then((res) => {
           genres.value = res[0].data;
-          years.value = res[1].data;
+          years.value = res[1].data.sort(function (a, b) {
+            return +b.name.slice(-4) - +a.name.slice(-4);
+          });
           countries.value = res[2].data;
         })
         .catch((e) => {
@@ -215,14 +227,15 @@ export default {
     to right,
     var(--sider-header-background-color3),
     var(--sider-header-background-color2)
-  );
+  ) !important;
   overflow: hidden;
 
   .ant-menu-item:hover {
     background-color: var(--hover-regular-color) !important;
   }
 
-  .ant-menu-item.ant-menu-item-selected {
+  .ant-menu-item.ant-menu-item-selected,
+  .ant-menu-submenu-open {
     background-color: var(--hover-regular-color) !important;
   }
 
@@ -240,12 +253,16 @@ export default {
 
   .ant-menu-submenu {
     margin-left: 3px !important;
-  }
 
-  .ant-menu-submenu {
+    .ant-menu-submenu-title {
+      height: 45px;
+      line-height: 45px;
+      border-radius: 100px;
+      border-radius: 100px;
+    }
     .ant-menu-item {
-      padding-left: 24px;
-      // margin-left: 30px;
+      // padding-left: 24px !important;
+      margin-left: 20px !important;
     }
   }
 }

@@ -72,6 +72,14 @@ export default {
 };
 </script>
 <style lang="scss">
+@media only screen and (max-width: 900px) {
+  .topic-item {
+    .overview {
+      -webkit-line-clamp: 2 !important;
+    }
+  }
+}
+
 .topic-item {
   font-size: 10px;
   height: 100%;

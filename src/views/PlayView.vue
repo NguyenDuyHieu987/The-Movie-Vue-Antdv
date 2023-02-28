@@ -159,7 +159,7 @@ export default {
     });
 
     onMounted(() => {
-      getData();
+      // getData();
     });
 
     watch(route, () => {

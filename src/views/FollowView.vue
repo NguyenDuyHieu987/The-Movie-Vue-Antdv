@@ -1,6 +1,6 @@
 <template>
   <div class="follow">
-    <div v-if="$store.state.isLogin">
+    <div v-if="isLogin">
       <h1>This is an follow page</h1>
     </div>
 
@@ -10,7 +10,7 @@
           key="console"
           size="large"
           @click="$router.push({ path: '/login' })"
-          >Đăng nhập
+          >Đăng nhập ngay
         </a-button>
       </template>
     </a-result>
@@ -18,14 +18,15 @@
 </template>
 
 <script>
-import { watch, onBeforeMount } from 'vue';
-// import { useStore } from 'vuex';
+import { watch, onBeforeMount, computed } from 'vue';
+import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
 export default {
   setup() {
     const route = useRoute();
-    // const store = useStore();
+    const store = useStore();
+    const isLogin = computed(() => store.state.isLogin);
 
     onBeforeMount(() => {
       // if (!store.state.isLogin) {
@@ -50,7 +51,7 @@ export default {
 
     document.title = 'Phimhay247 - Theo dõi';
 
-    return {};
+    return { isLogin };
   },
 };
 </script>

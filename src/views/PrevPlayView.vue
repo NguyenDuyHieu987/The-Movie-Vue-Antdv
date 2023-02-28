@@ -143,7 +143,7 @@
             class="btn-add-to-list"
             :class="{ active: isAddToList }"
             @confirm="handelAddToList"
-            :visible="$store.state.isLogin"
+            v-if="$store.state.isLogin"
           >
             <!-- @click="handelAddToList" -->
             <template #title>
@@ -389,7 +389,11 @@
     </h3> -->
 
     <a-tabs v-model:activeKey="activeTabCast" class="section-title">
-      <a-tab-pane key="1" tab="Diễn viên">
+      <a-tab-pane
+        key="1"
+        tab="Diễn viên"
+        v-if="dataCredit?.credits?.crew?.length"
+      >
         <carousel
           v-if="dataCredit?.credits?.cast?.length"
           class="cast"
@@ -418,7 +422,12 @@
           />
         </carousel>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="Đội ngũ" force-render>
+      <a-tab-pane
+        key="2"
+        tab="Đội ngũ"
+        force-render
+        v-if="dataCredit?.credits?.crew?.length"
+      >
         <carousel
           v-if="dataCredit?.credits?.crew?.length"
           class="cast"
@@ -611,7 +620,7 @@ export default {
     });
 
     onMounted(() => {
-      getData();
+      // getData();
     });
 
     const scrolltoTrailerYoutube = () => {
@@ -664,6 +673,17 @@ export default {
     const handelRequireLogin = () => {
       router.push({ path: '/login' });
     };
+
+    watch(isEpisodes, () => {
+      getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', route.params?.id)
+        .then((movieResponed) => {
+          dataCredit.value = movieResponed?.data;
+        })
+        .catch((e) => {
+          loading.value = false;
+          if (axios.isCancel(e)) return;
+        });
+    });
 
     watch(route, () => {
       // router.push({ path: newVal.path }).then(() => {

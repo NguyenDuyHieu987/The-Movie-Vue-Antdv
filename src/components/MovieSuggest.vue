@@ -1,5 +1,7 @@
 <template>
-  <h2 class="carousel-title"><strong>Có thể bạn quan tâm</strong></h2>
+  <h2 class="carousel-title" v-if="dataSimilar?.length">
+    <strong>Có thể bạn quan tâm</strong>
+  </h2>
   <carousel
     v-if="dataSimilar?.length"
     class="similar-container"
@@ -59,7 +61,9 @@
     />
   </carousel>
 
-  <h2 class="carousel-title"><strong>Phim tương tự</strong></h2>
+  <h2 class="carousel-title" v-if="dataRecommend?.length">
+    <strong>Phim tương tự</strong>
+  </h2>
   <carousel
     v-if="dataRecommend?.length"
     class="recommend-container"
