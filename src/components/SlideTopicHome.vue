@@ -19,7 +19,7 @@
     />
   </a-carousel>
 
-  <h2 class="carousel-title" v-if="nowPlayings?.length">
+  <h2 class="gradient-title-default" v-if="nowPlayings?.length">
     <strong>Phim nổi bật</strong>
   </h2>
   <carousel
@@ -80,7 +80,7 @@
     />
   </carousel>
 
-  <h2 class="carousel-title" v-if="upComings?.length">
+  <h2 class="gradient-title-default" v-if="upComings?.length">
     <strong>Phim mới cập nhật</strong>
   </h2>
   <!-- <a-row type="flex" align="middle" :gutter="10">
@@ -109,7 +109,7 @@
     />
   </section>
 
-  <h2 class="carousel-title" v-if="populars?.length">
+  <h2 class="gradient-title-default" v-if="populars?.length">
     <strong>Trailer</strong>
   </h2>
   <!-- <a-row type="flex" align="middle" 
@@ -139,7 +139,7 @@
     />
   </section>
 
-  <h2 class="carousel-title" v-if="topRateds?.length">
+  <h2 class="gradient-title-default" v-if="topRateds?.length">
     <strong>Phim chiếu rạp mới</strong>
   </h2>
   <carousel

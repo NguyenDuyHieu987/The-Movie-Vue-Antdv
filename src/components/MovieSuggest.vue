@@ -1,5 +1,5 @@
 <template>
-  <h2 class="carousel-title" v-if="dataSimilar?.length">
+  <h2 class="gradient-title-default" v-if="dataSimilar?.length">
     <strong>Có thể bạn quan tâm</strong>
   </h2>
   <carousel
@@ -61,7 +61,7 @@
     />
   </carousel>
 
-  <h2 class="carousel-title" v-if="dataRecommend?.length">
+  <h2 class="gradient-title-default" v-if="dataRecommend?.length">
     <strong>Phim tương tự</strong>
   </h2>
   <carousel

@@ -1,7 +1,47 @@
 <template>
   <div class="follow">
-    <div v-if="isLogin">
-      <h1>This is an follow page</h1>
+    <div v-if="isLogin" class="follow-container">
+      <a-tabs v-model:activeKey="activeTabCast">
+        <a-tab-pane key="1" :tab="metaHead">
+          <section
+            class="movie-group"
+            :class="{ collapse: $store.state.collapsed }"
+          >
+            <MovieCarouselCardVertical
+              v-for="(item, index) in dataList"
+              :index="index"
+              :key="item.id"
+              :item="item"
+            /></section
+        ></a-tab-pane>
+        <a-tab-pane key="2" tab="Lịch sử xem phim">
+          <section
+            class="movie-group"
+            :class="{ collapse: $store.state.collapsed }"
+          >
+            <MovieCarouselCardVertical
+              v-for="(item, index) in dataHistory"
+              :index="index"
+              :key="item.id"
+              :item="item"
+            />
+          </section>
+        </a-tab-pane>
+      </a-tabs>
+
+      <!-- <a-layout>
+        <a-layout-content>
+          <h2 class="gradient-title-default" style="margin-top: 0px">
+            <strong>{{ metaHead }}</strong>
+          </h2>
+        </a-layout-content>
+
+        <a-layout-sider :width="300">
+          <h2 class="gradient-title-default" style="margin-top: 0px">
+            <strong>Lịch sử xem phim</strong>
+          </h2>
+        </a-layout-sider>
+      </a-layout> -->
     </div>
 
     <a-result v-else title="Bạn cần đăng nhập để sử dụng chức năng này">
@@ -18,15 +58,22 @@
 </template>
 
 <script>
-import { watch, onBeforeMount, computed } from 'vue';
+import { watch, onBeforeMount, computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
+import axios from 'axios';
+import MovieCarouselCardVertical from '@/components/MovieCarouselCardVertical.vue';
+import { getList, getWatchList } from '../services/MovieService';
 
 export default {
+  components: { MovieCarouselCardVertical },
   setup() {
     const route = useRoute();
     const store = useStore();
     const isLogin = computed(() => store.state.isLogin);
+    const metaHead = ref('Theo dõi');
+    const dataList = ref([]);
+    const dataHistory = ref([]);
 
     onBeforeMount(() => {
       // if (!store.state.isLogin) {
@@ -45,13 +92,131 @@ export default {
       //     class: 'require-login-confirm',
       //   });
       // }
+
+      getList(store?.state.userAccount?.id)
+        .then((movieRespone) => {
+          dataList.value = movieRespone.data.items;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+
+      getWatchList(store?.state.userAccount?.id, 1)
+        .then((movieRespone) => {
+          dataHistory.value = movieRespone.data.results;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     });
 
     watch(route, () => {});
 
     document.title = 'Phimhay247 - Theo dõi';
 
-    return { isLogin };
+    return { isLogin, metaHead, dataList, dataHistory };
   },
 };
 </script>
+
+<style lang="scss">
+@media only screen and (max-width: 1400px) {
+  .follow {
+    .movie-group {
+      grid-template-columns: repeat(5, minmax(180px, auto)) !important;
+    }
+
+    .movie-group.collapse {
+      grid-template-columns: repeat(6, minmax(180px, auto)) !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1010px) {
+  .follow {
+    .movie-group {
+      grid-template-columns: repeat(3, minmax(170px, auto)) !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 860px) {
+  .follow {
+    .movie-group {
+      grid-template-columns: repeat(3, minmax(160px, auto)) !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 615px) {
+  .follow {
+    .movie-group {
+      grid-template-columns: repeat(3, minmax(160px, auto)) !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .follow {
+    .movie-group {
+      grid-template-columns: repeat(2, minmax(160px, auto)) !important;
+    }
+  }
+}
+
+.follow {
+  .follow-container {
+    background-color: #000;
+
+    .ant-layout-content {
+      padding-right: 20px;
+    }
+
+    .ant-layout-sider {
+      background-color: #000;
+    }
+
+    .gradient-title-default {
+      strong {
+        cursor: pointer;
+        background-color: red !important;
+      }
+
+      strong + strong {
+        margin-left: 20px;
+      }
+    }
+
+    .movie-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, auto));
+      margin-top: 10px;
+      gap: 10px;
+    }
+
+    .ant-tabs-nav-list {
+      .ant-tabs-tab {
+        .ant-tabs-tab-btn {
+          font-weight: bold;
+          font-size: 25px;
+        }
+      }
+
+      .ant-tabs-tab-active {
+        .ant-tabs-tab-btn {
+          color: transparent;
+          display: inline;
+          -webkit-text-fill-color: transparent;
+          -webkit-background-clip: text;
+          background-image: linear-gradient(
+            to right,
+            var(--sider-header-background-color1),
+            var(--sider-header-background-color2),
+            var(--sider-header-background-color3)
+          );
+        }
+      }
+    }
+  }
+}
+</style>

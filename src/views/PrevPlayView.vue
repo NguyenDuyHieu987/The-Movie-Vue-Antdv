@@ -153,7 +153,7 @@
             </template>
             <template #icon><question-circle-outlined /></template>
 
-            <span @click="handelAddToList">
+            <span>
               <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
               <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
               <span v-if="!isAddToList"> Add to list</span>
@@ -388,12 +388,8 @@
       <strong>Diễn viên</strong>
     </h3> -->
 
-    <a-tabs v-model:activeKey="activeTabCast" class="section-title">
-      <a-tab-pane
-        key="1"
-        tab="Diễn viên"
-        v-if="dataCredit?.credits?.crew?.length"
-      >
+    <a-tabs v-model:activeKey="activeTabCast">
+      <a-tab-pane key="1" tab="Diễn viên">
         <carousel
           v-if="dataCredit?.credits?.cast?.length"
           class="cast"
@@ -422,12 +418,7 @@
           />
         </carousel>
       </a-tab-pane>
-      <a-tab-pane
-        key="2"
-        tab="Đội ngũ"
-        force-render
-        v-if="dataCredit?.credits?.crew?.length"
-      >
+      <a-tab-pane key="2" tab="Đội ngũ" force-render>
         <carousel
           v-if="dataCredit?.credits?.crew?.length"
           class="cast"
@@ -1019,6 +1010,29 @@ export default {
 
     &.active {
       display: block;
+    }
+  }
+
+  .ant-tabs-nav-list {
+    .ant-tabs-tab {
+      .ant-tabs-tab-btn {
+        font-weight: bold;
+        font-size: 20px;
+      }
+    }
+
+    .ant-tabs-tab-active {
+      .ant-tabs-tab-btn {
+        color: transparent;
+        display: inline;
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+        background-image: linear-gradient(
+          to right,
+          var(--sider-header-background-color2),
+          var(--sider-header-background-color3)
+        );
+      }
     }
   }
 }

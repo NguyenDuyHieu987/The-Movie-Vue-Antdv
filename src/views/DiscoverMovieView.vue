@@ -5,7 +5,7 @@
       @cancelFilter="cancelFilter"
     />
 
-    <h2 class="carousel-title">
+    <h2 class="gradient-title-default">
       <strong>{{ metaHead }}</strong>
     </h2>
     <section

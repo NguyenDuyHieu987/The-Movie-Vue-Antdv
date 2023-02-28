@@ -20,7 +20,7 @@ export default {
   min-height: calc(100vh - 130px);
   background-color: #000;
   .container {
-    padding: 15px 30px;
+    padding: 15px 20px;
     background-color: var(--background-content-color);
     height: 100%;
   }
