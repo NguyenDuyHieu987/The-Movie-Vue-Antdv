@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, watch, computed } from 'vue';
+import { ref, onBeforeMount, watch, computed, onMounted } from 'vue';
 import {
   useRoute,
   //  useRouter
@@ -126,7 +126,7 @@ export default {
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
 
-    onBeforeMount(() => {
+    const getData = () => {
       loading.value = true;
 
       getMovieSeriesById(route.params?.id)
@@ -152,6 +152,14 @@ export default {
       setTimeout(() => {
         loading.value = false;
       }, 1500);
+    };
+
+    onBeforeMount(() => {
+      getData();
+    });
+
+    onMounted(() => {
+      getData();
     });
 
     watch(route, () => {
