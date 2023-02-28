@@ -150,8 +150,8 @@
                 </a-menu-item>
                 <a-menu-item key="logout">
                   <router-link :to="{ name: 'login' }" @click="handleLogout">
-                    <span v-if="isLogin"> Log out</span>
-                    <span v-else> Log in</span>
+                    <span v-if="isLogin"> Đăng xuất</span>
+                    <span v-else> Đăng nhập</span>
                   </router-link>
                 </a-menu-item>
               </a-menu>

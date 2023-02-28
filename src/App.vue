@@ -10,23 +10,22 @@
 </template>
 
 <script>
-import { computed, onBeforeMount, h } from 'vue';
+import { computed, onBeforeMount, h, createVNode } from 'vue';
 import { useStore } from 'vuex';
-import {
-  // useRouter,
-  useRoute,
-} from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { CloseCircleFilled } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
 import { getUserToken } from './services/MovieService';
 import { getWithExpiry } from './untils/LocalStorage';
+import { Modal } from 'ant-design-vue';
+import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 
 export default {
   components: {},
   setup() {
     const store = useStore();
-    // const router = useRouter();
+    const router = useRouter();
     const route = useRoute();
 
     onBeforeMount(() => {
@@ -70,6 +69,34 @@ export default {
           // console.log(router);
         }
       }
+
+      router.beforeEach((to, from, next) => {
+        if (to.matched.some((record) => record.meta.requiresAuth)) {
+          // this route requires auth, check if logged in
+          // if not, redirect to login page.
+
+          if (!store.state.isLogin) {
+            Modal.confirm({
+              title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
+              icon: createVNode(QuestionCircleOutlined),
+              // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
+              content: createVNode('div', {}, 'Đăng nhập ngay?'),
+              okText: 'Có',
+              okType: 'default',
+              cancelText: 'Không',
+              onOk() {
+                next({ path: '/login' });
+              },
+              onCancel() {},
+              class: 'require-login-confirm',
+            });
+          } else {
+            next(); // go to wherever I'm going
+          }
+        } else {
+          next(); // does not require auth, make sure to always call next()!
+        }
+      });
     });
     return {
       layout: computed(() => (route.meta.layout || 'default') + '-layout'),

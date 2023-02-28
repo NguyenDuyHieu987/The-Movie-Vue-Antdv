@@ -1,6 +1,6 @@
 <template>
   <div class="login-form-container">
-    <h1 class="title-login">Log In</h1>
+    <h1 class="title-login">Đăng nhập</h1>
     <a-form
       :model="formState"
       name="normal_login"
@@ -28,7 +28,7 @@
       </a-form-item>
 
       <a-form-item
-        label="Password"
+        label="Mật khẩu"
         name="password"
         :rules="[
           {
@@ -50,10 +50,10 @@
           <a-checkbox
             v-model:checked="formState.remember"
             style="user-select: none"
-            >Remember me</a-checkbox
+            >Tự động đăng nhập</a-checkbox
           >
         </a-form-item>
-        <a class="login-form-forgot" href="">Forgot password?</a>
+        <a class="login-form-forgot" href="">Quên mật khẩu?</a>
       </a-form-item>
 
       <a-form-item>
@@ -67,7 +67,7 @@
           :loading="loadingLogin"
           style="background: transparent"
         >
-          Log in
+          Đăng nhập
         </a-button>
       </a-form-item>
       <!-- <a-button
@@ -93,7 +93,7 @@
       ></facebookLogin> -->
 
       <button class="facebook-login" @click="handleLoginFacebook">
-        Facebook log in
+        Đăng nhập bằng Facebook
       </button>
 
       <div
@@ -107,9 +107,11 @@
       ></div>
     </div>
 
-    <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">Or</p>
+    <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
+      Hoặc
+    </p>
     <div style="display: flex; justify-content: center">
-      <router-link :to="{ name: 'signup' }">Register now!</router-link>
+      <router-link :to="{ name: 'signup' }">Dăng ký ngay!</router-link>
     </div>
   </div>
 </template>

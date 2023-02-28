@@ -1,6 +1,6 @@
 <template>
   <div class="signup-form-container">
-    <h1 class="title-signup">Sign Up</h1>
+    <h1 class="title-signup">Đăng ký</h1>
     <a-form
       :model="formState"
       :rules="rules"
@@ -10,7 +10,7 @@
       @finishFailed="onFinishFailed"
     >
       <a-form-item
-        label="Full Name"
+        label="Họ và Tên"
         name="fullname"
         :rules="[
           {
@@ -28,7 +28,7 @@
       </a-form-item>
 
       <a-form-item
-        label="Username"
+        label="Tài khoản"
         name="username"
         :rules="[
           {
@@ -65,7 +65,7 @@
       </a-form-item>
 
       <a-form-item
-        label="Password"
+        label="Mật khẩu"
         name="password"
         :rules="[
           {
@@ -101,14 +101,14 @@
         style="background: transparent"
         :loading="loadingSignUp"
       >
-        Sign up
+        Đăng ký
       </a-button>
       <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
-        Or
+        Hoặc
       </p>
 
       <div style="display: flex; justify-content: center">
-        <router-link :to="{ name: 'login' }">Log in now!</router-link>
+        <router-link :to="{ name: 'login' }">Đăng nhập ngay!</router-link>
       </div>
     </a-form>
   </div>

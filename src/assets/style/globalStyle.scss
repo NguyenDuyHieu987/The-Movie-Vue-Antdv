@@ -8,8 +8,8 @@
   --sider-header-background-color1: #8e2de2;
   --sider-header-background-color2: #000046;
   --sider-header-background-color3: #1cb5e0;
-  --btn-backgroud-color: #003353;
-  --btn-backgroud-color-hover: #002237;
+  --btn-backgroud-color: #004671;
+  --btn-backgroud-color-hover: #003759;
   --btn-border-color-focused: #16b48f;
   --btn-border-color-hover: #16b48f;
   --btn-delete-background-color: #f10606;
@@ -420,7 +420,8 @@ span {
   background-color: var(--hover-regular-color) !important;
 }
 
-.ant-input-wrapper {
+.ant-input-wrapper,
+.right-header {
   .ant-btn-primary {
     background: var(--btn-backgroud-color);
     border-color: var(--btn-backgroud-color);
