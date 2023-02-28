@@ -6,11 +6,12 @@ const store = createStore({
     return {
       openDrawer: false,
       modalVisible: false,
+      isLogin: JSON.parse(window.localStorage.getItem('isLogin')),
       modalAction: '',
       loadingDetailAccount: false,
       loadingSearch: false,
       loadingTable: false,
-      userAccount: {},
+      userAccount: JSON.parse(window.localStorage.getItem('userAccount')),
       listAccount: [],
       numberOfAccount: 0,
       detailAccountData: {},

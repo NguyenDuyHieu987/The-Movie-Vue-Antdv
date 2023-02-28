@@ -136,7 +136,7 @@
             </a>
             <template #overlay>
               <a-menu>
-                <a-menu-item key="my-profile">
+                <a-menu-item key="my-profile" v-if="$store.state.isLogin">
                   <router-link :to="{ name: 'profile' }"
                     ><span>My Profile</span>
                     <br />
@@ -145,12 +145,13 @@
                     }}</span>
                   </router-link>
                 </a-menu-item>
-                <a-menu-item key="account">
+                <a-menu-item key="account" v-if="$store.state.isLogin">
                   <router-link :to="{ name: 'home' }">Account Home</router-link>
                 </a-menu-item>
-                <a-menu-item key="login">
-                  <router-link :to="{ name: 'login' }" @click="handleLogout"
-                    >Log out
+                <a-menu-item key="logout">
+                  <router-link :to="{ name: 'login' }" @click="handleLogout">
+                    <span v-if="$store.state.isLogin"> Log out</span>
+                    <span v-else> Log in</span>
                   </router-link>
                 </a-menu-item>
               </a-menu>
@@ -223,7 +224,9 @@ export default {
       window.localStorage.removeItem('userAccount');
       window.localStorage.removeItem('userToken');
       window.localStorage.removeItem('remember');
+      window.localStorage.removeItem('isLogin');
     };
+
     return {
       dataSearch,
       valueInput,

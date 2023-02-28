@@ -205,15 +205,20 @@ export default defineComponent({
           } else {
             if (response.data?.isLogin === true) {
               store.state.userAccount = response?.data?.result;
-              window.localStorage.setItem(
-                'userAccount',
-                JSON.stringify(response?.data?.result)
-              );
+              window.localStorage.setItem('isLogin', true);
+
               window.localStorage.setItem('remember', formState.remember);
-              window.localStorage.setItem(
-                'userToken',
-                response?.data?.result?.user_token
-              );
+              if (formState.remember) {
+                window.localStorage.setItem(
+                  'userAccount',
+                  JSON.stringify(response?.data?.result)
+                );
+                window.localStorage.setItem(
+                  'userToken',
+                  response?.data?.result?.user_token
+                );
+              }
+
               setTimeout(() => {
                 loadingLogin.value = false;
                 router.push({ path: '/' });

@@ -134,7 +134,9 @@
             <font-awesome-icon icon="fa-brands fa-youtube" />
             <span>Trailer</span>
           </span>
+
           <a-popconfirm
+            v-if="$store.state.isLogin"
             ok-text="Có"
             cancel-text="Không"
             class="btn-add-to-list"
@@ -146,6 +148,27 @@
               <p v-if="!isAddToList">Bạn có muốn thêm phìm vào</p>
               <p v-else>Bạn có muốn xoá phìm khỏi</p>
               <p>danh sách phát không?</p>
+            </template>
+            <template #icon><question-circle-outlined /></template>
+
+            <span>
+              <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
+              <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
+              <span v-if="!isAddToList"> Add to list</span>
+              <span v-else> Remove list</span>
+            </span>
+          </a-popconfirm>
+
+          <a-popconfirm
+            v-else
+            ok-text="Có"
+            cancel-text="Không"
+            class="btn-add-to-list"
+            @confirm="handelRequireLogin"
+          >
+            <template #title>
+              <p>Bạn cần đăng nhập để sử dụng chức năng này</p>
+              <p>Đăng nhập ngay?</p>
             </template>
             <template #icon><question-circle-outlined /></template>
 
@@ -437,10 +460,7 @@
 </template>
 <script>
 import { ref, onBeforeMount, onMounted, watch } from 'vue';
-import {
-  useRoute,
-  // useRouter
-} from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import carousel from 'vue-owl-carousel/src/Carousel';
 import {
@@ -463,6 +483,7 @@ import CastCard from '@/components/CastCard.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
 import { useStore } from 'vuex';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
 
 export default {
   components: {
@@ -477,7 +498,7 @@ export default {
   setup() {
     const store = useStore();
     const route = useRoute();
-    // const router = useRouter();
+    const router = useRouter();
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
@@ -566,22 +587,21 @@ export default {
           if (axios.isCancel(e)) return;
         });
 
-      getList(
-        // store.state?.userAccount?.id
-        JSON.parse(window.localStorage.getItem('userAccount')).id
-      )
-        .then((movieRespone) => {
-          dataAddToList.value = movieRespone?.data?.items;
+      if (store.state.isLogin) {
+        getList(store.state?.userAccount?.id)
+          .then((movieRespone) => {
+            dataAddToList.value = movieRespone?.data?.items;
 
-          dataAddToList.value?.map((item) => {
-            if (item?.id == route.params?.id) {
-              isAddToList.value = true;
-            }
+            dataAddToList.value?.map((item) => {
+              if (item?.id == route.params?.id) {
+                isAddToList.value = true;
+              }
+            });
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
           });
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      }
 
       setTimeout(() => {
         loading.value = false;
@@ -607,13 +627,27 @@ export default {
           media_type: isEpisodes.value ? 'tv' : 'movie',
           media_id: dataMovie.value?.id,
         });
-        isAddToList.value = true;
+
+        message.loading({ content: 'Đang thêm...', duration: 2 });
+        setTimeout(() => {
+          message.success({ content: 'Thêm thành công!', duration: 2 });
+          isAddToList.value = true;
+        }, 2200);
       } else {
         removeItemList(store.state?.userAccount?.id, {
           media_id: dataMovie.value?.id,
         });
-        isAddToList.value = false;
+
+        message.loading({ content: 'Đang xóa...', duration: 2 });
+        setTimeout(() => {
+          message.success({ content: 'Xóa thành công!', duration: 2 });
+          isAddToList.value = false;
+        }, 2200);
       }
+    };
+
+    const handelRequireLogin = () => {
+      router.push({ path: '/login' });
     };
 
     watch(route, () => {
@@ -666,6 +700,7 @@ export default {
       getLanguage,
       scrolltoTrailerYoutube,
       handelAddToList,
+      handelRequireLogin,
     };
   },
 };

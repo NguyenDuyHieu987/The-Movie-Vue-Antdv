@@ -28,30 +28,38 @@ export default {
     onBeforeMount(() => {
       const remember = window.localStorage.getItem('remember');
       const userToken = window.localStorage.getItem('userToken');
+      // const isLogin = window.localStorage.getItem('isLogin');
 
-      if (remember == 'true') {
-        if (userToken != null) {
-          getUserToken({ user_token: userToken })
-            .then((accountResponse) => {
-              if (accountResponse.data.isLogin == true) {
-                store.state.userAccount = accountResponse?.data?.result;
-              }
-            })
-            .catch((e) => {
-              notification.open({
-                message: 'Failed!',
-                description: 'Some thing went wrong.',
-                icon: () =>
-                  h(CloseCircleFilled, {
-                    style: 'color: red',
-                  }),
+      if (store.state.isLogin) {
+        if (remember) {
+          if (userToken != null) {
+            getUserToken({ user_token: userToken })
+              .then((accountResponse) => {
+                if (accountResponse.data.isLogin == true) {
+                  window.localStorage.setItem(
+                    'userAccount',
+                    JSON.stringify(accountResponse?.data?.result)
+                  );
+                  store.state.userAccount = accountResponse?.data?.result;
+                }
+              })
+              .catch((e) => {
+                notification.open({
+                  message: 'Failed!',
+                  description: 'Some thing went wrong.',
+                  icon: () =>
+                    h(CloseCircleFilled, {
+                      style: 'color: red',
+                    }),
+                });
+                if (axios.isCancel(e)) return;
               });
-              if (axios.isCancel(e)) return;
-            });
-        }
-      } else {
-        if (window.localStorage.getItem('userToken') == null) {
-          router.push({ path: '/login' });
+          }
+        } else {
+          // if (window.localStorage.getItem('userToken') == null) {
+          //   router.push({ path: '/login' });
+          // }
+          console.log(router);
         }
       }
     });

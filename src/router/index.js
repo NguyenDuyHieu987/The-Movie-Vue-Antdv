@@ -37,6 +37,7 @@ const routes = [
     name: 'follow',
     meta: {
       layout: 'default',
+      requiresAuth: true,
     },
     component: () =>
       import(/* webpackChunkName: "follow" */ '../views/FollowView.vue'),
