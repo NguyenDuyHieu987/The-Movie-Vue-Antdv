@@ -8,6 +8,12 @@
   >
     <a-layout-header class="ant-list-header">
       <div style="display: flex; justify-content: center; align-items: center">
+        <!-- <a-skeleton
+          :paragraph="{ rows: 1 }"
+          :active="true"
+          :title="false"
+          :loading="$store.state.userAccount?.user_name == undefined"
+        > -->
         <h3 style="color: #fff" v-if="!$store.state.collapsed">
           {{ $store.state.userAccount?.user_name }}
         </h3>
@@ -24,6 +30,7 @@
             </h4>
           </div>
         </a-tooltip>
+        <!-- </a-skeleton> -->
       </div>
     </a-layout-header>
 

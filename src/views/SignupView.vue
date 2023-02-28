@@ -125,6 +125,7 @@ import { notification } from 'ant-design-vue';
 import axios from 'axios';
 import { signUp } from '../services/MovieService';
 import md5 from 'md5';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: {
@@ -132,6 +133,7 @@ export default defineComponent({
     LockOutlined,
   },
   setup() {
+    const router = useRouter();
     const formState = reactive({
       fullname: '',
       username: '',
@@ -215,22 +217,23 @@ export default defineComponent({
             setTimeout(() => {
               loadingSignUp.value = false;
               notification.open({
-                message: 'Congratulation!',
+                message: 'Chúc mừng!',
                 description:
-                  'You have successfully signed up account from Phimhay247.',
+                  'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
                 icon: () =>
                   h(CheckCircleFilled, {
                     style: 'color: green',
                   }),
               });
+              router.push({ path: '/login' });
             }, 1000);
             reset();
           } else {
             setTimeout(() => {
               loadingSignUp.value = false;
               notification.open({
-                message: 'Failed!',
-                description: 'Account is already exists.',
+                message: 'Lỗi!',
+                description: 'Email đã tồn tại.',
                 icon: () =>
                   h(CheckCircleFilled, {
                     style: 'color: red',

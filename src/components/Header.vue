@@ -148,8 +148,10 @@
                 <a-menu-item key="account">
                   <router-link :to="{ name: 'home' }">Account Home</router-link>
                 </a-menu-item>
-                <a-menu-item key="login" @click="handleLogout">
-                  <router-link :to="{ name: 'login' }">Log out </router-link>
+                <a-menu-item key="login">
+                  <router-link :to="{ name: 'login' }" @click="handleLogout"
+                    >Log out
+                  </router-link>
                 </a-menu-item>
               </a-menu>
             </template>
@@ -197,7 +199,7 @@ export default {
         });
         setTimeout(() => {
           loadingSearch.value = false;
-        }, 1000);
+        }, 2000);
       } else if (valueInput.value.length == 0) {
         dataSearch.value = [];
       }
@@ -218,6 +220,7 @@ export default {
     };
 
     const handleLogout = () => {
+      window.localStorage.removeItem('userAccount');
       window.localStorage.removeItem('userToken');
       window.localStorage.removeItem('remember');
     };

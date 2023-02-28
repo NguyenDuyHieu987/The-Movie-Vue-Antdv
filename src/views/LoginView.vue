@@ -194,8 +194,8 @@ export default defineComponent({
             setTimeout(() => {
               loadingLogin.value = false;
               notification.open({
-                message: 'Failed!',
-                description: 'Account is not available.',
+                message: 'Lỗi!',
+                description: 'Tài khoản không tồi tại.',
                 icon: () =>
                   h(CloseCircleFilled, {
                     style: 'color: red',
@@ -203,8 +203,12 @@ export default defineComponent({
               });
             }, 1000);
           } else {
-            if (response.data.isLogin === true) {
+            if (response.data?.isLogin === true) {
               store.state.userAccount = response?.data?.result;
+              window.localStorage.setItem(
+                'userAccount',
+                JSON.stringify(response?.data?.result)
+              );
               window.localStorage.setItem('remember', formState.remember);
               window.localStorage.setItem(
                 'userToken',
@@ -219,8 +223,8 @@ export default defineComponent({
               setTimeout(() => {
                 loadingLogin.value = false;
                 notification.open({
-                  message: 'Failed!',
-                  description: 'Wrong username or password.',
+                  message: 'Lỗi!',
+                  description: 'Sai tài khoản hoặc mật khẩu.',
                   icon: () =>
                     h(CloseCircleFilled, {
                       style: 'color: red',

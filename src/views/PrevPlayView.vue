@@ -143,7 +143,8 @@
           >
             <!-- @click="handelAddToList" -->
             <template #title>
-              <p>Bạn có muốn thêm phìm vào</p>
+              <p v-if="!isAddToList">Bạn có muốn thêm phìm vào</p>
+              <p v-else>Bạn có muốn xoá phìm khỏi</p>
               <p>danh sách phát không?</p>
             </template>
             <template #icon><question-circle-outlined /></template>
@@ -151,7 +152,8 @@
             <span>
               <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
               <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
-              <span> Add to list</span>
+              <span v-if="!isAddToList"> Add to list</span>
+              <span v-else> Remove list</span>
             </span>
           </a-popconfirm>
         </div>
@@ -289,7 +291,16 @@
         </a-skeleton>
       </div>
     </div>
-
+    <lottie-animation
+      path="../assets/images/animations/99680-3-dots-loading.json"
+      :loop="false"
+      :autoPlay="true"
+      :loopDelayMin="2.5"
+      :loopDelayMax="5"
+      :speed="1"
+      :width="256"
+      :height="256"
+    />
     <LastestEpisodes
       v-if="isEpisodes"
       :dataMovie="dataMovie"
@@ -425,7 +436,7 @@
   </div>
 </template>
 <script>
-import { ref, onBeforeMount, watch } from 'vue';
+import { ref, onBeforeMount, onMounted, watch } from 'vue';
 import {
   useRoute,
   // useRouter
@@ -522,6 +533,7 @@ export default {
     const btnNext = ref('<i class="fa-solid fa-chevron-right"></i>');
 
     const getData = () => {
+      isAddToList.value = false;
       loading.value = true;
 
       getMovieSeriesById(route.params?.id)
@@ -562,12 +574,21 @@ export default {
           if (axios.isCancel(e)) return;
         });
 
+      dataAddToList.value?.map((item) => {
+        if (item?.id == route.params?.id) {
+          isAddToList.value = true;
+        }
+      });
+
       setTimeout(() => {
         loading.value = false;
       }, 1500);
     };
 
     onBeforeMount(() => {
+      getData();
+    });
+    onMounted(() => {
       getData();
     });
 

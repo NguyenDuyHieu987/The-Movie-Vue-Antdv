@@ -30,6 +30,7 @@ import {
   faFilter,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
+import LottieAnimation from 'lottie-vuejs/src/LottieAnimation.vue';
 
 // import { faVideoCamera } from '@fortawesome/free-regular-svg-icons';
 
@@ -61,6 +62,7 @@ app
   .use(store)
   .use(VueSocialSharing)
   .use(VueLazyload)
+  .use(LottieAnimation)
   .component('font-awesome-icon', FontAwesomeIcon);
 // .mount('#app');
 
