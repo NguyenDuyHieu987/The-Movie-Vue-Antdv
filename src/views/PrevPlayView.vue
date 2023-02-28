@@ -278,7 +278,7 @@
           style="margin-top: 15px"
           :loading="loading"
           :active="true"
-          :paragraph="{ rows: 2 }"
+          :paragraph="{ rows: 1, width: '100%' }"
           :title="false"
         >
           <RatingMovie
