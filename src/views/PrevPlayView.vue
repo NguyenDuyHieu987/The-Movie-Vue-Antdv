@@ -135,13 +135,15 @@
             <span>Trailer</span>
           </span>
 
+          <!-- v-if="$store.state.isLogin" -->
+
           <a-popconfirm
-            v-if="$store.state.isLogin"
             ok-text="Có"
             cancel-text="Không"
             class="btn-add-to-list"
             :class="{ active: isAddToList }"
             @confirm="handelAddToList"
+            :visible="$store.state.isLogin"
           >
             <!-- @click="handelAddToList" -->
             <template #title>
@@ -151,7 +153,7 @@
             </template>
             <template #icon><question-circle-outlined /></template>
 
-            <span>
+            <span @click="handelAddToList">
               <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
               <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
               <span v-if="!isAddToList"> Add to list</span>
@@ -159,7 +161,12 @@
             </span>
           </a-popconfirm>
 
-          <a-popconfirm
+          <!-- <span v-else class="btn-add-to-list">
+            <font-awesome-icon icon="fa-solid fa-bookmark" />
+            <span> Add to list</span>
+          </span> -->
+
+          <!-- <a-popconfirm
             v-else
             ok-text="Có"
             cancel-text="Không"
@@ -178,7 +185,7 @@
               <span v-if="!isAddToList"> Add to list</span>
               <span v-else> Remove list</span>
             </span>
-          </a-popconfirm>
+          </a-popconfirm> -->
         </div>
 
         <div class="misc">
@@ -314,16 +321,7 @@
         </a-skeleton>
       </div>
     </div>
-    <lottie-animation
-      path="../assets/images/animations/99680-3-dots-loading.json"
-      :loop="false"
-      :autoPlay="true"
-      :loopDelayMin="2.5"
-      :loopDelayMax="5"
-      :speed="1"
-      :width="256"
-      :height="256"
-    />
+
     <LastestEpisodes
       v-if="isEpisodes"
       :dataMovie="dataMovie"
@@ -459,7 +457,7 @@
   </div>
 </template>
 <script>
-import { ref, onBeforeMount, onMounted, watch } from 'vue';
+import { ref, onBeforeMount, onMounted, watch, createVNode } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import carousel from 'vue-owl-carousel/src/Carousel';
@@ -483,7 +481,7 @@ import CastCard from '@/components/CastCard.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
 import { useStore } from 'vuex';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
-import { message } from 'ant-design-vue';
+import { Modal } from 'ant-design-vue';
 
 export default {
   components: {
@@ -622,27 +620,44 @@ export default {
     };
 
     const handelAddToList = () => {
-      if (isAddToList.value === false) {
-        addItemList(store.state?.userAccount?.id, {
-          media_type: isEpisodes.value ? 'tv' : 'movie',
-          media_id: dataMovie.value?.id,
+      if (!store.state.isLogin) {
+        Modal.confirm({
+          title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
+          icon: createVNode(QuestionCircleOutlined),
+          // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
+          content: createVNode('div', {}, 'Đăng nhập ngay?'),
+          okText: 'Có',
+          okType: 'default',
+          cancelText: 'Không',
+          onOk() {
+            router.push({ path: '/login' });
+          },
+          onCancel() {},
+          class: 'require-login-confirm',
         });
-
-        message.loading({ content: 'Đang thêm...', duration: 2 });
-        setTimeout(() => {
-          message.success({ content: 'Thêm thành công!', duration: 2 });
-          isAddToList.value = true;
-        }, 2200);
       } else {
-        removeItemList(store.state?.userAccount?.id, {
-          media_id: dataMovie.value?.id,
-        });
+        if (!isAddToList.value) {
+          addItemList(store.state?.userAccount?.id, {
+            media_type: isEpisodes.value ? 'tv' : 'movie',
+            media_id: dataMovie.value?.id,
+          });
 
-        message.loading({ content: 'Đang xóa...', duration: 2 });
-        setTimeout(() => {
-          message.success({ content: 'Xóa thành công!', duration: 2 });
-          isAddToList.value = false;
-        }, 2200);
+          // message.loading({ content: 'Đang thêm...', duration: 2 });
+          // setTimeout(() => {
+          //   message.success({ content: 'Thêm thành công!', duration: 2 });
+          //   isAddToList.value = true;
+          // }, 2200);
+        } else {
+          removeItemList(store.state?.userAccount?.id, {
+            media_id: dataMovie.value?.id,
+          });
+
+          // message.loading({ content: 'Đang xóa...', duration: 2 });
+          // setTimeout(() => {
+          //   message.success({ content: 'Xóa thành công!', duration: 2 });
+          //   isAddToList.value = false;
+          // }, 2200);
+        }
       }
     };
 

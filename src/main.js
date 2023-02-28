@@ -29,7 +29,9 @@ import {
   faCheck,
   faFilter,
 } from '@fortawesome/free-solid-svg-icons';
-import { faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faYoutube, faFacebookF } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+
 import LottieAnimation from 'lottie-vuejs/src/LottieAnimation.vue';
 
 // import { faVideoCamera } from '@fortawesome/free-regular-svg-icons';
@@ -50,7 +52,9 @@ library.add(
   faStar,
   faAt,
   faCheck,
-  faFilter
+  faFilter,
+  faFacebookF,
+  faEnvelope
 );
 
 const app = createApp(App);

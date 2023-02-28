@@ -179,13 +179,6 @@ export default {
     const years = ref([]);
     const countries = ref([]);
 
-    watch(
-      () => state.openKeys,
-      (_val, oldVal) => {
-        state.preOpenKeys = oldVal;
-      }
-    );
-
     onBeforeMount(() => {
       Promise.all([getAllGenre(), getAllYear(), getAllNational()])
         .then((res) => {
@@ -197,6 +190,13 @@ export default {
           if (axios.isCancel(e)) return;
         });
     });
+
+    watch(
+      () => state.openKeys,
+      (_val, oldVal) => {
+        state.preOpenKeys = oldVal;
+      }
+    );
 
     return {
       ...toRefs(state),

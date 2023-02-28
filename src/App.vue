@@ -71,6 +71,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@media only screen and (max-width: 1000px) {
+  #components-back-top-demo-custom .ant-back-top {
+    bottom: 30px !important;
+    right: 30px !important;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  #components-back-top-demo-custom .ant-back-top {
+    bottom: 20px !important;
+    right: 20px !important;
+  }
+}
+
 #components-back-top-demo-custom .ant-back-top {
   bottom: 50px;
   right: 50px;

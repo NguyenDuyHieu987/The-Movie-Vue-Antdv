@@ -420,6 +420,19 @@ span {
   background-color: var(--hover-regular-color) !important;
 }
 
+.ant-input-wrapper {
+  .ant-btn-primary {
+    background: var(--btn-backgroud-color);
+    border-color: var(--btn-backgroud-color);
+  }
+
+  .ant-btn-primary:hover,
+  .ant-btn-primary:focus {
+    border-color: var(--btn-backgroud-color-hover);
+    background: var(--btn-backgroud-color-hover);
+  }
+}
+
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
   border-color: var(--btn-border-color-hover);
 }
@@ -428,17 +441,6 @@ span {
 .ant-input-affix-wrapper-focused {
   border-color: var(--btn-border-color-focused);
   box-shadow: var(--btn-border-color-focused);
-}
-
-.ant-btn-primary {
-  background: var(--btn-backgroud-color);
-  border-color: var(--btn-backgroud-color);
-}
-
-.ant-btn-primary:hover,
-.ant-btn-primary:focus {
-  border-color: var(--btn-backgroud-color-hover);
-  background: var(--btn-backgroud-color-hover);
 }
 
 .ant-table-body::-webkit-scrollbar {
