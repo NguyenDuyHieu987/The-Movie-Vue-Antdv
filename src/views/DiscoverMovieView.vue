@@ -90,7 +90,7 @@ export default {
                 if (axios.isCancel(e)) return;
               });
             break;
-          case 'series':
+          case 'tv':
             metaHead.value = 'Phim bộ';
             getMovieSeries(page.value)
               .then((movieResponse) => {
@@ -153,7 +153,7 @@ export default {
               ).name;
             break;
           default:
-            router.push('/404');
+            // router.push('/404');
             break;
         }
       }

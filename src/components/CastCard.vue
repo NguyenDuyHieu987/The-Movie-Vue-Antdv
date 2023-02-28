@@ -58,6 +58,7 @@ export default {
       border-top-left-radius: 5px;
       transition: all 0.3s;
       height: 100%;
+      object-fit: cover;
     }
   }
 

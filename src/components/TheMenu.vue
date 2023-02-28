@@ -36,7 +36,7 @@
       </router-link>
     </a-menu-item>
 
-    <a-menu-item key="/series">
+    <a-menu-item key="/tv">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-film" />
       </template>
@@ -44,7 +44,7 @@
         :to="{
           name: 'typemovie',
           params: {
-            slug: 'series',
+            slug: 'tv',
           },
         }"
       >
@@ -125,6 +125,7 @@
             },
           }"
           style="display: flex"
+          @click="$store.state.breadCrumbValue = item?.name"
         >
           <span>{{ item?.name }}</span>
         </router-link>

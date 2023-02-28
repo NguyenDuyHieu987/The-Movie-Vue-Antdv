@@ -82,7 +82,7 @@ export default {
     width: 100%;
 
     img {
-      // object-fit: cover;
+      object-fit: cover;
       height: 100%;
     }
   }

@@ -8,7 +8,7 @@ const store = createStore({
       modalVisible: false,
       isLogin: JSON.parse(window.localStorage.getItem('isLogin')),
       modalAction: '',
-      loadingDetailAccount: false,
+      breadCrumbValue: '',
       loadingSearch: false,
       loadingTable: false,
       userAccount: JSON.parse(window.localStorage.getItem('userAccount')),

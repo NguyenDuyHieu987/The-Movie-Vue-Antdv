@@ -741,6 +741,16 @@ export default {
   }
 }
 
+@media only screen and (max-width: 1260px) {
+  .prev-play-conainer {
+    .backdrop-img {
+      .ant-image-img {
+        object-fit: cover;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 1130px) {
   .prev-play-conainer {
     .main-info {

@@ -11,7 +11,7 @@ const routes = [
       import(/* webpackChunkName: "home" */ '../views/HomeView.vue'),
   },
   {
-    path: '/:slug',
+    path: '/discover/:slug',
     name: 'typemovie',
     meta: {
       layout: 'default',

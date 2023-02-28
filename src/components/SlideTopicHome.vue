@@ -332,7 +332,7 @@ export default {
       font-size: 9px;
     }
 
-    .ant-carousel .slick-prev {
+    .slick-prev {
       top: 38% !important;
     }
   }
