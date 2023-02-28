@@ -33,7 +33,7 @@ export default {
         if (userToken != null) {
           getUserToken({ user_token: userToken })
             .then((accountResponse) => {
-              if (accountResponse.data.isLogin === true) {
+              if (accountResponse.data.isLogin == true) {
                 store.state.userAccount = accountResponse?.data?.result;
               }
             })

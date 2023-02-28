@@ -566,19 +566,22 @@ export default {
           if (axios.isCancel(e)) return;
         });
 
-      getList(store.state?.userAccount?.id)
+      getList(
+        // store.state?.userAccount?.id
+        JSON.parse(window.localStorage.getItem('userAccount')).id
+      )
         .then((movieRespone) => {
           dataAddToList.value = movieRespone?.data?.items;
+
+          dataAddToList.value?.map((item) => {
+            if (item?.id == route.params?.id) {
+              isAddToList.value = true;
+            }
+          });
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
         });
-
-      dataAddToList.value?.map((item) => {
-        if (item?.id == route.params?.id) {
-          isAddToList.value = true;
-        }
-      });
 
       setTimeout(() => {
         loading.value = false;
@@ -588,6 +591,7 @@ export default {
     onBeforeMount(() => {
       getData();
     });
+
     onMounted(() => {
       getData();
     });
