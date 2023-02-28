@@ -128,6 +128,7 @@ import axios from 'axios';
 // import facebookLogin from 'facebook-login-vuejs';
 import md5 from 'md5';
 import { signIn } from '../services/MovieService';
+import { setWithExpiry } from '../untils/LocalStorage';
 
 export default defineComponent({
   components: {
@@ -205,17 +206,29 @@ export default defineComponent({
           } else {
             if (response.data?.isLogin === true) {
               store.state.userAccount = response?.data?.result;
-              window.localStorage.setItem('isLogin', true);
 
-              window.localStorage.setItem('remember', formState.remember);
+              // window.localStorage.setItem('remember', formState.remember);
+
               if (formState.remember) {
                 window.localStorage.setItem(
+                  'isLogin',
+                  JSON.stringify({ value: true })
+                );
+                window.localStorage.setItem(
                   'userAccount',
-                  JSON.stringify(response?.data?.result)
+                  JSON.stringify({ value: response?.data?.result })
                 );
                 window.localStorage.setItem(
                   'userToken',
-                  response?.data?.result?.user_token
+                  JSON.stringify({ value: response?.data?.result?.user_token })
+                );
+              } else {
+                setWithExpiry('isLogin', true, 30);
+                setWithExpiry('userAccount', response?.data?.result, 30);
+                setWithExpiry(
+                  'userToken',
+                  response?.data?.result?.user_token,
+                  30
                 );
               }
 

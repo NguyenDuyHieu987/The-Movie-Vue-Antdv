@@ -5,7 +5,7 @@ import store from './store';
 import 'ant-design-vue/dist/antd.css';
 import Antd from 'ant-design-vue';
 import './assets/style/globalStyle.scss';
-import { registerGlobalComponent } from './untils/layout';
+import { registerGlobalComponent } from './untils/Layout';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import VueSocialSharing from 'vue-social-sharing';

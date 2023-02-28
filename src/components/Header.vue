@@ -136,7 +136,7 @@
             </a>
             <template #overlay>
               <a-menu>
-                <a-menu-item key="my-profile" v-if="$store.state.isLogin">
+                <a-menu-item key="my-profile" v-if="isLogin">
                   <router-link :to="{ name: 'profile' }"
                     ><span>My Profile</span>
                     <br />
@@ -145,12 +145,12 @@
                     }}</span>
                   </router-link>
                 </a-menu-item>
-                <a-menu-item key="account" v-if="$store.state.isLogin">
+                <a-menu-item key="account" v-if="isLogin">
                   <router-link :to="{ name: 'home' }">Account Home</router-link>
                 </a-menu-item>
                 <a-menu-item key="logout">
                   <router-link :to="{ name: 'login' }" @click="handleLogout">
-                    <span v-if="$store.state.isLogin"> Log out</span>
+                    <span v-if="isLogin"> Log out</span>
                     <span v-else> Log in</span>
                   </router-link>
                 </a-menu-item>
@@ -170,7 +170,8 @@ import {
   MenuOutlined,
   SearchOutlined,
 } from '@ant-design/icons-vue';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 import { getDaTaSearch } from '../services/MovieService';
 import SearchCard from '@/components/SearchCard.vue';
 import { useRouter } from 'vue-router';
@@ -184,12 +185,14 @@ export default {
     SearchCard,
   },
   setup() {
+    const store = useStore();
     const router = useRouter();
     const dataSearch = ref([]);
     const page = ref(1);
     const valueInput = ref('');
     const loadingSearch = ref(false);
     const isOpenAutoComplete = ref(true);
+    const isLogin = computed(() => store.state.isLogin);
 
     const handleChangeInput = () => {
       if (valueInput.value.length > 0) {
@@ -221,10 +224,12 @@ export default {
     };
 
     const handleLogout = () => {
-      window.localStorage.removeItem('userAccount');
-      window.localStorage.removeItem('userToken');
-      window.localStorage.removeItem('remember');
-      window.localStorage.removeItem('isLogin');
+      if (isLogin.value) {
+        window.localStorage.removeItem('userAccount');
+        window.localStorage.removeItem('userToken');
+        window.localStorage.removeItem('remember');
+        window.localStorage.removeItem('isLogin');
+      }
     };
 
     return {
@@ -232,6 +237,7 @@ export default {
       valueInput,
       loadingSearch,
       isOpenAutoComplete,
+      isLogin,
       handleSearch,
       handleChangeInput,
       handleLogout,

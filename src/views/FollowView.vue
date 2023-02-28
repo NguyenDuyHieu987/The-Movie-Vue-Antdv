@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { watch, createVNode } from 'vue';
+import { watch, createVNode, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import { Modal } from 'ant-design-vue';
@@ -16,6 +16,25 @@ export default {
     const router = useRouter();
     const route = useRoute();
     const store = useStore();
+
+    onBeforeMount(() => {
+      // if (!store.state.isLogin) {
+      //   Modal.confirm({
+      //     title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
+      //     icon: createVNode(QuestionCircleOutlined),
+      //     // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
+      //     content: createVNode('div', {}, 'Đăng nhập ngay?'),
+      //     okText: 'Có',
+      //     okType: 'default',
+      //     cancelText: 'Không',
+      //     onOk() {
+      //       router.push({ path: '/login' });
+      //     },
+      //     onCancel() {},
+      //     class: 'require-login-confirm',
+      //   });
+      // }
+    });
 
     watch(route, () => {});
 
