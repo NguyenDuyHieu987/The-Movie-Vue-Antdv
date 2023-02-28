@@ -12,7 +12,10 @@
 <script>
 import { computed, onBeforeMount, h } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router';
+import {
+  // useRouter,
+  useRoute,
+} from 'vue-router';
 import axios from 'axios';
 import { CloseCircleFilled } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
@@ -23,7 +26,7 @@ export default {
   components: {},
   setup() {
     const store = useStore();
-    const router = useRouter();
+    // const router = useRouter();
     const route = useRoute();
 
     onBeforeMount(() => {
@@ -64,7 +67,7 @@ export default {
           // if (window.localStorage.getItem('userToken') == null) {
           //   router.push({ path: '/login' });
           // }
-          console.log(router);
+          // console.log(router);
         }
       }
     });

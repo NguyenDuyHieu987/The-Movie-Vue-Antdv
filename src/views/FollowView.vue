@@ -34,37 +34,36 @@ export default {
       //     class: 'require-login-confirm',
       //   });
       // }
+      router.beforeEach((to, from, next) => {
+        if (to.matched.some((record) => record.meta.requiresAuth)) {
+          // this route requires auth, check if logged in
+          // if not, redirect to login page.
+
+          if (!store.state.isLogin) {
+            Modal.confirm({
+              title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
+              icon: createVNode(QuestionCircleOutlined),
+              // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
+              content: createVNode('div', {}, 'Đăng nhập ngay?'),
+              okText: 'Có',
+              okType: 'default',
+              cancelText: 'Không',
+              onOk() {
+                next({ path: '/login' });
+              },
+              onCancel() {},
+              class: 'require-login-confirm',
+            });
+          } else {
+            next(); // go to wherever I'm going
+          }
+        } else {
+          next(); // does not require auth, make sure to always call next()!
+        }
+      });
     });
 
     watch(route, () => {});
-
-    router.beforeEach((to, from, next) => {
-      if (to.matched.some((record) => record.meta.requiresAuth)) {
-        // this route requires auth, check if logged in
-        // if not, redirect to login page.
-
-        if (!store.state.isLogin) {
-          Modal.confirm({
-            title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
-            icon: createVNode(QuestionCircleOutlined),
-            // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
-            content: createVNode('div', {}, 'Đăng nhập ngay?'),
-            okText: 'Có',
-            okType: 'default',
-            cancelText: 'Không',
-            onOk() {
-              next({ path: '/login' });
-            },
-            onCancel() {},
-            class: 'require-login-confirm',
-          });
-        } else {
-          next(); // go to wherever I'm going
-        }
-      } else {
-        next(); // does not require auth, make sure to always call next()!
-      }
-    });
 
     document.title = 'Phimhay247 - Theo dõi';
   },
