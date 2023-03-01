@@ -68,7 +68,7 @@
           }"
           style="display: flex"
         >
-          <span>{{ item?.name }}</span>
+          <span>{{ item?.name_vietsub }}</span>
         </router-link>
       </a-menu-item>
     </a-sub-menu>

@@ -344,7 +344,7 @@ const getAllGenresById = (genres) => {
   genres?.map((item) => {
     ALLGENRES.genres.find((gen) => {
       if (gen.id === (item.id !== undefined ? item.id : item)) {
-        genresArray.push(gen.name);
+        genresArray.push(gen?.name_vietsub);
       }
     });
   });
