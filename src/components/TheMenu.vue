@@ -56,7 +56,7 @@
       <a-menu-item
         v-for="(item, index) in genres"
         :index="index"
-        :key="item?.name?.replace(/\s/g, '+').toLowerCase(),"
+        :key="item?.name?.replace(/\s/g, '+').toLowerCase()"
       >
         <router-link
           :to="{
