@@ -481,7 +481,7 @@ import CastCard from '@/components/CastCard.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
 import { useStore } from 'vuex';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
-import { Modal } from 'ant-design-vue';
+import { Modal, message } from 'ant-design-vue';
 
 export default {
   components: {
@@ -642,21 +642,21 @@ export default {
             media_id: dataMovie.value?.id,
           });
 
-          // message.loading({ content: 'Đang thêm...', duration: 2 });
-          // setTimeout(() => {
-          //   message.success({ content: 'Thêm thành công!', duration: 2 });
-          //   isAddToList.value = true;
-          // }, 2200);
+          message.loading({ content: 'Đang thêm...', duration: 2 });
+          setTimeout(() => {
+            message.success({ content: 'Thêm thành công!', duration: 2 });
+            isAddToList.value = true;
+          }, 2200);
         } else {
           removeItemList(store.state?.userAccount?.id, {
             media_id: dataMovie.value?.id,
           });
 
-          // message.loading({ content: 'Đang xóa...', duration: 2 });
-          // setTimeout(() => {
-          //   message.success({ content: 'Xóa thành công!', duration: 2 });
-          //   isAddToList.value = false;
-          // }, 2200);
+          message.loading({ content: 'Đang xóa...', duration: 2 });
+          setTimeout(() => {
+            message.success({ content: 'Xóa thành công!', duration: 2 });
+            isAddToList.value = false;
+          }, 2200);
         }
       }
     };

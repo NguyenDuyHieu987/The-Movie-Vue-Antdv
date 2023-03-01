@@ -1,9 +1,10 @@
 <template>
   <div class="follow">
     <div v-if="isLogin" class="follow-container">
-      <a-tabs v-model:activeKey="activeTabCast">
+      <a-tabs v-model:activeKey="activeTabList">
         <a-tab-pane key="1" :tab="metaHead">
           <section
+            v-if="dataList?.length"
             class="movie-group"
             :class="{ collapse: $store.state.collapsed }"
           >
@@ -16,6 +17,7 @@
         ></a-tab-pane>
         <a-tab-pane key="2" tab="Lịch sử xem phim">
           <section
+            v-if="dataHistory?.length"
             class="movie-group"
             :class="{ collapse: $store.state.collapsed }"
           >
@@ -75,6 +77,24 @@ export default {
     const dataList = ref([]);
     const dataHistory = ref([]);
 
+    const getData = () => {
+      getList(store?.state.userAccount?.id)
+        .then((movieRespone) => {
+          dataList.value = movieRespone.data.items;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+
+      getWatchList(store?.state.userAccount?.id, 1)
+        .then((movieRespone) => {
+          dataHistory.value = movieRespone.data.results;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+    };
+
     onBeforeMount(() => {
       // if (!store.state.isLogin) {
       //   Modal.confirm({
@@ -93,28 +113,22 @@ export default {
       //   });
       // }
 
-      getList(store?.state.userAccount?.id)
-        .then((movieRespone) => {
-          dataList.value = movieRespone.data.items;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
-
-      getWatchList(store?.state.userAccount?.id, 1)
-        .then((movieRespone) => {
-          dataHistory.value = movieRespone.data.results;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      getData();
     });
 
-    watch(route, () => {});
+    watch(route, () => {
+      // getData();
+    });
 
     document.title = 'Phimhay247 - Theo dõi';
 
-    return { isLogin, metaHead, dataList, dataHistory };
+    return {
+      isLogin,
+      metaHead,
+      dataList,
+      dataHistory,
+      activeTabList: ref('1'),
+    };
   },
 };
 </script>
@@ -123,11 +137,11 @@ export default {
 @media only screen and (max-width: 1400px) {
   .follow {
     .movie-group {
-      grid-template-columns: repeat(5, minmax(180px, auto)) !important;
+      grid-template-columns: repeat(5, minmax(20%, auto)) !important;
     }
 
     .movie-group.collapse {
-      grid-template-columns: repeat(6, minmax(180px, auto)) !important;
+      grid-template-columns: repeat(6, minmax(20%, auto)) !important;
     }
   }
 }
@@ -189,7 +203,7 @@ export default {
 
     .movie-group {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, auto));
+      grid-template-columns: repeat(5, minmax(180px, auto));
       margin-top: 10px;
       gap: 10px;
     }
