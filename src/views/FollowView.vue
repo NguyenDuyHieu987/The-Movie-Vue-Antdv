@@ -2,30 +2,34 @@
   <div class="follow">
     <div v-if="isLogin" class="follow-container">
       <a-tabs v-model:activeKey="activeTabList">
-        <a-tab-pane key="1" :tab="metaHead">
+        <a-tab-pane key="list" :tab="metaHead">
           <section
             v-if="dataList?.length"
             class="movie-group"
             :class="{ collapse: $store.state.collapsed }"
           >
-            <MovieCarouselCardVertical
+            <MovieCardVerticalFollow
               v-for="(item, index) in dataList"
               :index="index"
               :key="item.id"
               :item="item"
+              :activeTabList="activeTabList"
+              :getDataWhenRemoveList="getDataWhenRemoveList"
             /></section
         ></a-tab-pane>
-        <a-tab-pane key="2" tab="Lịch sử xem phim">
+        <a-tab-pane key="history" tab="Lịch sử xem phim">
           <section
             v-if="dataHistory?.length"
             class="movie-group"
             :class="{ collapse: $store.state.collapsed }"
           >
-            <MovieCarouselCardVertical
+            <MovieCardVerticalFollow
               v-for="(item, index) in dataHistory"
               :index="index"
               :key="item.id"
               :item="item"
+              :activeTabList="activeTabList"
+              :getDataWhenRemoveHistory="getDataWhenRemoveHistory"
             />
           </section>
         </a-tab-pane>
@@ -64,11 +68,11 @@ import { watch, onBeforeMount, computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
-import MovieCarouselCardVertical from '@/components/MovieCarouselCardVertical.vue';
+import MovieCardVerticalFollow from '@/components/MovieCardVerticalFollow.vue';
 import { getList, getWatchList } from '../services/MovieService';
 
 export default {
-  components: { MovieCarouselCardVertical },
+  components: { MovieCardVerticalFollow },
   setup() {
     const route = useRoute();
     const store = useStore();
@@ -76,11 +80,12 @@ export default {
     const metaHead = ref('Theo dõi');
     const dataList = ref([]);
     const dataHistory = ref([]);
+    const activeTabList = ref('list');
 
     const getData = () => {
       getList(store?.state.userAccount?.id)
         .then((movieRespone) => {
-          dataList.value = movieRespone.data.items;
+          dataList.value = movieRespone.data?.items;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -88,7 +93,7 @@ export default {
 
       getWatchList(store?.state.userAccount?.id, 1)
         .then((movieRespone) => {
-          dataHistory.value = movieRespone.data.results;
+          dataHistory.value = movieRespone.data?.results;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -116,6 +121,14 @@ export default {
       getData();
     });
 
+    const getDataWhenRemoveList = (data) => {
+      dataList.value = data;
+    };
+
+    const getDataWhenRemoveHistory = (data) => {
+      dataHistory.value = data;
+    };
+
     watch(route, () => {
       // getData();
     });
@@ -127,7 +140,10 @@ export default {
       metaHead,
       dataList,
       dataHistory,
-      activeTabList: ref('1'),
+      activeTabList,
+      getData,
+      getDataWhenRemoveList,
+      getDataWhenRemoveHistory,
     };
   },
 };

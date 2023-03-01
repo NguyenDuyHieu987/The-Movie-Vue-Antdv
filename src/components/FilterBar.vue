@@ -127,14 +127,12 @@ import {
   FilterDataMovie,
 } from '../services/MovieService';
 import axios from 'axios';
-import { useRoute } from 'vue-router';
 import listSortBy from '../constants/Sortby';
 import { CaretRightFilled } from '@ant-design/icons-vue';
 
 export default {
   components: { CaretRightFilled },
   setup(props, { emit }) {
-    const route = useRoute();
     const formSelect = reactive({
       type: 'all',
       sortBy: '',
@@ -147,8 +145,6 @@ export default {
     const genres = ref([]);
     const years = ref([]);
     const countries = ref([]);
-
-    console.log(route);
 
     onBeforeMount(() => {
       Promise.all([getAllGenre(), getAllYear(), getAllNational()])

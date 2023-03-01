@@ -44,7 +44,7 @@ import {
   getMovieByCountry,
   getDaTaSearch,
 } from '../services/MovieService';
-import MovieCarouselCardHorizontal from '@/components/MovieCarouselCardHorizontal.vue';
+import MovieCarouselCardHorizontal from '@/components/MovieCardHorizontal.vue';
 import FilterBar from '@/components/FilterBar.vue';
 import COUNTRIES from '../constants/Country';
 

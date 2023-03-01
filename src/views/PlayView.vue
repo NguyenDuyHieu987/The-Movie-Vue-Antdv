@@ -151,7 +151,7 @@ export default {
 
       setTimeout(() => {
         loading.value = false;
-      }, 1500);
+      }, 2500);
     };
 
     onBeforeMount(() => {

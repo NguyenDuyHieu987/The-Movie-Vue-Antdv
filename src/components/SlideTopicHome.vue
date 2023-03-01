@@ -208,8 +208,8 @@ import { onBeforeMount, ref } from 'vue';
 import axios from 'axios';
 import carousel from 'vue-owl-carousel/src/Carousel';
 import SlideTopicItem from './SlideTopicItem.vue';
-import MovieCarouselCardHorizontal from './MovieCarouselCardHorizontal.vue';
-import MovieCarouselCardVertical from './MovieCarouselCardVertical.vue';
+import MovieCarouselCardHorizontal from './MovieCardHorizontal.vue';
+import MovieCarouselCardVertical from './MovieCardVertical.vue';
 
 import {
   getNowPlaying,

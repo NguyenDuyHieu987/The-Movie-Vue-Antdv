@@ -129,7 +129,7 @@ import axios from 'axios';
 import { ref, onBeforeMount } from 'vue';
 import carousel from 'vue-owl-carousel/src/Carousel';
 import { getMovieBySimilar, getTrending } from '../services/MovieService';
-import MovieCarouselCardVertical from './MovieCarouselCardVertical.vue';
+import MovieCarouselCardVertical from './MovieCardVertical.vue';
 
 export default {
   props: { dataMovie: Object, isEpisodes: Boolean },

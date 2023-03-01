@@ -76,11 +76,11 @@
             {{ item?.name ? item?.name : item?.title }}
           </p>
           <div class="info-bottom">
-            <p class="genres" v-if="item?.genre_ids">
-              {{ getAllGenresById(item?.genre_ids).join(' • ') }}
-            </p>
-            <p class="genres" v-else-if="item?.genres">
+            <p class="genres" v-if="item?.genres">
               {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+            </p>
+            <p class="genres" v-else-if="item?.genre_ids">
+              {{ getAllGenresById(item?.genre_ids).join(' • ') }}
             </p>
           </div>
         </a-skeleton>
