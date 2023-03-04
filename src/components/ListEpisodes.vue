@@ -1,5 +1,25 @@
 <template>
   <div class="list-episodes">
+    <div class="control-episodes">
+      <a-button
+        size="large"
+        :disabled="currentEpisode == 1"
+        @click="$router.push({ query: { ep: `tap-${--currentEpisode}` } })"
+      >
+        Tập trước
+      </a-button>
+      <a-button
+        size="large"
+        :disabled="
+          dataMovie?.last_episode_to_air?.season_number == selectedSeason
+            ? currentEpisode == dataMovie?.last_episode_to_air?.episode_number
+            : currentEpisode == dataSeason?.episodes?.length
+        "
+        @click="$router.push({ query: { ep: `tap-${++currentEpisode}` } })"
+      >
+        Tập tiếp
+      </a-button>
+    </div>
     <h3 class="section-title" style="display: flex; align-items: center">
       <strong style="margin-right: 10px">
         {{ dataMovie?.name ? dataMovie?.name : dataMovie?.title }}
@@ -118,7 +138,7 @@ export default {
     );
     const loading = ref(false);
 
-    const emitRUrlCode = (dataSeason) => {
+    const emitUrlCode = (dataSeason) => {
       const url_code_movie = dataSeason.episodes?.find(
         (item) => item.episode_number == currentEpisode.value
       )?.url_code;
@@ -132,7 +152,7 @@ export default {
       getMoviesBySeason(route.params?.id, selectedSeason.value)
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
-          emitRUrlCode(dataSeason.value);
+          emitUrlCode(dataSeason.value);
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -155,7 +175,7 @@ export default {
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
 
-          emitRUrlCode(dataSeason.value);
+          emitUrlCode(dataSeason.value);
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -168,7 +188,7 @@ export default {
 
     watch(route, (newVal) => {
       currentEpisode.value = +newVal.query?.ep?.replace('tap-', '');
-      emitRUrlCode(dataSeason.value);
+      emitUrlCode(dataSeason.value);
     });
 
     return {
@@ -185,6 +205,11 @@ export default {
 <style scoped lang="scss">
 .list-episodes {
   margin-top: 15px;
+
+  .control-episodes {
+    display: flex;
+    justify-content: center;
+  }
 
   .ul-list,
   ul {
