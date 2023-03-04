@@ -100,6 +100,7 @@ export default {
     var(--sider-header-background-color3),
     var(--sider-header-background-color2)
   );
+  z-index: 999999;
 
   .ant-layout-footer {
     position: sticky;

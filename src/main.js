@@ -28,6 +28,7 @@ import {
   faAt,
   faCheck,
   faFilter,
+  faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube, faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
@@ -54,7 +55,8 @@ library.add(
   faCheck,
   faFilter,
   faFacebookF,
-  faEnvelope
+  faEnvelope,
+  faMagnifyingGlass
 );
 
 const app = createApp(App);

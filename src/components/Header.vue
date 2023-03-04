@@ -49,6 +49,7 @@
       @change="handleChangeInput"
       @focus="isOpenAutoComplete = true"
       @blur="isOpenAutoComplete = false"
+      :backfill="true"
     >
       <template #option>
         <SearchCard
@@ -58,20 +59,26 @@
           :item="item"
         />
       </template>
+      <!-- enter-button -->
       <a-input-search
         class="center-header"
-        enter-button
         placeholder="Nhập tên phim để tìm kiếm..."
         size="large"
         allowClear
         bordered
         :loading="loadingSearch"
         @search="handleSearch"
-      ></a-input-search>
+      >
+        <template #enterButton>
+          <a-tooltip title="Tìm kiếm">
+            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+          </a-tooltip>
+        </template>
+      </a-input-search>
     </a-auto-complete>
 
     <div class="right-header">
-      <a-popover v-model:visible="visible" trigger="click" placement="bottom">
+      <a-popover trigger="click" placement="bottom" class="popover-search">
         <template #title>
           <h3 class="section-title search">
             <strong> Tìm kiếm </strong>
@@ -193,14 +200,20 @@ export default {
     const loadingSearch = ref(false);
     const isOpenAutoComplete = ref(true);
     const isLogin = computed(() => store.state.isLogin);
+    const debounce = ref();
 
     const handleChangeInput = () => {
       if (valueInput.value.length > 0) {
-        dataSearch.value = [];
-        loadingSearch.value = true;
-        getDaTaSearch(valueInput.value, page.value).then((movieRespone) => {
-          dataSearch.value = movieRespone?.data?.results;
-        });
+        // dataSearch.value = [];
+
+        clearTimeout(debounce.value);
+        debounce.value = setTimeout(() => {
+          loadingSearch.value = true;
+          getDaTaSearch(valueInput.value, page.value).then((movieRespone) => {
+            dataSearch.value = movieRespone?.data?.results;
+          });
+        }, 700);
+
         setTimeout(() => {
           loadingSearch.value = false;
         }, 2000);
@@ -249,6 +262,8 @@ export default {
 <style lang="scss">
 .ant-layout-header.header {
   // z-index: 100000;
+  line-height: var(--header-height);
+  line-height: var(--header-height);
 }
 
 .logo {
@@ -341,7 +356,17 @@ export default {
   }
 
   .ant-input-affix-wrapper {
-    border: 1px solid #001628;
+    border: 1px solid #000;
+    padding-left: 16px;
+    &:hover {
+      border-color: #000;
+    }
+  }
+  .ant-input-affix-wrapper-focused {
+    border-color: #b10044;
+    &:hover {
+      border-color: #b10044;
+    }
   }
 
   .ant-input-search
@@ -351,6 +376,9 @@ export default {
     padding-top: 0;
     padding-bottom: 0;
     border-radius: 0 20px 20px 0;
+    background: transparent;
+    // border: 1px solid #001628;
+    border-left: none;
   }
 
   .right-header {

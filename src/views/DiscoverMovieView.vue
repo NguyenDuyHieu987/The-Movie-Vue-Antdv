@@ -23,7 +23,7 @@
     <div class="control-page">
       <a-pagination
         v-model:current="page"
-        :total="400"
+        :total="totalPage"
         :showSizeChanger="false"
         @change="onChangePage"
       />
@@ -37,12 +37,20 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {
   getMovies,
-  getMovieSeries,
+  getTv,
   FilterDataMovie,
   getMoviesByGenres,
   getMoviesByYear,
   getMovieByCountry,
   getDaTaSearch,
+  getNowPlaying,
+  getUpComing,
+  getPopular,
+  getTopRated,
+  getTvAiringToday,
+  getTvOntheAir,
+  getTvPopular,
+  getTvTopRated,
 } from '../services/MovieService';
 import MovieCarouselCardHorizontal from '@/components/MovieCardHorizontal.vue';
 import FilterBar from '@/components/FilterBar.vue';
@@ -56,6 +64,7 @@ export default {
     const metaHead = ref();
     const dataMovieList = ref([]);
     const page = ref(route.query?.page ? +route.query?.page : 1);
+    const totalPage = ref(100);
     const isFilter = ref(false);
     const formFilterSelect = ref({});
 
@@ -81,30 +90,142 @@ export default {
               });
             break;
           case 'movie':
-            metaHead.value = 'Phim lẻ';
-            getMovies(page.value)
-              .then((movieResponse) => {
-                dataMovieList.value = movieResponse?.data?.results;
-              })
-              .catch((e) => {
-                if (axios.isCancel(e)) return;
-              });
+            if (route.params?.slug2) {
+              switch (route.params?.slug2) {
+                case 'all':
+                  metaHead.value = 'Phim lẻ: Tất cả';
+                  getMovies(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+                  break;
+                case 'nowplaying':
+                  metaHead.value = 'Phim lẻ: Now playing';
+
+                  getNowPlaying(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+                  break;
+                case 'popular':
+                  metaHead.value = 'Phim lẻ: Phổ biến';
+
+                  getPopular(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+                  break;
+                case 'toprated':
+                  metaHead.value = 'Phim lẻ: Top đánh giá';
+
+                  getTopRated(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+                  break;
+                case 'upcoming':
+                  metaHead.value = 'Phim lẻ: Sắp công chiéu';
+
+                  getUpComing(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+                  break;
+              }
+            }
             break;
           case 'tv':
-            metaHead.value = 'Phim bộ';
-            getMovieSeries(page.value)
-              .then((movieResponse) => {
-                dataMovieList.value = movieResponse?.data?.results;
-              })
-              .catch((e) => {
-                if (axios.isCancel(e)) return;
-              });
+            if (route.params?.slug2) {
+              switch (route.params?.slug2) {
+                case 'all':
+                  metaHead.value = 'Phim bộ: Tất cả';
+                  getTv(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+
+                  break;
+
+                case 'airingtoday':
+                  metaHead.value = 'Phim bộ: Airing today';
+
+                  getTvAiringToday(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+                  break;
+                case 'ontheair':
+                  metaHead.value = 'Phim bộ: On the air';
+
+                  getTvOntheAir(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+                  break;
+                case 'tvpopular':
+                  metaHead.value = 'Phim bộ: Phổ biến';
+
+                  getTvPopular(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+                  break;
+                case 'tvtoprated':
+                  metaHead.value = 'Phim bộ: Top đánh giá';
+
+                  getTvTopRated(page.value)
+                    .then((movieResponse) => {
+                      dataMovieList.value = movieResponse?.data?.results;
+                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                    })
+                    .catch((e) => {
+                      if (axios.isCancel(e)) return;
+                    });
+                  break;
+              }
+            }
             break;
           case 'genres':
             getMoviesByGenres(
               Array.from(
                 route.params?.slug2 == 'sci-fi+&+fantasy'
-                  ? 'sci-Fi+&+fantasy'.split('+')
+                  ? route.params?.slug2.split('+')
                   : route.params?.slug2.split('+'),
                 (x) => x.charAt(0).toUpperCase() + x.slice(1)
               ).join(' '),
@@ -200,6 +321,7 @@ export default {
     return {
       metaHead,
       page,
+      totalPage,
       dataMovieList,
       onChangePage,
       setDataFiltered,
@@ -210,19 +332,44 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@media only screen and (min-width: 2000px) {
+  .movie-discovered.collapse {
+    grid-template-columns: repeat(8, minmax(10%, auto)) !important;
+  }
+  .movie-discovered {
+    grid-template-columns: repeat(7, minmax(10%, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 2000px) {
+  .movie-discovered.collapse {
+    grid-template-columns: repeat(6, minmax(13%, auto)) !important;
+  }
+  .movie-discovered {
+    grid-template-columns: repeat(5, minmax(15%, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 1650px) {
+  .movie-discovered.collapse {
+    grid-template-columns: repeat(5, minmax(230px, auto)) !important;
+  }
+  .movie-discovered {
+    grid-template-columns: repeat(4, minmax(15%, auto)) !important;
+  }
+}
+
 @media only screen and (max-width: 1400px) {
   .movie-discovered.collapse {
     grid-template-columns: repeat(5, minmax(230px, auto)) !important;
   }
   .movie-discovered {
-    // grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
     grid-template-columns: repeat(4, minmax(23%, auto)) !important;
   }
 }
 
 @media only screen and (max-width: 1010px) {
   .movie-discovered {
-    // grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
     grid-template-columns: repeat(3, minmax(170px, auto)) !important;
   }
 }
@@ -241,7 +388,6 @@ export default {
 
 @media only screen and (max-width: 435px) {
   .movie-discovered {
-    // grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
     grid-template-columns: repeat(2, minmax(150px, auto)) !important;
   }
 

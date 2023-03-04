@@ -1,6 +1,6 @@
 <template>
   <h2 class="gradient-title-default" v-if="dataSimilar?.length">
-    <strong>Có thể bạn quan tâm</strong>
+    <strong>Phim tương tự</strong>
   </h2>
   <carousel
     v-if="dataSimilar?.length"
@@ -14,44 +14,7 @@
     :margin="7"
     :autoplaySpeed="500"
     :navText="[btnPrev, btnNext]"
-    :responsive="{
-      0: {
-        items: 2,
-      },
-      590: {
-        items: 2,
-      },
-      750: {
-        items: 2,
-      },
-      830: {
-        items: 3,
-      },
-      1000: {
-        items: 4,
-      },
-      1175: {
-        items: 4,
-      },
-      1300: {
-        items: 6,
-      },
-      1400: {
-        items: 6,
-      },
-      1550: {
-        items: 7,
-      },
-      1700: {
-        items: 8,
-      },
-      1900: {
-        items: 9,
-      },
-      2200: {
-        items: 10,
-      },
-    }"
+    :responsive="responsive"
   >
     <MovieCarouselCardVertical
       v-for="(item, index) in dataSimilar"
@@ -62,7 +25,7 @@
   </carousel>
 
   <h2 class="gradient-title-default" v-if="dataRecommend?.length">
-    <strong>Phim tương tự</strong>
+    <strong>Có thể bạn quan tâm</strong>
   </h2>
   <carousel
     v-if="dataRecommend?.length"
@@ -76,44 +39,7 @@
     :margin="7"
     :autoplaySpeed="500"
     :navText="[btnPrev, btnNext]"
-    :responsive="{
-      0: {
-        items: 2,
-      },
-      590: {
-        items: 2,
-      },
-      750: {
-        items: 2,
-      },
-      830: {
-        items: 3,
-      },
-      1000: {
-        items: 4,
-      },
-      1175: {
-        items: 4,
-      },
-      1300: {
-        items: 6,
-      },
-      1400: {
-        items: 6,
-      },
-      1550: {
-        items: 7,
-      },
-      1700: {
-        items: 8,
-      },
-      1900: {
-        items: 9,
-      },
-      2200: {
-        items: 10,
-      },
-    }"
+    :responsive="responsive"
   >
     <MovieCarouselCardVertical
       v-for="(item, index) in dataRecommend"
@@ -140,20 +66,56 @@ export default {
   setup(props) {
     const dataSimilar = ref([]);
     const dataRecommend = ref([]);
+    const responsive = ref({
+      0: {
+        items: 2,
+      },
+      590: {
+        items: 2,
+      },
+      750: {
+        items: 2,
+      },
+      830: {
+        items: 3,
+      },
+      1000: {
+        items: 4,
+      },
+      1175: {
+        items: 4,
+      },
+      1300: {
+        items: 6,
+      },
+      1400: {
+        items: 6,
+      },
+      1550: {
+        items: 7,
+      },
+      1700: {
+        items: 8,
+      },
+      1900: {
+        items: 9,
+      },
+      2200: {
+        items: 10,
+      },
+    });
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
 
     onBeforeMount(() => {
       getMovieBySimilar(
-        props?.isEpisodes ? 'tv' : 'movie',
+        props?.isEpisodes ? 'tvall' : 'movieall',
         props?.dataMovie?.genres[0],
         1
       )
         .then((movieResponed) => {
           dataSimilar.value = movieResponed?.data?.results;
-
-          // console.log(dataSimilar.value);
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -173,6 +135,7 @@ export default {
       dataRecommend,
       btnPrev,
       btnNext,
+      responsive,
     };
   },
 };

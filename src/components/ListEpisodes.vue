@@ -21,7 +21,7 @@
           :index="index"
           :value="item?.season_number"
           >{{
-            item.name.split(' ')[0] === 'Phần' || item.name === 'Specials'
+            item.name?.split(' ')[0] === 'Phần' || item.name === 'Specials'
               ? item.name
               : item.name.replace('Season', 'Phần')
           }}
@@ -39,7 +39,12 @@
         :size="size"
         :shape="'default'"
         :block="block"
-        v-for="(item, index) in dataSeason?.episodes"
+        v-for="(item, index) in dataSeason?.episodes?.slice(
+          0,
+          dataMovie?.last_episode_to_air?.season_number == selectedSeason
+            ? dataMovie?.last_episode_to_air?.episode_number
+            : dataSeason?.episodes.length
+        )"
         :index="index"
         :key="index"
       >
@@ -48,9 +53,14 @@
 
     <ul class="ul-list" v-else>
       <li
-        v-for="(item, index) in dataSeason?.episodes"
+        v-for="(item, index) in dataSeason?.episodes?.slice(
+          0,
+          dataMovie?.last_episode_to_air?.season_number == selectedSeason
+            ? dataMovie?.last_episode_to_air?.episode_number
+            : dataSeason?.episodes.length
+        )"
         :index="index"
-        :key="index"
+        :key="item.id"
         :class="{ active: currentEpisode == item?.episode_number }"
       >
         <router-link
@@ -70,7 +80,7 @@
           }"
         >
           {{
-            item?.episode_number === dataSeason?.episodes?.length
+            item?.episode_number === dataSeason?.episodes.length
               ? item?.episode_number < 10
                 ? '0' + item?.episode_number + '-End'
                 : item?.episode_number + '-End'
@@ -88,16 +98,19 @@
 import { onBeforeMount, ref, watch } from 'vue';
 import axios from 'axios';
 import { getMoviesBySeason } from '../services/MovieService';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   props: {
     dataMovie: Object,
+    numberOfEpisodes: Number,
   },
-  setup(props) {
+  setup(props, { emit }) {
     const dataSeason = ref({});
     const selectedSeason = ref(props?.dataMovie?.number_of_seasons);
     const route = useRoute();
+    const router = useRouter();
+
     const currentEpisode = ref(
       route.query?.ep.replace('tap-', '')
         ? +route.query?.ep.replace('tap-', '')
@@ -105,12 +118,21 @@ export default {
     );
     const loading = ref(false);
 
+    const emitRUrlCode = (dataSeason) => {
+      const url_code_movie = dataSeason.episodes?.find(
+        (item) => item.episode_number == currentEpisode.value
+      )?.url_code;
+
+      emit('setUrlCodeMovie', url_code_movie);
+    };
+
     onBeforeMount(() => {
       loading.value = true;
 
       getMoviesBySeason(route.params?.id, selectedSeason.value)
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
+          emitRUrlCode(dataSeason.value);
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -127,10 +149,13 @@ export default {
 
     watch(selectedSeason, () => {
       loading.value = true;
+      router.push({ query: { ep: 1 } });
 
       getMoviesBySeason(route.params?.id, selectedSeason.value)
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
+
+          emitRUrlCode(dataSeason.value);
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -143,6 +168,7 @@ export default {
 
     watch(route, (newVal) => {
       currentEpisode.value = +newVal.query?.ep?.replace('tap-', '');
+      emitRUrlCode(dataSeason.value);
     });
 
     return {

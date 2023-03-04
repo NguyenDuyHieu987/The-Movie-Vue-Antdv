@@ -12,7 +12,7 @@
       tooltipRating[Math.round(voteAverage) - 1]
     }}</span>
     <p>
-      {{ `(${voteAverage?.toFixed(2)} điểm / ${voteCount} lượt)` }}
+      {{ `(${voteAverage?.toFixed(2)} điểm / ${vote_Count} lượt)` }}
     </p>
   </div>
 </template>
@@ -33,6 +33,8 @@ export default {
   },
   setup(props) {
     const vote_Average = ref(props.voteAverage);
+    const vote_Count = ref(props.voteCount);
+
     const tooltipRating = ref([
       'Dở tệ',
       'Dở',
@@ -48,29 +50,44 @@ export default {
 
     const handleRating = (value) => {
       if (props?.isEpisodes) {
-        ratingTV(props?.movieId, { value: Math.round(value) });
-        notification.open({
-          message: 'Cảm ơn bạn đã đánh giá!',
-          description: `Đánh giá thành công ${value} điểm.`,
-          icon: () =>
-            h(CheckCircleFilled, {
-              style: 'color: green',
-            }),
-        });
+        ratingTV(props?.movieId, { value: Math.round(value) }).then(
+          (response) => {
+            console.log(response.data);
+            if (response.data?.success == true) {
+              notification.open({
+                message: 'Cảm ơn bạn đã đánh giá!',
+                description: `Đánh giá thành công ${value} điểm.`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+              vote_Average.value = response.data?.vote_average?.toFixed(2);
+              vote_Count.value = response.data?.vote_count;
+            }
+          }
+        );
       } else {
-        ratingMovie(props?.movieId, { value: Math.round(value) });
-        notification.open({
-          message: 'Cảm ơn bạn đã đánh giá!',
-          description: `Đánh giá thành công ${value} điểm.`,
-          icon: () =>
-            h(CheckCircleFilled, {
-              style: 'color: green',
-            }),
-        });
+        ratingMovie(props?.movieId, { value: Math.round(value) }).then(
+          (response) => {
+            if (response.data?.success == true) {
+              notification.open({
+                message: 'Cảm ơn bạn đã đánh giá!',
+                description: `Đánh giá thành công ${value} điểm.`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+              vote_Average.value = response.data?.vote_average?.toFixed(2);
+              vote_Count.value = response.data?.vote_count;
+            }
+          }
+        );
       }
     };
 
-    return { tooltipRating, vote_Average, handleRating };
+    return { tooltipRating, vote_Average, vote_Count, handleRating };
   },
 };
 </script>

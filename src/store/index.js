@@ -11,16 +11,14 @@ const store = createStore({
       isLogin:
         //  JSON.parse(window.localStorage.getItem('isLogin'))
         getWithExpiry('isLogin'),
-      modalAction: '',
       breadCrumbValue: '',
       loadingSearch: false,
       loadingTable: false,
       userAccount:
         // JSON.parse(window.localStorage.getItem('userAccount'))
         getWithExpiry('userAccount'),
-      listAccount: [],
-      numberOfAccount: 0,
-      detailAccountData: {},
+      allGenres: [],
+      allCountries: [],
     };
   },
   mutations: {

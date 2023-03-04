@@ -16,37 +16,150 @@
       <router-link :to="{ name: 'home' }"><span>Trang chủ</span> </router-link>
     </a-menu-item>
 
-    <a-menu-item key="movie">
+    <a-sub-menu key="movie">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-video-camera" />
       </template>
-      <router-link
-        :to="{
-          name: 'typemovie',
-          params: {
-            slug: 'movie',
-          },
-        }"
-      >
-        <span>Phim lẻ</span>
-      </router-link>
-    </a-menu-item>
+      <template #title>Phim lẻ</template>
+      <a-menu-item key="all">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'movie',
+              slug2: 'all',
+            },
+          }"
+        >
+          <span>Tất cả</span>
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="nowplaying">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'movie',
+              slug2: 'nowplaying',
+            },
+          }"
+        >
+          <span>Now playing</span>
+        </router-link>
+      </a-menu-item>
 
-    <a-menu-item key="tv">
+      <a-menu-item key="popular">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'movie',
+              slug2: 'popular',
+            },
+          }"
+        >
+          <span>Phổ biến</span>
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="toprated">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'movie',
+              slug2: 'toprated',
+            },
+          }"
+        >
+          <span>Top đánh giá</span>
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="upcoming">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'movie',
+              slug2: 'upcoming',
+            },
+          }"
+        >
+          <span>Sắp công chiếu</span>
+        </router-link>
+      </a-menu-item>
+    </a-sub-menu>
+
+    <a-sub-menu key="tv">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-film" />
       </template>
-      <router-link
-        :to="{
-          name: 'typemovie',
-          params: {
-            slug: 'tv',
-          },
-        }"
-      >
-        <span>Phim bộ</span></router-link
-      >
-    </a-menu-item>
+      <template #title>Phim bộ</template>
+      <a-menu-item key="tv">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'tv',
+              slug2: 'all',
+            },
+          }"
+        >
+          <span>Tất cả </span>
+        </router-link>
+      </a-menu-item>
+
+      <a-menu-item key="airingtoday">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'tv',
+              slug2: 'airingtoday',
+            },
+          }"
+        >
+          <span>Airing today </span>
+        </router-link>
+      </a-menu-item>
+
+      <a-menu-item key="ontheair">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'tv',
+              slug2: 'ontheair',
+            },
+          }"
+        >
+          <span>On the air </span>
+        </router-link> </a-menu-item
+      ><a-menu-item key="tvpopular">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'tv',
+              slug2: 'tvpopular',
+            },
+          }"
+        >
+          <span>Phổ biến </span>
+        </router-link> </a-menu-item
+      ><a-menu-item key="tvtoprated">
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'tv',
+              slug2: 'tvtoprated',
+            },
+          }"
+        >
+          <span>Top đánh giá</span>
+        </router-link>
+      </a-menu-item>
+    </a-sub-menu>
 
     <a-sub-menu key="genres">
       <template #icon>
@@ -58,7 +171,26 @@
         :index="index"
         :key="item?.name?.replace(/\s/g, '+').toLowerCase()"
       >
+        <a-tooltip
+          :title="item?.name_vietsub"
+          placement="right"
+          v-if="item?.name_vietsub?.length > 24"
+        >
+          <router-link
+            :to="{
+              name: 'discover',
+              params: {
+                slug: 'genres',
+                slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
+              },
+            }"
+            style="display: flex"
+          >
+            <span>{{ item?.name_vietsub }}</span>
+          </router-link>
+        </a-tooltip>
         <router-link
+          v-else
           :to="{
             name: 'discover',
             params: {
@@ -135,7 +267,7 @@
       <router-link :to="{ name: 'follow' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
 
-    <a-menu-item key="ranking" style="margin-bottom: 52vh">
+    <a-menu-item key="ranking" style="margin-bottom: 55vh">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-ranking-star" />
       </template>
@@ -157,6 +289,7 @@ import {
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 import { removeVietnameseTones } from '../untils/RemoveVietnameseTones';
+import { useStore } from 'vuex';
 
 export default {
   components: {
@@ -164,6 +297,7 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const store = useStore();
 
     const state = reactive({
       selectedKeys: [
@@ -197,6 +331,9 @@ export default {
             return +b.name.slice(-4) - +a.name.slice(-4);
           });
           countries.value = res[2].data;
+
+          store.state.allGenres = res[0].data;
+          store.state.allCountries = res[2].data;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -252,7 +389,7 @@ export default {
   }
 
   .ant-menu-submenu {
-    margin-left: 3px !important;
+    // margin-left: 3px !important;
 
     .ant-menu-submenu-title {
       height: 45px;
@@ -263,6 +400,16 @@ export default {
     .ant-menu-item {
       // padding-left: 24px !important;
       margin-left: 20px !important;
+      padding-left: 20px !important;
+      .ant-menu-title-content {
+        span {
+          display: -webkit-box;
+          max-width: 90%;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: horizontal;
+          overflow: hidden;
+        }
+      }
     }
   }
 }

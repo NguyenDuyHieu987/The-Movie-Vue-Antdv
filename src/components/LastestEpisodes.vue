@@ -11,7 +11,7 @@
         :shape="'default'"
         :block="block"
         v-for="(item, index) in Array.from(
-          { length: lastestEpisode },
+          { length: dataMovie?.last_episode_to_air?.episode_number },
           (_, i) => i + 1
         )
           .reverse()
@@ -23,20 +23,15 @@
     </div>
 
     <ul v-else class="list-lastest-episodes">
-      <!-- {{Array.from({ length: lastestEpisode }, (_, i) => i + 1)
-          .reverse()
-          .slice(0, 6)
-          .map((item, index) => (
-           
-          ))}} -->
-
-      <li
+      <!-- <li
         v-for="(item, index) in Array.from(
-          { length: lastestEpisode },
+          { length: dataMovie?.last_episode_to_air?.episode_number },
           (_, i) => i + 1
         )
           .reverse()
           .slice(0, 10)"
+
+
         :index="index"
         :key="index"
       >
@@ -76,22 +71,87 @@
         >
           {{ 'Tập ' + item }}
         </router-link>
+      </li> -->
+
+      <li
+        v-for="(item, index) in dataSeason.episodes
+          .slice(0, dataMovie?.last_episode_to_air?.episode_number)
+          .slice(-10)
+          .reverse()"
+        :index="index"
+        :key="index"
+      >
+        <router-link
+          v-if="item?.episode_number === numberOfEpisodes"
+          :to="{
+            name: 'play',
+            params: {
+              id: dataMovie?.id,
+              name: dataMovie?.name
+                ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              // tap: 'tap-1',
+            },
+            query: {
+              ep: `tap-${item?.episode_number}`,
+            },
+          }"
+        >
+          {{ 'Tập ' + item?.episode_number + '-End' }}
+        </router-link>
+        <router-link
+          v-else-if="item?.episode_number !== numberOfEpisodes"
+          :to="{
+            name: 'play',
+            params: {
+              id: dataMovie?.id,
+              name: dataMovie?.name
+                ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              // tap: 'tap-1',
+            },
+            query: {
+              ep: `tap-${item?.episode_number}`,
+            },
+          }"
+        >
+          {{ 'Tập ' + item?.episode_number }}
+        </router-link>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { onBeforeMount, ref } from 'vue';
+import { getMoviesBySeason } from '../services/MovieService';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
+
 export default {
   props: {
     dataMovie: Object,
-    lastestEpisode: Number,
     numberOfEpisodes: Number,
     loading: Boolean,
   },
   components: {},
-  setup() {
-    return {};
+  setup(props) {
+    const route = useRoute();
+    const dataSeason = ref({});
+
+    onBeforeMount(() => {
+      getMoviesBySeason(
+        route.params?.id,
+        props.dataMovie?.last_episode_to_air?.season_number
+      )
+        .then((episodesRespones) => {
+          dataSeason.value = episodesRespones?.data;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+    });
+    return { dataSeason };
   },
 };
 </script>

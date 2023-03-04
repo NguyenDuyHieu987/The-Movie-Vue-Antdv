@@ -90,6 +90,7 @@ span {
     width: 100%;
     left: auto !important;
     background-color: #000;
+    top: var(--header-height) !important;
 
     .ant-popover-title {
       border-bottom: none;
@@ -139,6 +140,7 @@ span {
 .certain-category-search-dropdown {
   .rc-virtual-list-holder {
     max-height: 50vh !important;
+    overflow-y: scroll !important;
   }
   .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
     background-color: #000;
@@ -153,13 +155,13 @@ span {
       padding: 10px;
     }
 
-    &::-webkit-scrollbar-thumb {
-      display: none;
-    }
+    // &::-webkit-scrollbar-thumb {
+    //   display: none;
+    // }
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
   }
 }
 

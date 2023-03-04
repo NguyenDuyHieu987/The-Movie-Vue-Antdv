@@ -67,7 +67,7 @@
           </strong>
 
           <strong v-if="isEpisodes">
-            {{ ' - Season ' + dataMovie?.last_episode_to_air?.season_number }}
+            {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
           </strong>
         </a-skeleton>
 
@@ -143,9 +143,7 @@
             class="btn-add-to-list"
             :class="{ active: isAddToList }"
             @confirm="handelAddToList"
-            v-if="$store.state.isLogin"
           >
-            <!-- @click="handelAddToList" -->
             <template #title>
               <p v-if="!isAddToList">Bạn có muốn thêm phìm vào</p>
               <p v-else>Bạn có muốn xoá phìm khỏi</p>
@@ -203,7 +201,7 @@
             <p>
               <label>Ngày Phát Hành: </label>
               <router-link
-                v-if="dataMovie"
+                v-if="dataMovie?.release_date || dataMovie?.first_air_date"
                 :to="{
                   name: 'discover',
                   params: {
@@ -325,7 +323,6 @@
     <LastestEpisodes
       v-if="isEpisodes"
       :dataMovie="dataMovie"
-      :lastestEpisode="dataMovie?.last_episode_to_air?.episode_number"
       :numberOfEpisodes="
         dataMovie?.seasons?.find((item) =>
           item.season_number === dataMovie?.last_episode_to_air?.season_number
@@ -351,7 +348,7 @@
           {{ dataMovie?.overview }}
         </p>
         <strong class="toggle-content" @click="isOpenContent = !isOpenContent">
-          {{ !isOpenContent ? 'Xem thêm >' : '< Ẩn' }}
+          {{ !isOpenContent ? 'Xem thêm' : 'Ẩn bớt' }}
         </strong>
       </a-skeleton>
     </div>
@@ -391,7 +388,7 @@
     <a-tabs v-model:activeKey="activeTabCast">
       <a-tab-pane key="1" tab="Diễn viên">
         <carousel
-          v-if="dataCredit?.credits?.cast?.length"
+          v-if="dataCredit?.cast?.length"
           class="cast"
           :items="4"
           :autoplay="true"
@@ -405,7 +402,7 @@
           :responsive="responsiveCarousel"
         >
           <CastCard
-            v-for="(item, index) in dataCredit?.credits?.cast"
+            v-for="(item, index) in dataCredit?.cast"
             :src="
               getPoster(
                 item?.backdrop_path ? item?.backdrop_path : item?.poster_path
@@ -420,7 +417,7 @@
       </a-tab-pane>
       <a-tab-pane key="2" tab="Đội ngũ" force-render>
         <carousel
-          v-if="dataCredit?.credits?.crew?.length"
+          v-if="dataCredit?.crew?.length"
           class="cast"
           :items="4"
           :autoplay="true"
@@ -434,7 +431,7 @@
           :responsive="responsiveCarousel"
         >
           <CastCard
-            v-for="(item, index) in dataCredit?.credits?.crew"
+            v-for="(item, index) in dataCredit?.crew"
             :src="
               getPoster(
                 item?.backdrop_path ? item?.backdrop_path : item?.poster_path
@@ -464,10 +461,11 @@ import carousel from 'vue-owl-carousel/src/Carousel';
 import {
   getAllGenresById,
   getPoster,
-  getMovieSeriesById,
-  getMovieById,
+  // getMovieSeriesById,
+  // getMovieById,
   getLanguage,
   getMovieByCredit,
+  getTvByCredit,
   addItemList,
   removeItemList,
   getList,
@@ -555,13 +553,14 @@ export default {
       isAddToList.value = false;
       loading.value = true;
 
-      getMovieSeriesById(route.params?.id)
+      getTvByCredit(route.params?.id)
         .then((tvResponed) => {
-          if (tvResponed?.data === null)
-            getMovieById(route.params?.id)
+          if (tvResponed?.data?.not_found === true)
+            getMovieByCredit(route.params?.id)
               .then((movieResponed) => {
                 isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
+                dataCredit.value = movieResponed?.data?.credits;
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
@@ -569,6 +568,7 @@ export default {
           else {
             isEpisodes.value = true;
             dataMovie.value = tvResponed?.data;
+            dataCredit.value = tvResponed?.data?.credits;
           }
         })
         .catch((e) => {
@@ -576,14 +576,14 @@ export default {
           if (axios.isCancel(e)) return;
         });
 
-      getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', route.params?.id)
-        .then((movieResponed) => {
-          dataCredit.value = movieResponed?.data;
-        })
-        .catch((e) => {
-          loading.value = false;
-          if (axios.isCancel(e)) return;
-        });
+      // getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', route.params?.id)
+      //   .then((movieResponed) => {
+      //     dataCredit.value = movieResponed?.data;
+      //   })
+      //   .catch((e) => {
+      //     loading.value = false;
+      //     if (axios.isCancel(e)) return;
+      //   });
 
       if (store.state.isLogin) {
         getList(store.state?.userAccount?.id)
@@ -666,14 +666,7 @@ export default {
     };
 
     watch(isEpisodes, () => {
-      getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', route.params?.id)
-        .then((movieResponed) => {
-          dataCredit.value = movieResponed?.data;
-        })
-        .catch((e) => {
-          loading.value = false;
-          if (axios.isCancel(e)) return;
-        });
+      getData();
     });
 
     watch(route, () => {
@@ -698,7 +691,7 @@ export default {
     document.title = `${Array.from(
       route.params?.name.split('+'),
       (x) => x.charAt(0).toUpperCase() + x.slice(1)
-    ).join(' ')} - Info`;
+    ).join(' ')} - Thông tin`;
 
     window.scrollTo({
       top: 0,
@@ -739,6 +732,14 @@ export default {
       iframe {
         height: 70vh !important;
       }
+    }
+  }
+}
+
+@media only screen and (min-width: 1650px) {
+  .prev-play-conainer {
+    .backdrop-img {
+      height: 650px !important;
     }
   }
 }
@@ -869,7 +870,7 @@ export default {
 
   .backdrop-img {
     // height: 450px;
-    height: 55vh;
+    height: 50vh;
     width: 62%;
     position: relative;
 
@@ -880,13 +881,14 @@ export default {
       .ant-image-img {
         height: 100%;
         width: 100%;
-        // object-fit: cover;
+        object-fit: cover;
       }
     }
   }
 
   .info-movie {
     padding: 0px 0px 10px 15px;
+    color: #fff;
   }
 
   .widget {
@@ -962,6 +964,7 @@ export default {
   .movie-content {
     padding: 0px 10px;
     text-align: justify;
+    color: #fff;
 
     p {
     }

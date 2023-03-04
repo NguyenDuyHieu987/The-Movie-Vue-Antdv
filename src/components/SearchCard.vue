@@ -37,11 +37,15 @@
         <p class="title">
           {{ item?.name ? item?.name : item?.title }}
         </p>
-        <p class="genres" v-if="item?.genre_ids">
-          {{ getAllGenresById(item?.genre_ids).join(' • ') }}
-        </p>
-        <p class="genres" v-else-if="item?.genres">
+        <p class="genres" v-if="item?.genres">
           {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+        </p>
+        <p class="genres" v-else-if="item?.genre_ids">
+          {{
+            getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
+              ' • '
+            )
+          }}
         </p>
         <p class="release-date">
           Năm:
@@ -70,7 +74,7 @@ import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
-  getMovieSeriesById,
+  getTvById,
   getMovieById,
   getLanguage,
 } from '../services/MovieService';
@@ -91,9 +95,9 @@ export default {
     onBeforeMount(() => {
       loading.value = true;
 
-      getMovieSeriesById(props.item?.id)
+      getTvById(props.item?.id)
         .then((tvResponed) => {
-          if (tvResponed?.data === null)
+          if (tvResponed?.data?.not_found === true)
             getMovieById(props.item?.id)
               .then((movieResponed) => {
                 isEpisodes.value = false;

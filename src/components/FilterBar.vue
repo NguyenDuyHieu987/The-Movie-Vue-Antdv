@@ -65,8 +65,8 @@
               v-for="(item, index) in genres"
               :index="index"
               :key="item?.id"
-              :value="item?.name"
-              >{{ item?.name }}
+              :value="item?.id"
+              >{{ item?.name_vietsub }}
             </a-select-option>
           </a-select>
 
@@ -91,14 +91,14 @@
           <a-select
             ref="select"
             v-model:value="formSelect.type"
-            style="width: 150px"
+            style="width: 170px"
             @focus="focus"
             @change="handleChange"
             size="large"
           >
-            <a-select-option value="all"> Tất cả</a-select-option>
-            <a-select-option value="movie"> Phim lẻ</a-select-option>
-            <a-select-option value="tv"> Phim bộ</a-select-option>
+            <a-select-option value="all">Tất cả</a-select-option>
+            <a-select-option value="movieall">Phim lẻ</a-select-option>
+            <a-select-option value="tvall">Tất Bộ</a-select-option>
           </a-select>
 
           <a-button
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import { onBeforeMount, ref, reactive, computed } from 'vue';
+import { onBeforeMount, ref, reactive, computed, watch } from 'vue';
 import {
   getAllGenre,
   getAllNational,
@@ -129,17 +129,48 @@ import {
 import axios from 'axios';
 import listSortBy from '../constants/Sortby';
 import { CaretRightFilled } from '@ant-design/icons-vue';
+import { useRoute } from 'vue-router';
 
 export default {
   components: { CaretRightFilled },
+  props: {
+    type: String,
+  },
   setup(props, { emit }) {
+    const route = useRoute();
+
+    const movieType = computed(() => {
+      let str = '';
+      if (route.params?.slug.includes('movie')) {
+        if (route.params?.slug2?.replace('/', '') == 'all') {
+          str = 'movieall';
+        } else {
+          str = route.params?.slug2?.replace('/', '');
+        }
+      } else if (route.params?.slug.includes('tv')) {
+        if (route.params?.slug2?.replace('/', '') == 'all') {
+          str = 'tvall';
+        } else {
+          str = route.params?.slug2?.replace('/', '');
+        }
+      }
+      return str;
+    });
+
     const formSelect = reactive({
-      type: 'all',
+      type: movieType.value,
       sortBy: '',
       genre: '',
       year: '',
       country: '',
       pageFilter: 1,
+    });
+
+    // const movieType = computed(() => route.params.slug.replace('/', ''));
+    // alert(movieType.value);
+
+    watch(route, () => {
+      resetFilter();
     });
 
     const genres = ref([]);
@@ -150,7 +181,9 @@ export default {
       Promise.all([getAllGenre(), getAllYear(), getAllNational()])
         .then((res) => {
           genres.value = res[0].data;
-          years.value = res[1].data;
+          years.value = res[1].data.sort(function (a, b) {
+            return +b.name.slice(-4) - +a.name.slice(-4);
+          });
           countries.value = res[2].data;
         })
         .catch((e) => {
@@ -160,7 +193,7 @@ export default {
 
     const disableBtnFilter = computed(
       () =>
-        formSelect.type == 'all' &&
+        formSelect.type == movieType.value &&
         formSelect.sortBy == '' &&
         formSelect.genre == '' &&
         formSelect.year == '' &&
@@ -177,13 +210,16 @@ export default {
         });
     };
 
-    const handleCancelFilter = () => {
-      formSelect.type = 'all';
+    const resetFilter = () => {
+      formSelect.type = movieType.value;
       formSelect.sortBy = '';
       formSelect.genre = '';
       formSelect.year = '';
       formSelect.country = '';
+    };
 
+    const handleCancelFilter = () => {
+      resetFilter();
       emit('cancelFilter');
     };
 

@@ -34,11 +34,15 @@
             }}
           </span>
           <span class="genres" v-if="item?.genres">
-            {{ getAllGenresById(item?.genres).join(' • ') }}
+            <!-- {{ getAllGenresById(item?.genres).join(' • ') }} -->
+            {{ Array.from(item?.genre_ids, (x) => x.name).join(' • ') }}
           </span>
           <span class="genres" v-else-if="item?.genre_ids">
-            <!-- {{ Array.from(item?.genre_ids, (x) => x.name).join(' • ') }} -->
-            {{ getAllGenresById(item?.genre_ids).join(' • ') }}
+            {{
+              getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
+                ' • '
+              )
+            }}
           </span>
         </p>
       </div>

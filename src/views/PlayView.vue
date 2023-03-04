@@ -2,28 +2,65 @@
   <div class="play-container">
     <div class="video-player">
       <iframe
+        v-if="isEpisodes"
         width="100%"
         height="100%"
-        src="//ok.ru/videoembed/3056793684585"
+        :src="`//ok.ru/videoembed/${
+          urlCodeMovie ? urlCodeMovie : '3056793684585'
+        }`"
+        frameborder="0"
+        allow="autoplay"
+        allowfullscreen
+      ></iframe>
+
+      <iframe
+        v-else
+        width="100%"
+        height="100%"
+        :src="`//ok.ru/videoembed/${'3056793684585'}`"
         frameborder="0"
         allow="autoplay"
         allowfullscreen
       ></iframe>
     </div>
 
-    <ListEpisodes v-if="isEpisodes" :dataMovie="dataMovie" />
+    <ListEpisodes
+      v-if="isEpisodes"
+      :dataMovie="dataMovie"
+      :numberOfEpisodes="
+        dataMovie?.seasons?.find((item) =>
+          item.season_number === dataMovie?.last_episode_to_air?.season_number
+            ? item
+            : null
+        )?.episode_count
+      "
+      @setUrlCodeMovie="(data) => getUrlCodeMovie(data)"
+    />
 
     <h3 class="section-title width-fit" style="margin-top: 10px">
       <strong> Đánh giá phim</strong>
     </h3>
-    <Interaction :dataMovie="dataMovie" />
-    <RatingMovie
-      v-if="dataMovie?.id"
-      :voteAverage="dataMovie?.vote_average"
-      :voteCount="dataMovie?.vote_count"
-      :movieId="dataMovie?.id"
-      :isEpisodes="isEpisodes"
-    />
+
+    <div v-if="loading">
+      <a-skeleton-button :active="true" :size="'default'" :block="false">
+      </a-skeleton-button>
+    </div>
+    <Interaction v-else :dataMovie="dataMovie" />
+    <a-skeleton
+      style="margin-top: 15px"
+      :loading="loading"
+      :active="true"
+      :paragraph="{ rows: 1, width: '40%' }"
+      :title="false"
+    >
+      <RatingMovie
+        v-if="dataMovie?.id"
+        :voteAverage="dataMovie?.vote_average"
+        :voteCount="dataMovie?.vote_count"
+        :movieId="dataMovie?.id"
+        :isEpisodes="isEpisodes"
+      />
+    </a-skeleton>
 
     <h3 class="section-title">
       <strong>
@@ -92,7 +129,7 @@ import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
-  getMovieSeriesById,
+  getTvById,
   getMovieById,
   getLanguage,
   // getMovieByCredit,
@@ -122,6 +159,7 @@ export default {
     const isOpenTrailerYoutube = ref(false);
     const urlComment = computed(() => window.location);
     const loading = ref(false);
+    const urlCodeMovie = ref('');
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
@@ -129,9 +167,9 @@ export default {
     const getData = () => {
       loading.value = true;
 
-      getMovieSeriesById(route.params?.id)
+      getTvById(route.params?.id)
         .then((tvResponed) => {
-          if (tvResponed?.data === null)
+          if (tvResponed?.data?.not_found === true)
             getMovieById(route.params?.id)
               .then((movieResponed) => {
                 isEpisodes.value = false;
@@ -146,6 +184,7 @@ export default {
           }
         })
         .catch((e) => {
+          loading.value = false;
           if (axios.isCancel(e)) return;
         });
 
@@ -170,10 +209,14 @@ export default {
       // router.go();
     });
 
+    const getUrlCodeMovie = (data) => {
+      urlCodeMovie.value = data;
+    };
+
     document.title = `${Array.from(
       route.params?.name.split('+'),
       (x) => x.charAt(0).toUpperCase() + x.slice(1)
-    ).join(' ')} - Play`;
+    ).join(' ')} - Xem phim`;
 
     window.scrollTo({
       top: 0,
@@ -194,9 +237,11 @@ export default {
       btnNext,
       urlComment,
       loading,
+      urlCodeMovie,
       getPoster,
       getAllGenresById,
       getLanguage,
+      getUrlCodeMovie,
     };
   },
 };
@@ -297,6 +342,9 @@ export default {
   }
 
   .movie-content {
+    padding: 0px 10px;
+    color: #fff;
+
     p {
       text-align: justify;
     }

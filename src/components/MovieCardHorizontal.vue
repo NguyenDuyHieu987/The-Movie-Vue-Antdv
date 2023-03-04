@@ -26,13 +26,17 @@
         v-if="!loading"
         :src="
           getPoster(
-            item?.backdrop_path ? item?.backdrop_path : item?.poster_path
+            dataMovie?.backdrop_path
+              ? dataMovie?.backdrop_path
+              : dataMovie?.poster_path
           )
         "
         :preview="false"
         v-lazy="
           getPoster(
-            item?.backdrop_path ? item?.backdrop_path : item?.poster_path
+            dataMovie?.backdrop_path
+              ? dataMovie?.backdrop_path
+              : dataMovie?.poster_path
           )
         "
       >
@@ -64,7 +68,11 @@
         </p>
       </div>
     </div>
-    <a-tooltip :title="getLanguage(item?.original_language)?.english_name">
+    <a-tooltip
+      :title="
+        getLanguage(item?.original_language, $store.state.allCountries)?.name
+      "
+    >
       <div class="info">
         <a-skeleton
           :loading="loading"
@@ -74,13 +82,25 @@
         >
           <p class="title">
             {{ item?.name ? item?.name : item?.title }}
+            <span v-if="isEpisodes">
+              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+            </span>
           </p>
           <div class="info-bottom">
             <p class="genres" v-if="item?.genres">
-              {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+              <!-- {{ Array.from(item?.genres, (x) => x.name).join(' • ') }} -->
+              {{
+                getAllGenresById(item?.genres, $store.state?.allGenres).join(
+                  ' • '
+                )
+              }}
             </p>
             <p class="genres" v-else-if="item?.genre_ids">
-              {{ getAllGenresById(item?.genre_ids).join(' • ') }}
+              {{
+                getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
+                  ' • '
+                )
+              }}
             </p>
           </div>
         </a-skeleton>
@@ -94,7 +114,7 @@ import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
-  getMovieSeriesById,
+  getTvById,
   getMovieById,
   getLanguage,
 } from '../services/MovieService';
@@ -115,9 +135,9 @@ export default {
     onBeforeMount(() => {
       loading.value = true;
 
-      getMovieSeriesById(props.item?.id)
+      getTvById(props.item?.id)
         .then((tvResponed) => {
-          if (tvResponed?.data === null)
+          if (tvResponed?.data?.not_found === true)
             getMovieById(props.item?.id)
               .then((movieResponed) => {
                 isEpisodes.value = false;
