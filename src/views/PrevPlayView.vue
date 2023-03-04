@@ -87,16 +87,13 @@
           <router-link
             v-if="isEpisodes && dataMovie?.id"
             :to="{
-              name: 'play',
+              name: 'playtv',
               params: {
                 id: dataMovie?.id,
                 name: dataMovie?.name
                   ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
                   : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-                // tap: 'tap-1',
-              },
-              query: {
-                ep: 'tap-1',
+                tap: 'tap-1',
               },
             }"
             class="btn-play-now"

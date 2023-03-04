@@ -11,17 +11,6 @@ const routes = [
       import(/* webpackChunkName: "home" */ '../views/HomeView.vue'),
   },
   {
-    path: '/discover/:slug',
-    name: 'typemovie',
-    meta: {
-      layout: 'default',
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "typemovie" */ '../views/DiscoverMovieView.vue'
-      ),
-  },
-  {
     path: '/discover/:slug/:slug2',
     name: 'discover',
     meta: {
@@ -63,6 +52,15 @@ const routes = [
   {
     path: '/play/:id/:name',
     name: 'play',
+    meta: {
+      layout: 'default',
+    },
+    component: () =>
+      import(/* webpackChunkName: "play" */ '../views/PlayView.vue'),
+  },
+  {
+    path: '/play/:id/:name/:tap',
+    name: 'playtv',
     meta: {
       layout: 'default',
     },

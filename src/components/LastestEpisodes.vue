@@ -84,16 +84,13 @@
         <router-link
           v-if="item?.episode_number === numberOfEpisodes"
           :to="{
-            name: 'play',
+            name: 'playtv',
             params: {
               id: dataMovie?.id,
               name: dataMovie?.name
                 ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
                 : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-              // tap: 'tap-1',
-            },
-            query: {
-              ep: `tap-${item?.episode_number}`,
+              tap: `tap-${item?.episode_number}`,
             },
           }"
         >
@@ -102,16 +99,13 @@
         <router-link
           v-else-if="item?.episode_number !== numberOfEpisodes"
           :to="{
-            name: 'play',
+            name: 'playtv',
             params: {
               id: dataMovie?.id,
               name: dataMovie?.name
                 ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
                 : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-              // tap: 'tap-1',
-            },
-            query: {
-              ep: `tap-${item?.episode_number}`,
+              tap: `tap-${item?.episode_number}`,
             },
           }"
         >

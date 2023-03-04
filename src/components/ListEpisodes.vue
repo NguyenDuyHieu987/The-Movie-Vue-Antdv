@@ -4,7 +4,7 @@
       <a-button
         size="large"
         :disabled="currentEpisode == 1"
-        @click="$router.push({ query: { ep: `tap-${--currentEpisode}` } })"
+        @click="$router.push({ params: { tap: `tap-${--currentEpisode}` } })"
       >
         Tập trước
       </a-button>
@@ -15,7 +15,7 @@
             ? currentEpisode == dataMovie?.last_episode_to_air?.episode_number
             : currentEpisode == dataSeason?.episodes?.length
         "
-        @click="$router.push({ query: { ep: `tap-${++currentEpisode}` } })"
+        @click="$router.push({ params: { tap: `tap-${++currentEpisode}` } })"
       >
         Tập tiếp
       </a-button>
@@ -24,9 +24,14 @@
       <strong style="margin-right: 10px">
         {{ dataMovie?.name ? dataMovie?.name : dataMovie?.title }}
         - Tập
-        {{ $route.query?.ep?.replace('tap-', '') }}
+        {{ $route.params?.tap?.replace('tap-', '') }}
         |
-        <!-- Phần -->
+        {{
+          dataSeason?.name?.split(' ')[0] === 'Phần' ||
+          dataSeason?.name === 'Specials'
+            ? dataSeason?.name
+            : dataSeason?.name?.replace('Season', 'Phần')
+        }}
       </strong>
       <a-select
         ref="select"
@@ -92,10 +97,7 @@
               name: dataMovie?.name
                 ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
                 : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-              // tap: 'tap-1',
-            },
-            query: {
-              ep: `tap-${item.episode_number}`,
+              tap: `tap-${item.episode_number}`,
             },
           }"
         >
@@ -132,8 +134,8 @@ export default {
     const router = useRouter();
 
     const currentEpisode = ref(
-      route.query?.ep.replace('tap-', '')
-        ? +route.query?.ep.replace('tap-', '')
+      route.params?.tap.replace('tap-', '')
+        ? +route.params?.tap.replace('tap-', '')
         : 1
     );
     const loading = ref(false);
@@ -169,7 +171,7 @@ export default {
 
     watch(selectedSeason, () => {
       loading.value = true;
-      router.push({ query: { ep: 1 } });
+      router.push({ params: { tap: 'tap-1' } });
 
       getMoviesBySeason(route.params?.id, selectedSeason.value)
         .then((episodesRespones) => {
@@ -187,7 +189,7 @@ export default {
     });
 
     watch(route, (newVal) => {
-      currentEpisode.value = +newVal.query?.ep?.replace('tap-', '');
+      currentEpisode.value = +newVal.params?.tap?.replace('tap-', '');
       emitUrlCode(dataSeason.value);
     });
 
