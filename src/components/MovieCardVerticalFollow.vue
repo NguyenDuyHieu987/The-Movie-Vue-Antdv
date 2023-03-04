@@ -111,7 +111,6 @@ import {
   getLanguage,
   removeItemList,
   handleWatchList,
-  getList,
   getWatchList,
 } from '../services/MovieService';
 import { Modal, message } from 'ant-design-vue';
@@ -183,23 +182,25 @@ export default {
           onOk() {
             removeItemList(store.state.userAccount?.id, {
               media_id: +dataMovie.value?.id,
-            });
-
-            message.loading({
-              content: 'Đang xóa khỏi danh sách...',
-              duration: 2,
-            });
-            setTimeout(() => {
-              message.success({ content: 'Xóa thành công!', duration: 2 });
-
-              getList(store?.state.userAccount?.id)
-                .then((movieRespone) => {
-                  props.getDataWhenRemoveList(movieRespone.data?.items);
-                })
-                .catch((e) => {
-                  if (axios.isCancel(e)) return;
+            })
+              .then((response) => {
+                message.loading({
+                  content: 'Đang xóa khỏi danh sách...',
+                  duration: 2,
                 });
-            }, 2200);
+                if (response.data?.success == true) {
+                  setTimeout(() => {
+                    message.success({
+                      content: 'Xóa thành công!',
+                      duration: 2,
+                    });
+                    props.getDataWhenRemoveList(response.data?.results);
+                  }, 2200);
+                }
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
           },
           onCancel() {},
           class: 'require-login-confirm',
@@ -259,207 +260,180 @@ export default {
 };
 </script>
 <style lang="scss">
+@media only screen and (min-width: 2300px) {
+  .follow-container {
+    .movie-group {
+      grid-template-columns: repeat(10, minmax(10%, auto)) !important;
+
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 2300px) {
+  .follow-container {
+    .movie-group {
+      grid-template-columns: repeat(9, minmax(11%, auto)) !important;
+
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 2100px) {
+  .follow-container {
+    .movie-group {
+      grid-template-columns: repeat(8, minmax(13%, auto)) !important;
+
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+          height: 260px !important;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1800px) {
+  .follow-container {
+    .movie-group {
+      grid-template-columns: repeat(7, minmax(14%, auto)) !important;
+
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1550px) {
+  .follow-container {
+    .movie-group {
+      grid-template-columns: repeat(6, minmax(15%, auto)) !important;
+
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .follow-container {
+    .movie-group {
+      grid-template-columns: repeat(5, minmax(17%, auto)) !important;
+
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+        }
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 1150px) {
-  .movie-group.upcoming {
+  .follow-container {
     // grid-template-columns: repeat(auto-fit, minmax(160px, auto));
-  }
 
-  .movie-carousel-vertical-item {
-    .img-box {
-      transition: all 0.3s;
-      height: 220px !important;
+    .movie-group {
+      grid-template-columns: repeat(5, minmax(17%, auto)) !important;
+
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+          height: 230px !important;
+        }
+      }
     }
   }
 }
 
-@media only screen and (max-width: 1050px) {
-  .movie-group.upcoming {
-    grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
-  }
+@media only screen and (max-width: 1000px) {
+  .follow-container {
+    // grid-template-columns: repeat(3, minmax(160px, auto)) !important;
 
-  .movie-carousel-vertical-item {
-    .img-box {
-      transition: all 0.3s;
-      height: 230px !important;
+    .movie-group {
+      grid-template-columns: repeat(4, minmax(25%, auto)) !important;
+
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+          height: 220px !important;
+        }
+      }
     }
   }
 }
 
-@media only screen and (max-width: 970px) {
-  .movie-group.upcoming {
-  }
+@media only screen and (max-width: 900px) {
+  .follow-container {
+    .movie-group {
+      grid-template-columns: repeat(3, minmax(33%, auto)) !important;
 
-  .movie-carousel-vertical-item {
-    .img-box {
-      transition: all 0.3s;
-      height: 250px !important;
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+          height: 250px !important;
+        }
+      }
     }
   }
 }
 
-@media only screen and (max-width: 800px) {
-  .movie-group.upcoming {
-    grid-template-columns: repeat(auto-fit, minmax(140px, auto)) !important;
-  }
+@media only screen and (max-width: 600px) {
+  .follow-container {
+    .movie-group {
+      grid-template-columns: repeat(2, minmax(50%, auto)) !important;
 
-  .movie-carousel-vertical-item {
-    .img-box {
-      transition: all 0.3s;
-      height: 210px !important;
+      .movie-carousel-vertical-item {
+        .img-box {
+          transition: all 0.3s;
+          height: 250px !important;
+        }
+      }
     }
   }
 }
 
-@media only screen and (max-width: 740px) {
-  .movie-group.upcoming {
-    grid-template-columns: repeat(auto-fit, minmax(160px, auto)) !important;
-  }
+.follow-container {
+  .movie-group {
+    display: grid;
+    // grid-template-columns: repeat(8, minmax(10%, auto)) !important;
 
-  .movie-carousel-vertical-item {
-    .img-box {
-      transition: all 0.3s;
-      height: 250px !important;
+    .movie-carousel-vertical-item {
+      .img-box {
+        height: 280px;
+        overflow: hidden;
+      }
+      .ant-image {
+        height: 100%;
+        width: 100%;
+      }
+
+      .remove-list-btn {
+        cursor: pointer;
+      }
+      .ant-skeleton-content .ant-skeleton-paragraph > li + li {
+        margin-top: 10px;
+      }
+      .ant-btn {
+        white-space: normal;
+      }
     }
   }
 }
-
-@media only screen and (max-width: 410px) {
-  .movie-group.upcoming {
-  }
-
-  .movie-carousel-vertical-item {
-    .img-box {
-      transition: all 0.3s;
-      height: 210px !important;
-    }
-  }
-}
-
-.movie-carousel-vertical-item {
-  .img-box {
-    height: 280px;
-    overflow: hidden;
-  }
-  .ant-image {
-    height: 100%;
-    width: 100%;
-  }
-
-  .remove-list-btn {
-    cursor: pointer;
-  }
-}
-
-// .movie-carousel-vertical-item {
-//   color: #fff;
-//   cursor: pointer;
-//   position: relative;
-//   display: block;
-//   // overflow: hidden;
-
-//   .img-box {
-//     position: relative;
-//   }
-
-//   .ant-image {
-//     width: 100%;
-
-//     .ant-image-img {
-//       border-top-right-radius: 5px;
-//       border-top-left-radius: 5px;
-//       transition: all 0.3s;
-//       height: 100%;
-//     }
-//   }
-
-//   &:hover {
-//     img {
-//       transform: scale(1.05);
-//       opacity: 0.7;
-//     }
-
-//     .duration-episode-box {
-//       background-size: 200% 100%;
-//       background-position: -50px center;
-//     }
-
-//     .release-date-box {
-//       background-size: 200% 100%;
-//       background-position: -45px center;
-//     }
-
-//     .info {
-//       color: #ffffff;
-//     }
-//   }
-
-//   .duration-episode-box {
-//     color: #fff;
-//     background-image: linear-gradient(
-//       to right,
-//       var(--sider-header-background-color1),
-//       var(--sider-header-background-color2),
-//       var(--sider-header-background-color3)
-//     );
-//     background-size: 200% 100%;
-//     position: absolute;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     border-radius: 5px;
-//     padding: 5px 10px;
-//     box-shadow: #000000bf 0px 3px 10px;
-//     left: 5px;
-//     top: 5px;
-//     transition: all 0.7s;
-//     .duration-episode {
-//       font-size: 12px;
-//     }
-//   }
-
-//   .release-date-box {
-//     color: #fff;
-//     background-image: linear-gradient(
-//       to right,
-//       var(--sider-header-background-color3),
-//       var(--sider-header-background-color2),
-//       var(--sider-header-background-color1)
-//     );
-//     background-size: 200% 100%;
-//     position: absolute;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     border-radius: 5px;
-//     padding: 5px 10px;
-//     box-shadow: #000000bf 0px 3px 10px;
-//     right: 5px;
-//     bottom: 5px;
-//     transition: all 0.7s;
-
-//     .release-date {
-//       font-size: 12px;
-//     }
-//   }
-
-//   .info {
-//     padding: 10px 0px;
-//     color: #3b3b3b;
-
-//     .title,
-//     .genres {
-//       white-space: nowrap;
-//       overflow: hidden;
-//       text-overflow: ellipsis;
-//     }
-
-//     .info-bottom {
-//       display: flex;
-
-//       p + p {
-//         margin-left: 5px;
-//       }
-//     }
-//   }
-// }
 </style>

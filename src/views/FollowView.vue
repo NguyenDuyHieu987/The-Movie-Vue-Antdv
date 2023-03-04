@@ -150,49 +150,49 @@ export default {
 </script>
 
 <style lang="scss">
-@media only screen and (max-width: 1400px) {
-  .follow {
-    .movie-group {
-      grid-template-columns: repeat(5, minmax(20%, auto)) !important;
-    }
+// @media only screen and (max-width: 1400px) {
+//   .follow {
+//     .movie-group {
+//       grid-template-columns: repeat(5, minmax(20%, auto)) !important;
+//     }
 
-    .movie-group.collapse {
-      grid-template-columns: repeat(6, minmax(20%, auto)) !important;
-    }
-  }
-}
+//     .movie-group.collapse {
+//       grid-template-columns: repeat(6, minmax(20%, auto)) !important;
+//     }
+//   }
+// }
 
-@media only screen and (max-width: 1010px) {
-  .follow {
-    .movie-group {
-      grid-template-columns: repeat(3, minmax(170px, auto)) !important;
-    }
-  }
-}
+// @media only screen and (max-width: 1010px) {
+//   .follow {
+//     .movie-group {
+//       grid-template-columns: repeat(3, minmax(170px, auto)) !important;
+//     }
+//   }
+// }
 
-@media only screen and (max-width: 860px) {
-  .follow {
-    .movie-group {
-      grid-template-columns: repeat(3, minmax(160px, auto)) !important;
-    }
-  }
-}
+// @media only screen and (max-width: 860px) {
+//   .follow {
+//     .movie-group {
+//       grid-template-columns: repeat(3, minmax(160px, auto)) !important;
+//     }
+//   }
+// }
 
-@media only screen and (max-width: 615px) {
-  .follow {
-    .movie-group {
-      grid-template-columns: repeat(3, minmax(160px, auto)) !important;
-    }
-  }
-}
+// @media only screen and (max-width: 615px) {
+//   .follow {
+//     .movie-group {
+//       grid-template-columns: repeat(3, minmax(160px, auto)) !important;
+//     }
+//   }
+// }
 
-@media only screen and (max-width: 550px) {
-  .follow {
-    .movie-group {
-      grid-template-columns: repeat(2, minmax(160px, auto)) !important;
-    }
-  }
-}
+// @media only screen and (max-width: 550px) {
+//   .follow {
+//     .movie-group {
+//       grid-template-columns: repeat(2, minmax(160px, auto)) !important;
+//     }
+//   }
+// }
 
 .follow {
   .follow-container {

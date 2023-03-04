@@ -205,7 +205,7 @@ export default defineComponent({
 
       signUp({
         id: Date.now(),
-        user_name: formState.username,
+        username: formState.username,
         email: formState.email,
         password: md5(formState.password),
         created_by: formState.fullname,

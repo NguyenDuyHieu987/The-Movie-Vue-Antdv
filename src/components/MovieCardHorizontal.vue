@@ -44,7 +44,7 @@
 
       <a-skeleton-image v-else class="ant-image" />
 
-      <div class="duration-episode-box">
+      <div v-if="!loading" class="duration-episode-box">
         <p class="duration-episode">
           {{
             isEpisodes
@@ -58,7 +58,7 @@
         </p>
       </div>
 
-      <div class="release-date-box">
+      <div v-if="!loading" class="release-date-box">
         <p class="release-date">
           {{
             item?.release_date
@@ -202,6 +202,9 @@ export default {
 .movie-carousel-horizontal-item {
   .img-box {
     height: 150px;
+  }
+  .ant-skeleton-content .ant-skeleton-paragraph > li + li {
+    margin-top: 10px;
   }
 }
 </style>

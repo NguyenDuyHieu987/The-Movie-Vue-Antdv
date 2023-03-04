@@ -169,7 +169,7 @@
     </a-row> -->
 
     <section class="movie-group popular">
-      <MovieCarouselCardHorizontal
+      <MovieCardHorizontalTrailer
         v-for="(item, index) in upComings"
         :index="index"
         :key="item.id"
@@ -249,7 +249,7 @@ import carousel from 'vue-owl-carousel/src/Carousel';
 import SlideTopicItem from './SlideTopicItem.vue';
 import MovieCarouselCardHorizontal from './MovieCardHorizontal.vue';
 import MovieCarouselCardVertical from './MovieCardVertical.vue';
-
+import MovieCardHorizontalTrailer from './MovieCardHorizontalTrailer.vue';
 import {
   getNowPlaying,
   getTvAiringToday,
@@ -265,6 +265,7 @@ export default {
     carousel,
     MovieCarouselCardHorizontal,
     MovieCarouselCardVertical,
+    MovieCardHorizontalTrailer,
   },
   setup() {
     const pageNowPlaying = ref(1);

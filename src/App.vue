@@ -42,11 +42,12 @@ export default {
         if (userToken != null) {
           getUserToken({ user_token: userToken })
             .then((accountResponse) => {
-              if (accountResponse.data.isLogin == true) {
+              if (accountResponse.data?.isLogin == true) {
                 // window.localStorage.setItem(
                 //   'userAccount',
                 //   JSON.stringify({ value: accountResponse?.data?.result })
                 // );
+                store.state.userAccount = accountResponse.data.result;
                 store.state.userAccount = getWithExpiry('userAccount');
               }
             })

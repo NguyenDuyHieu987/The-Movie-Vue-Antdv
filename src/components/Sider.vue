@@ -12,24 +12,54 @@
           :paragraph="{ rows: 1 }"
           :active="true"
           :title="false"
-          :loading="$store.state.userAccount?.user_name == undefined"
+          :loading="$store.state.userAccount?.username == undefined"
         > -->
-        <h3 style="color: #fff" v-if="!$store.state.collapsed">
-          {{ $store.state.userAccount?.user_name }}
-        </h3>
-        <a-tooltip
-          v-else
-          :title="$store.state.userAccount?.user_name"
-          placement="rightTop"
+
+        <div
+          class="user-image-container"
+          v-if="!$store.state.collapsed && $store.state.isLogin"
         >
-          <div class="user-name-container" shape="circle">
-            <h4 style="color: #fff">
-              {{
-                $store.state.userAccount?.user_name.slice(0, 2).toUpperCase()
-              }}
-            </h4>
-          </div>
-        </a-tooltip>
+          <a-skeleton-avatar
+            v-if="!$store.state?.isLogin"
+            :loading="$store.state?.isLogin"
+            :active="true"
+            size="large"
+            shape="circle"
+          />
+          <img
+            v-else
+            class="avatar"
+            src="../assets/images/account_avatar/account4.jpg"
+          />
+        </div>
+
+        <a-skeleton
+          :loading="!$store.state?.isLogin"
+          :active="true"
+          :paragraph="{ rows: 1 }"
+          :title="false"
+        >
+          <h3 style="color: #fff" v-if="!$store.state.collapsed">
+            {{ $store.state.userAccount?.username }}
+          </h3>
+
+          <a-tooltip
+            v-else
+            :title="$store.state.userAccount?.username"
+            placement="rightTop"
+          >
+            <!-- <div class="user-name-container" shape="circle"> -->
+            <a-avatar class="user-name-container">
+              <h4 style="color: #fff">
+                {{
+                  $store.state.userAccount?.username.slice(0, 2).toUpperCase()
+                }}
+              </h4>
+            </a-avatar>
+            <!-- </div> -->
+          </a-tooltip>
+        </a-skeleton>
+
         <!-- </a-skeleton> -->
       </div>
     </a-layout-header>
@@ -102,6 +132,41 @@ export default {
   );
   z-index: 999999;
 
+  .ant-layout-header {
+    line-height: inherit;
+  }
+
+  .user-image-container {
+    margin-right: 10px;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+  .user-name-container {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background-image: linear-gradient(
+      to right,
+      var(--sider-header-background-color3),
+      var(--sider-header-background-color2)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid gray;
+  }
+
   .ant-layout-footer {
     position: sticky;
     bottom: 0;
@@ -162,21 +227,6 @@ export default {
 
 .ant-layout-sider-children::-webkit-scrollbar {
   display: none;
-}
-
-.user-name-container {
-  height: 35px;
-  width: 35px;
-  border-radius: 50%;
-  background-image: linear-gradient(
-    to right,
-    var(--sider-header-background-color3),
-    var(--sider-header-background-color2)
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid gray;
 }
 
 .ant-dropdown-menu-item:not(:last-child) {

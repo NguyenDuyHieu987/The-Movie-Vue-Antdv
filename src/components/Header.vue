@@ -143,21 +143,21 @@
             </a>
             <template #overlay>
               <a-menu>
-                <a-menu-item key="my-profile" v-if="isLogin">
+                <a-menu-item key="my-profile" v-if="$store.state.isLogin">
                   <router-link :to="{ name: 'profile' }"
                     ><span>My Profile</span>
                     <br />
                     <span style="font-size: 12px">{{
-                      $store.state.userAccount?.user_name
+                      $store.state.userAccount?.username
                     }}</span>
                   </router-link>
                 </a-menu-item>
-                <a-menu-item key="account" v-if="isLogin">
+                <a-menu-item key="account" v-if="$store.state.isLogin">
                   <router-link :to="{ name: 'home' }">Account Home</router-link>
                 </a-menu-item>
                 <a-menu-item key="logout">
                   <router-link :to="{ name: 'login' }" @click="handleLogout">
-                    <span v-if="isLogin"> Đăng xuất</span>
+                    <span v-if="$store.state.isLogin"> Đăng xuất</span>
                     <span v-else> Đăng nhập</span>
                   </router-link>
                 </a-menu-item>

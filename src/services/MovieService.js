@@ -18,14 +18,37 @@ const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 // const URL_API_IMAGE = 'https://python-api-basic.onrender.com';
 const URL_API_IMAGE = 'https://phimhay247-nodejs-api-image.onrender.com';
 
-const signIn = async (params) =>
-  await axios.post(`${URL_API}/auth/signin?api=hieu987`, params);
+const signIn = async (params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('email', params.email);
+  bodyFormData.append('password', params.password);
+  bodyFormData.append('user_token', params.user_token);
 
-const getUserToken = async (params) =>
-  await axios.post(`${URL_API}/auth/getusertoken?api=hieu987`, params);
+  return await axios.post(`${URL_API}/auth/login?api=hieu987`, bodyFormData);
+};
 
-const signUp = async (params) =>
-  await axios.post(`${URL_API}/auth/signup?api=hieu987`, params);
+const getUserToken = async (params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('user_token', params.user_token);
+
+  return await axios.post(
+    `${URL_API}/auth/getusertoken?api=hieu987`,
+    bodyFormData
+  );
+};
+
+const signUp = async (params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('id', params.id);
+  bodyFormData.append('username', params.username);
+  bodyFormData.append('email', params.email);
+  bodyFormData.append('password', params.password);
+  bodyFormData.append('created_by', params.created_by);
+  bodyFormData.append('avatar', params.avatar);
+  bodyFormData.append('user_token', params.user_token);
+
+  return await axios.post(`${URL_API}/auth/signup?api=hieu987`, bodyFormData);
+};
 
 const getTrending = async (page) =>
   await axios.get(`${URL_API}/trending/all?page=${page}&api=hieu987`);
@@ -119,7 +142,7 @@ const getMovieBySimilar = async (type, genres, page) => {
   );
 };
 const getList = async (userID) =>
-  await axios.get(`${URL_API}/list/getlist/${userID}?api=hieu987`);
+  await axios.get(`${URL_API}/list/${userID}/getlist?api=hieu987`);
 
 const getWatchList = async (userID, page) =>
   await axios.get(
@@ -171,30 +194,40 @@ const getMovies = async (page) =>
 const getTv = async (page) =>
   await axios.get(`${URL_API}/tv/phimbo?api=hieu987&page=${page}`);
 
-const getMovieById = async (movieId) =>
-  await axios.get(`${URL_API}/movie/detail/${movieId}?api=hieu987`);
+const getMovieById = async (movieId, append_to_response = '') =>
+  await axios.get(
+    `${URL_API}/movie/detail/${movieId}?append_to_response=${append_to_response}&api=hieu987`
+  );
 
-const getTvById = async (movieid) =>
-  await axios.get(`${URL_API}/tv/detail/${movieid}?api=hieu987`);
+const getTvById = async (movieid, append_to_response = '') =>
+  await axios.get(
+    `${URL_API}/tv/detail/${movieid}?append_to_response=${append_to_response}&api=hieu987`
+  );
 
 const getMoviesBySeason = async (movieid, season) =>
   await axios.get(`${URL_API}/tv/${movieid}/season/${season}?api=hieu987`);
 
-const addItemList = async (userID, params) =>
-  userID
-    ? await axios.post(`${URL_API}/list/${userID}/add_item?api=hieu987`, params)
-    : await axios.post(`${URL_API}/list/8215569/add_item?api=hieu987`, params);
+const addItemList = async (userID, params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('media_type', params.media_type);
+  bodyFormData.append('media_id', params.media_id);
 
-const removeItemList = async (userID, params) =>
-  userID
-    ? await axios.post(
-        `${URL_API}/list/${userID}/remove_item?api=hieu987`,
-        params
-      )
-    : await axios.post(
-        `${URL_API}/list/8215569/remove_item?api=hieu987`,
-        params
-      );
+  return await axios.post(
+    `${URL_API}/list/${userID}/add_item?api=hieu987`,
+    bodyFormData
+  );
+};
+
+const removeItemList = async (userID, params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('media_type', params.media_type);
+  bodyFormData.append('media_id', params.media_id);
+
+  return await axios.post(
+    `${URL_API}/list/${userID}/remove_item?api=hieu987`,
+    bodyFormData
+  );
+};
 
 const handleWatchList = async (userID, params) =>
   userID

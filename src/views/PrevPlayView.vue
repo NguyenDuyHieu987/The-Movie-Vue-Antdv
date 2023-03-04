@@ -99,7 +99,7 @@
             class="btn-play-now"
           >
             <font-awesome-icon icon="fa-solid fa-play" />
-            <span> Play now</span>
+            <span> Xem ngay</span>
           </router-link>
           <router-link
             v-else-if="!isEpisodes && dataMovie?.id"
@@ -115,7 +115,7 @@
             class="btn-play-now"
           >
             <font-awesome-icon icon="fa-solid fa-play" />
-            <span> Play now</span>
+            <span> Xem ngay</span>
           </router-link>
 
           <span
@@ -187,7 +187,7 @@
           <a-skeleton
             :loading="loading"
             :active="true"
-            :paragraph="{ rows: 8 }"
+            :paragraph="{ rows: 8, width: 400 }"
             :title="false"
           >
             <p>
@@ -228,9 +228,10 @@
             <p>
               <label>Quốc gia: </label>
               {{
-                dataMovie?.production_countries
-                  ? dataMovie?.production_countries[0]?.name
-                  : null
+                getLanguage(
+                  dataMovie?.original_language,
+                  $store.state.allCountries
+                )?.name
               }}
             </p>
             <p>
@@ -637,23 +638,29 @@ export default {
           addItemList(store.state?.userAccount?.id, {
             media_type: isEpisodes.value ? 'tv' : 'movie',
             media_id: dataMovie.value?.id,
-          });
+          }).then((response) => {
+            message.loading({ content: 'Đang thêm...', duration: 2 });
 
-          message.loading({ content: 'Đang thêm...', duration: 2 });
-          setTimeout(() => {
-            message.success({ content: 'Thêm thành công!', duration: 2 });
-            isAddToList.value = true;
-          }, 2200);
+            if (response.data.success == true) {
+              setTimeout(() => {
+                message.success({ content: 'Thêm thành công!', duration: 2 });
+                isAddToList.value = true;
+              }, 2200);
+            }
+          });
         } else {
           removeItemList(store.state?.userAccount?.id, {
             media_id: dataMovie.value?.id,
-          });
+          }).then((response) => {
+            message.loading({ content: 'Đang xóa...', duration: 2 });
 
-          message.loading({ content: 'Đang xóa...', duration: 2 });
-          setTimeout(() => {
-            message.success({ content: 'Xóa thành công!', duration: 2 });
-            isAddToList.value = false;
-          }, 2200);
+            if (response.data.success == true) {
+              setTimeout(() => {
+                message.success({ content: 'Xóa thành công!', duration: 2 });
+                isAddToList.value = false;
+              }, 2200);
+            }
+          });
         }
       }
     };
@@ -1045,7 +1052,7 @@ export default {
     margin-right: 7px;
 
     .ant-skeleton-button {
-      padding: 22px 55px;
+      padding: 24px 70px;
     }
   }
 }

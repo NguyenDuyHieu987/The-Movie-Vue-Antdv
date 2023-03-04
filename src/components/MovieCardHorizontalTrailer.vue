@@ -1,0 +1,309 @@
+<template>
+  <div class="movie-carousel-horizontal-item">
+    <!-- :to="{
+      name: 'info',
+      params: {
+        id: item?.id,
+        name: item?.name
+          ? item?.name?.replace(/\s/g, '+').toLowerCase()
+          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+      },
+    }" -->
+    <div class="img-box">
+      <a-image
+        v-if="!loading"
+        :src="
+          getPoster(
+            dataMovie?.backdrop_path
+              ? dataMovie?.backdrop_path
+              : dataMovie?.poster_path
+          )
+        "
+        :preview="false"
+        v-lazy="
+          getPoster(
+            dataMovie?.backdrop_path
+              ? dataMovie?.backdrop_path
+              : dataMovie?.poster_path
+          )
+        "
+      >
+      </a-image>
+
+      <a-skeleton-image v-else class="ant-image" />
+
+      <div v-if="!loading" class="duration-episode-box">
+        <p class="duration-episode">
+          {{
+            isEpisodes
+              ? dataMovie?.number_of_episodes
+                ? dataMovie?.number_of_episodes + '-Tập'
+                : ''
+              : dataMovie?.runtime
+              ? dataMovie?.runtime + ' min'
+              : ''
+          }}
+        </p>
+      </div>
+
+      <div class="youtub-icon" v-if="!loading" @click="handleClickTrailerIcon">
+        <font-awesome-icon icon="fa-brands fa-youtube" />
+      </div>
+
+      <div v-if="!loading" class="release-date-box">
+        <p class="release-date">
+          {{
+            item?.release_date
+              ? item?.release_date?.slice(0, 4)
+              : item?.first_air_date?.slice(0, 4)
+          }}
+        </p>
+      </div>
+    </div>
+    <a-tooltip
+      :title="
+        getLanguage(item?.original_language, $store.state.allCountries)?.name
+      "
+    >
+      <router-link
+        :to="{
+          name: 'info',
+          params: {
+            id: item?.id,
+            name: item?.name
+              ? item?.name?.replace(/\s/g, '+').toLowerCase()
+              : item?.title?.replace(/\s/g, '+').toLowerCase(),
+          },
+        }"
+      >
+        <div class="info">
+          <a-skeleton
+            :loading="loading"
+            :active="true"
+            :paragraph="{ rows: 2 }"
+            :title="false"
+          >
+            <p class="title">
+              {{ item?.name ? item?.name : item?.title }}
+              <span v-if="isEpisodes">
+                {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+              </span>
+            </p>
+            <div class="info-bottom">
+              <p class="genres" v-if="item?.genres">
+                <!-- {{ Array.from(item?.genres, (x) => x.name).join(' • ') }} -->
+                {{
+                  getAllGenresById(item?.genres, $store.state?.allGenres).join(
+                    ' • '
+                  )
+                }}
+              </p>
+              <p class="genres" v-else-if="item?.genre_ids">
+                {{
+                  getAllGenresById(
+                    item?.genre_ids,
+                    $store.state?.allGenres
+                  ).join(' • ')
+                }}
+              </p>
+            </div>
+          </a-skeleton>
+        </div>
+      </router-link>
+    </a-tooltip>
+  </div>
+  <a-modal
+    v-model:visible="isOenModalTrailer"
+    width="1300px"
+    centered
+    @ok="modal2Visible = false"
+    class="modal-trailer"
+  >
+    <template #title>
+      <p>Trailer: {{ item?.name ? item?.name : item?.title }}</p>
+    </template>
+    <iframe
+      height="650px"
+      width="100%"
+      :src="
+        dataMovie?.videos?.results?.length !== 0
+          ? `https://www.youtube.com/embed/${
+              dataMovie?.videos?.results[
+                Math.floor(Math.random() * dataMovie?.videos?.results?.length)
+              ]?.key
+            }`
+          : 'https://www.youtube.com/embed/ndl1W4ltcmg'
+      "
+      title="YouTube video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+        gyroscope; picture-in-picture"
+      allowFullScreen
+      frameBorder="{0}"
+    />
+    <template #footer>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <div>
+          <h2 style="display: flex">
+            {{ item?.name ? item?.name : item?.title }}
+          </h2>
+
+          <h3 class="genres" style="display: flex">
+            {{
+              dataMovie?.original_title
+                ? dataMovie?.original_title
+                : dataMovie?.original_name
+            }}
+          </h3>
+        </div>
+        <div>
+          <a-button key="back" size="large" @click="handleCancel"
+            >Đóng</a-button
+          >
+          <a-button
+            key="submit"
+            size="large"
+            type="primary"
+            :loading="loading"
+            @click="handleOk"
+          >
+            Xem ngay
+          </a-button>
+        </div>
+      </div>
+    </template>
+  </a-modal>
+</template>
+<script>
+import { ref, onBeforeMount } from 'vue';
+import axios from 'axios';
+import {
+  getAllGenresById,
+  getPoster,
+  getTvById,
+  getMovieById,
+  getLanguage,
+} from '../services/MovieService';
+
+export default {
+  components: {},
+  props: {
+    item: {
+      type: Object,
+    },
+  },
+  setup(props) {
+    const genresName = ref([]);
+    const dataMovie = ref({});
+    const isEpisodes = ref(false);
+    const loading = ref(false);
+    const isOenModalTrailer = ref(false);
+
+    onBeforeMount(() => {
+      loading.value = true;
+
+      getTvById(props.item?.id, 'videos')
+        .then((tvResponed) => {
+          if (tvResponed?.data?.not_found === true)
+            getMovieById(props.item?.id, 'videos')
+              .then((movieResponed) => {
+                isEpisodes.value = false;
+                dataMovie.value = movieResponed?.data;
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+          else {
+            isEpisodes.value = true;
+            dataMovie.value = tvResponed?.data;
+          }
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+
+      setTimeout(() => {
+        loading.value = false;
+      }, 1500);
+    });
+
+    const handleClickTrailerIcon = () => {
+      isOenModalTrailer.value = true;
+    };
+    return {
+      genresName,
+      isEpisodes,
+      dataMovie,
+      loading,
+      isOenModalTrailer,
+      getPoster,
+      getAllGenresById,
+      getLanguage,
+      handleClickTrailerIcon,
+    };
+  },
+};
+</script>
+<style lang="scss">
+@media only screen and (max-width: 1150px) {
+  .movie-carousel-horizontal-item {
+    .img-box {
+      transition: all 0.3s;
+      height: 130px !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1010px) {
+  .movie-group.popular {
+    grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 435px) {
+  .movie-group.popular {
+    grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
+  }
+
+  .movie-carousel-horizontal-item {
+    .img-box {
+      height: 110px !important;
+    }
+  }
+}
+
+.movie-carousel-horizontal-item {
+  .img-box {
+    height: 150px;
+  }
+
+  &:hover {
+    .youtub-icon {
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .youtub-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: all 0.2s;
+
+    .fa-youtube {
+      font-size: 45px;
+      color: red;
+    }
+  }
+  .ant-skeleton-content .ant-skeleton-paragraph > li + li {
+    margin-top: 10px;
+  }
+}
+</style>

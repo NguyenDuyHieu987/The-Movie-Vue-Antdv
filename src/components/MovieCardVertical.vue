@@ -36,7 +36,7 @@
 
       <a-skeleton-image v-else class="ant-image" />
 
-      <div class="duration-episode-box">
+      <div v-if="!loading" class="duration-episode-box">
         <p class="duration-episode">
           {{
             isEpisodes
@@ -50,7 +50,7 @@
         </p>
       </div>
 
-      <div class="release-date-box">
+      <div v-if="!loading" class="release-date-box">
         <p class="release-date">
           {{
             item?.release_date
@@ -249,118 +249,8 @@ export default {
     height: 100%;
     width: 100%;
   }
+  .ant-skeleton-content .ant-skeleton-paragraph > li + li {
+    margin-top: 10px;
+  }
 }
-
-// .movie-carousel-vertical-item {
-//   color: #fff;
-//   cursor: pointer;
-//   position: relative;
-//   display: block;
-//   // overflow: hidden;
-
-//   .img-box {
-//     position: relative;
-//   }
-
-//   .ant-image {
-//     width: 100%;
-
-//     .ant-image-img {
-//       border-top-right-radius: 5px;
-//       border-top-left-radius: 5px;
-//       transition: all 0.3s;
-//       height: 100%;
-//     }
-//   }
-
-//   &:hover {
-//     img {
-//       transform: scale(1.05);
-//       opacity: 0.7;
-//     }
-
-//     .duration-episode-box {
-//       background-size: 200% 100%;
-//       background-position: -50px center;
-//     }
-
-//     .release-date-box {
-//       background-size: 200% 100%;
-//       background-position: -45px center;
-//     }
-
-//     .info {
-//       color: #ffffff;
-//     }
-//   }
-
-//   .duration-episode-box {
-//     color: #fff;
-//     background-image: linear-gradient(
-//       to right,
-//       var(--sider-header-background-color1),
-//       var(--sider-header-background-color2),
-//       var(--sider-header-background-color3)
-//     );
-//     background-size: 200% 100%;
-//     position: absolute;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     border-radius: 5px;
-//     padding: 5px 10px;
-//     box-shadow: #000000bf 0px 3px 10px;
-//     left: 5px;
-//     top: 5px;
-//     transition: all 0.7s;
-//     .duration-episode {
-//       font-size: 12px;
-//     }
-//   }
-
-//   .release-date-box {
-//     color: #fff;
-//     background-image: linear-gradient(
-//       to right,
-//       var(--sider-header-background-color3),
-//       var(--sider-header-background-color2),
-//       var(--sider-header-background-color1)
-//     );
-//     background-size: 200% 100%;
-//     position: absolute;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     border-radius: 5px;
-//     padding: 5px 10px;
-//     box-shadow: #000000bf 0px 3px 10px;
-//     right: 5px;
-//     bottom: 5px;
-//     transition: all 0.7s;
-
-//     .release-date {
-//       font-size: 12px;
-//     }
-//   }
-
-//   .info {
-//     padding: 10px 0px;
-//     color: #3b3b3b;
-
-//     .title,
-//     .genres {
-//       white-space: nowrap;
-//       overflow: hidden;
-//       text-overflow: ellipsis;
-//     }
-
-//     .info-bottom {
-//       display: flex;
-
-//       p + p {
-//         margin-left: 5px;
-//       }
-//     }
-//   }
-// }
 </style>

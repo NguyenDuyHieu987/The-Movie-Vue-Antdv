@@ -28,9 +28,6 @@ const store = createStore({
     setDetailAccountData(state, dataAccount) {
       state.detailAccountData = dataAccount;
     },
-    setNumberOfAccount(state, numberOfAccount) {
-      state.numberOfAccount = numberOfAccount;
-    },
   },
   getters: {
     getUserAccount(state) {
