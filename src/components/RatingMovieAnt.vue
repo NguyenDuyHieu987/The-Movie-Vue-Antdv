@@ -9,10 +9,10 @@
       @change="handleRating"
     />
     <span class="ant-rate-text">{{
-      tooltipRating[Math.round(voteAverage) - 1]
+      tooltipRating[Math.round(vote_Average) - 1]
     }}</span>
     <p>
-      {{ `(${voteAverage?.toFixed(2)} điểm / ${vote_Count} lượt)` }}
+      {{ `(${vote_Average?.toFixed(2)} điểm / ${vote_Count} lượt)` }}
     </p>
   </div>
 </template>
@@ -50,40 +50,36 @@ export default {
 
     const handleRating = (value) => {
       if (props?.isEpisodes) {
-        ratingTV(props?.movieId, { value: Math.round(value) }).then(
-          (response) => {
-            console.log(response.data);
-            if (response.data?.success == true) {
-              notification.open({
-                message: 'Cảm ơn bạn đã đánh giá!',
-                description: `Đánh giá thành công ${value} điểm.`,
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: green',
-                  }),
-              });
-              vote_Average.value = response.data?.vote_average?.toFixed(2);
-              vote_Count.value = response.data?.vote_count;
-            }
+        ratingTV(props?.movieId, { value: value }).then((response) => {
+          console.log(response?.data);
+          if (response.data?.success == true) {
+            notification.open({
+              message: 'Cảm ơn bạn đã đánh giá!',
+              description: `Đánh giá thành công ${value} điểm.`,
+              icon: () =>
+                h(CheckCircleFilled, {
+                  style: 'color: green',
+                }),
+            });
+            vote_Average.value = response.data?.vote_average;
+            vote_Count.value = response.data?.vote_count;
           }
-        );
+        });
       } else {
-        ratingMovie(props?.movieId, { value: Math.round(value) }).then(
-          (response) => {
-            if (response.data?.success == true) {
-              notification.open({
-                message: 'Cảm ơn bạn đã đánh giá!',
-                description: `Đánh giá thành công ${value} điểm.`,
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: green',
-                  }),
-              });
-              vote_Average.value = response.data?.vote_average?.toFixed(2);
-              vote_Count.value = response.data?.vote_count;
-            }
+        ratingMovie(props?.movieId, { value: value }).then((response) => {
+          if (response.data?.success == true) {
+            notification.open({
+              message: 'Cảm ơn bạn đã đánh giá!',
+              description: `Đánh giá thành công ${value} điểm.`,
+              icon: () =>
+                h(CheckCircleFilled, {
+                  style: 'color: green',
+                }),
+            });
+            vote_Average.value = response.data?.vote_average;
+            vote_Count.value = response.data?.vote_count;
           }
-        );
+        });
       }
     };
 

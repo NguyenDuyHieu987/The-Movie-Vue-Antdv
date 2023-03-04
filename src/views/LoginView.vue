@@ -268,53 +268,6 @@ export default defineComponent({
           }, 1000);
           if (axios.isCancel(e)) return;
         });
-
-      // axios
-      //   .post(`${process.env.VUE_APP_SERVICE_URL}/auth/login1`, formState)
-      //   .then((response) => {
-      //     if (response.data.length == 0) {
-      //       setTimeout(() => {
-      //         loadingLogin.value = false;
-      //         notification.open({
-      //           message: 'Failed!',
-      //           description: 'Wrong username or password.',
-      //           icon: () =>
-      //             h(CloseCircleFilled, {
-      //               style: 'color: red',
-      //             }),
-      //         });
-      //       }, 1000);
-      //     } else {
-      //       store.state.userAccount = response.data[0];
-      //       if (formState.remember) {
-      //         window.localStorage.setItem('remember', formState.remember);
-      //         window.localStorage.setItem(
-      //           'userToken',
-      //           response.data[0].usertoken
-      //         );
-      //       }
-      //       setTimeout(() => {
-      //         loadingLogin.value = false;
-      //         router.push({ path: '/' });
-      //       }, 1000);
-      //       reset();
-      //     }
-      //   })
-      //   .catch((e) => {
-      //     setTimeout(() => {
-      //       loadingLogin.value = false;
-      //       notification.open({
-      //         message: 'Failed!',
-      //         description: 'Some thing went wrong.',
-      //         icon: () =>
-      //           h(CloseCircleFilled, {
-      //             style: 'color: red',
-      //           }),
-      //       });
-      //     }, 1000);
-
-      //     if (axios.isCancel(e)) return;
-      //   });
     };
 
     return {

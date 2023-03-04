@@ -141,13 +141,13 @@ export default {
 
     const movieType = computed(() => {
       let str = '';
-      if (route.params?.slug.includes('movie')) {
+      if (route.params?.slug?.includes('movie')) {
         if (route.params?.slug2?.replace('/', '') == 'all') {
           str = 'movieall';
         } else {
           str = route.params?.slug2?.replace('/', '');
         }
-      } else if (route.params?.slug.includes('tv')) {
+      } else if (route.params?.slug?.includes('tv')) {
         if (route.params?.slug2?.replace('/', '') == 'all') {
           str = 'tvall';
         } else {

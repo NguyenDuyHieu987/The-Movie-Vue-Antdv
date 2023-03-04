@@ -302,8 +302,8 @@ export default {
     const state = reactive({
       selectedKeys: [
         route.path
-          .replaceAll('discover', route.params?.slug2 ? 'discover' : '')
-          .replaceAll(route.params?.slug2 ? route.params?.slug2 : '', '')
+          .replaceAll('discover', '')
+          .replaceAll(route.params?.slug ? route.params?.slug : '', '')
           .replaceAll(route.params?.id ? route.params?.id : '', '')
           .replaceAll(route.params?.name ? route.params?.name : '', '')
           .replaceAll('/', ''),
@@ -316,7 +316,7 @@ export default {
           .replaceAll(route.params?.name ? route.params?.name : '', '')
           .replaceAll('/', ''),
       ],
-      preOpenKeys: ['1'],
+      // preOpenKeys: ['1'],
     });
 
     const genres = ref([]);
@@ -340,12 +340,25 @@ export default {
         });
     });
 
-    watch(
-      () => state.openKeys,
-      (_val, oldVal) => {
-        state.preOpenKeys = oldVal;
-      }
-    );
+    watch(route, () => {
+      state.selectedKeys = [
+        route.path
+          .replaceAll('discover', '')
+          .replaceAll(route.params?.slug ? route.params?.slug : '', '')
+          .replaceAll(route.params?.id ? route.params?.id : '', '')
+          .replaceAll(route.params?.name ? route.params?.name : '', '')
+          .replaceAll('/', ''),
+      ];
+
+      state.openKeys = [
+        route.path
+          .replaceAll('discover', '')
+          .replaceAll(route.params?.slug2 ? route.params?.slug2 : '', '')
+          .replaceAll(route.params?.id ? route.params?.id : '', '')
+          .replaceAll(route.params?.name ? route.params?.name : '', '')
+          .replaceAll('/', ''),
+      ];
+    });
 
     return {
       ...toRefs(state),

@@ -978,18 +978,21 @@ export default {
         left: 0;
         bottom: 0;
         right: 0;
-        background: linear-gradient(
-          rgba(28, 28, 28, 0.25),
-          rgba(0, 0, 0, 0.55),
-          rgba(0, 0, 0, 0.85)
+        background-image: linear-gradient(
+          to top,
+          rgba(10, 10, 10, 0.9),
+          rgba(0, 0, 0, 0.6),
+          rgba(0, 0, 0, 0.3)
         );
-        height: 25px;
+
+        height: 20px;
       }
     }
 
     .toggle-content {
       cursor: pointer;
       display: inline-block;
+      user-select: none;
 
       strong {
         display: block;

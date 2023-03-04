@@ -256,53 +256,6 @@ export default defineComponent({
           }, 1000);
           if (axios.isCancel(e)) return;
         });
-
-      // axios
-      //   .post(`${process.env.VUE_APP_SERVICE_URL}/auth/signup`, formState)
-      //   .then((response) => {
-      //     if (!response.data.accountExist) {
-      //       if (response.data.success) {
-      //         notification.open({
-      //           message: 'Congratulation!',
-      //           description: 'You have successfully signed up account.',
-      //           icon: () =>
-      //             h(CheckCircleFilled, {
-      //               style: 'color: green',
-      //             }),
-      //         });
-      //       } else {
-      //         notification.open({
-      //           message: 'Failed!',
-      //           description: 'Something went wrong.',
-      //           icon: () =>
-      //             h(CheckCircleFilled, {
-      //               style: 'color: red',
-      //             }),
-      //         });
-      //       }
-      //       reset();
-      //     } else {
-      //       notification.open({
-      //         message: 'Failed!',
-      //         description: 'Account is already exists.',
-      //         icon: () =>
-      //           h(CloseCircleFilled, {
-      //             style: 'color: red',
-      //           }),
-      //       });
-      //     }
-      //   })
-      //   .catch((e) => {
-      //     notification.open({
-      //       message: 'Failed!',
-      //       description: 'Some thing went wrong.',
-      //       icon: () =>
-      //         h(CloseCircleFilled, {
-      //           style: 'color: red',
-      //         }),
-      //     });
-      //     if (axios.isCancel(e)) return;
-      //   });
     };
 
     return {

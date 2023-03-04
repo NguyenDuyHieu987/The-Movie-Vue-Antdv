@@ -91,7 +91,7 @@
         <router-link
           v-if="dataMovie?.id"
           :to="{
-            name: 'play',
+            name: 'playtv',
             params: {
               id: dataMovie?.id,
               name: dataMovie?.name
@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { onBeforeMount, ref, watch } from 'vue';
+import { onBeforeMount, ref, watch, computed } from 'vue';
 import axios from 'axios';
 import { getMoviesBySeason } from '../services/MovieService';
 import { useRoute, useRouter } from 'vue-router';
@@ -128,14 +128,14 @@ export default {
     numberOfEpisodes: Number,
   },
   setup(props, { emit }) {
-    const dataSeason = ref({});
-    const selectedSeason = ref(props?.dataMovie?.number_of_seasons);
     const route = useRoute();
     const router = useRouter();
+    const dataSeason = ref({});
+    const selectedSeason = ref(props?.dataMovie?.number_of_seasons);
 
-    const currentEpisode = ref(
-      route.params?.tap.replace('tap-', '')
-        ? +route.params?.tap.replace('tap-', '')
+    const currentEpisode = computed(() =>
+      route.params?.tap?.replace('tap-', '')
+        ? +route.params?.tap?.replace('tap-', '')
         : 1
     );
     const loading = ref(false);
@@ -188,8 +188,8 @@ export default {
       }, 1000);
     });
 
-    watch(route, (newVal) => {
-      currentEpisode.value = +newVal.params?.tap?.replace('tap-', '');
+    watch(route, () => {
+      // currentEpisode.value = +newVal.params?.tap?.replace('tap-', '');
       emitUrlCode(dataSeason.value);
     });
 

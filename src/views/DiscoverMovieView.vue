@@ -346,16 +346,25 @@ export default {
     grid-template-columns: repeat(6, minmax(13%, auto)) !important;
   }
   .movie-discovered {
+    grid-template-columns: repeat(6, minmax(15%, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 1700px) {
+  .movie-discovered.collapse {
+    grid-template-columns: repeat(6, minmax(230px, auto)) !important;
+  }
+  .movie-discovered {
     grid-template-columns: repeat(5, minmax(15%, auto)) !important;
   }
 }
 
-@media only screen and (max-width: 1650px) {
+@media only screen and (max-width: 1550px) {
   .movie-discovered.collapse {
     grid-template-columns: repeat(5, minmax(230px, auto)) !important;
   }
   .movie-discovered {
-    grid-template-columns: repeat(4, minmax(15%, auto)) !important;
+    grid-template-columns: repeat(5, minmax(15%, auto)) !important;
   }
 }
 

@@ -201,12 +201,24 @@ const handleWatchList = async (userID, params) =>
     ? await axios.post(`${URL_API}/watchlist/${userID}?api=hieu987`, params)
     : await axios.post(`${URL_API}/watchlist/5831457?api=hieu987`, params);
 
-const ratingMovie = async (moveid, params) => {
-  await axios.post(`${URL_API}/movie/${moveid}/rating?api=hieu987`, params);
+const ratingMovie = async (moveid, { value }) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('value', value);
+
+  return await axios.post(
+    `${URL_API}/movie/rating/${moveid}?api=hieu987`,
+    bodyFormData
+  );
 };
 
-const ratingTV = async (moveid, params) => {
-  await axios.post(`${URL_API}/tv/${moveid}/rating?api=hieu987`, params);
+const ratingTV = async (moveid, { value }) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('value', value);
+
+  return await axios.post(
+    `${URL_API}/tv/rating/${moveid}?api=hieu987`,
+    bodyFormData
+  );
 };
 
 const getAllGenre = async () =>
