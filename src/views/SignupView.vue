@@ -1,6 +1,5 @@
 <template>
   <div class="signup-form-container">
-    <h1 class="title-signup">Đăng ký</h1>
     <a-form
       :model="formState"
       :rules="rules"
@@ -9,6 +8,10 @@
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
+      <h1 class="title-signup">
+        <strong> Đăng ký </strong>
+      </h1>
+
       <a-form-item
         label="Họ và Tên"
         name="fullname"
@@ -91,18 +94,21 @@
         </a-input-password>
       </a-form-item>
 
-      <a-button
-        :disabled="disabled"
-        type="primary"
-        html-type="submit"
-        class="signup-form-button"
-        size="large"
-        @click="handleSubmit"
-        style="background: transparent"
-        :loading="loadingSignUp"
-      >
-        Đăng ký
-      </a-button>
+      <a-form-item>
+        <a-button
+          :disabled="disabled"
+          type="primary"
+          html-type="submit"
+          class="signup-form-button"
+          size="large"
+          @click="handleSubmit"
+          style="background: transparent"
+          :loading="loadingSignUp"
+        >
+          Đăng ký
+        </a-button>
+      </a-form-item>
+
       <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
         Hoặc
       </p>
@@ -279,115 +285,176 @@ export default defineComponent({
 }
 
 @media only screen and (max-width: 600px) {
-  .signup-form {
-    width: 450px !important;
+  .signup-form-container {
+    width: 500px !important;
   }
 }
 
 @media only screen and (max-width: 550px) {
   .signup-form {
-    width: 400px !important;
+    padding: 30px 30px !important;
   }
   .signup-form-container {
-    padding: 30px 30px !important;
+    width: 450px !important;
   }
 }
 
 @media only screen and (max-width: 470px) {
   .signup-form {
-    width: 350px !important;
+    padding: 20px 30px !important;
   }
   .signup-form-container {
-    padding: 20px 30px !important;
+    width: 400px !important;
   }
 }
 
 @media only screen and (max-width: 430px) {
   .signup-form {
-    width: 350px !important;
+    padding: 20px 30px !important;
   }
   .signup-form-container {
-    padding: 20px 20px !important;
+    width: 400px !important;
   }
 }
 
 .signup-form-container {
+  position: relative;
   margin: auto auto;
   background-color: transparent;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 50px 70px;
-  // padding-top: 130px;
+  // padding: 50px 70px;
   border-radius: 5px;
-  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px 0 #00000014,
-    0 9px 28px 8px #0000000d;
+  // box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px 0 #00000014,
+  //   0 9px 28px 8px #0000000d;
+  box-shadow: 0 3px 6px -4px #000000ba, 0 6px 16px 0 #00000098,
+    0 9px 28px 8px #00000077;
   z-index: 11;
   max-height: 95vh;
   overflow-y: scroll;
-  border: 0.5px solid #919191;
+  // border: 0.5px solid #919191;
   background-color: #0000002d;
+  width: 550px;
+  min-height: 96vh;
+  overflow: hidden;
 
   &::-webkit-scrollbar-thumb,
   &::-webkit-scrollbar {
     display: none;
   }
 
-  .title-signup {
-    margin-bottom: 20px;
-    background-clip: text;
-    text-align: center;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: bold;
+  .signup-form {
+    position: absolute;
+    inset: 3px;
+    // width: 420px;
+    z-index: 3;
+    display: block;
+    background-color: #000000;
+    padding: 40px 70px;
+    overflow-y: scroll;
+    border-radius: 5px;
+
+    .title-signup {
+      text-align: center;
+      margin-bottom: 20px;
+
+      strong {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(
+          to right,
+          var(--sider-header-background-color5),
+          var(--sider-header-background-color1),
+          var(--sider-header-background-color3)
+        );
+      }
+    }
+
+    .ant-row.ant-form-item {
+      display: flex;
+      flex-direction: column;
+
+      .ant-form-item-label {
+        text-align: left;
+
+        & > label {
+          color: #fff;
+        }
+      }
+
+      .anticon {
+      }
+
+      .ant-checkbox-wrapper {
+        color: #fff;
+      }
+
+      .ant-col.ant-form-item-control {
+        flex: 0 1 auto;
+
+        .ant-input-affix-wrapper {
+          background-color: transparent;
+          padding: 7px 11px;
+        }
+
+        input {
+          color: #fff;
+          background-color: transparent;
+        }
+      }
+    }
+
+    .signup-form-button {
+      width: 100%;
+      // color: #fff;
+    }
+
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      display: none !important;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 600px;
+    height: 600px;
     background-image: linear-gradient(
       to right,
-      var(--sider-header-background-color1) 0%,
-      var(--sider-header-background-color2) 40%,
-      var(--sider-header-background-color3) 65%
+      var(--sider-header-background-color5),
+      var(--sider-header-background-color1),
+      var(--sider-header-background-color3)
     );
+    z-index: 2;
+    animation: animate 6s linear infinite;
+    transform-origin: bottom right;
   }
 
-  .signup-form {
-    width: 500px;
-  }
-
-  .signup-form-forgot {
-    float: right;
-  }
-
-  .signup-form-button {
-    width: 100%;
-    color: #fff;
-  }
-
-  .signup-form .ant-row.ant-form-item {
-    display: flex;
-    flex-direction: column;
-
-    .ant-form-item-label {
-      text-align: left;
-      & > label {
-        color: #fff;
-      }
-    }
-
-    .anticon {
-    }
-
-    .ant-col.ant-form-item-control {
-      flex: 0 1 auto;
-
-      .ant-input-affix-wrapper {
-        background-color: transparent;
-        padding: 7px 11px;
-      }
-
-      input {
-        color: #fff;
-        background-color: transparent;
-      }
-    }
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 600px;
+    height: 600px;
+    background-image: linear-gradient(
+      to right,
+      var(--sider-header-background-color5),
+      var(--sider-header-background-color1),
+      var(--sider-header-background-color3)
+    );
+    z-index: 1;
+    animation: animate 6s linear infinite;
+    transform-origin: bottom right;
+    animation-delay: -3s;
   }
 }
 </style>

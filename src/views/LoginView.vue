@@ -1,6 +1,5 @@
 <template>
   <div class="login-form-container">
-    <h1 class="title-login">Đăng nhập</h1>
     <a-form
       :model="formState"
       name="normal_login"
@@ -8,6 +7,10 @@
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
+      <h1 class="title-login">
+        <strong>Đăng nhập </strong>
+      </h1>
+
       <a-form-item
         label="Email"
         name="username"
@@ -70,42 +73,28 @@
           Đăng nhập
         </a-button>
       </a-form-item>
-      <!-- <a-button
-          type="primary"
-          html-type="button"
-          class="login-form-button facebook"
-          size="large"
+
+      <div class="social-login">
+        <a-button
+          class="facebook-login"
           @click="handleLoginFacebook"
+          size="large"
         >
-          <template #icon> <FacebookFilled /> </template>
-          <span> Log in with Facebook</span>
-    
-        </a-button> -->
+          <font-awesome-icon icon="fa-brands fa-facebook-f" />
+          <span>Đăng nhập bằng Facebook</span>
+        </a-button>
+
+        <GoogleLogin :callback="handleGoogleFacebook" prompt />
+        <!-- @click="handleGoogleFacebook" -->
+      </div>
+
+      <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
+        Hoặc
+      </p>
+      <div style="display: flex; justify-content: center">
+        <router-link :to="{ name: 'signup' }">Dăng ký ngay!</router-link>
+      </div>
     </a-form>
-    <div style="width: 100%">
-      <button class="facebook-login" @click="handleLoginFacebook">
-        Đăng nhập bằng Facebook
-      </button>
-
-      <!-- <div
-        class="fb-login-button"
-        data-width="100%"
-        data-size=""
-        data-button-type=""
-        data-layout=""
-        data-auto-logout-link="false"
-        data-use-continue-as="false"
-      ></div> -->
-
-      <GoogleLogin :callback="handleGoogleFacebook" prompt />
-    </div>
-
-    <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
-      Hoặc
-    </p>
-    <div style="display: flex; justify-content: center">
-      <router-link :to="{ name: 'signup' }">Dăng ký ngay!</router-link>
-    </div>
   </div>
 </template>
 <script>
@@ -123,12 +112,12 @@ import axios from 'axios';
 import md5 from 'md5';
 import { signIn } from '../services/MovieService';
 import { setWithExpiry } from '../untils/LocalStorage';
+// import { googleAuthCodeLogin } from 'vue3-google-login';
 
 export default defineComponent({
   components: {
     UserOutlined,
     LockOutlined,
-    // FacebookFilled,
   },
   setup() {
     const loadingLogin = ref(false);
@@ -261,8 +250,10 @@ export default defineComponent({
     };
 
     const handleGoogleFacebook = (response) => {
-      // This callback will be triggered when the user selects or login to
-      // his Google account from the popup
+      // googleAuthCodeLogin().then((response) => {
+      //   console.log('Handle the response', response);
+      // });
+
       console.log('Handle the response', response);
     };
     return {
@@ -281,124 +272,187 @@ export default defineComponent({
 
 <style lang="scss">
 @media only screen and (max-width: 600px) {
-  .login-form {
-    width: 350px !important;
+  .login-form-container {
+    width: 500px !important;
   }
 }
 
 @media only screen and (max-width: 500px) {
   .login-form {
-    width: 300px !important;
+    padding: 30px 50px !important;
   }
   .login-form-container {
-    padding: 30px 50px !important;
+    width: 450px !important;
   }
 }
 
 @media only screen and (max-width: 460px) {
   .login-form {
-    width: 300px !important;
+    padding: 20px 30px !important;
   }
   .login-form-container {
-    padding: 20px 30px !important;
+    width: 400px !important;
   }
 }
 
 .login-form-container {
+  position: relative;
   margin: auto auto;
-  vertical-align: center;
   background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 50px 70px;
+  // padding: 40px 70px;
   border-radius: 5px;
-  box-shadow: 0 3px 6px -4px #00000077, 0 6px 16px 0 #00000054,
-    0 9px 28px 8px #0000002d;
-  border: 0.5px solid #919191;
-  z-index: 11;
+  // box-shadow: 0 3px 6px -4px #00000077, 0 6px 16px 0 #00000054,
+  //   0 9px 28px 8px #0000002d;
+  box-shadow: 0 3px 6px -4px #000000ba, 0 6px 16px 0 #00000098,
+    0 9px 28px 8px #00000077;
+  // border: 0.5px solid #919191;
+  z-index: 1;
   background-color: #0000002d;
+  overflow: hidden;
+  width: 550px;
+  min-height: 96vh;
 
   .login-form {
-    width: 420px;
+    position: absolute;
+    inset: 3px;
+    // width: 420px;
+    z-index: 3;
+    display: block;
+    background-color: #000000;
+    padding: 40px 70px;
+    border-radius: 5px;
+
+    .title-login {
+      text-align: center;
+      margin-bottom: 20px;
+
+      strong {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(
+          to right,
+          var(--sider-header-background-color5),
+          var(--sider-header-background-color1),
+          var(--sider-header-background-color3)
+        );
+      }
+    }
+
+    .ant-row.ant-form-item {
+      display: flex;
+      flex-direction: column;
+
+      .ant-form-item-label {
+        text-align: left;
+
+        & > label {
+          color: #fff;
+        }
+      }
+
+      .anticon {
+      }
+
+      .ant-checkbox-wrapper {
+        color: #fff;
+      }
+
+      .ant-col.ant-form-item-control {
+        flex: 0 1 auto;
+
+        .ant-input-affix-wrapper {
+          background-color: transparent;
+          padding: 7px 11px;
+        }
+
+        input {
+          color: #fff;
+          background-color: transparent;
+        }
+      }
+    }
+
+    .login-form-forgot {
+      float: right;
+    }
+
+    .login-form-button {
+      width: 100%;
+      // color: #fff;
+    }
+
+    .social-login {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .facebook-login {
+        flex-grow: 1;
+        span {
+          width: 100%;
+        }
+      }
+    }
+
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      display: none !important;
+    }
   }
 
-  .title-login {
-    margin-bottom: 20px;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: bold;
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 600px;
+    height: 600px;
     background-image: linear-gradient(
       to right,
+      var(--sider-header-background-color5),
       var(--sider-header-background-color1),
-      var(--sider-header-background-color2),
       var(--sider-header-background-color3)
     );
+    z-index: 2;
+    animation: animate 6s linear infinite;
+    transform-origin: bottom right;
   }
 
-  .login-form-forgot {
-    float: right;
-  }
-
-  .login-form-button {
-    width: 100%;
-    color: #fff;
-  }
-
-  .login-form-button.facebook {
-    background-color: #003465;
-  }
-
-  .login-form .ant-row.ant-form-item {
-    display: flex;
-    flex-direction: column;
-
-    .ant-form-item-label {
-      text-align: left;
-
-      & > label {
-        color: #fff;
-      }
-    }
-
-    .anticon {
-    }
-
-    .ant-checkbox-wrapper {
-      color: #fff;
-    }
-
-    .ant-col.ant-form-item-control {
-      flex: 0 1 auto;
-
-      .ant-input-affix-wrapper {
-        background-color: transparent;
-        padding: 7px 11px;
-      }
-
-      input {
-        color: #fff;
-        background-color: transparent;
-      }
-    }
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 600px;
+    height: 600px;
+    background-image: linear-gradient(
+      to right,
+      var(--sider-header-background-color5),
+      var(--sider-header-background-color1),
+      var(--sider-header-background-color3)
+    );
+    z-index: 1;
+    animation: animate 6s linear infinite;
+    transform-origin: bottom right;
+    animation-delay: -3s;
   }
 }
 
-.container.facebook-login {
-  button {
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      // display: none;
-      height: 20px;
-      width: 20px;
-    }
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>
