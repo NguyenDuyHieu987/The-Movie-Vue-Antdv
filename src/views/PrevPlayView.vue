@@ -224,14 +224,29 @@
               }}
             </p>
 
-            <p>
+            <p v-if="dataMovie?.original_language">
               <label>Quốc gia: </label>
-              {{
-                getLanguage(
-                  dataMovie?.original_language,
-                  $store.state.allCountries
-                )?.name
-              }}
+              <router-link
+                :to="{
+                  name: 'discover',
+                  params: {
+                    slug: 'countries',
+                    slug2: getLanguage(
+                      dataMovie?.original_language,
+                      $store.state.allCountries
+                    )?.name1,
+                  },
+                }"
+              >
+                <span>
+                  {{
+                    getLanguage(
+                      dataMovie?.original_language,
+                      $store.state.allCountries
+                    )?.name
+                  }}
+                </span>
+              </router-link>
             </p>
             <p>
               <label>Thể loại: </label>
@@ -263,7 +278,7 @@
               </span>
             </p>
 
-            <p v-if="!checkEmptyDataMovies">
+            <p v-if="isEpisodes">
               <label>Số lượng tập: </label>
               {{
                 dataMovie?.seasons?.find((item) =>
@@ -277,7 +292,7 @@
 
             <p>
               <label v-if="dataMovie?.episode_run_time">
-                {{ 'Thờ lượng trên tập: ' }}
+                Thời lượng trên tập:
               </label>
               <label v-else>Thời lượng: </label>
               <span v-if="dataMovie?.episode_run_time">
@@ -1043,7 +1058,7 @@ export default {
     .ant-tabs-tab {
       .ant-tabs-tab-btn {
         font-weight: bold;
-        font-size: 20px;
+        font-size: 1.8rem;
       }
     }
 
@@ -1064,12 +1079,14 @@ export default {
 }
 
 .widget-skeleton {
-  .ant-skeleton {
+  .ant-skeleton:not(:last-child) {
     margin-right: 7px;
-    margin-bottom: 7px;
+  }
 
+  .ant-skeleton {
+    margin-bottom: 7px;
     .ant-skeleton-button {
-      padding: 24px 70px;
+      padding: 24px 65px;
     }
   }
 }

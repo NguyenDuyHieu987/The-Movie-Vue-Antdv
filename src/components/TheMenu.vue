@@ -184,7 +184,6 @@
                 slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
               },
             }"
-            style="display: flex"
           >
             <span>{{ item?.name_vietsub }}</span>
           </router-link>
@@ -198,8 +197,9 @@
               slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
             },
           }"
-          style="display: flex"
         >
+          <!-- @click="$store.state.breadCrumbValue = item?.name_vietsub" -->
+
           <span>{{ item?.name_vietsub }}</span>
         </router-link>
       </a-menu-item>
@@ -227,7 +227,6 @@
                     .toLowerCase(),
             },
           }"
-          style="display: flex"
         >
           <span>{{ item?.name }}</span>
         </router-link>
@@ -252,9 +251,9 @@
               slug2: item?.name2,
             },
           }"
-          style="display: flex"
-          @click="$store.state.breadCrumbValue = item?.name"
         >
+          <!-- @click="$store.state.breadCrumbValue = item?.name" -->
+
           <span>{{ item?.name }}</span>
         </router-link>
       </a-menu-item>
@@ -402,7 +401,7 @@ export default {
   }
 
   .ant-menu-submenu {
-    // margin-left: 3px !important;
+    margin-left: 3px !important;
 
     .ant-menu-submenu-title {
       height: 45px;

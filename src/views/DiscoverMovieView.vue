@@ -6,7 +6,7 @@
     />
 
     <h2 class="gradient-title-default">
-      <strong>{{ metaHead }}</strong>
+      <strong v-if="!loading">{{ metaHead }}</strong>
 
       <a-tabs
         v-model:activeKey="activeTabSearch"
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { onBeforeMount, ref, watch } from 'vue';
+import { onBeforeMount, ref, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {
@@ -74,15 +74,85 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const store = useStore();
-    const metaHead = ref();
     const dataDiscover = ref([]);
     const dataMovie = ref([]);
     const dataTv = ref([]);
     const page = ref(route.query?.page ? +route.query?.page : 1);
     const totalPage = ref(100);
     const isFilter = ref(false);
+    const loading = ref(false);
     const formFilterSelect = ref({});
     const activeTabSearch = ref('all');
+
+    const metaHead = computed(() => {
+      switch (route.params?.slug) {
+        case 'search':
+          return 'Kết quả tìm kiếm cho: ' + route.params?.slug2;
+
+        case 'movie':
+          if (route.params?.slug2) {
+            switch (route.params?.slug2) {
+              case 'all':
+                return 'Phim lẻ: Tất cả';
+              case 'nowplaying':
+                return 'Phim lẻ: Now playing';
+              case 'popular':
+                return 'Phim lẻ: Phổ biến';
+              case 'toprated':
+                return 'Phim lẻ: Top đánh giá';
+              case 'upcoming':
+                return 'Phim lẻ: Sắp công chiéu';
+            }
+          }
+          break;
+        case 'tv':
+          if (route.params?.slug2) {
+            switch (route.params?.slug2) {
+              case 'all':
+                return 'Phim bộ: Tất cả';
+              case 'airingtoday':
+                return 'Phim bộ: Airing today';
+              case 'ontheair':
+                return 'Phim bộ: On the air';
+              case 'tvpopular':
+                return 'Phim bộ: Phổ biến';
+              case 'tvtoprated':
+                return 'Phim bộ: Top đánh giá';
+            }
+          }
+          break;
+        case 'genres':
+          return (
+            'Thể loại: ' +
+            getGenresName(
+              Array.from(
+                route.params?.slug2 == 'sci-fi+&+fantasy'
+                  ? 'sci-Fi+&+fantasy'.split('+')
+                  : route.params?.slug2.split('+'),
+                (x) => x.charAt(0).toUpperCase() + x.slice(1)
+              ).join(' '),
+              store.state?.allGenres
+            )?.name_vietsub
+          );
+
+        case 'years':
+          return /^\d+$/.test(route.params?.slug2)
+            ? 'Năm ' + route.params?.slug2
+            : 'Trước năm ' + route.params?.slug2?.slice(-4);
+
+        case 'countries':
+          return (
+            'Quốc gia: ' +
+            store.state.allCountries.find(
+              (country) => country.name2 === route.params?.slug2
+            )?.name
+          );
+
+        default:
+          break;
+      }
+      return '';
+    });
 
     const getData = () => {
       if (isFilter.value) {
@@ -265,7 +335,7 @@ export default {
                   (x) => x.charAt(0).toUpperCase() + x.slice(1)
                 ).join(' '),
                 store.state?.allGenres
-              ).name_vietsub;
+              )?.name_vietsub;
 
             break;
           case 'years':
@@ -291,9 +361,10 @@ export default {
               });
             metaHead.value =
               'Quốc gia: ' +
-              store.state.allCountries.find((country) =>
-                country.name2 === route.params?.slug2 ? country : null
-              ).name;
+              store.state.allCountries.find(
+                (country) => country.name2 === route.params?.slug2
+              )?.name;
+
             break;
           default:
             // router.push('/404');
@@ -305,13 +376,20 @@ export default {
     watch(route, () => {
       isFilter.value = false;
       getData();
+
       document.title = `Phimhay247 - ${metaHead.value}`;
     });
     // setMetaHead();
 
     onBeforeMount(() => {
       isFilter.value = false;
+      loading.value = true;
+
       getData();
+
+      setTimeout(() => {
+        loading.value = false;
+      }, 1000);
       document.title = `Phimhay247 - ${metaHead.value}`;
     });
 
@@ -357,6 +435,7 @@ export default {
     return {
       metaHead,
       page,
+      loading,
       totalPage,
       dataDiscover,
       activeTabSearch,

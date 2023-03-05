@@ -32,6 +32,7 @@
 import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { getGenresName } from '../services/MovieService';
 // import ALLCOUNTRY from '../constants/Country';
 
 export default {
@@ -79,7 +80,19 @@ export default {
           breadList.push({ params: 'tv', name: 'Phim bộ' });
           break;
         case 'genres':
-          breadList.push({ params: 'genres', name: route.params?.slug2 });
+          breadList.push({
+            params: 'genres',
+            // name: route.params?.slug2
+            name: getGenresName(
+              Array.from(
+                route.params?.slug2 == 'sci-fi+&+fantasy'
+                  ? 'sci-Fi+&+fantasy'.split('+')
+                  : route.params?.slug2.split('+'),
+                (x) => x.charAt(0).toUpperCase() + x.slice(1)
+              ).join(' '),
+              store.state?.allGenres
+            )?.name_vietsub,
+          });
           break;
         case 'years':
           breadList.push({ params: 'years', name: route.params?.slug2 });
@@ -87,9 +100,10 @@ export default {
         case 'countries':
           breadList.push({
             params: 'countries',
-            name: store.state.breadCrumbValue,
-            // ALLCOUNTRY.find((item) => item.name2 == route.params?.slug2)
-            //   .name,
+            // name: store.state.breadCrumbValue,
+            name: store.state.allCountries.find(
+              (country) => country.name2 === route.params?.slug2
+            )?.name,
           });
           break;
         default:

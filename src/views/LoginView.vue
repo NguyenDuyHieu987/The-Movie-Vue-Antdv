@@ -105,6 +105,10 @@
         data-auto-logout-link="false"
         data-use-continue-as="false"
       ></div>
+
+      <!-- <v-facebook-login app-id="966242223397117"></v-facebook-login> -->
+
+      <GoogleLogin :callback="callback" />
     </div>
 
     <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
@@ -131,6 +135,7 @@ import axios from 'axios';
 import md5 from 'md5';
 import { signIn } from '../services/MovieService';
 import { setWithExpiry } from '../untils/LocalStorage';
+// import VFacebookLogin from 'vue-facebook-login-component';
 
 export default defineComponent({
   components: {
@@ -138,6 +143,7 @@ export default defineComponent({
     LockOutlined,
     // FacebookFilled,
     // facebookLogin,
+    // VFacebookLogin,
   },
   setup() {
     const loadingLogin = ref(false);
@@ -269,7 +275,11 @@ export default defineComponent({
           if (axios.isCancel(e)) return;
         });
     };
-
+    const callback = (response) => {
+      // This callback will be triggered when the user selects or login to
+      // his Google account from the popup
+      console.log('Handle the response', response);
+    };
     return {
       formState,
       disabled,
@@ -278,6 +288,7 @@ export default defineComponent({
       onFinishFailed,
       handleSubmit,
       handleLoginFacebook,
+      callback,
     };
   },
 });

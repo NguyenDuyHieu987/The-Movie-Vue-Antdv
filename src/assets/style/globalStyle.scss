@@ -73,6 +73,14 @@ span {
     }
   }
 
+  .gradient-title-default {
+    font-size: 2rem !important;
+  }
+
+  .section-title {
+    font-size: 1.8rem !important;
+  }
+
   .ant-layout-sider.sider-bar {
     width: 0px !important;
     min-width: 0px !important;
@@ -201,7 +209,7 @@ span {
 .gradient-title-default {
   margin-top: 25px;
   margin-bottom: 20px;
-  font-size: 25px;
+  font-size: 2.5rem;
   position: relative;
 
   strong {
@@ -247,7 +255,7 @@ span {
 .section-title {
   margin-top: 25px;
   margin-bottom: 20px;
-  font-size: 22px;
+  font-size: 2rem;
   position: relative;
 
   &.width-fit {
@@ -368,7 +376,7 @@ span {
     top: 5px;
     transition: all 0.7s;
     .duration-episode {
-      font-size: 12px;
+      font-size: 1.2rem;
     }
   }
 
@@ -393,7 +401,7 @@ span {
     transition: all 0.7s;
 
     .release-date {
-      font-size: 12px;
+      font-size: 1.2rem;
     }
   }
 
@@ -531,5 +539,5 @@ span {
 
 .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 1.6rem;
 }
