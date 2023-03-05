@@ -83,20 +83,11 @@
         </a-button> -->
     </a-form>
     <div style="width: 100%">
-      <!-- <facebookLogin
-        class="facebook-login"
-        appId="820070179113499"
-        @login="handleLoginFacebook"
-        @logout="onLogout"
-        @get-initial-status="getUserData"
-        loginLabel="Log in with Facebook"
-      ></facebookLogin> -->
-
       <button class="facebook-login" @click="handleLoginFacebook">
         Đăng nhập bằng Facebook
       </button>
 
-      <div
+      <!-- <div
         class="fb-login-button"
         data-width="100%"
         data-size=""
@@ -104,11 +95,9 @@
         data-layout=""
         data-auto-logout-link="false"
         data-use-continue-as="false"
-      ></div>
+      ></div> -->
 
-      <!-- <v-facebook-login app-id="966242223397117"></v-facebook-login> -->
-
-      <GoogleLogin :callback="callback" />
+      <GoogleLogin :callback="handleGoogleFacebook" />
     </div>
 
     <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
@@ -131,19 +120,15 @@ import { notification } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import axios from 'axios';
-// import facebookLogin from 'facebook-login-vuejs';
 import md5 from 'md5';
 import { signIn } from '../services/MovieService';
 import { setWithExpiry } from '../untils/LocalStorage';
-// import VFacebookLogin from 'vue-facebook-login-component';
 
 export default defineComponent({
   components: {
     UserOutlined,
     LockOutlined,
     // FacebookFilled,
-    // facebookLogin,
-    // VFacebookLogin,
   },
   setup() {
     const loadingLogin = ref(false);
@@ -176,11 +161,6 @@ export default defineComponent({
         ) && formState.password
       );
     });
-
-    const handleLoginFacebook = async () => {
-      const { authResponse } = await new Promise(window.FB.login);
-      console.log(authResponse);
-    };
 
     const rand = function () {
       return Math.random().toString(36).substring(2); // remove `0.`
@@ -275,7 +255,12 @@ export default defineComponent({
           if (axios.isCancel(e)) return;
         });
     };
-    const callback = (response) => {
+    const handleLoginFacebook = async () => {
+      const { authResponse } = await new Promise(window.FB.login);
+      console.log(authResponse);
+    };
+
+    const handleGoogleFacebook = (response) => {
       // This callback will be triggered when the user selects or login to
       // his Google account from the popup
       console.log('Handle the response', response);
@@ -288,7 +273,7 @@ export default defineComponent({
       onFinishFailed,
       handleSubmit,
       handleLoginFacebook,
-      callback,
+      handleGoogleFacebook,
     };
   },
 });
