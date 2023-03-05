@@ -97,7 +97,7 @@
         data-use-continue-as="false"
       ></div> -->
 
-      <GoogleLogin :callback="handleGoogleFacebook" />
+      <GoogleLogin :callback="handleGoogleFacebook" prompt />
     </div>
 
     <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
