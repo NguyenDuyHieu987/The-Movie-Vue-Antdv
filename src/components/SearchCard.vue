@@ -59,7 +59,7 @@
                 ? dataMovie?.number_of_episodes + '-Tập'
                 : ''
               : dataMovie?.runtime
-              ? dataMovie?.runtime + ' min'
+              ? dataMovie?.runtime + ' phút'
               : ''
           }}
         </p>

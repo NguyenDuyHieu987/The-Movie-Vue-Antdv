@@ -228,7 +228,7 @@ export default {
       .ant-tabs-tab {
         .ant-tabs-tab-btn {
           font-weight: bold;
-          font-size: 25px;
+          font-size: 20px;
         }
       }
 
@@ -238,10 +238,11 @@ export default {
           display: inline;
           -webkit-text-fill-color: transparent;
           -webkit-background-clip: text;
+
           background-image: linear-gradient(
             to right,
+            var(--sider-header-background-color5),
             var(--sider-header-background-color1),
-            var(--sider-header-background-color2),
             var(--sider-header-background-color3)
           );
         }

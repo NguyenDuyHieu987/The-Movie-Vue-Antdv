@@ -82,6 +82,11 @@ export default {
     .overview {
       -webkit-line-clamp: 2 !important;
     }
+    .topic-item-info {
+      h1 {
+        font-size: 3em !important;
+      }
+    }
   }
 }
 

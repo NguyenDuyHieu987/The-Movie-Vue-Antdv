@@ -7,13 +7,24 @@
 
     <h2 class="gradient-title-default">
       <strong>{{ metaHead }}</strong>
+
+      <a-tabs
+        v-model:activeKey="activeTabSearch"
+        type="card"
+        @change="handleChangeType"
+        v-if="$route.params?.slug == 'search'"
+      >
+        <a-tab-pane key="all" tab="Tất cả"></a-tab-pane>
+        <a-tab-pane key="movie" tab="Phim lẻ"></a-tab-pane>
+        <a-tab-pane key="tv" tab="Phim bộ"></a-tab-pane>
+      </a-tabs>
     </h2>
     <section
       class="movie-discovered"
       :class="{ collapse: $store.state.collapsed }"
     >
       <MovieCarouselCardHorizontal
-        v-for="(item, index) in dataMovieList"
+        v-for="(item, index) in dataDiscover"
         :index="index"
         :key="item.id"
         :item="item"
@@ -51,28 +62,33 @@ import {
   getTvOntheAir,
   getTvPopular,
   getTvTopRated,
+  getGenresName,
 } from '../services/MovieService';
 import MovieCarouselCardHorizontal from '@/components/MovieCardHorizontal.vue';
 import FilterBar from '@/components/FilterBar.vue';
-import COUNTRIES from '../constants/Country';
+import { useStore } from 'vuex';
 
 export default {
   components: { MovieCarouselCardHorizontal, FilterBar },
   setup() {
     const route = useRoute();
     const router = useRouter();
+    const store = useStore();
     const metaHead = ref();
-    const dataMovieList = ref([]);
+    const dataDiscover = ref([]);
+    const dataMovie = ref([]);
+    const dataTv = ref([]);
     const page = ref(route.query?.page ? +route.query?.page : 1);
     const totalPage = ref(100);
     const isFilter = ref(false);
     const formFilterSelect = ref({});
+    const activeTabSearch = ref('all');
 
-    const setMetaHead = () => {
+    const getData = () => {
       if (isFilter.value) {
         FilterDataMovie(formFilterSelect.value)
           .then((movieResponse) => {
-            dataMovieList.value = movieResponse?.data?.results;
+            dataDiscover.value = movieResponse?.data?.results;
           })
           .catch((e) => {
             if (axios.isCancel(e)) return;
@@ -83,7 +99,9 @@ export default {
             metaHead.value = 'Kết quả tìm kiếm cho: ' + route.params?.slug2;
             getDaTaSearch(route.params?.slug2.replaceAll('+', ' '), page.value)
               .then((searchMovieResponse) => {
-                dataMovieList.value = searchMovieResponse?.data?.results;
+                dataDiscover.value = searchMovieResponse?.data?.results;
+                dataMovie.value = searchMovieResponse?.data?.movie;
+                dataTv.value = searchMovieResponse?.data?.tv;
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
@@ -96,7 +114,7 @@ export default {
                   metaHead.value = 'Phim lẻ: Tất cả';
                   getMovies(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
@@ -108,7 +126,7 @@ export default {
 
                   getNowPlaying(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total_pages * 10;
                     })
                     .catch((e) => {
@@ -120,7 +138,7 @@ export default {
 
                   getPopular(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total_pages * 10;
                     })
                     .catch((e) => {
@@ -132,7 +150,7 @@ export default {
 
                   getTopRated(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total_pages * 10;
                     })
                     .catch((e) => {
@@ -144,7 +162,7 @@ export default {
 
                   getUpComing(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total_pages * 10;
                     })
                     .catch((e) => {
@@ -161,7 +179,7 @@ export default {
                   metaHead.value = 'Phim bộ: Tất cả';
                   getTv(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
@@ -175,7 +193,7 @@ export default {
 
                   getTvAiringToday(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total_pages * 10;
                     })
                     .catch((e) => {
@@ -187,7 +205,7 @@ export default {
 
                   getTvOntheAir(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total_pages * 10;
                     })
                     .catch((e) => {
@@ -199,7 +217,7 @@ export default {
 
                   getTvPopular(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total_pages * 10;
                     })
                     .catch((e) => {
@@ -211,7 +229,7 @@ export default {
 
                   getTvTopRated(page.value)
                     .then((movieResponse) => {
-                      dataMovieList.value = movieResponse?.data?.results;
+                      dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total_pages * 10;
                     })
                     .catch((e) => {
@@ -232,24 +250,28 @@ export default {
               page.value
             )
               .then((movieResponse) => {
-                dataMovieList.value = movieResponse?.data?.results;
+                dataDiscover.value = movieResponse?.data?.results;
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
               });
             metaHead.value =
               'Thể loại: ' +
-              Array.from(
-                route.params?.slug2 == 'sci-fi+&+fantasy'
-                  ? 'sci-Fi+&+fantasy'.split('+')
-                  : route.params?.slug2.split('+'),
-                (x) => x.charAt(0).toUpperCase() + x.slice(1)
-              ).join(' ');
+              getGenresName(
+                Array.from(
+                  route.params?.slug2 == 'sci-fi+&+fantasy'
+                    ? 'sci-Fi+&+fantasy'.split('+')
+                    : route.params?.slug2.split('+'),
+                  (x) => x.charAt(0).toUpperCase() + x.slice(1)
+                ).join(' '),
+                store.state?.allGenres
+              ).name_vietsub;
+
             break;
           case 'years':
             getMoviesByYear(route.params?.slug2, page.value)
               .then((movieResponse) => {
-                dataMovieList.value = movieResponse?.data?.results;
+                dataDiscover.value = movieResponse?.data?.results;
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
@@ -262,14 +284,14 @@ export default {
           case 'countries':
             getMovieByCountry(route.params?.slug2, page.value)
               .then((movieResponse) => {
-                dataMovieList.value = movieResponse?.data?.results;
+                dataDiscover.value = movieResponse?.data?.results;
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
               });
             metaHead.value =
               'Quốc gia: ' +
-              COUNTRIES.find((country) =>
+              store.state.allCountries.find((country) =>
                 country.name2 === route.params?.slug2 ? country : null
               ).name;
             break;
@@ -282,14 +304,14 @@ export default {
 
     watch(route, () => {
       isFilter.value = false;
-      setMetaHead();
+      getData();
       document.title = `Phimhay247 - ${metaHead.value}`;
     });
     // setMetaHead();
 
     onBeforeMount(() => {
       isFilter.value = false;
-      setMetaHead();
+      getData();
       document.title = `Phimhay247 - ${metaHead.value}`;
     });
 
@@ -299,14 +321,14 @@ export default {
     ) => {
       if (isFilter.value) {
         formFilterSelect.value['pageFilter'] = pageSelected;
-        setMetaHead();
+        getData();
       } else {
         router.push({ query: { page: pageSelected } });
       }
     };
 
     const setDataFiltered = (data, formSelect) => {
-      dataMovieList.value = data;
+      dataDiscover.value = data;
       formFilterSelect.value = formSelect;
       isFilter.value = true;
       page.value = formSelect.pageFilter;
@@ -315,24 +337,58 @@ export default {
 
     const cancelFilter = () => {
       isFilter.value = false;
-      setMetaHead();
+      getData();
+    };
+
+    const handleChangeType = (activeKey) => {
+      switch (activeKey) {
+        case 'all':
+          dataDiscover.value = dataMovie.value.concat(dataTv.value);
+          break;
+        case 'movie':
+          dataDiscover.value = dataMovie.value;
+          break;
+        case 'tv':
+          dataDiscover.value = dataTv.value;
+          break;
+      }
     };
 
     return {
       metaHead,
       page,
       totalPage,
-      dataMovieList,
+      dataDiscover,
+      activeTabSearch,
       onChangePage,
       setDataFiltered,
       cancelFilter,
+      handleChangeType,
     };
   },
 };
 </script>
 
 <style scoped lang="scss">
-@media only screen and (min-width: 2000px) {
+@media only screen and (min-width: 2300px) {
+  .movie-discovered.collapse {
+    grid-template-columns: repeat(9, minmax(10%, auto)) !important;
+  }
+  .movie-discovered {
+    grid-template-columns: repeat(8, minmax(10%, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 2300px) {
+  .movie-discovered.collapse {
+    grid-template-columns: repeat(9, minmax(10%, auto)) !important;
+  }
+  .movie-discovered {
+    grid-template-columns: repeat(8, minmax(10%, auto)) !important;
+  }
+}
+
+@media only screen and (max-width: 2100px) {
   .movie-discovered.collapse {
     grid-template-columns: repeat(8, minmax(10%, auto)) !important;
   }
@@ -417,6 +473,15 @@ export default {
   .movie-carousel-horizontal-item {
     float: left;
   }
+}
+.ant-tabs > .ant-tabs-nav,
+.ant-tabs > div > .ant-tabs-nav {
+  margin-bottom: 5px !important;
+}
+.gradient-title-default {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .control-page {

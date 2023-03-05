@@ -108,24 +108,8 @@
         <span>Xem tất cả</span>
       </router-link>
     </h2>
-    <!-- <a-row type="flex" align="middle" :gutter="10">
-      <a-col
-        :span="4"
-        :xs="{ span: 8 }"
-        :sm="{ span: 7 }"
-        :md="{ span: 6 }"
-        :lg="{ span: 5 }"
-        :xl="{ span: 4 }"
-        :xxl="{ span: 3 }"
-        v-for="(item, index) in tvAiringTodays"
-        :index="index"
-        :key="item.id"
-      >
-        <MovieCarouselCardVertical :item="item" />
-      </a-col>
-    </a-row> -->
 
-    <section class="movie-group upcoming">
+    <section class="movie-group vertical">
       <MovieCarouselCardVertical
         v-for="(item, index) in tvAiringTodays"
         :index="index"
@@ -168,7 +152,7 @@
       </a-col>
     </a-row> -->
 
-    <section class="movie-group popular">
+    <section class="movie-group horizontal">
       <MovieCardHorizontalTrailer
         v-for="(item, index) in upComings"
         :index="index"
@@ -516,20 +500,6 @@ export default {
     .custom-slick-arrow:hover {
       opacity: 0.5;
     }
-  }
-
-  .movie-group.upcoming {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, auto));
-    margin-top: 10px;
-    gap: 10px;
-  }
-
-  .movie-group.popular {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, auto));
-    margin-top: 10px;
-    gap: 10px;
   }
 
   .gradient-title-default {

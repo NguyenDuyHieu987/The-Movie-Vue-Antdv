@@ -301,6 +301,12 @@ const getAllGenresById = (genres, allGenres) => {
 
   return genresArray;
 };
+const getGenresName = (genresName, allGenres) =>
+  allGenres.find((gen) => {
+    if (gen.name === genresName) {
+      return gen;
+    }
+  });
 
 const getCountry = async (country_name) =>
   // Country.find((country) => country.name2 === country_name);
@@ -345,6 +351,7 @@ export {
   getPoster,
   getIdGenresByName,
   getAllGenresById,
+  getGenresName,
   getTrending,
   getNowPlaying,
   getUpComing,

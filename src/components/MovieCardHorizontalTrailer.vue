@@ -9,7 +9,7 @@
           : item?.title?.replace(/\s/g, '+').toLowerCase(),
       },
     }" -->
-    <div class="img-box">
+    <div class="img-box" @click="handleClickTrailerIcon">
       <a-image
         v-if="!loading"
         :src="
@@ -46,7 +46,7 @@
         </p>
       </div>
 
-      <div class="youtub-icon" v-if="!loading" @click="handleClickTrailerIcon">
+      <div class="youtub-icon" v-if="!loading">
         <font-awesome-icon icon="fa-brands fa-youtube" />
       </div>
 
@@ -148,32 +148,60 @@
           justify-content: space-between;
         "
       >
-        <div>
-          <h2 style="display: flex">
-            {{ item?.name ? item?.name : item?.title }}
-          </h2>
-
-          <h3 class="genres" style="display: flex">
-            {{
-              dataMovie?.original_title
-                ? dataMovie?.original_title
-                : dataMovie?.original_name
-            }}
+        <div style="max-width: 70%">
+          <h3 style="display: flex">
+            <strong> {{ item?.name ? item?.name : item?.title }}</strong>
           </h3>
+
+          <p
+            class="genres"
+            style="
+              display: flex;
+              text-align: left;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              display: -webkit-box;
+            "
+          >
+            {{ dataMovie?.overview }}
+          </p>
         </div>
         <div>
           <a-button key="back" size="large" @click="handleCancel"
-            >Đóng</a-button
-          >
-          <a-button
-            key="submit"
-            size="large"
-            type="primary"
-            :loading="loading"
-            @click="handleOk"
-          >
-            Xem ngay
+            >Đóng
           </a-button>
+          <router-link
+            v-if="isEpisodes"
+            :to="{
+              name: 'playtv',
+              params: {
+                id: dataMovie?.id,
+                name: dataMovie?.name
+                  ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                tap: 'tap-1',
+              },
+            }"
+            class="btn-play-now"
+          >
+            <span> Xem ngay</span>
+          </router-link>
+          <router-link
+            v-else-if="!isEpisodes"
+            :to="{
+              name: 'play',
+              params: {
+                id: dataMovie?.id,
+                name: dataMovie?.name
+                  ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              },
+            }"
+            class="btn-play-now"
+          >
+            <span> Xem ngay</span>
+          </router-link>
         </div>
       </div>
     </template>
@@ -235,6 +263,11 @@ export default {
     const handleClickTrailerIcon = () => {
       isOenModalTrailer.value = true;
     };
+
+    const handleCancel = () => {
+      isOenModalTrailer.value = false;
+    };
+
     return {
       genresName,
       isEpisodes,
@@ -245,11 +278,12 @@ export default {
       getAllGenresById,
       getLanguage,
       handleClickTrailerIcon,
+      handleCancel,
     };
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @media only screen and (max-width: 1150px) {
   .movie-carousel-horizontal-item {
     .img-box {
@@ -302,8 +336,20 @@ export default {
       color: red;
     }
   }
+
   .ant-skeleton-content .ant-skeleton-paragraph > li + li {
     margin-top: 10px;
+  }
+}
+.btn-play-now {
+  color: #fff;
+  padding: 11px 25px;
+  background-color: #db0832;
+  transition: all 0.3s;
+  margin-left: 10px;
+
+  &:hover {
+    background-color: #db0832ad;
   }
 }
 </style>

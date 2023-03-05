@@ -196,11 +196,11 @@ export default {
     const router = useRouter();
     const dataSearch = ref([]);
     const page = ref(1);
-    const valueInput = ref('');
     const loadingSearch = ref(false);
     const isOpenAutoComplete = ref(true);
     const isLogin = computed(() => store.state.isLogin);
     const debounce = ref();
+    const valueInput = ref('');
 
     const handleChangeInput = () => {
       if (valueInput.value.length > 0) {
@@ -261,7 +261,7 @@ export default {
 
 <style lang="scss">
 .ant-layout-header.header {
-  // z-index: 100000;
+  z-index: 10;
   line-height: var(--header-height);
   line-height: var(--header-height);
 }

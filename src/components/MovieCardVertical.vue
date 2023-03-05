@@ -166,7 +166,7 @@ export default {
 </script>
 <style lang="scss">
 @media only screen and (max-width: 1150px) {
-  .movie-group.upcoming {
+  .movie-group.vertical {
     // grid-template-columns: repeat(auto-fit, minmax(160px, auto));
   }
 
@@ -179,7 +179,7 @@ export default {
 }
 
 @media only screen and (max-width: 1050px) {
-  .movie-group.upcoming {
+  .movie-group.vertical {
     grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
   }
 
@@ -192,7 +192,7 @@ export default {
 }
 
 @media only screen and (max-width: 970px) {
-  .movie-group.upcoming {
+  .movie-group.vertical {
   }
 
   .movie-carousel-vertical-item {
@@ -204,7 +204,7 @@ export default {
 }
 
 @media only screen and (max-width: 800px) {
-  .movie-group.upcoming {
+  .movie-group.vertical {
     grid-template-columns: repeat(auto-fit, minmax(140px, auto)) !important;
   }
 
@@ -217,7 +217,7 @@ export default {
 }
 
 @media only screen and (max-width: 740px) {
-  .movie-group.upcoming {
+  .movie-group.vertical {
     grid-template-columns: repeat(auto-fit, minmax(160px, auto)) !important;
   }
 
@@ -230,7 +230,7 @@ export default {
 }
 
 @media only screen and (max-width: 410px) {
-  .movie-group.upcoming {
+  .movie-group.vertical {
   }
 
   .movie-carousel-vertical-item {

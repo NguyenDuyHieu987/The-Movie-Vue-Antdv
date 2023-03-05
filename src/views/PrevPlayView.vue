@@ -33,7 +33,7 @@
         </a-image>
       </div>
 
-      <div class="info-movie">
+      <div class="info-movie" v-if="!checkEmptyDataMovies">
         <a-skeleton
           :loading="loading"
           :active="true"
@@ -83,9 +83,9 @@
           </a-skeleton-button>
         </div>
 
-        <div v-else class="widget">
+        <div v-else-if="!loading && !checkEmptyDataMovies" class="widget">
           <router-link
-            v-if="isEpisodes && dataMovie?.id"
+            v-if="isEpisodes"
             :to="{
               name: 'playtv',
               params: {
@@ -102,7 +102,7 @@
             <span> Xem ngay</span>
           </router-link>
           <router-link
-            v-else-if="!isEpisodes && dataMovie?.id"
+            v-else-if="!isEpisodes"
             :to="{
               name: 'play',
               params: {
@@ -183,7 +183,7 @@
           </a-popconfirm> -->
         </div>
 
-        <div class="misc">
+        <div class="misc" v-if="!checkEmptyDataMovies">
           <a-skeleton
             :loading="loading"
             :active="true"
@@ -198,7 +198,6 @@
             <p>
               <label>Ngày Phát Hành: </label>
               <router-link
-                v-if="dataMovie?.release_date || dataMovie?.first_air_date"
                 :to="{
                   name: 'discover',
                   params: {
@@ -264,7 +263,7 @@
               </span>
             </p>
 
-            <p v-if="dataMovie?.number_of_episodes">
+            <p v-if="!checkEmptyDataMovies">
               <label>Số lượng tập: </label>
               {{
                 dataMovie?.seasons?.find((item) =>
@@ -294,10 +293,14 @@
           </a-skeleton>
         </div>
 
-        <div v-if="loading">
-          <a-skeleton-button :active="true" :size="'default'" :block="false">
-          </a-skeleton-button>
-        </div>
+        <a-skeleton-button
+          v-if="loading"
+          :loading="loading"
+          :active="true"
+          :size="'default'"
+          :block="false"
+        >
+        </a-skeleton-button>
         <Interaction v-else :dataMovie="dataMovie" />
 
         <a-skeleton
@@ -308,7 +311,7 @@
           :title="false"
         >
           <RatingMovie
-            v-if="dataMovie?.id"
+            v-if="!checkEmptyDataMovies"
             :voteAverage="dataMovie?.vote_average"
             :voteCount="dataMovie?.vote_count"
             :movieId="dataMovie?.id"
@@ -452,7 +455,14 @@
   </div>
 </template>
 <script>
-import { ref, onBeforeMount, onMounted, watch, createVNode } from 'vue';
+import {
+  ref,
+  onBeforeMount,
+  onMounted,
+  watch,
+  createVNode,
+  computed,
+} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import carousel from 'vue-owl-carousel/src/Carousel';
@@ -692,9 +702,14 @@ export default {
       getData();
     });
 
+    const checkEmptyDataMovies = computed(() => {
+      if (Object.keys(dataMovie.value).length == 0) return true;
+      else return false;
+    });
+
     document.title = `${Array.from(
       route.params?.name.split('+'),
-      (x) => x.charAt(0).toUpperCase() + x.slice(1)
+      (x) => x.charAt(0).toUpperCase() + x?.slice(1)
     ).join(' ')} - Thông tin`;
 
     window.scrollTo({
@@ -718,6 +733,7 @@ export default {
       loading,
       activeTabCast: ref('1'),
       isAddToList,
+      checkEmptyDataMovies,
       getPoster,
       getAllGenresById,
       getLanguage,
@@ -1050,6 +1066,7 @@ export default {
 .widget-skeleton {
   .ant-skeleton {
     margin-right: 7px;
+    margin-bottom: 7px;
 
     .ant-skeleton-button {
       padding: 24px 70px;

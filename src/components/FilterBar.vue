@@ -98,7 +98,7 @@
           >
             <a-select-option value="all">Tất cả</a-select-option>
             <a-select-option value="movieall">Phim lẻ</a-select-option>
-            <a-select-option value="tvall">Tất Bộ</a-select-option>
+            <a-select-option value="tvall">Phim bộ</a-select-option>
           </a-select>
 
           <a-button
@@ -153,6 +153,8 @@ export default {
         } else {
           str = route.params?.slug2?.replace('/', '');
         }
+      } else if (route.params?.slug == 'search') {
+        str = 'all';
       }
       return str;
     });

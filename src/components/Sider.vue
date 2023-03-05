@@ -130,7 +130,7 @@ export default {
     var(--sider-header-background-color3),
     var(--sider-header-background-color2)
   );
-  z-index: 999999;
+  z-index: 10;
 
   .ant-layout-header {
     line-height: inherit;
