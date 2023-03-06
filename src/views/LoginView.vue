@@ -394,6 +394,11 @@ export default defineComponent({
 
       .facebook-login {
         flex-grow: 1;
+
+        .fa-facebook-f {
+          color: #1890ff;
+        }
+
         span {
           width: 100%;
         }
