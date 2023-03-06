@@ -18,6 +18,11 @@ const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 // const URL_API_IMAGE = 'https://python-api-basic.onrender.com';
 const URL_API_IMAGE = 'https://phimhay247-nodejs-api-image.onrender.com';
 
+const emailValidation = (email) =>
+  axios.get(
+    `https://emailvalidation.abstractapi.com/v1/?api_key=e23c5b9c07dc432796eea058c9d99e82&email=${email}`
+  );
+
 const signIn = async (params) => {
   const bodyFormData = new FormData();
   bodyFormData.append('email', params.email);
@@ -43,7 +48,7 @@ const signUp = async (params) => {
   bodyFormData.append('username', params.username);
   bodyFormData.append('email', params.email);
   bodyFormData.append('password', params.password);
-  bodyFormData.append('created_by', params.created_by);
+  bodyFormData.append('full_name', params.full_name);
   bodyFormData.append('avatar', params.avatar);
   bodyFormData.append('user_token', params.user_token);
 
@@ -82,19 +87,17 @@ const getDaTaSearch = async (text, page) =>
     `${URL_API}/search/multi?query=${text}&page=${page}&api=hieu987`
   );
 
-const getMoviesByGenres = async (genres_name, page) => {
-  const genres = await getIdGenresByName(genres_name);
+const getMoviesByGenres = async (genre_id, page) => {
+  const genre = getGenresNameByShortName(genre_id, ALLGENRES);
 
   // const genreStr = !genres_name.includes('&')
   //   ? `${genresName.id},${genresName.name}`
   //   : `${genresName.id},${genresName.name.replace('&', '%26')}`;
 
-  const genreStr = genres_name != '' ? genres.id : '';
+  // const genreStr = genre != '' ? genre.id : '';
 
   return await axios.get(
-    !genres_name.includes('&')
-      ? `${URL_API}/discover/all?api=hieu987&with_genres=${genreStr}&page=${page}`
-      : `${URL_API}/discover/all?api=hieu987&with_genres=${genreStr}&page=${page}`
+    `${URL_API}/discover/all?api=hieu987&with_genres=${genre.id}&page=${page}`
   );
 };
 
@@ -108,9 +111,10 @@ const getMoviesByYear = async (year, page) => {
 };
 
 const getMovieByCountry = async (country_name, page) => {
-  const countriName = await getCountry(country_name);
+  const country = getCountry(country_name);
+
   return await axios.get(
-    `${URL_API}/discover/all?api=hieu987&with_original_language=${countriName.iso_639_1}&page=${page}`
+    `${URL_API}/discover/all?api=hieu987&with_original_language=${country.iso_639_1}&page=${page}`
   );
 };
 
@@ -176,7 +180,7 @@ const FilterDataMovie = async (formSelect) => {
     formSelect.genre !== ''
       ? /^\d+$/.test(formSelect.genre)
         ? formSelect.genre
-        : await getIdGenresByName(formSelect.genre)
+        : await getIdGenresByName(formSelect.genre)?.id
       : '';
 
   return /^\d+$/.test(formSelect.year)
@@ -273,7 +277,7 @@ const getAllCountry = () => {
 };
 
 const getIdGenresByName = async (genres_name) =>
-  ALLGENRES.genres.find((gen) => (gen.name === genres_name ? gen : null));
+  ALLGENRES.find((gen) => (gen.name === genres_name ? gen : null));
 
 // {
 //   const genres = await getAllGenre().then((res) => {
@@ -283,7 +287,7 @@ const getIdGenresByName = async (genres_name) =>
 // };
 
 // const getGenresNameById = (genreId:number) =>
-//   ALLGENRES.genres.find((gen) => (gen.id === genreId ? gen : null));
+//   ALLGENRES.find((gen) => (gen.id === genreId ? gen : null));
 
 const getAllGenresById = (genres, allGenres) => {
   var genresArray = [];
@@ -301,21 +305,22 @@ const getAllGenresById = (genres, allGenres) => {
 
   return genresArray;
 };
-const getGenresName = (genresName, allGenres) =>
+const getGenresNameById = (genresName, allGenres) =>
   allGenres.find((gen) => {
-    if (gen.name === genresName) {
+    if (gen.short_name === genresName) {
       return gen;
     }
   });
 
-const getCountry = async (country_name) =>
-  // Country.find((country) => country.name2 === country_name);
-  {
-    const countries = await getAllNational().then((res) => {
-      return res.data;
-    });
-    return countries.find((country) => country.name2 === country_name);
-  };
+const getGenresNameByShortName = (genresName, allGenres) =>
+  allGenres.find((gen) => {
+    if (gen.short_name === genresName) {
+      return gen;
+    }
+  });
+
+const getCountry = (country_name) =>
+  COUNTRIES.find((country) => country.short_name === country_name);
 
 // const getCountry = async (country_name) => {
 //   const county = await axios
@@ -348,10 +353,12 @@ const getAvatar = (path) => {
 };
 
 export {
+  emailValidation,
   getPoster,
   getIdGenresByName,
   getAllGenresById,
-  getGenresName,
+  getGenresNameById,
+  getGenresNameByShortName,
   getTrending,
   getNowPlaying,
   getUpComing,

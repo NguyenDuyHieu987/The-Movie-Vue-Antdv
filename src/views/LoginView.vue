@@ -23,7 +23,7 @@
           },
         ]"
       >
-        <a-input v-model:value="formState.username">
+        <a-input v-model:value="formState.username" placeholder="Email...">
           <template #prefix>
             <UserOutlined class="site-form-item-icon" />
           </template>
@@ -41,7 +41,10 @@
           },
         ]"
       >
-        <a-input-password v-model:value="formState.password">
+        <a-input-password
+          v-model:value="formState.password"
+          placeholder="Mật khẩu..."
+        >
           <template #prefix>
             <LockOutlined class="site-form-item-icon" />
           </template>
@@ -402,6 +405,10 @@ export default defineComponent({
         span {
           width: 100%;
         }
+      }
+
+      .g-btn-wrapper span {
+        font-size: 1.6rem;
       }
     }
 

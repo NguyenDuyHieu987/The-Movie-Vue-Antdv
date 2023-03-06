@@ -33,17 +33,18 @@
                 : item?.first_air_date?.slice(0, 4)
             }}
           </span>
-          <span class="genres" v-if="item?.genres">
-            <!-- {{ getAllGenresById(item?.genres).join(' • ') }} -->
-            {{ Array.from(item?.genre_ids, (x) => x.name).join(' • ') }}
-          </span>
-          <span class="genres" v-else-if="item?.genre_ids">
+
+          <span class="genres">
             {{
               getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
                 ' • '
               )
             }}
           </span>
+          <!-- {{ getAllGenresById(item?.genres).join(' • ') }} -->
+          <!-- <span class="genres" v--else-if="data?.genres">
+            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+          </span> -->
         </p>
       </div>
       <h1 class="title">

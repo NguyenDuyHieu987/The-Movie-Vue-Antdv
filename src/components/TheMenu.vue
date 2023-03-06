@@ -169,7 +169,7 @@
       <a-menu-item
         v-for="(item, index) in genres"
         :index="index"
-        :key="item?.name?.replace(/\s/g, '+').toLowerCase()"
+        :key="item?.short_name"
       >
         <a-tooltip
           :title="item?.name_vietsub"
@@ -181,7 +181,7 @@
               name: 'discover',
               params: {
                 slug: 'genres',
-                slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
+                slug2: item?.short_name,
               },
             }"
           >
@@ -194,7 +194,7 @@
             name: 'discover',
             params: {
               slug: 'genres',
-              slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
+              slug2: item?.short_name,
             },
           }"
         >
@@ -223,7 +223,7 @@
               slug2: /^\d+$/.test(item?.name)
                 ? item?.name
                 : removeVietnameseTones(item?.name)
-                    ?.replace(/\s/g, '-')
+                    ?.replaceAll(/\s/g, '-')
                     .toLowerCase(),
             },
           }"
@@ -241,14 +241,14 @@
       <a-menu-item
         v-for="(item, index) in countries"
         :index="index"
-        :key="item?.name2"
+        :key="item?.short_name"
       >
         <router-link
           :to="{
             name: 'discover',
             params: {
               slug: 'countries',
-              slug2: item?.name2,
+              slug2: item?.short_name,
             },
           }"
         >

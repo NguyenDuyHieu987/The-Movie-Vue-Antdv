@@ -23,7 +23,7 @@
           },
         ]"
       >
-        <a-input v-model:value="formState.fullname">
+        <a-input v-model:value="formState.fullname" placeholder="Họ và Tên...">
           <template #prefix>
             <UserOutlined class="site-form-item-icon" />
           </template>
@@ -41,7 +41,11 @@
           },
         ]"
       >
-        <a-input v-model:value="formState.username" ref="usernameRef">
+        <a-input
+          v-model:value="formState.username"
+          ref="usernameRef"
+          placeholder="Username..."
+        >
           <template #prefix>
             <UserOutlined class="site-form-item-icon" />
           </template>
@@ -60,7 +64,7 @@
           },
         ]"
       >
-        <a-input v-model:value="formState.email">
+        <a-input v-model:value="formState.email" placeholder="Email...">
           <template #prefix>
             <font-awesome-icon icon="fa-solid fa-at" />
           </template>
@@ -79,15 +83,21 @@
         ]"
         has-feedback
       >
-        <a-input-password v-model:value="formState.password">
+        <a-input-password
+          v-model:value="formState.password"
+          placeholder="Mật khẩu..."
+        >
           <template #prefix>
             <LockOutlined class="site-form-item-icon" />
           </template>
         </a-input-password>
       </a-form-item>
 
-      <a-form-item label="Confirm Password" name="checkPass" has-feedback>
-        <a-input-password v-model:value="formState.checkPass">
+      <a-form-item label="Nhập lại mật khẩu" name="checkPass" has-feedback>
+        <a-input-password
+          v-model:value="formState.checkPass"
+          placeholder="Xác nhận mật khẩu..."
+        >
           <template #prefix>
             <LockOutlined class="site-form-item-icon" />
           </template>
@@ -129,7 +139,7 @@ import {
 } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
 import axios from 'axios';
-import { signUp } from '../services/MovieService';
+import { signUp, emailValidation } from '../services/MovieService';
 import md5 from 'md5';
 import { useRouter } from 'vue-router';
 
@@ -209,59 +219,73 @@ export default defineComponent({
     const handleSubmit = () => {
       loadingSignUp.value = true;
 
-      signUp({
-        id: Date.now(),
-        username: formState.username,
-        email: formState.email,
-        password: md5(formState.password),
-        created_by: formState.fullname,
-        avatar: `${Math.floor(Math.random() * 10) + 1}`,
-        user_token: token(),
-      })
-        .then((response) => {
-          if (response?.data?.isSignUp === true) {
-            setTimeout(() => {
-              loadingSignUp.value = false;
-              notification.open({
-                message: 'Chúc mừng!',
-                description:
-                  'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: green',
-                  }),
-              });
-              router.push({ path: '/login' });
-            }, 1000);
-            reset();
-          } else {
-            setTimeout(() => {
-              loadingSignUp.value = false;
-              notification.open({
-                message: 'Lỗi!',
-                description: 'Email đã tồn tại.',
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: red',
-                  }),
-              });
-            }, 1000);
-          }
-        })
-        .catch((e) => {
-          setTimeout(() => {
-            loadingSignUp.value = false;
-            notification.open({
-              message: 'Failed!',
-              description: 'Some thing went wrong.',
-              icon: () =>
-                h(CloseCircleFilled, {
-                  style: 'color: red',
-                }),
+      emailValidation(formState.email).then((response) => {
+        if (response.data.is_smtp_valid.value == true) {
+          signUp({
+            id: Date.now(),
+            username: formState.username,
+            email: formState.email,
+            password: md5(formState.password),
+            full_name: formState.fullname,
+            avatar: `${Math.floor(Math.random() * 10) + 1}`,
+            user_token: token(),
+          })
+            .then((response) => {
+              if (response?.data?.isSignUp === true) {
+                setTimeout(() => {
+                  loadingSignUp.value = false;
+                  notification.open({
+                    message: 'Chúc mừng!',
+                    description:
+                      'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
+                    icon: () =>
+                      h(CheckCircleFilled, {
+                        style: 'color: green',
+                      }),
+                  });
+                  router.push({ path: '/login' });
+                }, 1000);
+                reset();
+              } else {
+                setTimeout(() => {
+                  loadingSignUp.value = false;
+                  notification.open({
+                    message: 'Lỗi!',
+                    description: 'Email đã tồn tại.',
+                    icon: () =>
+                      h(CheckCircleFilled, {
+                        style: 'color: red',
+                      }),
+                  });
+                }, 1000);
+              }
+            })
+            .catch((e) => {
+              setTimeout(() => {
+                loadingSignUp.value = false;
+                notification.open({
+                  message: 'Failed!',
+                  description: 'Some thing went wrong.',
+                  icon: () =>
+                    h(CloseCircleFilled, {
+                      style: 'color: red',
+                    }),
+                });
+              }, 1000);
+              if (axios.isCancel(e)) return;
             });
-          }, 1000);
-          if (axios.isCancel(e)) return;
-        });
+        } else {
+          loadingSignUp.value = false;
+          notification.open({
+            message: 'Failed!',
+            description: 'Email không tồn tại.',
+            icon: () =>
+              h(CloseCircleFilled, {
+                style: 'color: red',
+              }),
+          });
+        }
+      });
     };
 
     return {

@@ -83,12 +83,8 @@
             <p class="genres" v-if="item?.genres">
               {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
             </p>
-            <p class="genres" v-else-if="item?.genre_ids">
-              {{
-                getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
-                  ' • '
-                )
-              }}
+            <p class="genres" v-else>
+              {{ Array.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
             </p>
           </div>
         </a-skeleton>

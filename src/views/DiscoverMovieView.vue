@@ -62,7 +62,7 @@ import {
   getTvOntheAir,
   getTvPopular,
   getTvTopRated,
-  getGenresName,
+  getGenresNameByShortName,
 } from '../services/MovieService';
 import MovieCarouselCardHorizontal from '@/components/MovieCardHorizontal.vue';
 import FilterBar from '@/components/FilterBar.vue';
@@ -124,13 +124,8 @@ export default {
         case 'genres':
           return (
             'Thể loại: ' +
-            getGenresName(
-              Array.from(
-                route.params?.slug2 == 'sci-fi+&+fantasy'
-                  ? 'sci-Fi+&+fantasy'.split('+')
-                  : route.params?.slug2.split('+'),
-                (x) => x.charAt(0).toUpperCase() + x.slice(1)
-              ).join(' '),
+            getGenresNameByShortName(
+              route.params?.slug2,
               store.state?.allGenres
             )?.name_vietsub
           );
@@ -144,7 +139,7 @@ export default {
           return (
             'Quốc gia: ' +
             store.state.allCountries.find(
-              (country) => country.name2 === route.params?.slug2
+              (country) => country.short_name === route.params?.slug2
             )?.name
           );
 
@@ -310,15 +305,7 @@ export default {
             }
             break;
           case 'genres':
-            getMoviesByGenres(
-              Array.from(
-                route.params?.slug2 == 'sci-fi+&+fantasy'
-                  ? route.params?.slug2.split('+')
-                  : route.params?.slug2.split('+'),
-                (x) => x.charAt(0).toUpperCase() + x.slice(1)
-              ).join(' '),
-              page.value
-            )
+            getMoviesByGenres(route.params?.slug2, page.value)
               .then((movieResponse) => {
                 dataDiscover.value = movieResponse?.data?.results;
               })
@@ -327,13 +314,8 @@ export default {
               });
             metaHead.value =
               'Thể loại: ' +
-              getGenresName(
-                Array.from(
-                  route.params?.slug2 == 'sci-fi+&+fantasy'
-                    ? 'sci-Fi+&+fantasy'.split('+')
-                    : route.params?.slug2.split('+'),
-                  (x) => x.charAt(0).toUpperCase() + x.slice(1)
-                ).join(' '),
+              getGenresNameByShortName(
+                route.params?.slug2,
                 store.state?.allGenres
               )?.name_vietsub;
 
@@ -362,7 +344,7 @@ export default {
             metaHead.value =
               'Quốc gia: ' +
               store.state.allCountries.find(
-                (country) => country.name2 === route.params?.slug2
+                (country) => country.short_name === route.params?.slug2
               )?.name;
 
             break;

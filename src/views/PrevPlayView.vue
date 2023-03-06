@@ -195,7 +195,7 @@
               <span style="color: red; font-weight: bold"> HD VietSub </span>
             </p>
 
-            <p>
+            <p v-if="dataMovie?.first_air_date || dataMovie?.release_date">
               <label>Ngày Phát Hành: </label>
               <router-link
                 :to="{
@@ -234,7 +234,7 @@
                     slug2: getLanguage(
                       dataMovie?.original_language,
                       $store.state.allCountries
-                    )?.name1,
+                    )?.short_name,
                   },
                 }"
               >
@@ -248,7 +248,7 @@
                 </span>
               </router-link>
             </p>
-            <p>
+            <p v-if="dataMovie?.genres">
               <label>Thể loại: </label>
 
               <router-link
@@ -259,7 +259,9 @@
                   name: 'discover',
                   params: {
                     slug: 'genres',
-                    slug2: item?.name?.replace(/\s/g, '+').toLowerCase(),
+                    slug2: removeVietnameseTones(item?.name)
+                      ?.replaceAll(/\s/g, '-')
+                      ?.toLowerCase(),
                   },
                 }"
               >
@@ -503,6 +505,7 @@ import MovieSuggest from '@/components/MovieSuggest.vue';
 import { useStore } from 'vuex';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { Modal, message } from 'ant-design-vue';
+import { removeVietnameseTones } from '../untils/RemoveVietnameseTones';
 
 export default {
   components: {
@@ -755,6 +758,7 @@ export default {
       scrolltoTrailerYoutube,
       handelAddToList,
       handelRequireLogin,
+      removeVietnameseTones,
     };
   },
 };
