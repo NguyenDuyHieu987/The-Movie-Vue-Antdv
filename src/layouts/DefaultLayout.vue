@@ -10,8 +10,8 @@
         <Footer />
       </div>
     </a-layout>
+    <Drawer />
   </a-layout>
-  <Drawer />
 </template>
 
 <script>

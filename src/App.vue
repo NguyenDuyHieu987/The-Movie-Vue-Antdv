@@ -1,12 +1,14 @@
 <template>
-  <component :is="layout">
-    <router-view />
-    <div id="components-back-top-demo-custom">
-      <a-back-top class="ant-back-top-inner" :visibilityHeight="600">
-        <font-awesome-icon icon="fa-solid fa-chevron-up" />
-      </a-back-top>
-    </div>
-  </component>
+  <div>
+    <component :is="layout">
+      <router-view />
+      <div id="components-back-top-demo-custom">
+        <a-back-top class="ant-back-top-inner" :visibilityHeight="600">
+          <font-awesome-icon icon="fa-solid fa-chevron-up" />
+        </a-back-top>
+      </div>
+    </component>
+  </div>
 </template>
 
 <script>
@@ -20,6 +22,7 @@ import { getUserToken } from './services/MovieService';
 import { getWithExpiry } from './untils/LocalStorage';
 import { Modal } from 'ant-design-vue';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { useMeta } from 'vue-meta';
 
 export default {
   components: {},
@@ -27,6 +30,11 @@ export default {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
+
+    useMeta({
+      title: 'Phimhay247',
+      htmlAttrs: { lang: 'en', amp: true },
+    });
 
     onBeforeMount(() => {
       // const remember = window.localStorage.getItem('remember');

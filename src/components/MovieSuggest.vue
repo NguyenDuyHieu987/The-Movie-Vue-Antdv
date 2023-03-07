@@ -70,11 +70,14 @@ export default {
       0: {
         items: 2,
       },
-      590: {
+      500: {
         items: 2,
       },
-      750: {
-        items: 2,
+      520: {
+        items: 3,
+      },
+      720: {
+        items: 4,
       },
       830: {
         items: 3,

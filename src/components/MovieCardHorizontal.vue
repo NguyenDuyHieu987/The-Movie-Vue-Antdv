@@ -9,7 +9,7 @@
           : item?.title?.replace(/\s/g, '+').toLowerCase(),
       },
     }"
-    class="movie-carousel-horizontal-item"
+    class="movie-card-horizontal-item"
   >
     <!-- v-if="item?.id"
     :to="{
@@ -88,12 +88,12 @@
           </p>
           <div class="info-bottom">
             <!-- <p class="genres" v-if="item?.genre_ids">
-              {{
-                getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
-                  ' • '
-                )
-              }}
-            </p> -->
+                {{
+                  getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
+                    ' • '
+                  )
+                }}
+              </p> -->
             <p class="genres" v-if="item?.genres">
               {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
             </p>
@@ -171,7 +171,7 @@ export default {
 </script>
 <style lang="scss">
 @media only screen and (max-width: 1150px) {
-  .movie-carousel-horizontal-item {
+  .movie-card-horizontal-item {
     .img-box {
       transition: all 0.3s;
       height: 130px !important;
@@ -180,24 +180,24 @@ export default {
 }
 
 @media only screen and (max-width: 1010px) {
-  .movie-group.popular {
+  .movie-group.horizontal {
     grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
   }
 }
 
 @media only screen and (max-width: 435px) {
-  .movie-group.popular {
+  .movie-group.horizontal {
     grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
   }
 
-  .movie-carousel-horizontal-item {
+  .movie-card-horizontal-item {
     .img-box {
       height: 110px !important;
     }
   }
 }
 
-.movie-carousel-horizontal-item {
+.movie-card-horizontal-item {
   .img-box {
     height: 150px;
   }

@@ -1,14 +1,14 @@
 <template>
-  <div class="movie-carousel-horizontal-item">
+  <div class="movie-card-horizontal-item">
     <!-- :to="{
-      name: 'info',
-      params: {
-        id: item?.id,
-        name: item?.name
-          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase(),
-      },
-    }" -->
+        name: 'info',
+        params: {
+          id: item?.id,
+          name: item?.name
+            ? item?.name?.replace(/\s/g, '+').toLowerCase()
+            : item?.title?.replace(/\s/g, '+').toLowerCase(),
+        },
+      }" -->
     <div class="img-box" @click="handleClickTrailerIcon">
       <a-image
         v-if="!loading"
@@ -91,13 +91,13 @@
             </p>
             <div class="info-bottom">
               <!-- <p class="genres" v-if="item?.genre_ids">
-                {{
-                  getAllGenresById(
-                    item?.genre_ids,
-                    $store.state?.allGenres
-                  ).join(' • ')
-                }}
-              </p> -->
+                  {{
+                    getAllGenresById(
+                      item?.genre_ids,
+                      $store.state?.allGenres
+                    ).join(' • ')
+                  }}
+                </p> -->
               <p class="genres" v-if="dataMovie?.genres">
                 {{ Array.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
               </p>
@@ -106,101 +106,101 @@
         </div>
       </router-link>
     </a-tooltip>
-  </div>
-  <a-modal
-    v-model:visible="isOenModalTrailer"
-    width="1300px"
-    centered
-    @ok="modal2Visible = false"
-    class="modal-trailer"
-  >
-    <template #title>
-      <p>Trailer: {{ item?.name ? item?.name : item?.title }}</p>
-    </template>
-    <iframe
-      height="650px"
-      width="100%"
-      :src="
-        dataMovie?.videos?.results?.length !== 0
-          ? `https://www.youtube.com/embed/${
-              dataMovie?.videos?.results[
-                Math.floor(Math.random() * dataMovie?.videos?.results?.length)
-              ]?.key
-            }`
-          : 'https://www.youtube.com/embed/ndl1W4ltcmg'
-      "
-      title="YouTube video player"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media;
-        gyroscope; picture-in-picture"
-      allowFullScreen
-      frameBorder="{0}"
-    />
-    <template #footer>
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+    <a-modal
+      v-model:visible="isOenModalTrailer"
+      width="1300px"
+      centered
+      @ok="modal2Visible = false"
+      class="modal-trailer"
+    >
+      <template #title>
+        <p>Trailer: {{ item?.name ? item?.name : item?.title }}</p>
+      </template>
+      <iframe
+        height="650px"
+        width="100%"
+        :src="
+          dataMovie?.videos?.results?.length !== 0
+            ? `https://www.youtube.com/embed/${
+                dataMovie?.videos?.results[
+                  Math.floor(Math.random() * dataMovie?.videos?.results?.length)
+                ]?.key
+              }`
+            : 'https://www.youtube.com/embed/ndl1W4ltcmg'
         "
-      >
-        <div style="max-width: 70%">
-          <h3 style="display: flex">
-            <strong> {{ item?.name ? item?.name : item?.title }}</strong>
-          </h3>
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+          gyroscope; picture-in-picture"
+        allowFullScreen
+        frameBorder="{0}"
+      />
+      <template #footer>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <div style="max-width: 70%">
+            <h3 style="display: flex">
+              <strong> {{ item?.name ? item?.name : item?.title }}</strong>
+            </h3>
 
-          <p
-            class="genres"
-            style="
-              display: flex;
-              text-align: left;
-              -webkit-line-clamp: 3;
-              -webkit-box-orient: vertical;
-              overflow: hidden;
-              display: -webkit-box;
-            "
-          >
-            {{ dataMovie?.overview }}
-          </p>
+            <p
+              class="genres"
+              style="
+                display: flex;
+                text-align: left;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                display: -webkit-box;
+              "
+            >
+              {{ dataMovie?.overview }}
+            </p>
+          </div>
+          <div>
+            <a-button key="back" size="large" @click="handleCancel"
+              >Đóng
+            </a-button>
+            <router-link
+              v-if="isEpisodes"
+              :to="{
+                name: 'playtv',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  tap: 'tap-1',
+                },
+              }"
+              class="btn-play-now"
+            >
+              <span> Xem ngay</span>
+            </router-link>
+            <router-link
+              v-else-if="!isEpisodes"
+              :to="{
+                name: 'play',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                },
+              }"
+              class="btn-play-now"
+            >
+              <span> Xem ngay</span>
+            </router-link>
+          </div>
         </div>
-        <div>
-          <a-button key="back" size="large" @click="handleCancel"
-            >Đóng
-          </a-button>
-          <router-link
-            v-if="isEpisodes"
-            :to="{
-              name: 'playtv',
-              params: {
-                id: dataMovie?.id,
-                name: dataMovie?.name
-                  ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-                tap: 'tap-1',
-              },
-            }"
-            class="btn-play-now"
-          >
-            <span> Xem ngay</span>
-          </router-link>
-          <router-link
-            v-else-if="!isEpisodes"
-            :to="{
-              name: 'play',
-              params: {
-                id: dataMovie?.id,
-                name: dataMovie?.name
-                  ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-              },
-            }"
-            class="btn-play-now"
-          >
-            <span> Xem ngay</span>
-          </router-link>
-        </div>
-      </div>
-    </template>
-  </a-modal>
+      </template>
+    </a-modal>
+  </div>
 </template>
 <script>
 import { ref, onBeforeMount } from 'vue';
@@ -280,7 +280,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @media only screen and (max-width: 1150px) {
-  .movie-carousel-horizontal-item {
+  .movie-card-horizontal-item {
     .img-box {
       transition: all 0.3s;
       height: 130px !important;
@@ -289,24 +289,24 @@ export default {
 }
 
 @media only screen and (max-width: 1010px) {
-  .movie-group.popular {
+  .movie-group.horizontal {
     grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
   }
 }
 
 @media only screen and (max-width: 435px) {
-  .movie-group.popular {
+  .movie-group.horizontal {
     grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
   }
 
-  .movie-carousel-horizontal-item {
+  .movie-card-horizontal-item {
     .img-box {
       height: 110px !important;
     }
   }
 }
 
-.movie-carousel-horizontal-item {
+.movie-card-horizontal-item {
   .img-box {
     height: 150px;
   }

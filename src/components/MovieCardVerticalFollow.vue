@@ -8,7 +8,7 @@
             : item?.title?.replace(/\s/g, '+').toLowerCase()
         }`,
       }"
-      class="movie-carousel-vertical-item"
+      class="movie-card-vertical-item"
     >
       <!-- v-if="item?.id"
       :to="{
@@ -261,7 +261,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(10, minmax(10%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
         }
@@ -275,7 +275,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(9, minmax(11%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
         }
@@ -289,7 +289,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(8, minmax(13%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
           height: 260px !important;
@@ -304,7 +304,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(7, minmax(14%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
         }
@@ -318,7 +318,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(6, minmax(15%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
         }
@@ -332,7 +332,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(5, minmax(17%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
         }
@@ -348,7 +348,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(5, minmax(17%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
           height: 230px !important;
@@ -365,7 +365,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(4, minmax(25%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
           height: 220px !important;
@@ -380,7 +380,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(3, minmax(33%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
           height: 250px !important;
@@ -395,7 +395,7 @@ export default {
     .movie-group {
       grid-template-columns: repeat(2, minmax(50%, auto)) !important;
 
-      .movie-carousel-vertical-item {
+      .movie-card-vertical-item {
         .img-box {
           transition: all 0.3s;
           height: 250px !important;
@@ -410,7 +410,7 @@ export default {
     display: grid;
     // grid-template-columns: repeat(8, minmax(10%, auto)) !important;
 
-    .movie-carousel-vertical-item {
+    .movie-card-vertical-item {
       .img-box {
         height: 280px;
         overflow: hidden;

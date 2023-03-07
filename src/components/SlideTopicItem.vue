@@ -43,8 +43,8 @@
           </span>
           <!-- {{ getAllGenresById(item?.genres).join(' • ') }} -->
           <!-- <span class="genres" v--else-if="data?.genres">
-            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
-          </span> -->
+              {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+            </span> -->
         </p>
       </div>
       <h1 class="title">
@@ -77,6 +77,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 @media only screen and (max-width: 900px) {
   .topic-item {

@@ -116,12 +116,7 @@
           </a-auto-complete>
         </template>
 
-        <a-button
-          type="primary"
-          shape="circle"
-          size="large"
-          @click="handleOpenSearchBar"
-        >
+        <a-button type="primary" shape="circle" size="large">
           <template #icon><SearchOutlined /></template>
         </a-button>
       </a-popover>
@@ -134,10 +129,7 @@
       >
         <a-menu-item key="1">
           <UserOutlined style="margin-right: 10px" />
-          <a-dropdown
-            :trigger="['click']"
-            overlayStyle="border: 0.25px solid var(--border-regular);"
-          >
+          <a-dropdown :trigger="['click']">
             <a class="ant-dropdown-link" @click.prevent>
               <CaretDownOutlined />
             </a>

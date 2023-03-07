@@ -7,7 +7,7 @@
           : item?.title?.replace(/\s/g, '+').toLowerCase()
       }`,
     }"
-    class="movie-carousel-vertical-item"
+    class="movie-card-vertical-item"
   >
     <!-- v-if="item?.id"
     :to="{
@@ -173,7 +173,7 @@ export default {
     // grid-template-columns: repeat(auto-fit, minmax(160px, auto));
   }
 
-  .movie-carousel-vertical-item {
+  .movie-card-vertical-item {
     .img-box {
       transition: all 0.3s;
       height: 220px !important;
@@ -186,7 +186,7 @@ export default {
     grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
   }
 
-  .movie-carousel-vertical-item {
+  .movie-card-vertical-item {
     .img-box {
       transition: all 0.3s;
       height: 230px !important;
@@ -198,7 +198,7 @@ export default {
   .movie-group.vertical {
   }
 
-  .movie-carousel-vertical-item {
+  .movie-card-vertical-item {
     .img-box {
       transition: all 0.3s;
       height: 250px !important;
@@ -211,7 +211,7 @@ export default {
     grid-template-columns: repeat(auto-fit, minmax(140px, auto)) !important;
   }
 
-  .movie-carousel-vertical-item {
+  .movie-card-vertical-item {
     .img-box {
       transition: all 0.3s;
       height: 210px !important;
@@ -224,7 +224,7 @@ export default {
     grid-template-columns: repeat(auto-fit, minmax(160px, auto)) !important;
   }
 
-  .movie-carousel-vertical-item {
+  .movie-card-vertical-item {
     .img-box {
       transition: all 0.3s;
       height: 250px !important;
@@ -236,7 +236,7 @@ export default {
   .movie-group.vertical {
   }
 
-  .movie-carousel-vertical-item {
+  .movie-card-vertical-item {
     .img-box {
       transition: all 0.3s;
       height: 210px !important;
@@ -244,7 +244,7 @@ export default {
   }
 }
 
-.movie-carousel-vertical-item {
+.movie-card-vertical-item {
   .img-box {
     height: 280px;
   }

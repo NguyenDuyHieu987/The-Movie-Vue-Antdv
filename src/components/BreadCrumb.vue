@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { getGenresNameByShortName } from '../services/MovieService';
@@ -111,7 +111,6 @@ export default {
 
       return breadList;
     });
-    watch(() => {});
 
     return { path };
   },

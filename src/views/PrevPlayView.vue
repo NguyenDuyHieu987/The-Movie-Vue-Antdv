@@ -10,7 +10,6 @@
                 : dataMovie?.poster_path
             )
           "
-          :preview="true"
           v-lazy="
             getPoster(
               dataMovie?.backdrop_path
@@ -532,14 +531,14 @@ export default {
       0: {
         items: 2,
       },
-      590: {
-        items: 2,
+      520: {
+        items: 3,
       },
       750: {
         items: 4,
       },
       830: {
-        items: 5,
+        items: 4,
       },
       1000: {
         items: 5,

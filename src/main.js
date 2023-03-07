@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createMetaManager } from 'vue-meta';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -80,8 +81,8 @@ app
   .use(LottieAnimation)
   // .use(GAuth, gauthOption)
   .use(vue3GoogleLogin, gauthOption)
+  .use(createMetaManager())
   .component('font-awesome-icon', FontAwesomeIcon);
-// .mount('#app');
 
 initFacebookSdk().then(startApp);
 
