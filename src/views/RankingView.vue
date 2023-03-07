@@ -16,6 +16,7 @@
         </section>
         <div class="control-page">
           <a-pagination
+            v-if="trendings?.length"
             v-model:current="pageTrending"
             :total="totalPage"
             :showSizeChanger="false"

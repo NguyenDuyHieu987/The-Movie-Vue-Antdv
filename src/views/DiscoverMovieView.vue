@@ -32,11 +32,20 @@
     </section>
 
     <div class="control-page">
-      <a-pagination
+      <!-- <a-pagination
         v-model:current="page"
         :total="totalPage"
+        :show-total="(total) => `Tổng ${total}`"
         :showSizeChanger="false"
         @change="onChangePage"
+      /> -->
+
+      <el-pagination
+        v-model:current-page="page"
+        background
+        layout="prev, pager, next, total"
+        :total="totalPage"
+        @current-change="onChangePage"
       />
     </div>
   </div>

@@ -46,21 +46,23 @@
       </a-skeleton-button>
     </div>
     <Interaction v-else :dataMovie="dataMovie" />
-    <a-skeleton
-      style="margin-top: 15px"
-      :loading="loading"
-      :active="true"
-      :paragraph="{ rows: 1, width: '40%' }"
-      :title="false"
-    >
-      <RatingMovie
-        v-if="dataMovie?.id"
-        :voteAverage="dataMovie?.vote_average"
-        :voteCount="dataMovie?.vote_count"
-        :movieId="dataMovie?.id"
-        :isEpisodes="isEpisodes"
-      />
-    </a-skeleton>
+
+    <div style="margin-top: 15px">
+      <a-skeleton
+        :loading="loading"
+        :active="true"
+        :paragraph="{ rows: 1, width: '40%' }"
+        :title="false"
+      >
+        <RatingMovie
+          v-if="dataMovie?.id"
+          :voteAverage="dataMovie?.vote_average"
+          :voteCount="dataMovie?.vote_count"
+          :movieId="dataMovie?.id"
+          :isEpisodes="isEpisodes"
+        />
+      </a-skeleton>
+    </div>
 
     <h3 class="section-title">
       <strong>

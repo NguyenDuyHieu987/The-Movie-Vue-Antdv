@@ -10,14 +10,20 @@
         <font-awesome-icon icon="fa-solid fa-chevron-right" />
       </div>
     </template>
-
-    <SlideTopicItem
-      v-for="(item, index) in trendings"
-      :index="index"
-      :key="item.id"
-      :item="item"
-    />
+    <div v-for="(item, index) in trendings" :index="index" :key="item.id">
+      <SlideTopicItem :item="item" />
+    </div>
   </a-carousel>
+
+  <el-carousel :interval="3000" type="card" height="550px" loop trigger="click">
+    <el-carousel-item
+      v-for="(item, index) in trendings"
+      :key="item.id"
+      :index="index"
+    >
+      <SlideTopicItem :item="item" />
+    </el-carousel-item>
+  </el-carousel>
 </template>
 <script>
 import { onBeforeMount, ref } from 'vue';
@@ -87,7 +93,21 @@ export default {
   }
 }
 
+@media only screen and (max-width: 1150px) {
+  .el-carousel {
+    .el-carousel__container {
+      height: 450px !important;
+    }
+  }
+}
+
 @media only screen and (max-width: 1000px) {
+  .el-carousel {
+    .el-carousel__container {
+      height: 400px !important;
+    }
+  }
+
   .ant-carousel {
     .slick-track {
       font-size: 9px;
@@ -106,6 +126,12 @@ export default {
 }
 
 @media only screen and (max-width: 900px) {
+  .el-carousel {
+    .el-carousel__container {
+      height: 350px !important;
+    }
+  }
+
   .ant-carousel {
     .slick-track {
       height: 400px !important;
@@ -193,6 +219,39 @@ export default {
 
     .slick-prev {
       top: 34% !important;
+    }
+  }
+}
+
+.ant-carousel {
+  display: none;
+  .slick-list .slick-slide > div > div {
+    height: 100%;
+  }
+}
+
+.el-carousel {
+  .el-carousel__item {
+    border-radius: 5px;
+    box-shadow: 0 3px 6px -4px #000000ba, 0 6px 16px 0 #00000098,
+      0 9px 28px 8px #00000077;
+  }
+
+  .el-carousel__indicators {
+    margin-top: 10px;
+
+    .el-carousel__button {
+      height: 5px;
+    }
+  }
+
+  .el-carousel__arrow {
+    background-color: #00000063;
+    padding: 22px;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: #00000088;
     }
   }
 }

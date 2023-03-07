@@ -24,7 +24,7 @@
       <div class="img-box">
         <a-image
           v-if="!loading"
-          class="movie-carousel-img"
+          class="movie-card-img"
           :src="
             getPoster(
               item?.poster_path ? item?.poster_path : item?.backdrop_path
@@ -39,9 +39,9 @@
         >
         </a-image>
 
-        <a-skeleton-image v-else class="ant-image" />
+        <!-- <a-skeleton-image v-else class="ant-image" /> -->
 
-        <div class="duration-episode-box">
+        <div class="duration-episode-box" v-if="!loading">
           <p class="duration-episode">
             {{
               isEpisodes
@@ -55,7 +55,7 @@
           </p>
         </div>
 
-        <div class="release-date-box">
+        <div class="release-date-box" v-if="!loading">
           <p class="release-date">
             {{
               item?.release_date
@@ -67,27 +67,27 @@
       </div>
 
       <div class="info">
-        <a-skeleton
+        <!-- <a-skeleton
           :loading="loading"
           :active="true"
           :paragraph="{ rows: 2 }"
           :title="false"
-        >
-          <p class="title">
-            {{ item?.name ? item?.name : item?.title }}
-            <span v-if="isEpisodes">
-              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
-            </span>
+        > -->
+        <p class="title">
+          {{ item?.name ? item?.name : item?.title }}
+          <span v-if="isEpisodes">
+            {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+          </span>
+        </p>
+        <div class="info-bottom">
+          <p class="genres" v-if="item?.genres">
+            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
           </p>
-          <div class="info-bottom">
-            <p class="genres" v-if="item?.genres">
-              {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
-            </p>
-            <p class="genres" v-else>
-              {{ Array.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
-            </p>
-          </div>
-        </a-skeleton>
+          <p class="genres" v-else>
+            {{ Array.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
+          </p>
+        </div>
+        <!-- </a-skeleton> -->
       </div>
     </router-link>
     <a-button style="width: 100%" danger @click="handleRemoveFromList()">
@@ -97,7 +97,7 @@
   </div>
 </template>
 <script>
-import { ref, onBeforeMount, createVNode } from 'vue';
+import { ref, onBeforeMount, createVNode, h } from 'vue';
 import axios from 'axios';
 import {
   getAllGenresById,
@@ -112,6 +112,7 @@ import {
 import { Modal, message } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 export default {
   components: {},
@@ -163,43 +164,57 @@ export default {
 
     const handleRemoveFromList = () => {
       if (props.activeTabList == 'list') {
-        Modal.confirm({
-          title: `Bạn có mướn xóa phim: "${
-            dataMovie.value?.name
-              ? dataMovie.value?.name
-              : dataMovie.value?.title
-          }" khỏi danh sách theo dõi không?`,
-          icon: createVNode(QuestionCircleOutlined),
-          // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
-          content: createVNode('div', {}, ''),
-          okText: 'Có',
-          okType: 'default',
-          cancelText: 'Không',
-          onOk() {
-            removeItemList(store.state.userAccount?.id, {
-              media_id: +dataMovie.value?.id,
-            })
-              .then((response) => {
-                message.loading({
-                  content: 'Đang xóa khỏi danh sách...',
-                  duration: 2,
-                });
-                if (response.data?.success == true) {
-                  setTimeout(() => {
-                    message.success({
-                      content: 'Xóa thành công!',
-                      duration: 2,
-                    });
-                    props.getDataWhenRemoveList(response.data?.results);
-                  }, 2200);
-                }
+        ElMessageBox({
+          title: 'Thông báo',
+          message: h(
+            'h3',
+            null,
+            'Bạn có muốn xóa phim khỏi danh sách theo dõi không?'
+          ),
+          showCancelButton: true,
+          showClose: false,
+          confirmButtonText: 'Có',
+          cancelButtonText: 'Không',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonText = 'Đang xóa...';
+              instance.confirmButtonLoading = true;
+              removeItemList(store.state?.userAccount?.id, {
+                media_id: dataMovie.value?.id,
               })
-              .catch((e) => {
-                if (axios.isCancel(e)) return;
-              });
+                .then((movieRespone) => {
+                  if (movieRespone.data?.success == true) {
+                    setTimeout(() => {
+                      done();
+                      setTimeout(() => {
+                        props.getDataWhenRemoveList(movieRespone.data?.results);
+                        instance.confirmButtonLoading = false;
+                      }, 300);
+                    }, 2000);
+                  } else {
+                    ElMessage({
+                      type: 'error',
+                      message: `Xóa không thành công!`,
+                    });
+                  }
+                })
+                .catch((e) => {
+                  instance.confirmButtonLoading = false;
+                  ElMessage({
+                    type: 'error',
+                    message: `Xóa không thành công!`,
+                  });
+                  if (axios.isCancel(e)) return;
+                });
+            } else {
+              done();
+            }
           },
-          onCancel() {},
-          class: 'require-login-confirm',
+        }).then(() => {
+          ElMessage({
+            type: 'success',
+            message: `Xóa thành công!`,
+          });
         });
       } else if (props.activeTabList == 'history') {
         Modal.confirm({
@@ -237,7 +252,6 @@ export default {
             }, 2200);
           },
           onCancel() {},
-          class: 'require-login-confirm',
         });
       }
     };
@@ -420,15 +434,16 @@ export default {
         width: 100%;
       }
 
-      .remove-list-btn {
-        cursor: pointer;
-      }
       .ant-skeleton-content .ant-skeleton-paragraph > li + li {
         margin-top: 10px;
       }
-      .ant-btn {
-        white-space: normal;
-      }
+    }
+    .ant-btn {
+      white-space: normal;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      display: -webkit-box;
     }
   }
 }

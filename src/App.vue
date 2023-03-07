@@ -2,6 +2,7 @@
   <div>
     <component :is="layout">
       <router-view />
+
       <div id="components-back-top-demo-custom">
         <a-back-top class="ant-back-top-inner" :visibilityHeight="600">
           <font-awesome-icon icon="fa-solid fa-chevron-up" />
@@ -55,7 +56,7 @@ export default {
                 //   'userAccount',
                 //   JSON.stringify({ value: accountResponse?.data?.result })
                 // );
-                store.state.userAccount = accountResponse.data.result;
+                store.state.userAccount = accountResponse.data?.result;
                 store.state.userAccount = getWithExpiry('userAccount');
               }
             })
@@ -89,15 +90,14 @@ export default {
               title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
               icon: createVNode(QuestionCircleOutlined),
               // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
-              content: createVNode('div', {}, 'Đăng nhập ngay?'),
+              content: createVNode('h3', {}, 'Đăng nhập ngay?'),
               okText: 'Có',
-              okType: 'default',
+              okType: 'primary',
               cancelText: 'Không',
               onOk() {
                 next({ path: '/login' });
               },
               onCancel() {},
-              class: 'require-login-confirm',
             });
           } else {
             next(); // go to wherever I'm going

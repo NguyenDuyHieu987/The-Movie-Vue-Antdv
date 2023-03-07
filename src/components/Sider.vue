@@ -39,9 +39,9 @@
           :paragraph="{ rows: 1 }"
           :title="false"
         >
-          <h3 style="color: #fff" v-if="!$store.state.collapsed">
+          <h4 style="color: #fff" v-if="!$store.state.collapsed">
             {{ $store.state.userAccount?.username }}
-          </h3>
+          </h4>
 
           <a-tooltip
             v-else

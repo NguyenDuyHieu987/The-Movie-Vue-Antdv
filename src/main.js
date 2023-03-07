@@ -14,6 +14,9 @@ import VueLazyload from 'vue-lazyload';
 import { initFacebookSdk } from './untils/facebook-login-vue';
 // import GAuth from 'vue-google-oauth2';
 import vue3GoogleLogin from 'vue3-google-login';
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
+import vi from 'element-plus/dist/locale/vi.min.mjs';
 
 import {
   faVideoCamera,
@@ -35,8 +38,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube, faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
-
-import LottieAnimation from 'lottie-vuejs/src/LottieAnimation.vue';
 // import { faVideoCamera } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
@@ -74,11 +75,13 @@ registerGlobalComponent(app);
 
 app
   .use(Antd)
-  .use(router)
   .use(store)
+  .use(router)
   .use(VueSocialSharing)
   .use(VueLazyload)
-  .use(LottieAnimation)
+  .use(ElementPlus, {
+    locale: vi,
+  })
   // .use(GAuth, gauthOption)
   .use(vue3GoogleLogin, gauthOption)
   .use(createMetaManager())

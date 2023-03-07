@@ -5,7 +5,7 @@
         <a-tab-pane key="list" :tab="metaHead">
           <section
             v-if="dataList?.length"
-            class="movie-group"
+            class="movie-group vertical"
             :class="{ collapse: $store.state.collapsed }"
           >
             <MovieCardVerticalFollow
@@ -146,6 +146,9 @@ export default {
       getDataWhenRemoveHistory,
     };
   },
+  // beforeRouteEnter() {
+  //   alert('g');
+  // },
 };
 </script>
 

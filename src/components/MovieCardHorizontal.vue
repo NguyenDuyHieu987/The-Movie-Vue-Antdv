@@ -1,17 +1,29 @@
 <template>
-  <router-link
-    :to="{
-      name: 'info',
-      params: {
-        id: item?.id,
-        name: item?.name
-          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase(),
-      },
-    }"
-    class="movie-card-horizontal-item"
-  >
-    <!-- v-if="item?.id"
+  <el-skeleton :loading="loading" animated class="movie-card-horizontal-item">
+    <template #template>
+      <div class="img-box">
+        <el-skeleton-item class="ant-image" variant="image" />
+      </div>
+      <div style="margin-top: 7px">
+        <el-skeleton-item variant="text" />
+        <el-skeleton-item variant="text" style="width: 60%" />
+      </div>
+    </template>
+
+    <template #default>
+      <router-link
+        :to="{
+          name: 'info',
+          params: {
+            id: item?.id,
+            name: item?.name
+              ? item?.name?.replace(/\s/g, '+').toLowerCase()
+              : item?.title?.replace(/\s/g, '+').toLowerCase(),
+          },
+        }"
+        class="movie-card-horizontal-item"
+      >
+        <!-- v-if="item?.id"
     :to="{
       name: 'info',
       params: {
@@ -21,90 +33,93 @@
           : item?.title?.replace(/\s/g, '+').toLowerCase(),
       },
     }" -->
-    <div class="img-box">
-      <a-image
-        v-if="!loading"
-        :src="
-          getPoster(
-            dataMovie?.backdrop_path
-              ? dataMovie?.backdrop_path
-              : dataMovie?.poster_path
-          )
-        "
-        :preview="false"
-        v-lazy="
-          getPoster(
-            dataMovie?.backdrop_path
-              ? dataMovie?.backdrop_path
-              : dataMovie?.poster_path
-          )
-        "
-      >
-      </a-image>
+        <div class="img-box">
+          <a-image
+            v-if="!loading"
+            :src="
+              getPoster(
+                dataMovie?.backdrop_path
+                  ? dataMovie?.backdrop_path
+                  : dataMovie?.poster_path
+              )
+            "
+            :preview="false"
+            v-lazy="
+              getPoster(
+                dataMovie?.backdrop_path
+                  ? dataMovie?.backdrop_path
+                  : dataMovie?.poster_path
+              )
+            "
+          >
+          </a-image>
 
-      <a-skeleton-image v-else class="ant-image" />
+          <!-- <a-skeleton-image v-else class="ant-image" /> -->
 
-      <div v-if="!loading" class="duration-episode-box">
-        <p class="duration-episode">
-          {{
-            isEpisodes
-              ? dataMovie?.number_of_episodes
-                ? dataMovie?.number_of_episodes + '-Tập'
-                : ''
-              : dataMovie?.runtime
-              ? dataMovie?.runtime + ' min'
-              : ''
-          }}
-        </p>
-      </div>
+          <div v-if="!loading" class="duration-episode-box">
+            <p class="duration-episode">
+              {{
+                isEpisodes
+                  ? dataMovie?.number_of_episodes
+                    ? dataMovie?.number_of_episodes + '-Tập'
+                    : ''
+                  : dataMovie?.runtime
+                  ? dataMovie?.runtime + ' min'
+                  : ''
+              }}
+            </p>
+          </div>
 
-      <div v-if="!loading" class="release-date-box">
-        <p class="release-date">
-          {{
-            item?.release_date
-              ? item?.release_date?.slice(0, 4)
-              : item?.first_air_date?.slice(0, 4)
-          }}
-        </p>
-      </div>
-    </div>
-    <a-tooltip
-      :title="
-        getLanguage(item?.original_language, $store.state.allCountries)?.name
-      "
-    >
-      <div class="info">
-        <a-skeleton
-          :loading="loading"
-          :active="true"
-          :paragraph="{ rows: 2 }"
-          :title="false"
+          <div v-if="!loading" class="release-date-box">
+            <p class="release-date">
+              {{
+                item?.release_date
+                  ? item?.release_date?.slice(0, 4)
+                  : item?.first_air_date?.slice(0, 4)
+              }}
+            </p>
+          </div>
+        </div>
+        <a-tooltip
+          :title="
+            getLanguage(item?.original_language, $store.state.allCountries)
+              ?.name
+          "
         >
-          <p class="title">
-            {{ item?.name ? item?.name : item?.title }}
-            <span v-if="isEpisodes">
-              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
-            </span>
-          </p>
-          <div class="info-bottom">
-            <!-- <p class="genres" v-if="item?.genre_ids">
+          <div class="info">
+            <!-- <a-skeleton
+              :loading="loading"
+              :active="true"
+              :paragraph="{ rows: 2 }"
+              :title="false"
+            > -->
+            <p class="title">
+              {{ item?.name ? item?.name : item?.title }}
+              <span v-if="isEpisodes">
+                {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+              </span>
+            </p>
+            <div class="info-bottom">
+              <!-- <p class="genres" v-if="item?.genre_ids">
                 {{
                   getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
                     ' • '
                   )
                 }}
               </p> -->
-            <p class="genres" v-if="item?.genres">
-              {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
-            </p>
-            <p class="genres" v-else>
-              {{ Array.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
-            </p>
+              <p class="genres" v-if="item?.genres">
+                {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+              </p>
+              <p class="genres" v-else>
+                {{ Array.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
+              </p>
+            </div>
+            <!-- </a-skeleton> -->
           </div>
-        </a-skeleton>
-      </div>
-    </a-tooltip>
-  </router-link>
+        </a-tooltip>
+      </router-link>
+    </template>
+  </el-skeleton>
 </template>
 <script>
 import { ref, onBeforeMount } from 'vue';

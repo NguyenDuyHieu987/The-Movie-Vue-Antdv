@@ -126,16 +126,23 @@
         mode="horizontal"
         :selectable="false"
         style="height: 100%; background: transparent"
+        triggerSubMenuAction="click"
       >
-        <a-menu-item key="1">
-          <UserOutlined style="margin-right: 10px" />
+        <!-- <a-menu-item key="account">
+          <template #icon>
+            <UserOutlined />
+          </template>
+          <template #title>
+            <CaretDownOutlined />
+          </template>
+
           <a-dropdown :trigger="['click']">
             <a class="ant-dropdown-link" @click.prevent>
               <CaretDownOutlined />
             </a>
             <template #overlay>
               <a-menu>
-                <a-menu-item key="my-profile" v-if="$store.state.isLogin">
+                <a-menu-item key="my-profile" v-if="$store.state?.isLogin">
                   <router-link :to="{ name: 'profile' }"
                     ><span>My Profile</span>
                     <br />
@@ -144,11 +151,11 @@
                     }}</span>
                   </router-link>
                 </a-menu-item>
-                <a-menu-item key="account" v-if="$store.state.isLogin">
-                  <router-link :to="{ name: 'home' }">Account Home</router-link>
+                <a-menu-item key="accounthome" v-if="$store.state?.isLogin">
+                  <router-link :to="{ path: '/' }">Account Home</router-link>
                 </a-menu-item>
                 <a-menu-item key="logout">
-                  <router-link :to="{ name: 'login' }" @click="handleLogout">
+                  <router-link :to="{ path: '/login' }" @click="handleLogout">
                     <span v-if="$store.state.isLogin"> Đăng xuất</span>
                     <span v-else> Đăng nhập</span>
                   </router-link>
@@ -156,7 +163,41 @@
               </a-menu>
             </template>
           </a-dropdown>
-        </a-menu-item>
+        </a-menu-item> -->
+
+        <a-sub-menu key="account">
+          <template #icon>
+            <UserOutlined />
+          </template>
+          <template #title>
+            <CaretDownOutlined />
+          </template>
+
+          <a-menu-item
+            key="my-profile"
+            v-if="$store.state?.isLogin"
+            style="height: 40px !important"
+          >
+            <router-link :to="{ name: 'profile' }">
+              <span
+                >My Profile
+                <br />
+                <span style="font-size: 12px">{{
+                  $store.state.userAccount?.username
+                }}</span>
+              </span>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="accounthome" v-if="$store.state?.isLogin">
+            <router-link :to="{ path: '/' }">Account Home</router-link>
+          </a-menu-item>
+          <a-menu-item key="logout">
+            <router-link :to="{ path: '/login' }" @click="handleLogout">
+              <span v-if="$store.state.isLogin"> Đăng xuất</span>
+              <span v-else> Đăng nhập</span>
+            </router-link>
+          </a-menu-item>
+        </a-sub-menu>
       </a-menu>
     </div>
   </a-layout-header>

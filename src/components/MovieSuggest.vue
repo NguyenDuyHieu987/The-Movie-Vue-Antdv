@@ -18,9 +18,9 @@
   >
     <MovieCarouselCardVertical
       v-for="(item, index) in dataSimilar"
-      :item="item"
       :index="index"
       :key="item.id"
+      :item="item"
     />
   </carousel>
 

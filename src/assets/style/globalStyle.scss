@@ -73,6 +73,14 @@ span {
     }
   }
 
+  .ant-carousel {
+    display: block !important;
+  }
+
+  .el-carousel {
+    display: none;
+  }
+
   .gradient-title-default {
     font-size: 2rem !important;
   }
@@ -354,6 +362,10 @@ span {
     .info {
       color: #ffffff;
     }
+  }
+
+  .el-skeleton__item .el-skeleton__text {
+    padding: 7px 0px;
   }
 
   .duration-episode-box {

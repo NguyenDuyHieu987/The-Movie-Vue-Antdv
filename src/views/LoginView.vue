@@ -190,6 +190,9 @@ export default defineComponent({
               // window.localStorage.setItem('remember', formState.remember);
 
               if (formState.remember) {
+                store.state.userAccount = response?.data?.result;
+                store.state.isLogin = true;
+
                 window.localStorage.setItem(
                   'isLogin',
                   JSON.stringify({ value: true })
@@ -203,6 +206,9 @@ export default defineComponent({
                   JSON.stringify({ value: response?.data?.result?.user_token })
                 );
               } else {
+                store.state.userAccount = response?.data?.result;
+                store.state.isLogin = true;
+
                 setWithExpiry('isLogin', true, 30);
                 setWithExpiry('userAccount', response?.data?.result, 30);
                 setWithExpiry(

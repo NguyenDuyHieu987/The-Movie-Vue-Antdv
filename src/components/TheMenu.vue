@@ -409,6 +409,16 @@ export default {
       border-radius: 100px;
       border-radius: 100px;
     }
+
+    .ant-menu-submenu-arrow {
+      color: #fff;
+
+      &::after,
+      &::before {
+        background: #bfbfbf !important;
+      }
+    }
+
     .ant-menu-item {
       // padding-left: 24px !important;
       margin-left: 20px !important;

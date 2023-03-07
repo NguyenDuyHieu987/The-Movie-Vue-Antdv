@@ -3,12 +3,13 @@
     <Header />
     <a-layout :class="[$store.state.collapsed ? 'expand' : '', 'body-content']">
       <Sider />
-      <div style="width: 100%">
-        <Content>
+      <a-layout style="width: 100%">
+        <BreadCrumb />
+        <a-layout-content class="container">
           <slot />
-        </Content>
+        </a-layout-content>
         <Footer />
-      </div>
+      </a-layout>
     </a-layout>
     <Drawer />
   </a-layout>
@@ -19,14 +20,15 @@ import { ref } from 'vue';
 import Header from '@/components/Header.vue';
 import Drawer from '@/components/Drawer.vue';
 import Sider from '@/components/Sider.vue';
-import Content from '@/components/Content.vue';
+// import Content from '@/components/Content.vue';
 import Footer from '@/components/Footer.vue';
+import BreadCrumb from '@/components/BreadCrumb.vue';
 
 export default {
   components: {
     Header,
     Sider,
-    Content,
+    BreadCrumb,
     Footer,
     Drawer,
   },
@@ -50,5 +52,20 @@ export default {
 
 .body-content.expand {
   margin-left: var(--sider-collapsed-width);
+}
+
+.ant-layout-content {
+  // min-height: calc(100vh - 130px);
+  background-color: #000;
+  padding: 15px 20px;
+  background-color: var(--background-content-color);
+}
+
+@media only screen and (max-width: 900px) {
+  .ant-layout-content {
+    .container {
+      padding: 15px 15px;
+    }
+  }
 }
 </style>

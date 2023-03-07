@@ -22,7 +22,6 @@
     "babel-preset-env": "^1.7.0",
     "core-js": "^3.8.3",
     "epic-spinners": "^2.0.0",
-    "lottie-vuejs": "^0.4.0",
     "md5": "^2.3.0",
     "normalize.css": "^8.0.1",
     "vue": "^3.2.13",
@@ -35,7 +34,8 @@
     "vue-router": "^4.0.3",
     "vue-social-sharing": "^4.0.0-alpha4",
     "vue3-google-login": "^2.0.14",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "element-plus": "^2.2.34"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

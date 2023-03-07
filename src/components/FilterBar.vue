@@ -7,7 +7,7 @@
 
     <a-collapse-panel key="1" header="Tìm kiếm nâng cao">
       <div class="filter-bar">
-        <div class="list-input-filter">
+        <!-- <div class="list-input-filter">
           <a-button
             class="filter-btn"
             :disabled="disableBtnFilter"
@@ -23,8 +23,8 @@
             @focus="focus"
             @change="handleChange"
             size="large"
+            placeholder="Quốc gia"
           >
-            <a-select-option value="">Quốc gia</a-select-option>
             <a-select-option
               v-for="(item, index) in countries"
               :index="index"
@@ -41,8 +41,8 @@
             @focus="focus"
             @change="handleChange"
             size="large"
+            placeholder="Năm phát hành"
           >
-            <a-select-option value="">Năm phát hành</a-select-option>
             <a-select-option
               v-for="(item, index) in years"
               :index="index"
@@ -59,8 +59,8 @@
             @focus="focus"
             @change="handleChange"
             size="large"
+            placeholder="Thể loại"
           >
-            <a-select-option value="">Thể loại</a-select-option>
             <a-select-option
               v-for="(item, index) in genres"
               :index="index"
@@ -77,8 +77,8 @@
             @focus="focus"
             @change="handleChange"
             size="large"
+            placeholder="Sắp xếp theo"
           >
-            <a-select-option value="">Sắp xếp theo</a-select-option>
             <a-select-option
               v-for="(item, index) in listSortBy"
               :index="index"
@@ -100,6 +100,110 @@
             <a-select-option value="movieall">Phim lẻ</a-select-option>
             <a-select-option value="tvall">Phim bộ</a-select-option>
           </a-select>
+
+          <a-button
+            class="cancel-filter-btn"
+            :disabled="disableBtnFilter"
+            @click="handleCancelFilter"
+            :danger="true"
+          >
+            Hủy lọc
+          </a-button>
+        </div> -->
+
+        <div class="list-input-filter">
+          <a-button
+            class="filter-btn"
+            :disabled="disableBtnFilter"
+            @click="handleFilterMovie"
+          >
+            Lọc phim
+          </a-button>
+
+          <el-select
+            ref="select"
+            v-model="formSelect.country"
+            style="width: 150px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+            placeholder="Quốc gia"
+          >
+            <el-option
+              v-for="(item, index) in countries"
+              :index="index"
+              :key="item?.iso_639_1"
+              :value="item?.iso_639_1"
+              :label="item?.name"
+            />
+          </el-select>
+
+          <el-select
+            ref="select"
+            v-model="formSelect.year"
+            style="width: 170px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+            placeholder="Năm phát hành"
+          >
+            <el-option
+              v-for="(item, index) in years"
+              :index="index"
+              :key="item?.name"
+              :value="item?.name"
+              :label="item?.name"
+            />
+          </el-select>
+
+          <el-select
+            ref="select"
+            v-model="formSelect.genre"
+            style="width: 170px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+            placeholder="Thể loại"
+          >
+            <el-option
+              v-for="(item, index) in genres"
+              :index="index"
+              :key="item?.id"
+              :value="item?.id"
+              :label="item?.name_vietsub"
+            />
+          </el-select>
+
+          <el-select
+            ref="select"
+            v-model="formSelect.sortBy"
+            style="width: 170px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+            placeholder="Sắp xếp theo"
+          >
+            <el-option
+              v-for="(item, index) in listSortBy"
+              :index="index"
+              :key="item?.id"
+              :value="item?.id"
+              :label="item?.name"
+            />
+          </el-select>
+
+          <el-select
+            ref="select"
+            v-model="formSelect.type"
+            style="width: 170px"
+            @focus="focus"
+            @change="handleChange"
+            size="large"
+          >
+            <el-option value="all" label="Tất cả" />
+            <el-option value="movieall" label="Phim lẻ" />
+            <el-option value="tvall" label="Phim bộ" />
+          </el-select>
 
           <a-button
             class="cancel-filter-btn"
@@ -140,23 +244,23 @@ export default {
     const route = useRoute();
 
     const movieType = computed(() => {
-      let str = '';
       if (route.params?.slug?.includes('movie')) {
         if (route.params?.slug2?.replace('/', '') == 'all') {
-          str = 'movieall';
+          return 'movieall';
         } else {
-          str = route.params?.slug2?.replace('/', '');
+          return 'movieall';
         }
       } else if (route.params?.slug?.includes('tv')) {
         if (route.params?.slug2?.replace('/', '') == 'all') {
-          str = 'tvall';
+          return 'tvall';
         } else {
-          str = route.params?.slug2?.replace('/', '');
+          return 'tvall';
         }
       } else if (route.params?.slug == 'search') {
-        str = 'all';
+        return 'all';
+      } else {
+        return 'all';
       }
-      return str;
     });
 
     const formSelect = reactive({
@@ -248,7 +352,8 @@ export default {
   .list-input-filter {
   }
 
-  .ant-select {
+  .ant-select,
+  .el-select {
     margin-left: 10px;
     margin-top: 10px;
     float: right;

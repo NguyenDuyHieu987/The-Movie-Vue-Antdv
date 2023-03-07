@@ -37,7 +37,6 @@
         ref="select"
         v-model:value="selectedSeason"
         style="width: 150px"
-        @focus="focus"
         @change="handleChange"
       >
         <a-select-option
@@ -58,12 +57,15 @@
       <strong> Chọn phần</strong>
     </h3> -->
 
-    <div v-if="loading" class="ul-list">
+    <div
+      v-if="loading"
+      class="ul-list"
+      v-loading.fullscreen.lock="loading"
+      element-loading-text="Đang tải tập..."
+    >
       <a-skeleton-button
         :active="true"
-        :size="size"
         :shape="'default'"
-        :block="block"
         v-for="(item, index) in dataSeason?.episodes?.slice(
           0,
           dataMovie?.last_episode_to_air?.season_number == selectedSeason
