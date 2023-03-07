@@ -229,9 +229,10 @@ import {
   getAllNational,
   getAllYear,
   FilterDataMovie,
+  getAllSortBy,
 } from '../services/MovieService';
 import axios from 'axios';
-import listSortBy from '../constants/Sortby';
+// import listSortBy from '../constants/Sortby';
 import { CaretRightFilled } from '@ant-design/icons-vue';
 import { useRoute } from 'vue-router';
 
@@ -282,15 +283,22 @@ export default {
     const genres = ref([]);
     const years = ref([]);
     const countries = ref([]);
+    const listSortBy = ref([]);
 
     onBeforeMount(() => {
-      Promise.all([getAllGenre(), getAllYear(), getAllNational()])
+      Promise.all([
+        getAllGenre(),
+        getAllYear(),
+        getAllNational(),
+        getAllSortBy(),
+      ])
         .then((res) => {
           genres.value = res[0].data;
           years.value = res[1].data.sort(function (a, b) {
             return +b.name.slice(-4) - +a.name.slice(-4);
           });
           countries.value = res[2].data;
+          listSortBy.value = res[3].data;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;

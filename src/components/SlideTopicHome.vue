@@ -237,6 +237,11 @@ export default {
       0 9px 28px 8px #00000077;
   }
 
+  .el-carousel__item--card {
+    width: 70%;
+    margin-left: -10%;
+  }
+
   .el-carousel__indicators {
     margin-top: 10px;
 

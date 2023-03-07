@@ -265,8 +265,8 @@
       </template>
       <router-link :to="{ name: 'follow' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
-
-    <a-menu-item key="ranking" style="margin-bottom: 55vh">
+    <!-- style="margin-bottom: 55vh" -->
+    <a-menu-item key="ranking">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-ranking-star" />
       </template>
@@ -378,6 +378,7 @@ export default {
     var(--sider-header-background-color2)
   ) !important;
   overflow: hidden;
+  min-height: calc(100% - calc(2 * var(--header-height)));
 
   .ant-menu-item:hover {
     background-color: var(--hover-regular-color) !important;

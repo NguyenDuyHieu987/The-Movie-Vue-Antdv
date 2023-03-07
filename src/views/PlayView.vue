@@ -133,7 +133,6 @@ import {
   getPoster,
   getTvById,
   getMovieById,
-  getLanguage,
   // getMovieByCredit,
 } from '../services/MovieService';
 import Interaction from '@/components/Interaction.vue';
@@ -242,7 +241,6 @@ export default {
       urlCodeMovie,
       getPoster,
       getAllGenresById,
-      getLanguage,
       getUrlCodeMovie,
     };
   },

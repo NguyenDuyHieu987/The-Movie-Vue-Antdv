@@ -59,7 +59,7 @@
           :item="item"
         />
       </template>
-      <!-- enter-button -->
+
       <a-input-search
         class="center-header"
         placeholder="Nhập tên phim để tìm kiếm..."
@@ -128,7 +128,7 @@
         style="height: 100%; background: transparent"
         triggerSubMenuAction="click"
       >
-        <!-- <a-menu-item key="account">
+        <a-menu-item key="account">
           <template #icon>
             <UserOutlined />
           </template>
@@ -163,8 +163,9 @@
               </a-menu>
             </template>
           </a-dropdown>
-        </a-menu-item> -->
+        </a-menu-item>
 
+        <!-- 
         <a-sub-menu key="account">
           <template #icon>
             <UserOutlined />
@@ -173,11 +174,7 @@
             <CaretDownOutlined />
           </template>
 
-          <a-menu-item
-            key="my-profile"
-            v-if="$store.state?.isLogin"
-            style="height: 40px !important"
-          >
+          <a-menu-item key="my-profile" v-if="$store.state?.isLogin">
             <router-link :to="{ name: 'profile' }">
               <span
                 >My Profile
@@ -197,7 +194,7 @@
               <span v-else> Đăng nhập</span>
             </router-link>
           </a-menu-item>
-        </a-sub-menu>
+        </a-sub-menu> -->
       </a-menu>
     </div>
   </a-layout-header>
@@ -396,9 +393,9 @@ export default {
     }
   }
   .ant-input-affix-wrapper-focused {
-    border-color: #b10044;
+    border-color: #c06600;
     &:hover {
-      border-color: #b10044;
+      border-color: #c06600;
     }
   }
 

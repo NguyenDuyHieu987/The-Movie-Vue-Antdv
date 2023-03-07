@@ -18,7 +18,7 @@
             )
           "
         >
-          <template #placeholder>
+          <!-- <template #placeholder>
             <a-image
               :src="
                 getPoster(
@@ -28,7 +28,7 @@
                 )
               "
             />
-          </template>
+          </template> -->
         </a-image>
       </div>
 
@@ -223,7 +223,12 @@
                     slug2: getLanguage(
                       dataMovie?.original_language,
                       $store.state.allCountries
-                    )?.short_name,
+                    )?.short_name
+                      ? getLanguage(
+                          dataMovie?.original_language,
+                          $store.state.allCountries
+                        )?.short_name
+                      : 'au-my',
                   },
                 }"
               >
@@ -233,6 +238,11 @@
                       dataMovie?.original_language,
                       $store.state.allCountries
                     )?.name
+                      ? getLanguage(
+                          dataMovie?.original_language,
+                          $store.state.allCountries
+                        )?.name
+                      : ''
                   }}
                 </span>
               </router-link>

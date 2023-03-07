@@ -76,6 +76,9 @@
           :title="
             getLanguage(item?.original_language, $store.state.allCountries)
               ?.name
+              ? getLanguage(item?.original_language, $store.state.allCountries)
+                  ?.name
+              : ''
           "
         >
           <router-link

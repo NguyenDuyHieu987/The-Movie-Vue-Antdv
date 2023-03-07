@@ -1,24 +1,37 @@
 <template>
-  <div class="cast-item">
-    <div class="cast-img-box">
-      <a-image
-        class="movie-carousel-img"
-        :src="getPosterCast(item?.profile_path)"
-        v-lazy="getPosterCast(item?.profile_path)"
-        :preview="false"
-        v-if="!loading"
-      >
-      </a-image>
+  <el-skeleton :loading="loading" animated class="cast-item">
+    <template #template>
+      <div class="cast-img-box">
+        <el-skeleton-item class="ant-image" variant="image" />
+      </div>
+      <div style="margin-top: 7px">
+        <el-skeleton-item variant="text" />
+      </div>
+    </template>
 
-      <a-skeleton-image v-else class="ant-image" />
-    </div>
+    <template #default>
+      <div class="cast-item">
+        <div class="cast-img-box">
+          <a-image
+            class="movie-carousel-img"
+            :src="getPosterCast(item?.profile_path)"
+            v-lazy="getPosterCast(item?.profile_path)"
+            :preview="false"
+            v-if="!loading"
+          >
+          </a-image>
 
-    <div class="info">
-      <p class="name">
-        {{ item?.name ? item?.name : item?.title }}
-      </p>
-    </div>
-  </div>
+          <a-skeleton-image v-else class="ant-image" />
+        </div>
+
+        <div class="info">
+          <p class="name">
+            {{ item?.name ? item?.name : item?.title }}
+          </p>
+        </div>
+      </div>
+    </template>
+  </el-skeleton>
 </template>
 <script>
 import { getPosterCast } from '../services/MovieService';

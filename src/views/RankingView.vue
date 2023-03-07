@@ -15,12 +15,20 @@
           />
         </section>
         <div class="control-page">
-          <a-pagination
+          <!-- <a-pagination
             v-if="trendings?.length"
             v-model:current="pageTrending"
             :total="totalPage"
             :showSizeChanger="false"
             @change="onChangePage"
+          /> -->
+
+          <el-pagination
+            v-model:current-page="pageTrending"
+            background
+            layout="prev, pager, next, total"
+            :total="totalPage"
+            @current-change="onChangePage"
           />
         </div>
       </a-layout-content>
