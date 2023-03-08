@@ -8,18 +8,8 @@
     <h2 class="gradient-title-default">
       <strong v-if="!loading">{{ metaHead }}</strong>
 
-      <!-- <a-tabs
-        v-model:activeKey="activeTabSearch"
-        type="card"
-        @change="handleChangeType"
-        v-if="$route.params?.slug == 'search'"
-      >
-        <a-tab-pane key="all" tab="Tất cả"></a-tab-pane>
-        <a-tab-pane key="movie" tab="Phim lẻ"></a-tab-pane>
-        <a-tab-pane key="tv" tab="Phim bộ"></a-tab-pane>
-      </a-tabs> -->
-
-      <el-radio-group
+      <!-- <el-radio-group
+        class="tabs-search"
         v-model="activeTabSearch"
         @change="handleChangeType"
         v-if="$route.params?.slug == 'search'"
@@ -33,9 +23,10 @@
         <el-radio-button size="large" label="tv" border
           >Phim bộ</el-radio-button
         >
-      </el-radio-group>
+      </el-radio-group> -->
 
-      <!-- <a-radio-group
+      <a-radio-group
+        class="tabs-search"
         v-model:value="activeTabSearch"
         @change="handleChangeType"
         v-if="$route.params?.slug == 'search'"
@@ -45,7 +36,7 @@
         <a-radio-button value="all"> Tất cả</a-radio-button>
         <a-radio-button value="movie">Phim lẻ </a-radio-button>
         <a-radio-button value="tv">Phim bộ</a-radio-button>
-      </a-radio-group> -->
+      </a-radio-group>
     </h2>
     <section
       class="movie-discovered"
@@ -572,10 +563,8 @@ export default {
     float: left;
   }
 }
-.ant-tabs > .ant-tabs-nav,
-.ant-tabs > div > .ant-tabs-nav,
-.el-radio-group,
-.ant-radio-group {
+.ant-radio-group.tabs-search,
+.el-radio-group.tabs-search {
   margin-bottom: 5px !important;
 }
 

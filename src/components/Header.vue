@@ -317,14 +317,25 @@ export default {
   }
 
   h1 {
+    // background-image: linear-gradient(
+    //   90deg,
+    //   #230d72,
+    //   #44107a,
+    //   #ff1361,
+    //   #ffc400,
+    //   #ff5100,
+    //   #231557
+    // );
+
     background-image: linear-gradient(
       90deg,
-      #230d72,
-      #44107a,
+      #290070,
       #ff1361,
       #ffc400,
+      #00ff99,
       #ff5100,
-      #231557
+      #9f0000,
+      #25126b
     );
     background-size: 200% auto;
     background-clip: text;

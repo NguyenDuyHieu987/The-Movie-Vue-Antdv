@@ -36,7 +36,7 @@
         <h2 class="gradient-title-default">
           <strong> Top xem phim</strong>
         </h2>
-        <ul class="tabs-filter">
+        <ul class="tabs-rank">
           <li
             v-for="(item, index) in allTabs"
             :key="item.key"
@@ -46,37 +46,26 @@
           >
             <span> {{ item.tabName }} </span>
           </li>
-
-          <!-- <li
-            class="week"
-            @click="handleWeekClick"
-            :class="{ active: activeTab == 'week' }"
-          >
-            <span> Top Tuần </span>
-          </li>
-
-          <li
-            class="month"
-            @click="handleMonthClick"
-            :class="{ active: activeTab == 'month' }"
-          >
-            <span>Top Tháng </span>
-          </li>
-
-          <li
-            class="all"
-            @click="handleAllClick"
-            :class="{ active: activeTab == 'all' }"
-          >
-            <span> Tất Cả </span>
-          </li> -->
         </ul>
-        <!-- <a-tabs v-model:activeKey="activeTab" type="card">
-          <a-tab-pane key="day" tab="Top ngày"> </a-tab-pane>
-          <a-tab-pane key="week" tab="Top tuần"> </a-tab-pane>
-          <a-tab-pane key="month" tab="Top tháng"> </a-tab-pane>
-          <a-tab-pane key="Tất cả" tab="Tất cả"> </a-tab-pane>
-        </a-tabs> -->
+
+        <!-- <el-radio-group
+          v-model="activeTab"
+          @change="handleTabClick"
+          class="rank"
+        >
+          <el-radio-button size="large" label="day" border
+            >Top ngày</el-radio-button
+          >
+          <el-radio-button size="large" label="week" border
+            >Top tuần</el-radio-button
+          >
+          <el-radio-button size="large" label="month" border
+            >Top tháng</el-radio-button
+          >
+          <el-radio-button size="large" label="all" border
+            >Tất cả</el-radio-button
+          >
+        </el-radio-group> -->
       </a-layout-sider>
     </a-layout>
   </div>
@@ -177,7 +166,7 @@ export default {
       width: 350px !important;
       max-width: auto !important;
       min-width: auto !important;
-      .tabs-filter li span {
+      .tabs-rank li span {
         font-size: 1.4rem;
       }
     }
@@ -198,7 +187,7 @@ export default {
       width: 100% !important;
       max-width: 100% !important;
 
-      .tabs-filter li span {
+      .tabs-rank li span {
         font-size: 1.6rem;
         padding: 10px 0px;
       }
@@ -229,14 +218,21 @@ export default {
     // background-color: #0e0e0e;
   }
 
-  .tabs-filter {
+  .tabs-rank {
     list-style-type: none;
     display: grid;
     grid-template-columns: repeat(4, minmax(25%, auto));
     gap: 0px;
   }
 
-  .tabs-filter li span {
+  .el-radio-group.rank {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(10%, auto));
+    gap: 0px;
+  }
+
+  .tabs-rank li span {
     text-align: center;
     display: block;
     padding: 7px 0px;
@@ -251,7 +247,7 @@ export default {
     }
   }
 
-  .tabs-filter li {
+  .tabs-rank li {
     width: 100%;
     cursor: pointer;
     border-radius: 3px;

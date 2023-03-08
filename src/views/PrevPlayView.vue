@@ -20,7 +20,7 @@
           :preview-src-list="srcBackdropList"
           :preview-teleported="true"
         >
-          <!-- <template #placeholder>
+          <template #placeholder>
             <div
               class="ant-image"
               style="
@@ -31,7 +31,7 @@
             >
               Đang tải<span class="dot">...</span>
             </div>
-          </template> -->
+          </template>
           <template #error>
             <div
               class="ant-image error"
