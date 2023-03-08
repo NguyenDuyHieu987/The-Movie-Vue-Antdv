@@ -136,7 +136,7 @@ import {
   // getMovieByCredit,
 } from '../services/MovieService';
 import Interaction from '@/components/Interaction.vue';
-import RatingMovie from '@/components/RatingMovieAnt.vue';
+import RatingMovie from '@/components/RatingMovie.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
 import ListEpisodes from '@/components/ListEpisodes.vue';
 
@@ -167,6 +167,10 @@ export default {
 
     const getData = () => {
       loading.value = true;
+      document.title = `${Array.from(
+        route.params?.name.split('+'),
+        (x) => x.charAt(0).toUpperCase() + x.slice(1)
+      ).join(' ')} - Xem phim`;
 
       getTvById(route.params?.id)
         .then((tvResponed) => {
@@ -213,11 +217,6 @@ export default {
     const getUrlCodeMovie = (data) => {
       urlCodeMovie.value = data;
     };
-
-    document.title = `${Array.from(
-      route.params?.name.split('+'),
-      (x) => x.charAt(0).toUpperCase() + x.slice(1)
-    ).join(' ')} - Xem phim`;
 
     window.scrollTo({
       top: 0,

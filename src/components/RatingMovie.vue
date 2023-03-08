@@ -1,19 +1,40 @@
 <template>
   <div class="rating-movie">
-    <font-awesome-icon
-      icon="fa-solid fa-star"
-      v-for="(item, index) in 10"
-      :key="index"
-      :index="index"
+    <a-rate
+      v-model:value="vote_Average"
+      allow-half
+      :count="10"
+      :tooltips="tooltipRating"
+      character=""
+      @change="handleRating"
     />
-    <span id="hint-rate"></span>
-    <p>{{ `(${voteAverage?.toFixed(2)} điểm / ${voteCount} lượt)` }}</p>
+
+    <!-- <el-rate
+      :max="10"
+      size="large"
+      :colors="['#fadb14', '#fadb14', '#fadb14']"
+      v-model="vote_Average"
+      :texts="tooltipRating"
+      show-text
+      allow-half
+      @change="handleRating"
+    /> -->
+    <!-- show-score -->
+
+    <span class="ant-rate-text">{{
+      tooltipRating[Math.round(vote_Average) - 1]
+    }}</span>
+    <p>
+      {{ `(${vote_Average?.toFixed(2)} điểm / ${vote_Count} lượt)` }}
+    </p>
   </div>
 </template>
 
 <script>
-import { ref, computed, onMounted, watch } from 'vue';
-import { ratingTV, ratingMovie } from '../services/MovieService';
+import { ref, h } from 'vue';
+import { ratingMovie, ratingTV } from '../services/MovieService';
+import { notification } from 'ant-design-vue';
+import { CheckCircleFilled } from '@ant-design/icons-vue';
 
 export default {
   components: {},
@@ -21,9 +42,13 @@ export default {
     voteAverage: Number,
     voteCount: Number,
     movieId: Number,
+    isEpisodes: Boolean,
   },
   setup(props) {
-    const hintRating = ref([
+    const vote_Average = ref(props.voteAverage);
+    const vote_Count = ref(props.voteCount);
+
+    const tooltipRating = ref([
       'Dở tệ',
       'Dở',
       'Không hay',
@@ -36,107 +61,42 @@ export default {
       'Tuyệt hay',
     ]);
 
-    const temp = computed(() => Math.round(props?.voteAverage) - 1);
-
-    watch(props, (newVal) => {
-      temp.value = newVal?.voteAverage;
-    });
-
-    onMounted(() => {
-      const stars = document.querySelectorAll('.fa-star');
-      const rating_movie = document.querySelector('.rating-movie');
-      const hint_rate = document.getElementById('hint-rate');
-
-      for (let i = 0; i < stars.length; ++i) {
-        stars[i]?.classList.remove('active');
-      }
-
-      for (let i = 0; i <= temp.value; ++i) {
-        stars[i]?.classList.add('active');
-      }
-
-      for (let i = 0; i < stars.length; ++i) {
-        stars[i]?.addEventListener('mouseenter', () => {
-          for (let j = 0; j <= i; j++) {
-            stars[j].classList.add('active');
-            // stars[j].style.color = 'yellow';
-          }
-          for (let k = i + 1; k < stars.length; k++) {
-            stars[k].classList.remove('active');
-            // stars[k].style.color = 'white';
-          }
-
-          switch (i) {
-            case 0:
-              hint_rate.innerHTML = 'Dở tệ';
-              break;
-            case 1:
-              hint_rate.innerHTML = 'Dở';
-              break;
-            case 2:
-              hint_rate.innerHTML = 'Không hay';
-              break;
-            case 3:
-              hint_rate.innerHTML = 'Không hay lắm';
-              break;
-            case 4:
-              hint_rate.innerHTML = 'Bình thường';
-              break;
-            case 5:
-              hint_rate.innerHTML = 'Xem được';
-              break;
-            case 6:
-              hint_rate.innerHTML = 'Có vẻ hay';
-              break;
-            case 7:
-              hint_rate.innerHTML = 'Hay';
-              break;
-            case 8:
-              hint_rate.innerHTML = 'Rất hay';
-              break;
-            case 9:
-              hint_rate.innerHTML = 'Tuyệt hay';
-              break;
+    const handleRating = (value) => {
+      if (props?.isEpisodes) {
+        ratingTV(props?.movieId, { value: value }).then((response) => {
+          console.log(response?.data);
+          if (response.data?.success == true) {
+            notification.open({
+              message: 'Cảm ơn bạn đã đánh giá!',
+              description: `Đánh giá thành công ${value} điểm.`,
+              icon: () =>
+                h(CheckCircleFilled, {
+                  style: 'color: green',
+                }),
+            });
+            vote_Average.value = response.data?.vote_average;
+            vote_Count.value = response.data?.vote_count;
           }
         });
-
-        stars[i].onclick = function () {
-          // axios.post(
-          //   `https://api.themoviedb.org/3/movie/${movieid}/rating?api_key=fe1b70d9265fdb22caa86dca918116eb&session_id=5ae3c9dd2c824276ba202e5f77298064ccc7085d`,
-          //   {
-          //     value: i + 1,
-          //   }
-          // );
-          if (props?.isEpisode) {
-            ratingTV(props?.movieId, { value: i + 1 });
-          } else {
-            ratingMovie(props?.movieId, { value: i + 1 });
+      } else {
+        ratingMovie(props?.movieId, { value: value }).then((response) => {
+          if (response.data?.success == true) {
+            notification.open({
+              message: 'Cảm ơn bạn đã đánh giá!',
+              description: `Đánh giá thành công ${value} điểm.`,
+              icon: () =>
+                h(CheckCircleFilled, {
+                  style: 'color: green',
+                }),
+            });
+            vote_Average.value = response.data?.vote_average;
+            vote_Count.value = response.data?.vote_count;
           }
-
-          temp.value = i;
-
-          for (let j = 0; j <= temp.value; j++) {
-            stars[j].classList.add('active');
-          }
-
-          for (let k = temp.value + 1; k < stars.length; k++) {
-            stars[k].classList.remove('active');
-          }
-        };
+        });
       }
+    };
 
-      rating_movie?.addEventListener('mouseleave', () => {
-        for (let j = temp.value + 1; j < stars.length; j++) {
-          stars[j].classList.remove('active');
-        }
-        for (let k = 0; k <= temp.value; k++) {
-          stars[k].classList.add('active');
-        }
-        hint_rate.innerHTML = '';
-      });
-    });
-
-    return { hintRating, ratingTV, ratingMovie };
+    return { tooltipRating, vote_Average, vote_Count, handleRating };
   },
 };
 </script>
@@ -148,27 +108,11 @@ export default {
   // display: flex;
   // flex-direction: row;
 
-  .fa-star + .fa-star {
-    margin-left: 3px;
+  .ant-rate {
+    font-size: 2.2rem;
   }
-
-  .fa-star.active {
-    color: yellow;
-  }
-
-  span {
-    margin-left: 10px;
-  }
-
-  .fa-star {
-    font-size: 18px;
-    cursor: pointer;
-    color: #fff;
-    transition: all 0.3s;
-
-    &:hover {
-      color: yellow;
-    }
+  .el-rate .el-rate__icon {
+    font-size: 2.7rem;
   }
 }
 </style>

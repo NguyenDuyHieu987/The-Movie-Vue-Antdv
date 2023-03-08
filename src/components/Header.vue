@@ -70,9 +70,9 @@
         @search="handleSearch"
       >
         <template #enterButton>
-          <a-tooltip title="Tìm kiếm">
+          <el-tooltip title="Tìm kiếm" content="Tìm kiếm" effect="dark">
             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-          </a-tooltip>
+          </el-tooltip>
         </template>
       </a-input-search>
     </a-auto-complete>
@@ -132,9 +132,6 @@
           <template #icon>
             <UserOutlined />
           </template>
-          <template #title>
-            <CaretDownOutlined />
-          </template>
 
           <a-dropdown :trigger="['click']">
             <a class="ant-dropdown-link" @click.prevent>
@@ -165,8 +162,7 @@
           </a-dropdown>
         </a-menu-item>
 
-        <!-- 
-        <a-sub-menu key="account">
+        <!-- <a-sub-menu key="account">
           <template #icon>
             <UserOutlined />
           </template>
@@ -291,7 +287,7 @@ export default {
 
 <style lang="scss">
 .ant-layout-header.header {
-  z-index: 10;
+  z-index: 100;
   line-height: var(--header-height);
   line-height: var(--header-height);
 }
@@ -409,6 +405,8 @@ export default {
     background: transparent;
     // border: 1px solid #001628;
     border-left: none;
+    box-shadow: none;
+    text-shadow: none;
   }
 
   .right-header {

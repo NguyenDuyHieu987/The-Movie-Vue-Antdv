@@ -32,7 +32,7 @@
           />
         </div>
       </a-layout-content>
-      <a-layout-sider :width="450">
+      <a-layout-sider :width="450" class="sider-rank">
         <h2 class="gradient-title-default">
           <strong> Top xem phim</strong>
         </h2>
@@ -159,23 +159,74 @@ export default {
 </script>
 
 <style lang="scss">
+@media only screen and (max-width: 1400px) {
+  .ranking-container {
+    .movie-group.vertical {
+      grid-template-columns: repeat(auto-fit, minmax(145px, auto));
+    }
+
+    .movie-card-vertical-item {
+      .img-box {
+        transition: all 0.3s;
+        height: 220px !important;
+      }
+    }
+
+    .ant-layout-sider.sider-rank {
+      flex: 0 1 auto !important;
+      width: 350px !important;
+      max-width: auto !important;
+      min-width: auto !important;
+      .tabs-filter li span {
+        font-size: 1.4rem;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 1100px) {
+  .ranking-container {
+    .ant-layout {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+    .ant-layout-content {
+      width: 100% !important;
+      margin-right: 0px !important;
+    }
+
+    .ant-layout-sider.sider-rank {
+      width: 100% !important;
+      max-width: 100% !important;
+
+      .tabs-filter li span {
+        font-size: 1.6rem;
+        padding: 10px 0px;
+      }
+    }
+  }
+}
+
 .ranking-container {
   .ant-layout,
   .ant-layout-content,
-  .ant-layout-sider {
+  .el-main,
+  .ant-layout-sider.sider-rank,
+  .el-aside.sider-rank {
     background-color: #000;
   }
   .gradient-title-default {
     margin-top: 0px;
   }
 
-  .ant-layout-content {
+  .ant-layout-content,
+  .el-main {
     margin-right: 15px;
   }
 
-  .ant-layout-sider {
-    padding: 0px 10px;
-    background-color: rgb(14, 14, 14);
+  .ant-layout-sider.sider-rank,
+  .el-aside.sider-rank {
+    padding: 0px 0px;
+    // background-color: #0e0e0e;
   }
 
   .tabs-filter {
@@ -205,6 +256,7 @@ export default {
     cursor: pointer;
     border-radius: 3px;
     user-select: none;
+    white-space: nowrap;
 
     &.active {
       background-color: #00607e;
@@ -213,40 +265,42 @@ export default {
         &::before {
           content: '';
           position: absolute;
-          // border-top: 10px solid #007ca1;
-          // border-right: 10px solid transparent;
-          // border-left: 10px solid transparent;
-          border-top-left-radius: 0px;
-          border-bottom-left-radius: 0px;
-          border-top-right-radius: 0px;
-          border-bottom-right-radius: 30px;
-          // transform: rotate(90deg);
+          border-top: 10px solid #007ca1;
+          border-right: 10px solid transparent;
+          border-left: 10px solid transparent;
 
-          box-shadow: 10px 0px 0px 0px #00607e;
+          // border-top-left-radius: 0px;
+          // border-bottom-left-radius: 0px;
+          // border-top-right-radius: 0px;
+          // border-bottom-right-radius: 30px;
+
+          // box-shadow: 10px 0px 0px 0px #00607e;
           width: 15px;
           height: 10px;
-          bottom: 0px;
-          left: -15px;
-          // left: 50%;
-          // transform: translate(-50%);
+          // bottom: 0px;
+          // left: -15px;
+          bottom: -10px;
+          left: 50%;
+          transform: translate(-50%);
         }
-        &::after {
-          content: '';
-          position: absolute;
-          border-top-left-radius: 0px;
-          border-bottom-left-radius: 0px;
-          border-top-right-radius: 30px;
-          border-bottom-right-radius: 0px;
-          transform: rotate(180deg);
 
-          box-shadow: 10px 0px 0px 0px #00607e;
-          width: 15px;
-          height: 10px;
-          bottom: 0px;
-          right: -15px;
-          // left: 50%;
-          // transform: translate(-50%);
-        }
+        // &::after {
+        //   content: '';
+        //   position: absolute;
+        //   border-top-left-radius: 0px;
+        //   border-bottom-left-radius: 0px;
+        //   border-top-right-radius: 30px;
+        //   border-bottom-right-radius: 0px;
+        //   transform: rotate(180deg);
+
+        //   box-shadow: 10px 0px 0px 0px #00607e;
+        //   width: 15px;
+        //   height: 10px;
+        //   bottom: 0px;
+        //   right: -15px;
+        //   // left: 50%;
+        //   // transform: translate(-50%);
+        // }
       }
     }
   }

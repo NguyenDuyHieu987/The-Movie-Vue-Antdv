@@ -88,7 +88,7 @@
           v-if="!$store.state.collapsed"
         />
         <DoubleRightOutlined v-else />
-        <span class="title-trigger-collapse">Đóng sidebar</span>
+        <span class="title-trigger-collapse">Đóng</span>
       </div>
     </a-layout-footer>
   </a-layout-sider>

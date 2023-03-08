@@ -19,7 +19,12 @@
       hashtags="phimhay247,vite"
       style="white-space: nowrap"
     >
-      <span>Chia sẻ</span>
+      <a-button round type="primary" shape="round">
+        <template #icon>
+          <share-alt-outlined />
+        </template>
+        Chia sẻ
+      </a-button>
     </ShareNetwork>
   </div>
 </template>
@@ -27,9 +32,12 @@
 <script>
 import { computed } from 'vue';
 // import { useRoute } from 'vue-router';
+import { ShareAltOutlined } from '@ant-design/icons-vue';
 
 export default {
-  components: {},
+  components: {
+    ShareAltOutlined,
+  },
   props: {
     dataMovie: Object,
   },
@@ -51,16 +59,16 @@ export default {
   // display: flex;
   // flex-direction: column;
 
-  a {
-    color: #fff;
-    padding: 5px 10px;
-    background-color: #0072ca;
-    border-radius: 3px;
-    transition: all 0.3s;
+  // a {
+  //   color: #fff;
+  //   padding: 5px 10px;
+  //   background-color: #0072ca;
+  //   border-radius: 3px;
+  //   transition: all 0.3s;
 
-    &:hover {
-      background-color: #0072caa6;
-    }
-  }
+  //   &:hover {
+  //     background-color: #0072caa6;
+  //   }
+  // }
 }
 </style>

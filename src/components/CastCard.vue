@@ -5,23 +5,36 @@
         <el-skeleton-item class="ant-image" variant="image" />
       </div>
       <div style="margin-top: 7px">
-        <el-skeleton-item variant="text" />
+        <el-skeleton-item variant="text" style="width: 90%" />
       </div>
     </template>
 
     <template #default>
       <div class="cast-item">
         <div class="cast-img-box">
-          <a-image
-            class="movie-carousel-img"
+          <el-image
+            class="ant-image"
             :src="getPosterCast(item?.profile_path)"
             v-lazy="getPosterCast(item?.profile_path)"
             :preview="false"
-            v-if="!loading"
+            loading="lazy"
           >
-          </a-image>
+            <!-- v-if="!loading" -->
+            <template #error>
+              <div
+                class="ant-image error"
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                Đang tải<span class="dot">...</span>
+              </div>
+            </template>
+          </el-image>
 
-          <a-skeleton-image v-else class="ant-image" />
+          <!-- <a-skeleton-image v-else class="ant-image" /> -->
         </div>
 
         <div class="info">
@@ -62,7 +75,8 @@ export default {
     position: relative;
   }
 
-  .ant-image {
+  .ant-image,
+  .el-image {
     height: 200px;
     width: 100%;
 
@@ -73,6 +87,14 @@ export default {
       height: 100%;
       object-fit: cover;
     }
+
+    &.error {
+      background: var(--el-fill-color-light);
+    }
+  }
+
+  .info {
+    padding: 0px 5px;
   }
 
   &:hover {

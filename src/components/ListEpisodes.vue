@@ -1,15 +1,19 @@
 <template>
   <div class="list-episodes">
     <div class="control-episodes">
-      <a-button
+      <el-button
         size="large"
+        type="primary"
+        plain
         :disabled="currentEpisode == 1"
         @click="$router.push({ params: { tap: `tap-${--currentEpisode}` } })"
       >
         Tập trước
-      </a-button>
-      <a-button
+      </el-button>
+      <el-button
         size="large"
+        type="primary"
+        plain
         :disabled="
           dataMovie?.last_episode_to_air?.season_number == selectedSeason
             ? currentEpisode == dataMovie?.last_episode_to_air?.episode_number
@@ -18,7 +22,7 @@
         @click="$router.push({ params: { tap: `tap-${++currentEpisode}` } })"
       >
         Tập tiếp
-      </a-button>
+      </el-button>
     </div>
     <h3 class="section-title" style="display: flex; align-items: center">
       <strong style="margin-right: 10px">
@@ -60,7 +64,7 @@
     <div
       v-if="loading"
       class="ul-list"
-      v-loading.fullscreen.lock="loading"
+      v-loading="loading"
       element-loading-text="Đang tải tập..."
     >
       <a-skeleton-button
@@ -221,7 +225,7 @@ export default {
     // flex-direction: row;
     list-style-type: none;
     margin-top: 7px;
-    padding-left: 15px;
+    padding: 0px 10px;
     padding-bottom: 7px;
     overflow: hidden;
 

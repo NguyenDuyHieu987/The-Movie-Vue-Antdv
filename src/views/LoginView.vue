@@ -87,7 +87,11 @@
           <span>Đăng nhập bằng Facebook</span>
         </a-button>
 
-        <GoogleLogin :callback="handleGoogleFacebook" prompt />
+        <GoogleLogin
+          :callback="handleGoogleFacebook"
+          prompt
+          class="google-login"
+        />
         <!-- @click="handleGoogleFacebook" -->
       </div>
 
@@ -108,7 +112,6 @@ import {
   CloseCircleFilled,
   // FacebookFilled,
 } from '@ant-design/icons-vue';
-import { notification } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import axios from 'axios';
@@ -116,6 +119,8 @@ import md5 from 'md5';
 import { signIn } from '../services/MovieService';
 import { setWithExpiry } from '../untils/LocalStorage';
 // import { googleAuthCodeLogin } from 'vue3-google-login';
+import { ElNotification } from 'element-plus';
+// import { notification } from 'ant-design-vue';
 
 export default defineComponent({
   components: {
@@ -174,9 +179,18 @@ export default defineComponent({
           if (response.data?.success === false) {
             setTimeout(() => {
               loadingLogin.value = false;
-              notification.open({
-                message: 'Lỗi!',
-                description: 'Tài khoản không tồi tại.',
+              // notification.open({
+              //   message: 'Lỗi!',
+              //   description: 'Tài khoản không tồi tại.',
+              //   icon: () =>
+              //     h(CloseCircleFilled, {
+              //       style: 'color: red',
+              //     }),
+              // });
+
+              ElNotification.error({
+                title: 'Lỗi!',
+                message: 'Tài khoản không tồi tại.',
                 icon: () =>
                   h(CloseCircleFilled, {
                     style: 'color: red',
@@ -226,9 +240,17 @@ export default defineComponent({
             } else {
               setTimeout(() => {
                 loadingLogin.value = false;
-                notification.open({
-                  message: 'Lỗi!',
-                  description: 'Sai tài khoản hoặc mật khẩu.',
+                // notification.open({
+                //   message: 'Lỗi!',
+                //   description: 'Sai tài khoản hoặc mật khẩu.',
+                //   icon: () =>
+                //     h(CloseCircleFilled, {
+                //       style: 'color: red',
+                //     }),
+                // });
+                ElNotification.error({
+                  title: 'Lỗi!',
+                  message: 'Sai tài khoản hoặc mật khẩu.',
                   icon: () =>
                     h(CloseCircleFilled, {
                       style: 'color: red',
@@ -241,9 +263,18 @@ export default defineComponent({
         .catch((e) => {
           setTimeout(() => {
             loadingLogin.value = false;
-            notification.open({
-              message: 'Failed!',
-              description: 'Some thing went wrong.',
+            // notification.open({
+            //   message: 'Failed!',
+            //   description: 'Some thing went wrong.',
+            //   icon: () =>
+            //     h(CloseCircleFilled, {
+            //       style: 'color: red',
+            //     }),
+            // });
+
+            ElNotification.error({
+              title: 'Failed!',
+              message: 'Some thing went wrong.',
               icon: () =>
                 h(CloseCircleFilled, {
                   style: 'color: red',
@@ -413,7 +444,7 @@ export default defineComponent({
         }
       }
 
-      .g-btn-wrapper span {
+      .google-login span {
         font-size: 1.6rem;
       }
     }

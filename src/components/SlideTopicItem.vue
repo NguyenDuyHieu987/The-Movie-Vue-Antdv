@@ -12,7 +12,7 @@
     }"
     class="topic-item"
   >
-    <a-image
+    <el-image
       :src="
         getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
       "
@@ -20,8 +20,11 @@
       v-lazy="
         getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
       "
+      loading="lazy"
+      @load="onLoadImage"
     >
-    </a-image>
+    </el-image>
+
     <div class="topic-item-info">
       <div class="topic-item-info-head">
         <img class="pngegg" src="../assets/images/pngegg.png" />
@@ -68,11 +71,21 @@ export default {
   },
   setup() {
     const genresName = ref([]);
+    const loading = ref(false);
+
+    const onLoadImage = () => {
+      loading.value = true;
+      setTimeout(() => {
+        loading.value = false;
+      });
+    };
 
     return {
+      loading,
       genresName,
       getPoster,
       getAllGenresById,
+      onLoadImage,
     };
   },
 };
@@ -96,7 +109,8 @@ export default {
   font-size: 10px;
   height: 100%;
 
-  .ant-image {
+  .ant-image,
+  .el-image {
     // height: 82vh;
     height: 100%;
     width: 100%;

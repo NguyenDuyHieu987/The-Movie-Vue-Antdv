@@ -223,7 +223,7 @@ export default {
   .movie-card-vertical-item {
     .img-box {
       transition: all 0.3s;
-      height: 250px !important;
+      height: 230px !important;
     }
   }
 }
@@ -236,7 +236,7 @@ export default {
   .movie-card-vertical-item {
     .img-box {
       transition: all 0.3s;
-      height: 210px !important;
+      height: 250px !important;
     }
   }
 }
@@ -249,7 +249,7 @@ export default {
   .movie-card-vertical-item {
     .img-box {
       transition: all 0.3s;
-      height: 250px !important;
+      height: 230px !important;
     }
   }
 }
@@ -268,14 +268,23 @@ export default {
 
 .movie-card-vertical-item {
   .img-box {
-    height: 280px;
+    height: 260px;
   }
+
   .ant-image {
     height: 100%;
     width: 100%;
   }
+
   .ant-skeleton-content .ant-skeleton-paragraph > li + li {
     margin-top: 10px;
+  }
+}
+
+.owl-item {
+  .movie-card-vertical-item {
+    .img-box {
+    }
   }
 }
 </style>

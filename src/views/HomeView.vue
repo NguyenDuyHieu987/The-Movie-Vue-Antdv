@@ -1,10 +1,10 @@
 <template>
   <div class="home-container">
-  <div>  
-    <SlideTopicHome />
-  </div>
+    <div>
+      <SlideTopicHome />
+    </div>
 
-    <h2 class="gradient-title-default" v-if="nowPlayings?.length">
+    <h2 class="gradient-title-default" v-show="nowPlayings?.length">
       <strong>Phim nổi bật</strong>
       <router-link
         :to="{
@@ -77,7 +77,7 @@
       />
     </carousel>
 
-    <h2 class="gradient-title-default" v-if="tvAiringTodays?.length">
+    <h2 class="gradient-title-default" v-show="tvAiringTodays?.length">
       <strong>Phim bộ mới</strong>
       <router-link
         :to="{
@@ -102,7 +102,7 @@
       />
     </section>
 
-    <h2 class="gradient-title-default" v-if="upComings?.length">
+    <h2 class="gradient-title-default" v-show="upComings?.length">
       <strong>Trailer</strong>
 
       <router-link
@@ -128,7 +128,7 @@
       />
     </section>
 
-    <h2 class="gradient-title-default" v-if="topRateds?.length">
+    <h2 class="gradient-title-default" v-show="topRateds?.length">
       <strong>Phim chiếu rạp mới</strong>
     </h2>
     <carousel
@@ -159,16 +159,16 @@
           items: 3,
         },
         1000: {
-          items: 4,
+          items: 5,
         },
         1175: {
-          items: 4,
+          items: 5,
         },
         1300: {
-          items: 5,
+          items: 6,
         },
         1400: {
-          items: 5,
+          items: 6,
         },
         1550: {
           items: 7,

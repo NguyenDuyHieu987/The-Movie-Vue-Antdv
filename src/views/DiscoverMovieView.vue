@@ -8,7 +8,7 @@
     <h2 class="gradient-title-default">
       <strong v-if="!loading">{{ metaHead }}</strong>
 
-      <a-tabs
+      <!-- <a-tabs
         v-model:activeKey="activeTabSearch"
         type="card"
         @change="handleChangeType"
@@ -17,7 +17,35 @@
         <a-tab-pane key="all" tab="Tất cả"></a-tab-pane>
         <a-tab-pane key="movie" tab="Phim lẻ"></a-tab-pane>
         <a-tab-pane key="tv" tab="Phim bộ"></a-tab-pane>
-      </a-tabs>
+      </a-tabs> -->
+
+      <el-radio-group
+        v-model="activeTabSearch"
+        @change="handleChangeType"
+        v-if="$route.params?.slug == 'search'"
+      >
+        <el-radio-button size="large" label="all" border
+          >Tất cả</el-radio-button
+        >
+        <el-radio-button size="large" label="movie" border
+          >Phim lẻ</el-radio-button
+        >
+        <el-radio-button size="large" label="tv" border
+          >Phim bộ</el-radio-button
+        >
+      </el-radio-group>
+
+      <!-- <a-radio-group
+        v-model:value="activeTabSearch"
+        @change="handleChangeType"
+        v-if="$route.params?.slug == 'search'"
+        button-style="solid"
+        size="large"
+      >
+        <a-radio-button value="all"> Tất cả</a-radio-button>
+        <a-radio-button value="movie">Phim lẻ </a-radio-button>
+        <a-radio-button value="tv">Phim bộ</a-radio-button>
+      </a-radio-group> -->
     </h2>
     <section
       class="movie-discovered"
@@ -410,7 +438,7 @@ export default {
     };
 
     const handleChangeType = (activeKey) => {
-      switch (activeKey) {
+      switch (activeKey?.target?.value ? activeKey?.target?.value : activeKey) {
         case 'all':
           dataDiscover.value = dataMovie.value.concat(dataTv.value);
           break;
@@ -545,9 +573,17 @@ export default {
   }
 }
 .ant-tabs > .ant-tabs-nav,
-.ant-tabs > div > .ant-tabs-nav {
+.ant-tabs > div > .ant-tabs-nav,
+.el-radio-group,
+.ant-radio-group {
   margin-bottom: 5px !important;
 }
+
+// .el-radio-button:not(:last-child),
+// .ant-radio-button-wrapper:not(:last-child) {
+//   margin-right: 7px;
+// }
+
 .gradient-title-default {
   display: flex;
   align-items: center;

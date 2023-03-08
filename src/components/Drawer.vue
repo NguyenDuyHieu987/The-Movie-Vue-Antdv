@@ -1,6 +1,6 @@
 <template>
-  <a-drawer
-    :placement="placement"
+  <!-- <a-drawer
+    placement="left"
     :visible="$store.state.openDrawer"
     @close="onClose"
     :width="250"
@@ -8,11 +8,29 @@
   >
     <template #extra>
       <div class="logo">
-        <h1>Phimhay247</h1>
+        <router-link :to="{ path: '/' }">
+          <h1>Phimhay247</h1>
+        </router-link>
       </div>
     </template>
     <TheMenu />
-  </a-drawer>
+  </a-drawer> -->
+
+  <el-drawer
+    v-model="$store.state.openDrawer"
+    direction="ltr"
+    :before-close="handleClose"
+    placement="left"
+  >
+    <template #header>
+      <div class="logo">
+        <router-link :to="{ path: '/' }">
+          <h1>Phimhay247</h1>
+        </router-link>
+      </div>
+    </template>
+    <TheMenu />
+  </el-drawer>
 </template>
 
 <script>
@@ -28,7 +46,6 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const placement = ref('left');
     const visible = ref(false);
 
     const onClose = () => {
@@ -36,7 +53,6 @@ export default defineComponent({
     };
 
     return {
-      placement,
       visible,
       onClose,
     };
@@ -45,7 +61,17 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.ant-drawer-content {
+@media only screen and (min-width: 800px) {
+  .ant-drawer-content,
+  .el-drawer,
+  .el-overlay,
+  .ant-drawer-mask {
+    display: none;
+  }
+}
+.ant-drawer-content,
+.el-drawer {
+  width: 250px !important;
   background-image: linear-gradient(
     to right,
     var(--sider-header-background-color3),
@@ -67,31 +93,24 @@ export default defineComponent({
     }
   }
 
-  // .menu-sider-bar {
-  //   .ant-menu-item:hover {
-  //     background-color: var(--hover-regular-color) !important;
-  //   }
+  .el-drawer__close-btn {
+    font-size: 2.8rem;
+  }
 
-  //   .ant-menu-item.ant-menu-item-selected {
-  //     background-color: var(--hover-regular-color) !important;
-  //   }
-
-  //   .ant-menu-item:not(:last-child) {
-  //     margin-bottom: 0px !important;
-  //   }
-
-  //   .ant-menu-item,
-  //   .ant-menu-submenu-title {
-  //     height: 45px;
-  //     line-height: 45px;
-  //     border-top-left-radius: 100px;
-  //     border-bottom-left-radius: 100px;
-  //     margin-left: 3px;
-  //   }
-  // }
-
-  .ant-drawer-body {
+  .ant-drawer-body,
+  .el-drawer__body {
     padding: 0px 0px 24px 0px;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+      background: #383838;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background: #acacac;
+    }
   }
 }
 </style>

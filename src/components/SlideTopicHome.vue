@@ -10,14 +10,14 @@
         <font-awesome-icon icon="fa-solid fa-chevron-right" />
       </div>
     </template>
-    <div v-for="(item, index) in trendings" :index="index" :key="item.id">
+    <div v-for="(item, index) in trendings || []" :index="index" :key="item.id">
       <SlideTopicItem :item="item" />
     </div>
   </a-carousel>
 
-  <el-carousel :interval="3000" type="card" height="550px" loop trigger="click">
+  <el-carousel :interval="3000" type="card" height="80vh" loop trigger="click">
     <el-carousel-item
-      v-for="(item, index) in trendings"
+      v-for="(item, index) in trendings || []"
       :key="item.id"
       :index="index"
     >
@@ -62,6 +62,11 @@ export default {
 }
 
 @media only screen and (max-width: 1900px) {
+  .el-carousel {
+    .el-carousel__container {
+      height: 70vh !important;
+    }
+  }
   .ant-carousel {
     .slick-track {
       height: 70vh !important;
@@ -70,6 +75,11 @@ export default {
 }
 
 @media only screen and (max-width: 1670px) {
+  .el-carousel {
+    .el-carousel__container {
+      height: 65vh !important;
+    }
+  }
   .ant-carousel {
     .slick-track {
       height: 65vh !important;
@@ -78,6 +88,12 @@ export default {
 }
 
 @media only screen and (max-width: 1500px) {
+  .el-carousel {
+    .el-carousel__container {
+      height: 520px !important;
+    }
+  }
+
   .ant-carousel {
     .slick-track {
       height: 550px !important;
@@ -86,6 +102,12 @@ export default {
 }
 
 @media only screen and (max-width: 1300px) {
+  .el-carousel {
+    .el-carousel__container {
+      height: 500px !important;
+    }
+  }
+
   .ant-carousel {
     .slick-track {
       height: 500px !important;

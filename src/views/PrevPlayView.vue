@@ -2,7 +2,7 @@
   <div class="prev-play-conainer">
     <div class="main-info">
       <div class="backdrop-img">
-        <a-image
+        <el-image
           :src="
             getPoster(
               dataMovie?.backdrop_path
@@ -17,19 +17,34 @@
                 : dataMovie?.poster_path
             )
           "
+          :preview-src-list="srcBackdropList"
+          :preview-teleported="true"
         >
           <!-- <template #placeholder>
-            <a-image
-              :src="
-                getPoster(
-                  dataMovie?.backdrop_path
-                    ? dataMovie?.backdrop_path
-                    : dataMovie?.poster_path
-                )
+            <div
+              class="ant-image"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
               "
-            />
+            >
+              Đang tải<span class="dot">...</span>
+            </div>
           </template> -->
-        </a-image>
+          <template #error>
+            <div
+              class="ant-image error"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              Đang tải<span class="dot">...</span>
+            </div>
+          </template>
+        </el-image>
       </div>
 
       <div class="info-movie" v-if="!checkEmptyDataMovies">
@@ -350,7 +365,7 @@
       :loading="loading"
     />
 
-    <h3 class="section-title" @click="$router.currentRoute">
+    <h3 class="section-title">
       <strong>Nội dung phim</strong>
     </h3>
 
@@ -486,11 +501,11 @@ import carousel from 'vue-owl-carousel/src/Carousel';
 import {
   getAllGenresById,
   getPoster,
-  // getMovieSeriesById,
-  // getMovieById,
+  getTvById,
+  getMovieById,
   getLanguage,
-  getMovieByCredit,
-  getTvByCredit,
+  // getMovieByCredit,
+  // getTvByCredit,
   addItemList,
   removeItemList,
   getList,
@@ -498,7 +513,7 @@ import {
   // getTrending,
 } from '../services/MovieService';
 import Interaction from '@/components/Interaction.vue';
-import RatingMovie from '@/components/RatingMovieAnt.vue';
+import RatingMovie from '@/components/RatingMovie.vue';
 import LastestEpisodes from '@/components/LastestEpisodes.vue';
 import CastCard from '@/components/CastCard.vue';
 import MovieSuggest from '@/components/MovieSuggest.vue';
@@ -573,6 +588,7 @@ export default {
     const isOpenContent = ref(false);
     const isOpenTrailerYoutube = ref(false);
     const loading = ref(false);
+    const srcBackdropList = ref([]);
 
     const isAddToList = ref(false);
 
@@ -583,14 +599,27 @@ export default {
       isAddToList.value = false;
       loading.value = true;
 
-      getTvByCredit(route.params?.id)
+      document.title = `${Array.from(
+        route.params?.name.split('+'),
+        (x) => x.charAt(0).toUpperCase() + x?.slice(1)
+      ).join(' ')} - Thông tin`;
+
+      srcBackdropList.value = [];
+
+      getTvById(route.params?.id, 'images,credits')
         .then((tvResponed) => {
           if (tvResponed?.data?.not_found === true)
-            getMovieByCredit(route.params?.id)
+            getMovieById(route.params?.id, 'images,credits')
               .then((movieResponed) => {
                 isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
                 dataCredit.value = movieResponed?.data?.credits;
+
+                movieResponed?.data?.images?.backdrops?.forEach((item) => {
+                  srcBackdropList.value.push(
+                    'https://image.tmdb.org/t/p/original' + item?.file_path
+                  );
+                });
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
@@ -599,6 +628,13 @@ export default {
             isEpisodes.value = true;
             dataMovie.value = tvResponed?.data;
             dataCredit.value = tvResponed?.data?.credits;
+            dataCredit.value = tvResponed?.data?.credits;
+
+            tvResponed?.data?.images?.backdrops?.forEach((item) => {
+              srcBackdropList.value.push(
+                'https://image.tmdb.org/t/p/original' + item?.file_path
+              );
+            });
           }
         })
         .catch((e) => {
@@ -832,11 +868,6 @@ export default {
       else return false;
     });
 
-    document.title = `${Array.from(
-      route.params?.name.split('+'),
-      (x) => x.charAt(0).toUpperCase() + x?.slice(1)
-    ).join(' ')} - Thông tin`;
-
     window.scrollTo({
       top: 0,
       left: 0,
@@ -845,6 +876,7 @@ export default {
 
     return {
       responsiveCarousel,
+      srcBackdropList,
       genresName,
       isEpisodes,
       dataMovie,
@@ -917,14 +949,11 @@ export default {
 @media only screen and (max-width: 1260px) {
   .prev-play-conainer {
     .backdrop-img {
-      .ant-image-img {
-        object-fit: cover;
-      }
     }
   }
 }
 
-@media only screen and (max-width: 1130px) {
+@media only screen and (max-width: 1150px) {
   .prev-play-conainer {
     .main-info {
       display: flex;
@@ -1020,14 +1049,19 @@ export default {
     width: 62%;
     position: relative;
 
-    .ant-image {
+    .ant-image,
+    .el-image {
       height: 100%;
       width: 100%;
 
-      .ant-image-img {
+      img {
         height: 100%;
         width: 100%;
         object-fit: cover;
+      }
+
+      &.error {
+        background: var(--el-fill-color-light);
       }
     }
   }

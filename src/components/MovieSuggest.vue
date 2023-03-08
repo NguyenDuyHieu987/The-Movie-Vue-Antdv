@@ -1,5 +1,5 @@
 <template>
-  <h2 class="gradient-title-default" v-if="dataSimilar?.length">
+  <h2 class="gradient-title-default" v-show="dataSimilar?.length">
     <strong>Phim tương tự</strong>
   </h2>
   <carousel
@@ -24,7 +24,7 @@
     />
   </carousel>
 
-  <h2 class="gradient-title-default" v-if="dataRecommend?.length">
+  <h2 class="gradient-title-default" v-show="dataRecommend?.length">
     <strong>Có thể bạn quan tâm</strong>
   </h2>
   <carousel
@@ -124,7 +124,7 @@ export default {
           if (axios.isCancel(e)) return;
         });
 
-      getTrending(1)
+      getTrending(Math.floor(Math.random() * 50) + 1)
         .then((movieResponed) => {
           dataRecommend.value = movieResponed?.data?.results;
         })

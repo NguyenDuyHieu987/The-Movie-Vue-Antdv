@@ -134,6 +134,7 @@ export default {
   right: 50px;
 }
 #components-back-top-demo-custom .ant-back-top-inner {
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.72) !important;
   height: 40px;
   width: 43px;
   line-height: 40px;

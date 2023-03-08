@@ -13,8 +13,8 @@
 
   --btn-backgroud-color: #004671;
   --btn-backgroud-color-hover: #003b60;
-  --btn-border-color-focused: #16b48f;
-  --btn-border-color-hover: #16b48f;
+  --input-border-color-focused: #00649d;
+  --input-border-color-hover: #00649d;
   --btn-delete-background-color: #f10606;
   --btn-delete-hover-color: #af0000;
   --login-background-color: #0f7251;
@@ -306,7 +306,7 @@ span {
 
 .movie-group.vertical {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(160px, auto));
   margin-top: 10px;
   gap: 10px;
 }
@@ -529,24 +529,13 @@ span {
 }
 
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
-  border-color: var(--btn-border-color-hover);
+  border-color: var(--input-border-color-hover);
 }
 
 .ant-input-affix-wrapper:focus,
 .ant-input-affix-wrapper-focused {
-  border-color: var(--btn-border-color-focused);
-  box-shadow: var(--btn-border-color-focused);
-}
-
-.ant-table-body::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  background: #e8e8e8;
-}
-
-.ant-table-body::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  background: #acacac;
+  border-color: var(--input-border-color-focused);
+  box-shadow: var(--input-border-color-focused);
 }
 
 .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {

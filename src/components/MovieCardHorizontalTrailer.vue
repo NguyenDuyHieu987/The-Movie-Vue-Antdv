@@ -362,9 +362,10 @@ export default {
 .btn-play-now {
   color: #fff;
   padding: 11px 25px;
-  background-color: #db0832;
+  background-color: #ba0025;
   transition: all 0.3s;
   margin-left: 10px;
+  border-radius: 2px;
 
   &:hover {
     background-color: #db0832ad;

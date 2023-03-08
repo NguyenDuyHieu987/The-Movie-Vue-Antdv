@@ -167,7 +167,7 @@ export default {
     overflow: hidden;
     list-style-type: none;
     margin-top: 7px;
-    padding-left: 15px;
+    padding: 0px 10px;
 
     & > li,
     li + li {

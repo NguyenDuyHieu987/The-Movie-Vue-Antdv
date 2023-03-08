@@ -137,11 +137,12 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
 } from '@ant-design/icons-vue';
-import { notification } from 'ant-design-vue';
 import axios from 'axios';
 import { signUp, emailValidation } from '../services/MovieService';
 import md5 from 'md5';
 import { useRouter } from 'vue-router';
+import { ElNotification } from 'element-plus';
+// import { notification } from 'ant-design-vue';
 
 export default defineComponent({
   components: {
@@ -234,9 +235,19 @@ export default defineComponent({
               if (response?.data?.isSignUp === true) {
                 setTimeout(() => {
                   loadingSignUp.value = false;
-                  notification.open({
-                    message: 'Chúc mừng!',
-                    description:
+                  // notification.open({
+                  //   message: 'Thành công!',
+                  //   description:
+                  //     'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
+                  //   icon: () =>
+                  //     h(CheckCircleFilled, {
+                  //       style: 'color: green',
+                  //     }),
+                  // });
+
+                  ElNotification.success({
+                    title: 'Thành công!',
+                    message:
                       'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
                     icon: () =>
                       h(CheckCircleFilled, {
@@ -249,11 +260,20 @@ export default defineComponent({
               } else {
                 setTimeout(() => {
                   loadingSignUp.value = false;
-                  notification.open({
-                    message: 'Lỗi!',
-                    description: 'Email đã tồn tại.',
+                  // notification.open({
+                  //   message: 'Lỗi!',
+                  //   description: 'Email đã được đăng ký.',
+                  //   icon: () =>
+                  //     h(CheckCircleFilled, {
+                  //       style: 'color: red',
+                  //     }),
+                  // });
+
+                  ElNotification.error({
+                    title: 'Lỗi!',
+                    message: 'Email đã được đăng ký.',
                     icon: () =>
-                      h(CheckCircleFilled, {
+                      h(CloseCircleFilled, {
                         style: 'color: red',
                       }),
                   });
@@ -263,9 +283,18 @@ export default defineComponent({
             .catch((e) => {
               setTimeout(() => {
                 loadingSignUp.value = false;
-                notification.open({
-                  message: 'Failed!',
-                  description: 'Some thing went wrong.',
+                // notification.open({
+                //   message: 'Failed!',
+                //   description: 'Some thing went wrong.',
+                //   icon: () =>
+                //     h(CloseCircleFilled, {
+                //       style: 'color: red',
+                //     }),
+                // });
+
+                ElNotification.error({
+                  title: 'Failed!',
+                  message: 'Some thing went wrong.',
                   icon: () =>
                     h(CloseCircleFilled, {
                       style: 'color: red',
@@ -276,9 +305,18 @@ export default defineComponent({
             });
         } else {
           loadingSignUp.value = false;
-          notification.open({
-            message: 'Failed!',
-            description: 'Email không tồn tại.',
+          // notification.open({
+          //   message: 'Lỗi!',
+          //   description: 'Email không tồn tại.',
+          //   icon: () =>
+          //     h(CloseCircleFilled, {
+          //       style: 'color: red',
+          //     }),
+          // });
+
+          ElNotification.error({
+            title: 'Lỗi!',
+            message: 'Email không tồn tại.',
             icon: () =>
               h(CloseCircleFilled, {
                 style: 'color: red',

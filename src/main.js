@@ -16,7 +16,7 @@ import { initFacebookSdk } from './untils/facebook-login-vue';
 import vue3GoogleLogin from 'vue3-google-login';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-import vi from 'element-plus/dist/locale/vi.min.mjs';
+import vi from 'element-plus/dist/locale/vi.mjs';
 
 import {
   faVideoCamera,
