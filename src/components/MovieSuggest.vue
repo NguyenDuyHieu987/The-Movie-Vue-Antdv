@@ -82,11 +82,11 @@ export default {
       830: {
         items: 3,
       },
-      1000: {
+      900: {
         items: 4,
       },
       1175: {
-        items: 4,
+        items: 5,
       },
       1300: {
         items: 6,

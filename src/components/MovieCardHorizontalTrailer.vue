@@ -368,7 +368,7 @@ export default {
   border-radius: 2px;
 
   &:hover {
-    background-color: #db0832ad;
+    background-color: #ba0025ae;
   }
 }
 </style>
