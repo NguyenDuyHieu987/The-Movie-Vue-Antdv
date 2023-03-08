@@ -47,7 +47,7 @@
         </el-image>
       </div>
 
-      <div class="info-movie" v-if="!checkEmptyDataMovies">
+      <div class="info-movie">
         <a-skeleton
           :loading="loading"
           :active="true"
@@ -187,7 +187,7 @@
           </span>
         </div>
 
-        <div class="misc" v-if="!checkEmptyDataMovies">
+        <div class="misc">
           <a-skeleton
             :loading="loading"
             :active="true"

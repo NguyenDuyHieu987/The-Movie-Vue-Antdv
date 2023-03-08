@@ -14,9 +14,7 @@
       network="facebook"
       :url="urlShare"
       :title="dataMovie?.name ? dataMovie?.name : dataMovie?.title"
-      :description="dataMovie?.overview"
-      quote="The hot reload is so fast it\'s near instant. - Evan You"
-      hashtags="phimhay247,vite"
+      hashtags="phimhay247.site,vite"
       style="white-space: nowrap"
     >
       <a-button round type="primary" shape="round">
