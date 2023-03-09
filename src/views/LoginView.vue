@@ -75,6 +75,10 @@
         >
           Đăng nhập
         </a-button>
+
+        <router-link class="play-now" :to="{ path: '/' }"
+          >Xem phim ngay</router-link
+        >
       </a-form-item>
 
       <div class="social-login">
@@ -365,6 +369,7 @@ export default defineComponent({
     background-color: #000000;
     padding: 40px 70px;
     border-radius: 5px;
+    overflow-y: scroll;
 
     .title-login {
       text-align: center;
@@ -380,6 +385,30 @@ export default defineComponent({
           var(--sider-header-background-color1),
           var(--sider-header-background-color3)
         );
+      }
+    }
+
+    .play-now {
+      margin-top: 15px;
+      display: block;
+      color: #fff;
+      text-align: center;
+      padding: 8px 0px;
+      flex-grow: 1;
+      background-image: linear-gradient(
+        to right,
+        var(--sider-header-background-color5),
+        var(--sider-header-background-color1),
+        var(--sider-header-background-color3)
+      );
+      transition: all 0.5s;
+      background-size: 200% 100%;
+      border-radius: 3px;
+      font-size: 1.5rem;
+
+      &:hover {
+        background-size: 200% 100%;
+        background-position: 100% center;
       }
     }
 

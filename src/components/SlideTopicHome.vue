@@ -277,6 +277,10 @@ export default {
     padding: 22px;
     border-radius: 5px;
 
+    .el-icon {
+      font-size: 1.8rem;
+    }
+
     &:hover {
       background-color: #00000088;
     }
