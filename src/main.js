@@ -17,6 +17,7 @@ import vue3GoogleLogin from 'vue3-google-login';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import vi from 'element-plus/dist/locale/vi.mjs';
+import VueProgressBar from '@aacassandra/vue3-progressbar';
 
 import {
   faVideoCamera,
@@ -70,6 +71,20 @@ const gauthOption = {
   // fetch_basic_profile: true,
 };
 
+const progressBarOptions = {
+  color: '#bffaf3',
+  failedColor: '#874b4b',
+  thickness: '5px',
+  transition: {
+    speed: '0.2s',
+    opacity: '0.6s',
+    termination: 300,
+  },
+  autoRevert: true,
+  location: 'left',
+  inverse: false,
+};
+
 const app = createApp(App);
 registerGlobalComponent(app);
 
@@ -84,6 +99,7 @@ app
   })
   // .use(GAuth, gauthOption)
   .use(vue3GoogleLogin, gauthOption)
+  .use(VueProgressBar, progressBarOptions)
   .use(createMetaManager())
   .component('font-awesome-icon', FontAwesomeIcon);
 

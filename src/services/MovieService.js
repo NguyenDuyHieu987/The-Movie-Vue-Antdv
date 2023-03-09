@@ -5,18 +5,16 @@ import COUNTRIES from '../constants/Country';
 const axios = require('axios').default;
 
 // const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
-const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
+// const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
+const TMDB_IMAGE_BASE_URL = process.env.VUE_APP_TMDB_IMAGE_BASE_URL;
 // const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
-
-// const URL_API = 'https://the-movie-node-content.onrender.com';
+alert(process.env.NODE_ENV);
 // const URL_API = 'http://127.0.0.1:5000';
-const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
-// const URL_API = 'https://the-movie-node.onrender.com';
-// const URL_API = 'http://localhost:3001';
+// const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
+const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
 
-// const URL_API_IMAGE = 'https://the-movie-node-image.onrender.com';
-// const URL_API_IMAGE = 'https://python-api-basic.onrender.com';
-const URL_API_IMAGE = 'https://phimhay247-nodejs-api-image.onrender.com';
+// const URL_API_IMAGE = 'https://phimhay247-nodejs-api-image.onrender.com';
+const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
 
 const emailValidation = (email) =>
   axios.get(

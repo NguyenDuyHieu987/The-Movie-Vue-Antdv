@@ -3,7 +3,6 @@
     <div>
       <SlideTopicHome />
     </div>
-
     <h2 class="gradient-title-default" v-show="nowPlayings?.length">
       <strong>Phim nổi bật</strong>
       <router-link
@@ -257,6 +256,9 @@ export default {
       btnNext,
     };
   },
+  // mounted() {
+  //   document.dispatchEvent(new Event('render-complete'));
+  // },
 };
 </script>
 
