@@ -104,7 +104,8 @@ export default defineComponent({
     &::-webkit-scrollbar {
       width: 10px;
       height: 10px;
-      background: #383838;
+      // background: #383838;
+      background: none;
     }
 
     &::-webkit-scrollbar-thumb {

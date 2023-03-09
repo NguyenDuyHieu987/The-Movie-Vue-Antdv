@@ -30,11 +30,7 @@
         <img class="pngegg" src="../assets/images/pngegg.png" />
         <p>
           <span class="release-date">
-            {{
-              item?.release_date
-                ? item?.release_date?.slice(0, 4)
-                : item?.first_air_date?.slice(0, 4)
-            }}
+            {{ item?.release_date ? item?.release_date : item?.last_air_date }}
           </span>
 
           <span class="genres">

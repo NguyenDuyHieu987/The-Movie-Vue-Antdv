@@ -75,7 +75,7 @@
               {{
                 item?.release_date
                   ? item?.release_date?.slice(0, 4)
-                  : item?.first_air_date?.slice(0, 4)
+                  : item?.last_air_date?.slice(0, 4)
               }}
             </p>
           </div>
