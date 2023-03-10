@@ -31,7 +31,6 @@
         @change="handleChangeType"
         v-if="$route.params?.slug == 'search'"
         button-style="solid"
-        size="large"
       >
         <a-radio-button value="all"> Tất cả</a-radio-button>
         <a-radio-button value="movie">Phim lẻ </a-radio-button>

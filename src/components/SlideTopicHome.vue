@@ -1,5 +1,11 @@
 <template>
-  <a-carousel :arrows="true" :autoplay="true" :dots="false" effect="fade">
+  <a-carousel
+    :arrows="true"
+    :autoplay="true"
+    :dots="false"
+    effect="fade"
+    v-show="trendings?.length"
+  >
     <template #prevArrow>
       <div class="custom-slick-arrow">
         <font-awesome-icon icon="fa-solid fa-chevron-left" />
@@ -15,7 +21,14 @@
     </div>
   </a-carousel>
 
-  <el-carousel :interval="3000" type="card" height="80vh" loop trigger="click">
+  <el-carousel
+    :interval="3000"
+    type="card"
+    height="80vh"
+    loop
+    trigger="click"
+    v-show="trendings?.length"
+  >
     <el-carousel-item
       v-for="(item, index) in trendings || []"
       :key="item.id"

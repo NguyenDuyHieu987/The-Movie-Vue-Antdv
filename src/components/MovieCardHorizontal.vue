@@ -23,16 +23,6 @@
         }"
         class="movie-card-horizontal-item"
       >
-        <!-- v-if="item?.id"
-    :to="{
-      name: 'info',
-      params: {
-        id: item?.id,
-        name: item?.name
-          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase(),
-      },
-    }" -->
         <div class="img-box">
           <a-image
             v-if="!loading"
@@ -44,19 +34,12 @@
               )
             "
             :preview="false"
-            v-lazy="
-              getPoster(
-                dataMovie?.backdrop_path
-                  ? dataMovie?.backdrop_path
-                  : dataMovie?.poster_path
-              )
-            "
           >
           </a-image>
 
           <!-- <a-skeleton-image v-else class="ant-image" /> -->
 
-          <div v-if="!loading" class="duration-episode-box">
+          <div v-show="!loading" class="duration-episode-box">
             <p class="duration-episode">
               {{
                 isEpisodes
@@ -70,12 +53,14 @@
             </p>
           </div>
 
-          <div v-if="!loading" class="release-date-box">
+          <div v-show="!loading" class="release-date-box">
             <p class="release-date">
               {{
                 item?.release_date
                   ? item?.release_date?.slice(0, 4)
                   : item?.last_air_date?.slice(0, 4)
+                  ? item?.last_air_date?.slice(0, 4)
+                  : item?.first_air_date?.slice(0, 4)
               }}
             </p>
           </div>

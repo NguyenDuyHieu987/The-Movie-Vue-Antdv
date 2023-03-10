@@ -2,7 +2,6 @@
   <div class="list-episodes">
     <div class="control-episodes">
       <el-button
-        size="large"
         type="primary"
         plain
         :disabled="currentEpisode == 1"
@@ -11,7 +10,6 @@
         Tập trước
       </el-button>
       <el-button
-        size="large"
         type="primary"
         plain
         :disabled="

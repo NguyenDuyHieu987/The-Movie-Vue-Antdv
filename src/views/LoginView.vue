@@ -358,7 +358,7 @@ export default defineComponent({
   background-color: #0000002d;
   overflow: hidden;
   width: 550px;
-  min-height: 96vh;
+  min-height: 700px;
 
   .login-form {
     position: absolute;

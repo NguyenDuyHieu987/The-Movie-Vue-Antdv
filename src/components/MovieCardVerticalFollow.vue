@@ -31,11 +31,6 @@
             )
           "
           :preview="false"
-          v-lazy="
-            getPoster(
-              item?.poster_path ? item?.poster_path : item?.backdrop_path
-            )
-          "
         >
         </a-image>
 
@@ -61,6 +56,8 @@
               item?.release_date
                 ? item?.release_date?.slice(0, 4)
                 : item?.last_air_date?.slice(0, 4)
+                ? item?.last_air_date?.slice(0, 4)
+                : item?.first_air_date?.slice(0, 4)
             }}
           </p>
         </div>
@@ -81,10 +78,10 @@
         </p>
         <div class="info-bottom">
           <p class="genres" v-if="item?.genres">
-            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
+            {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
           </p>
           <p class="genres" v-else>
-            {{ Array.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
+            {{ Array?.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
           </p>
         </div>
         <!-- </a-skeleton> -->

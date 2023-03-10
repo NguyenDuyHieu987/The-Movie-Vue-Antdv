@@ -238,9 +238,7 @@ import { useRoute } from 'vue-router';
 
 export default {
   components: { CaretRightFilled },
-  props: {
-    type: String,
-  },
+  props: {},
   setup(props, { emit }) {
     const route = useRoute();
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <component :is="layout">
-      <router-view />
+      <router-view :key="$route.fullPath" />
 
       <div id="components-back-top-demo-custom">
         <a-back-top class="ant-back-top-inner" :visibilityHeight="600">

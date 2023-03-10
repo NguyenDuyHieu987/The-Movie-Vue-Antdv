@@ -10,13 +10,6 @@
                 : dataMovie?.poster_path
             )
           "
-          v-lazy="
-            getPoster(
-              dataMovie?.backdrop_path
-                ? dataMovie?.backdrop_path
-                : dataMovie?.poster_path
-            )
-          "
           :preview-src-list="srcBackdropList"
           :preview-teleported="true"
         >
@@ -599,10 +592,12 @@ export default {
       isAddToList.value = false;
       loading.value = true;
 
-      document.title = `${Array.from(
-        route.params?.name.split('+'),
-        (x) => x.charAt(0).toUpperCase() + x?.slice(1)
-      ).join(' ')} - Thông tin`;
+      if (route.params?.name) {
+        document.title = `${Array?.from(
+          route.params?.name?.split('+'),
+          (x) => x.charAt(0).toUpperCase() + x?.slice(1)
+        ).join(' ')} - Thông tin`;
+      }
 
       srcBackdropList.value = [];
 

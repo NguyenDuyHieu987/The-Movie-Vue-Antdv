@@ -3,7 +3,7 @@
     <Header />
     <a-layout :class="[$store.state.collapsed ? 'expand' : '', 'body-content']">
       <Sider />
-      <a-layout style="width: 100%">
+      <a-layout>
         <BreadCrumb />
         <a-layout-content class="container">
           <slot />

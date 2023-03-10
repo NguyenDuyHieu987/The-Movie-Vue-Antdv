@@ -1,8 +1,6 @@
 <template>
   <div class="home-container">
-    <div>
-      <SlideTopicHome />
-    </div>
+    <SlideTopicHome />
     <h2 class="gradient-title-default" v-show="nowPlayings?.length">
       <strong>Phim nổi bật</strong>
       <router-link
@@ -129,6 +127,17 @@
 
     <h2 class="gradient-title-default" v-show="topRateds?.length">
       <strong>Phim chiếu rạp mới</strong>
+      <router-link
+        :to="{
+          name: 'discover',
+          params: {
+            slug: 'movie',
+            slug2: 'toprated',
+          },
+        }"
+        style="font-size: 1.8rem"
+        >Xem tất cả</router-link
+      >
     </h2>
     <carousel
       v-if="topRateds?.length"
@@ -179,7 +188,7 @@
           items: 9,
         },
         2200: {
-          items: 10,
+          items: 11,
         },
       }"
     >

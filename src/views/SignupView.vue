@@ -398,7 +398,8 @@ export default defineComponent({
   // border: 0.5px solid #919191;
   background-color: #0000002d;
   width: 550px;
-  min-height: 96vh;
+  min-height: 700px;
+
   overflow: hidden;
 
   &::-webkit-scrollbar-thumb,

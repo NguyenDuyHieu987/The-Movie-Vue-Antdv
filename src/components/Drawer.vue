@@ -16,12 +16,7 @@
     <TheMenu />
   </a-drawer> -->
 
-  <el-drawer
-    v-model="$store.state.openDrawer"
-    direction="ltr"
-    :before-close="handleClose"
-    placement="left"
-  >
+  <el-drawer v-model="$store.state.openDrawer" direction="ltr" placement="left">
     <template #header>
       <div class="logo">
         <router-link :to="{ path: '/' }">
