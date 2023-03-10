@@ -18,6 +18,7 @@ import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import vi from 'element-plus/dist/locale/vi.mjs';
 import VueProgressBar from '@aacassandra/vue3-progressbar';
+import VueMeta from 'vue-meta';
 
 import {
   faVideoCamera,
@@ -92,6 +93,9 @@ app
   .use(Antd)
   .use(store)
   .use(router)
+  .use(VueMeta, {
+    refreshOnceOnNavigation: true,
+  })
   .use(VueSocialSharing)
   .use(VueLazyload)
   .use(ElementPlus, {

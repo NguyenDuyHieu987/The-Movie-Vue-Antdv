@@ -265,9 +265,6 @@ export default {
       btnNext,
     };
   },
-  // mounted() {
-  //   document.dispatchEvent(new Event('render-complete'));
-  // },
 };
 </script>
 
