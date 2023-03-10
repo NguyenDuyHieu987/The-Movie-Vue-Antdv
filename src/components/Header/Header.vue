@@ -264,6 +264,8 @@ export default {
 
     const handleLogout = () => {
       if (isLogin.value) {
+        store.state.userAccount = {};
+        store.state.isLogin = false;
         window.localStorage.removeItem('userAccount');
         window.localStorage.removeItem('userToken');
         window.localStorage.removeItem('remember');
