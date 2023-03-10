@@ -6,7 +6,7 @@
     />
 
     <h2 class="gradient-title-default">
-      <strong v-if="!loading">{{ metaHead }}</strong>
+      <strong>{{ metaHead }}</strong>
 
       <!-- <el-radio-group
         class="tabs-search"
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { onBeforeMount, ref, watch, computed } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {
@@ -110,71 +110,82 @@ export default {
     const loading = ref(false);
     const formFilterSelect = ref({});
     const activeTabSearch = ref('all');
+    const metaHead = ref('');
 
-    const metaHead = computed(() => {
-      switch (route.params?.slug) {
-        case 'search':
-          return 'Kết quả tìm kiếm cho: ' + route.params?.slug2;
+    // const getMetahead = () => {
+    //   switch (route.params?.slug) {
+    //     case 'search':
+    //       metaHead.value = 'Kết quả tìm kiếm cho: ' + route.params?.slug2;
+    //       break;
+    //     case 'movie':
+    //       if (route.params?.slug2) {
+    //         switch (route.params?.slug2) {
+    //           case 'all':
+    //             metaHead.value = 'Phim lẻ: Tất cả';
+    //             break;
 
-        case 'movie':
-          if (route.params?.slug2) {
-            switch (route.params?.slug2) {
-              case 'all':
-                return 'Phim lẻ: Tất cả';
-              case 'nowplaying':
-                return 'Phim lẻ: Now playing';
-              case 'popular':
-                return 'Phim lẻ: Phổ biến';
-              case 'toprated':
-                return 'Phim lẻ: Top đánh giá';
-              case 'upcoming':
-                return 'Phim lẻ: Sắp công chiéu';
-            }
-          }
-          break;
-        case 'tv':
-          if (route.params?.slug2) {
-            switch (route.params?.slug2) {
-              case 'all':
-                return 'Phim bộ: Tất cả';
-              case 'airingtoday':
-                return 'Phim bộ: Airing today';
-              case 'ontheair':
-                return 'Phim bộ: On the air';
-              case 'tvpopular':
-                return 'Phim bộ: Phổ biến';
-              case 'tvtoprated':
-                return 'Phim bộ: Top đánh giá';
-            }
-          }
-          break;
-        case 'genres':
-          return (
-            'Thể loại: ' +
-            getGenresNameByShortName(
-              route.params?.slug2,
-              store.state?.allGenres
-            )?.name_vietsub
-          );
+    //           case 'nowplaying':
+    //             metaHead.value = 'Phim lẻ: Now playing';
+    //             break;
 
-        case 'years':
-          return /^\d+$/.test(route.params?.slug2)
-            ? 'Năm ' + route.params?.slug2
-            : 'Trước năm ' + route.params?.slug2?.slice(-4);
+    //           case 'popular':
+    //             metaHead.value = 'Phim lẻ: Phổ biến';
+    //             break;
+    //           case 'toprated':
+    //             metaHead.value = 'Phim lẻ: Top đánh giá';
+    //             break;
+    //           case 'upcoming':
+    //             metaHead.value = 'Phim lẻ: Sắp công chiéu';
+    //         }
+    //       }
+    //       break;
+    //     case 'tv':
+    //       if (route.params?.slug2) {
+    //         switch (route.params?.slug2) {
+    //           case 'all':
+    //             metaHead.value = 'Phim bộ: Tất cả';
+    //             break;
+    //           case 'airingtoday':
+    //             metaHead.value = 'Phim bộ: Airing today';
+    //             break;
+    //           case 'ontheair':
+    //             metaHead.value = 'Phim bộ: On the air';
+    //             break;
+    //           case 'tvpopular':
+    //             metaHead.value = 'Phim bộ: Phổ biến';
+    //             break;
+    //           case 'tvtoprated':
+    //             metaHead.value = 'Phim bộ: Top đánh giá';
+    //         }
+    //       }
+    //       break;
+    //     case 'genres':
+    //       metaHead.value =
+    //         'Thể loại: ' +
+    //         getGenresNameByShortName(
+    //           route.params?.slug2,
+    //           store.state?.allGenres
+    //         )?.name_vietsub;
 
-        case 'countries':
-          return (
-            'Quốc gia: ' +
-            store.state.allCountries.find(
-              (country) => country.short_name === route.params?.slug2
-            )?.name
-          );
+    //       break;
+    //     case 'years':
+    //       metaHead.value = /^\d+$/.test(route.params?.slug2)
+    //         ? 'Năm ' + route.params?.slug2
+    //         : 'Trước năm ' + route.params?.slug2?.slice(-4);
 
-        default:
-          break;
-      }
-      return '';
-    });
+    //       break;
+    //     case 'countries':
+    //       metaHead.value =
+    //         'Quốc gia: ' +
+    //         store.state.allCountries.find(
+    //           (country) => country.short_name === route.params?.slug2
+    //         )?.name;
+
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // };
 
     const getData = () => {
       if (isFilter.value) {
@@ -383,19 +394,22 @@ export default {
     };
 
     watch(route, () => {
-      isFilter.value = false;
-      getData();
-
-      document.title = `Phimhay247 - ${metaHead.value}`;
+      // isFilter.value = false;
+      // getData();
+      // document.title = `Phimhay247 - ${metaHead.value}`;
     });
-    // setMetaHead();
+
+    router.beforeEach((to, from) => {
+      if (from.params.slug != to.params.slug) {
+        // getMetahead();
+      }
+    });
 
     onBeforeMount(() => {
       isFilter.value = false;
       loading.value = true;
 
       getData();
-
       setTimeout(() => {
         loading.value = false;
       }, 1000);
@@ -551,36 +565,39 @@ export default {
   }
 }
 
-.movie-discovered {
-  display: grid;
-  // grid-template-columns: repeat(auto-fit, minmax(230px, auto));
-  // margin-top: 10px;
-  gap: 10px;
-  overflow: hidden;
-  grid-template-columns: repeat(4, minmax(23%, auto));
-  .movie-carousel-horizontal-item {
-    float: left;
+.discover-container {
+  .movie-discovered {
+    display: grid;
+    // grid-template-columns: repeat(auto-fit, minmax(230px, auto));
+    // margin-top: 10px;
+    gap: 10px;
+    overflow: hidden;
+    grid-template-columns: repeat(4, minmax(23%, auto));
+    .movie-carousel-horizontal-item {
+      float: left;
+    }
   }
-}
-.ant-radio-group.tabs-search,
-.el-radio-group.tabs-search {
-  margin-bottom: 5px !important;
-}
 
-// .el-radio-button:not(:last-child),
-// .ant-radio-button-wrapper:not(:last-child) {
-//   margin-right: 7px;
-// }
+  .ant-radio-group.tabs-search,
+  .el-radio-group.tabs-search {
+    margin-bottom: 5px !important;
+  }
 
-.gradient-title-default {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+  // .el-radio-button:not(:last-child),
+  // .ant-radio-button-wrapper:not(:last-child) {
+  //   margin-right: 7px;
+  // }
 
-.control-page {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  .gradient-title-default {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .control-page {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
 }
 </style>

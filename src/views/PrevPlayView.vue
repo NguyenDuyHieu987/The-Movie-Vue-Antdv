@@ -697,7 +697,7 @@ export default {
           class: 'require-login-confirm',
         });
       } else {
-        if (!isAddToList.value) {
+        if (isAddToList.value == false) {
           ElMessageBox({
             title: 'Thông báo',
             message: h(

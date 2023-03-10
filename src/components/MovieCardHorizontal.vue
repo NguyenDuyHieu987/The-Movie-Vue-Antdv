@@ -1,28 +1,28 @@
 <template>
-  <el-skeleton :loading="loading" animated class="movie-card-horizontal-item">
-    <template #template>
-      <div class="img-box">
-        <el-skeleton-item class="ant-image" variant="image" />
-      </div>
-      <div style="margin-top: 7px">
-        <el-skeleton-item variant="text" />
-        <el-skeleton-item variant="text" style="width: 60%" />
-      </div>
-    </template>
+  <router-link
+    :to="{
+      name: 'info',
+      params: {
+        id: item?.id,
+        name: item?.name
+          ? item?.name?.replace(/\s/g, '+').toLowerCase()
+          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+      },
+    }"
+    class="movie-card-horizontal-item"
+  >
+    <el-skeleton :loading="loading" animated>
+      <template #template>
+        <div class="img-box">
+          <el-skeleton-item class="ant-image" variant="image" />
+        </div>
+        <div style="margin-top: 7px">
+          <el-skeleton-item variant="text" />
+          <el-skeleton-item variant="text" style="width: 60%" />
+        </div>
+      </template>
 
-    <template #default>
-      <router-link
-        :to="{
-          name: 'info',
-          params: {
-            id: item?.id,
-            name: item?.name
-              ? item?.name?.replace(/\s/g, '+').toLowerCase()
-              : item?.title?.replace(/\s/g, '+').toLowerCase(),
-          },
-        }"
-        class="movie-card-horizontal-item"
-      >
+      <template #default>
         <div class="img-box">
           <a-image
             v-if="!loading"
@@ -105,9 +105,9 @@
             <!-- </a-skeleton> -->
           </div>
         </a-tooltip>
-      </router-link>
-    </template>
-  </el-skeleton>
+      </template>
+    </el-skeleton>
+  </router-link>
 </template>
 <script>
 import { ref, onBeforeMount } from 'vue';
@@ -158,7 +158,7 @@ export default {
 
       setTimeout(() => {
         loading.value = false;
-      }, 1500);
+      }, 3000);
     });
     return {
       genresName,
