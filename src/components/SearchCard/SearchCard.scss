@@ -1,0 +1,33 @@
+.movie-search-item {
+  display: flex;
+  padding: 10px 5px;
+
+  &:hover {
+    .info {
+      color: #fff;
+    }
+  }
+
+  .ant-image {
+    height: 130px;
+    width: 100px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .info {
+    font-size: 1.4rem;
+    margin-left: 10px;
+    color: #3b3b3b;
+
+    .duration-episode {
+      // margin-left: 10px;
+    }
+  }
+}
+.movie-search-item + .movie-search-item {
+  border-top: 1px solid #6d6d6d;
+}

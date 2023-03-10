@@ -17,12 +17,12 @@
 
 <script>
 import { ref } from 'vue';
-import Header from '@/components/Header.vue';
-import Drawer from '@/components/Drawer.vue';
-import Sider from '@/components/Sider.vue';
+import Header from '@/components/Header/Header.vue';
+import Drawer from '@/components/Drawer/Drawer.vue';
+import Sider from '@/components/Sider/Sider.vue';
 // import Content from '@/components/Content.vue';
-import Footer from '@/components/Footer.vue';
-import BreadCrumb from '@/components/BreadCrumb.vue';
+import Footer from '@/components/Footer/Footer.vue';
+import BreadCrumb from '@/components/BreadCrumb/BreadCrumb.vue';
 
 export default {
   components: {

@@ -9,7 +9,7 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ '../views/HomeView.vue'),
+      import(/* webpackChunkName: "home" */ '../views/HomeView/HomeView.vue'),
   },
   {
     path: '/discover/:slug/:slug2',
@@ -19,7 +19,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "discover" */ '../views/DiscoverMovieView.vue'
+        /* webpackChunkName: "discover" */ '../views/DiscoverMovieView/DiscoverMovieView.vue'
       ),
   },
   {
@@ -30,7 +30,9 @@ const routes = [
       requiresAuth: true,
     },
     component: () =>
-      import(/* webpackChunkName: "follow" */ '../views/FollowView.vue'),
+      import(
+        /* webpackChunkName: "follow" */ '../views/FollowView/FollowView.vue'
+      ),
   },
   {
     path: '/ranking',
@@ -39,7 +41,9 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "ranking" */ '../views/RankingView.vue'),
+      import(
+        /* webpackChunkName: "ranking" */ '../views/RankingView/RankingView.vue'
+      ),
   },
   {
     path: '/info/:id/:name',
@@ -48,7 +52,9 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "info" */ '../views/PrevPlayView.vue'),
+      import(
+        /* webpackChunkName: "info" */ '../views/PrevPlayView/PrevPlayView.vue'
+      ),
   },
   {
     path: '/play/:id/:name',
@@ -57,7 +63,7 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "play" */ '../views/PlayView.vue'),
+      import(/* webpackChunkName: "play" */ '../views/PlayView/PlayView.vue'),
   },
   {
     path: '/play/:id/:name/:tap',
@@ -66,7 +72,7 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "play" */ '../views/PlayView.vue'),
+      import(/* webpackChunkName: "play" */ '../views/PlayView/PlayView.vue'),
   },
   {
     path: '/profile',
@@ -75,7 +81,9 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "profile" */ '../views/ProfileView.vue'),
+      import(
+        /* webpackChunkName: "profile" */ '../views/ProfileView/ProfileView.vue'
+      ),
   },
   {
     path: '/login',
@@ -84,7 +92,9 @@ const routes = [
       layout: 'auth',
     },
     component: () =>
-      import(/* webpackChunkName: "login" */ '../views/LoginView.vue'),
+      import(
+        /* webpackChunkName: "login" */ '../views/LoginView/LoginView.vue'
+      ),
   },
   {
     path: '/signup',
@@ -93,14 +103,18 @@ const routes = [
       layout: 'auth',
     },
     component: () =>
-      import(/* webpackChunkName: "signup" */ '../views/SignupView.vue'),
+      import(
+        /* webpackChunkName: "signup" */ '../views/SignupView/SignupView.vue'
+      ),
   },
   {
     // path: "*",
     path: '/404',
     name: '404',
     component: () =>
-      import(/* webpackChunkName: "NotFound" */ '../views/Error404View.vue'),
+      import(
+        /* webpackChunkName: "NotFound" */ '../views/Error404View/Error404View.vue'
+      ),
   },
   {
     path: '/:catchAll(.*)',

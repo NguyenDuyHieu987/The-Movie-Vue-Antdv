@@ -73,7 +73,7 @@ const gauthOption = {
 };
 
 const progressBarOptions = {
-  color: '#00af98',
+  color: '#1275d1',
   failedColor: 'red',
   thickness: '3px',
   transition: {
