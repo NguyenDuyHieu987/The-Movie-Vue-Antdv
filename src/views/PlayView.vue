@@ -122,11 +122,15 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, watch, computed, onMounted } from 'vue';
 import {
-  useRoute,
-  //  useRouter
-} from 'vue-router';
+  ref,
+  onBeforeMount,
+  watch,
+  computed,
+  onMounted,
+  getCurrentInstance,
+} from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {
   getAllGenresById,
@@ -149,7 +153,7 @@ export default {
   },
   setup() {
     const route = useRoute();
-    // const router = useRouter();
+    const router = useRouter();
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
@@ -164,9 +168,12 @@ export default {
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
+    const internalInstance = getCurrentInstance();
 
     const getData = () => {
       loading.value = true;
+      internalInstance.appContext.config.globalProperties.$Progress.start();
+
       document.title = `${Array?.from(
         route.params?.name?.split('+'),
         (x) => x.charAt(0).toUpperCase() + x.slice(1)
@@ -195,6 +202,7 @@ export default {
 
       setTimeout(() => {
         loading.value = false;
+        internalInstance.appContext.config.globalProperties.$Progress.finish();
       }, 2500);
     };
 
@@ -204,6 +212,20 @@ export default {
 
     onMounted(() => {
       // getData();
+    });
+
+    router.beforeEach((to) => {
+      if (to.params.slug == 'play') {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
+
+        dataCredit.value = [];
+
+        getData();
+      }
     });
 
     watch(route, () => {
@@ -217,12 +239,6 @@ export default {
     const getUrlCodeMovie = (data) => {
       urlCodeMovie.value = data;
     };
-
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
 
     return {
       genresName,

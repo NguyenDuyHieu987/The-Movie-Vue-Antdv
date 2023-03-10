@@ -1,5 +1,6 @@
 <template>
   <div>
+    <vue-progress-bar />
     <component :is="layout">
       <router-view :key="$route.fullPath" />
 

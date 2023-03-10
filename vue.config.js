@@ -31,7 +31,7 @@ module.exports = defineConfig({
   devServer: {
     // proxy: 'http://127.0.0.1:5000/',
   },
-  // configureWebpack(config) {
-  //   config.plugins = [...config.plugins, ...plugins];
-  // },
+  configureWebpack(config) {
+    config.plugins = [...config.plugins, ...plugins];
+  },
 });

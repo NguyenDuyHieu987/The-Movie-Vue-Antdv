@@ -487,6 +487,7 @@ import {
   createVNode,
   computed,
   h,
+  getCurrentInstance,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
@@ -582,15 +583,17 @@ export default {
     const isOpenTrailerYoutube = ref(false);
     const loading = ref(false);
     const srcBackdropList = ref([]);
-
     const isAddToList = ref(false);
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left"></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right"></i>');
+    const internalInstance = getCurrentInstance();
 
     const getData = () => {
       isAddToList.value = false;
       loading.value = true;
+
+      internalInstance.appContext.config.globalProperties.$Progress.start();
 
       if (route.params?.name) {
         document.title = `${Array?.from(
@@ -664,6 +667,7 @@ export default {
 
       setTimeout(() => {
         loading.value = false;
+        internalInstance.appContext.config.globalProperties.$Progress.finish();
       }, 2500);
     };
 
@@ -835,38 +839,37 @@ export default {
       router.push({ path: '/login' });
     };
 
-    watch(isEpisodes, () => {
-      getData();
+    router.beforeEach((to) => {
+      if (to.params.slug == 'info') {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
+
+        dataCredit.value = [];
+
+        getData();
+      }
     });
 
+    // watch(isEpisodes, () => {
+    //   getData();
+    // });
+
     watch(route, () => {
-      // router.push({ path: newVal.path }).then(() => {
-      //   router.go();
+      // window.scrollTo({
+      //   top: 0,
+      //   left: 0,
+      //   behavior: 'smooth',
       // });
-
-      // console.log(router);
-      // router.go();
-
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth',
-      });
-
-      dataCredit.value = [];
-
-      getData();
+      // dataCredit.value = [];
+      // getData();
     });
 
     const checkEmptyDataMovies = computed(() => {
       if (Object.keys(dataMovie.value).length == 0) return true;
       else return false;
-    });
-
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
     });
 
     return {

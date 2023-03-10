@@ -28,8 +28,8 @@
             background
             layout="prev, pager, next, total"
             :total="totalPage"
-            @current-change="onChangePage"
           />
+          <!-- @current-change="onChangePage" -->
         </div>
       </a-layout-content>
       <a-layout-sider :width="450" class="sider-rank">

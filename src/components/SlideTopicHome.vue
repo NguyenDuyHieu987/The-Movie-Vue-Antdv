@@ -77,7 +77,7 @@ export default {
 @media only screen and (max-width: 1900px) {
   .el-carousel {
     .el-carousel__container {
-      height: 70vh !important;
+      height: 60vh !important;
     }
   }
   .ant-carousel {
@@ -90,7 +90,7 @@ export default {
 @media only screen and (max-width: 1670px) {
   .el-carousel {
     .el-carousel__container {
-      height: 65vh !important;
+      height: 55vh !important;
     }
   }
   .ant-carousel {

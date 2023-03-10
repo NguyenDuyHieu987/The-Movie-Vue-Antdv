@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { onBeforeMount, ref, watch } from 'vue';
+import { onBeforeMount, ref, watch, getCurrentInstance } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {
@@ -111,6 +111,7 @@ export default {
     const formFilterSelect = ref({});
     const activeTabSearch = ref('all');
     const metaHead = ref('');
+    const internalInstance = getCurrentInstance();
 
     // const getMetahead = () => {
     //   switch (route.params?.slug) {
@@ -408,11 +409,14 @@ export default {
     onBeforeMount(() => {
       isFilter.value = false;
       loading.value = true;
+      internalInstance.appContext.config.globalProperties.$Progress.start();
 
       getData();
+
       setTimeout(() => {
         loading.value = false;
-      }, 1000);
+        internalInstance.appContext.config.globalProperties.$Progress.finish();
+      }, 3000);
       document.title = `Phimhay247 - ${metaHead.value}`;
     });
 
@@ -429,11 +433,18 @@ export default {
     };
 
     const setDataFiltered = (data, formSelect) => {
+      internalInstance.appContext.config.globalProperties.$Progress.start();
+
       dataDiscover.value = data;
       formFilterSelect.value = formSelect;
       isFilter.value = true;
       page.value = formSelect.pageFilter;
       metaHead.value = 'Danh sách phim đã lọc';
+
+      setTimeout(() => {
+        loading.value = false;
+        internalInstance.appContext.config.globalProperties.$Progress.finish();
+      }, 3000);
     };
 
     const cancelFilter = () => {

@@ -91,7 +91,10 @@
                 <p class="genres" v-if="item?.genres">
                   {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
                 </p>
-                <p class="genres" v-else>
+                <p
+                  class="genres"
+                  v-else-if="item?.genres == undefined && dataMovie?.genres"
+                >
                   {{
                     Array?.from(dataMovie?.genres, (x) => x.name).join(' • ')
                   }}
