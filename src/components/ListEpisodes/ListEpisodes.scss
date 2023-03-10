@@ -33,7 +33,6 @@
         white-space: nowrap;
         vertical-align: middle;
         display: inline-block;
-        // background-color: #00516c;
         background-image: linear-gradient(
           to right,
           #006a88,
@@ -43,9 +42,9 @@
         background-size: 200% 100%;
 
         &:hover {
-          //   background-color: #006b8fb0;
           background-size: 200% 100%;
-          background-position: -65px center;
+          // background-position: -65px center;
+          background-position: 100% center;
         }
       }
       &.active {
