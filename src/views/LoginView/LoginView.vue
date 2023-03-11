@@ -125,6 +125,7 @@ import { setWithExpiry } from '../../untils/LocalStorage';
 // import { googleAuthCodeLogin } from 'vue3-google-login';
 import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
+import { useMeta } from 'vue-meta';
 
 export default defineComponent({
   components: {
@@ -146,6 +147,11 @@ export default defineComponent({
       formState.password = '';
       formState.remember = false;
     };
+
+    useMeta({
+      title: '`Phimhay247 | Đăng nhập',
+      htmlAttrs: { lang: 'vi', amp: true },
+    });
 
     const onFinish = () => {
       // console.log('Success:', values);
@@ -300,6 +306,7 @@ export default defineComponent({
 
       console.log('Handle the response', response);
     };
+
     return {
       formState,
       disabled,

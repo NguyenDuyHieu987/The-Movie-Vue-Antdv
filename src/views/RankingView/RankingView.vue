@@ -76,6 +76,8 @@
 import { onBeforeMount, ref, watch } from 'vue';
 import MovieCarouselCardVertical from '@/components/MovieCardVertical/MovieCardVertical.vue';
 import { getTrending } from '../../services/MovieService';
+import { useMeta } from 'vue-meta';
+
 export default {
   components: {
     MovieCarouselCardVertical,
@@ -134,7 +136,12 @@ export default {
       }
     };
 
-    document.title = 'Phimhay247 - Xếp hạng';
+    useMeta({
+      title: '`Phimhay247 | Xếp hạng',
+      htmlAttrs: { lang: 'vi', amp: true },
+    });
+
+    // document.title = 'Phimhay247 - Xếp hạng';
 
     return {
       activeTab,

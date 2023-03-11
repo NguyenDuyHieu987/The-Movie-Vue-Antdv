@@ -217,6 +217,7 @@ import {
   getTopRated,
   getUpComing,
 } from '../../services/MovieService';
+import { useMeta } from 'vue-meta';
 
 export default {
   name: 'home',
@@ -236,6 +237,11 @@ export default {
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
 
+    useMeta({
+      title: 'Phimhay247',
+      htmlAttrs: { lang: 'vi', amp: true },
+    });
+
     onBeforeMount(() => {
       Promise.all([
         getNowPlaying(1),
@@ -253,8 +259,6 @@ export default {
           if (axios.isCancel(e)) return;
         });
     });
-
-    document.title = 'Phimhay247';
 
     return {
       nowPlayings,

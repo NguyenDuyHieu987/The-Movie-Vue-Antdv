@@ -518,6 +518,7 @@ import {
 } from 'ant-design-vue';
 import { removeVietnameseTones } from '../../untils/RemoveVietnameseTones';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import { useMeta } from 'vue-meta';
 
 export default {
   components: {
@@ -594,12 +595,30 @@ export default {
 
       internalInstance.appContext.config.globalProperties.$Progress.start();
 
-      if (route.params?.name) {
-        document.title = `${Array?.from(
-          route.params?.name?.split('+'),
-          (x) => x.charAt(0).toUpperCase() + x?.slice(1)
-        ).join(' ')} - Thông tin`;
-      }
+      useMeta({
+        title:
+          '`Phimhay247 | Thông tin | ' +
+          Array?.from(
+            route.params?.name?.split('+'),
+            (x) => x.charAt(0).toUpperCase() + x.slice(1)
+          ).join(' ')
+            ? '`Phimhay247 | Thông tin | ' +
+              Array?.from(
+                route.params?.name?.split('+'),
+                (x) => x.charAt(0).toUpperCase() + x.slice(1)
+              ).join(' ')
+            : '`Phimhay247 | Thông tin | ' +
+              Array?.from(
+                route.params?.name?.split('+'),
+                (x) => x.charAt(0).toUpperCase() + x.slice(1)
+              ).join(' '),
+        htmlAttrs: { lang: 'vi', amp: true },
+      });
+
+      // document.title = `${Array?.from(
+      //   route.params?.name?.split('+'),
+      //   (x) => x.charAt(0).toUpperCase() + x?.slice(1)
+      // ).join(' ')} - Thông tin`;
 
       srcBackdropList.value = [];
 

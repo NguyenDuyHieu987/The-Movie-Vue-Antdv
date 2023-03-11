@@ -148,6 +148,7 @@ import Interaction from '@/components/Interaction/Interaction.vue';
 import RatingMovie from '@/components/RatingMovie/RatingMovie.vue';
 import MovieSuggest from '@/components/MovieSuggest/MovieSuggest.vue';
 import ListEpisodes from '@/components/ListEpisodes/ListEpisodes.vue';
+import { useMeta } from 'vue-meta';
 
 export default {
   components: {
@@ -179,10 +180,30 @@ export default {
       loading.value = true;
       internalInstance.appContext.config.globalProperties.$Progress.start();
 
-      document.title = `${Array?.from(
-        route.params?.name?.split('+'),
-        (x) => x.charAt(0).toUpperCase() + x.slice(1)
-      ).join(' ')} - Xem phim`;
+      useMeta({
+        title:
+          '`Phimhay247 | Xem phim | ' +
+          Array?.from(
+            route.params?.name?.split('+'),
+            (x) => x.charAt(0).toUpperCase() + x.slice(1)
+          ).join(' ')
+            ? '`Phimhay247 | Xem phim | ' +
+              Array?.from(
+                route.params?.name?.split('+'),
+                (x) => x.charAt(0).toUpperCase() + x.slice(1)
+              ).join(' ')
+            : '`Phimhay247 | Xem phim | ' +
+              Array?.from(
+                route.params?.name?.split('+'),
+                (x) => x.charAt(0).toUpperCase() + x.slice(1)
+              ).join(' '),
+        htmlAttrs: { lang: 'vi', amp: true },
+      });
+
+      // document.title = `${Array?.from(
+      //   route.params?.name?.split('+'),
+      //   (x) => x.charAt(0).toUpperCase() + x.slice(1)
+      // ).join(' ')} - Xem phim`;
 
       getTvById(route.params?.id)
         .then((tvResponed) => {

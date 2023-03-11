@@ -95,6 +95,7 @@ import {
 import MovieCarouselCardHorizontal from '@/components/MovieCardHorizontal/MovieCardHorizontal.vue';
 import FilterBar from '@/components/FilterBar/FilterBar.vue';
 import { useStore } from 'vuex';
+import { useMeta } from 'vue-meta';
 
 export default {
   components: { MovieCarouselCardHorizontal, FilterBar },
@@ -418,7 +419,12 @@ export default {
         loading.value = false;
         internalInstance.appContext.config.globalProperties.$Progress.finish();
       }, 3000);
-      document.title = `Phimhay247 - ${metaHead.value}`;
+
+      // document.title = `Phimhay247 - ${metaHead.value}`;
+      useMeta({
+        title: '`Phimhay247 | ' + metaHead.value,
+        htmlAttrs: { lang: 'vi', amp: true },
+      });
     });
 
     const onChangePage = (

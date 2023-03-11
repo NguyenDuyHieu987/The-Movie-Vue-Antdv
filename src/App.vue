@@ -1,5 +1,10 @@
 <template>
   <div>
+    <metainfo>
+      <template v-slot:title="{ content }">{{
+        content ? `${content}` : `Phimhay247`
+      }}</template>
+    </metainfo>
     <vue-progress-bar />
     <component :is="layout">
       <router-view :key="$route.fullPath" />
@@ -24,7 +29,6 @@ import { getUserToken } from './services/MovieService';
 import { getWithExpiry } from './untils/LocalStorage';
 import { Modal } from 'ant-design-vue';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
-import { useMeta } from 'vue-meta';
 
 export default {
   components: {},
@@ -32,11 +36,6 @@ export default {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-
-    useMeta({
-      title: 'Phimhay247',
-      htmlAttrs: { lang: 'en', amp: true },
-    });
 
     onBeforeMount(() => {
       // const remember = window.localStorage.getItem('remember');

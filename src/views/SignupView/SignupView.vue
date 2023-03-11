@@ -143,6 +143,7 @@ import md5 from 'md5';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
+import { useMeta } from 'vue-meta';
 
 export default defineComponent({
   components: {
@@ -167,6 +168,11 @@ export default defineComponent({
       formState.checkPass = '';
       formState.email = '';
     };
+
+    useMeta({
+      title: '`Phimhay247 | Đăng ký',
+      htmlAttrs: { lang: 'vi', amp: true },
+    });
 
     const onFinish = () => {
       // console.log('Success:', values);

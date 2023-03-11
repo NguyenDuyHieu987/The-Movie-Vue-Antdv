@@ -70,6 +70,7 @@ import { useRoute } from 'vue-router';
 import axios from 'axios';
 import MovieCardVerticalFollow from '@/components/MovieCardVerticalFollow/MovieCardVerticalFollow.vue';
 import { getList, getWatchList } from '../../services/MovieService';
+import { useMeta } from 'vue-meta';
 
 export default {
   components: { MovieCardVerticalFollow },
@@ -81,6 +82,12 @@ export default {
     const dataList = ref([]);
     const dataHistory = ref([]);
     const activeTabList = ref('list');
+
+    // document.title = 'Phimhay247 - Theo dõi';
+    useMeta({
+      title: '`Phimhay247 | Theo dõi',
+      htmlAttrs: { lang: 'vi', amp: true },
+    });
 
     const getData = () => {
       getList(store?.state.userAccount?.id)
@@ -132,8 +139,6 @@ export default {
     watch(route, () => {
       // getData();
     });
-
-    document.title = 'Phimhay247 - Theo dõi';
 
     return {
       isLogin,
