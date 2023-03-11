@@ -17,9 +17,6 @@
         getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
       "
       :preview="false"
-      v-lazy="
-        getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
-      "
       loading="lazy"
       @load="onLoadImage"
     >
@@ -30,7 +27,13 @@
         <img class="pngegg" src="@/assets/images/pngegg.png" />
         <p>
           <span class="release-date">
-            {{ item?.release_date ? item?.release_date : item?.last_air_date }}
+            {{
+              item?.release_date
+                ? item?.release_date
+                : item?.last_air_date
+                ? item?.last_air_date
+                : item?.first_air_date
+            }}
           </span>
 
           <span class="genres">
