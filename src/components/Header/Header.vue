@@ -1,8 +1,12 @@
 <template>
   <a-layout-header class="header">
     <div class="logo">
-      <button class="menu-btn" @click="$store.state.openDrawer = true">
-        <menu-outlined />
+      <button
+        class="menu-btn"
+        @click="$store.state.openDrawer = !$store.state.openDrawer"
+      >
+        <menu-outlined v-if="$store.state.openDrawer == false" />
+        <el-icon v-else><Close /></el-icon>
       </button>
       <router-link :to="{ name: 'home' }">
         <a-tooltip title="Trang chủ">
@@ -208,6 +212,7 @@ import { useStore } from 'vuex';
 import { getDaTaSearch } from '../../services/MovieService';
 import SearchCard from '@/components/SearchCard/SearchCard.vue';
 import { useRouter } from 'vue-router';
+import { Close } from '@element-plus/icons-vue';
 
 export default {
   components: {
@@ -216,6 +221,7 @@ export default {
     MenuOutlined,
     SearchOutlined,
     SearchCard,
+    Close,
   },
   setup() {
     const store = useStore();

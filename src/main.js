@@ -17,7 +17,8 @@ import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import vi from 'element-plus/dist/locale/vi.mjs';
 import VueProgressBar from '@aacassandra/vue3-progressbar';
-import VueMeta, { createMetaManager } from 'vue-meta';
+import { createMetaManager } from 'vue-meta';
+import VueMeta from 'vue-meta';
 
 import {
   faVideoCamera,
@@ -39,7 +40,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube, faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
-// import { faVideoCamera } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
   faVideoCamera,

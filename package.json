@@ -10,6 +10,7 @@
   "dependencies": {
     "@aacassandra/vue3-progressbar": "^1.0.3",
     "@babel/preset-env": "^7.20.2",
+    "@element-plus/icons-vue": "^2.1.0",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-brands-svg-icons": "^6.2.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
@@ -26,7 +27,6 @@
     "md5": "^2.3.0",
     "normalize.css": "^8.0.1",
     "vue": "^3.2.13",
-    "vue-3-meta": "^2.4.0",
     "vue-google-oauth2": "^1.5.10",
     "vue-lazyload": "^3.0.0-rc.2",
     "vue-meta": "^3.0.0-alpha.10",

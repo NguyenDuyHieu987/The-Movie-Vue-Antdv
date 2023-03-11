@@ -16,12 +16,31 @@
     <TheMenu />
   </a-drawer> -->
 
-  <el-drawer v-model="$store.state.openDrawer" direction="ltr" placement="left">
+  <el-drawer
+    v-model="$store.state.openDrawer"
+    direction="ltr"
+    placement="left"
+    :show-close="false"
+  >
     <template #header>
       <div class="logo">
-        <router-link :to="{ path: '/' }">
-          <h1>Phimhay247</h1>
-        </router-link>
+        <div
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <div
+            class="user-image-container"
+            v-if="!$store.state.collapsed && $store.state.isLogin"
+          >
+            <img
+              class="avatar"
+              src="@/assets/images/account_avatar/account4.jpg"
+            />
+          </div>
+
+          <h4 style="color: #fff">
+            {{ $store.state.userAccount?.username }}
+          </h4>
+        </div>
       </div>
     </template>
     <TheMenu />
