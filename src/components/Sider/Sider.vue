@@ -52,7 +52,7 @@
             <a-avatar class="user-name-container">
               <h4 style="color: #fff">
                 {{
-                  $store.state.userAccount?.username.slice(0, 2).toUpperCase()
+                  $store.state.userAccount?.username?.slice(0, 2).toUpperCase()
                 }}
               </h4>
             </a-avatar>
