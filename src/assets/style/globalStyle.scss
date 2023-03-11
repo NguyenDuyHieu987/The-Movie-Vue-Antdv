@@ -158,11 +158,13 @@ span {
 
 .certain-category-search-dropdown {
   .rc-virtual-list-holder {
-    max-height: 50vh !important;
+    max-height: 40vh !important;
     overflow-y: scroll !important;
   }
   .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
-    background-color: #000;
+    // background-color: #000;
+  }
+  .rc-virtual-list-holder-inner {
   }
 }
 

@@ -55,13 +55,11 @@
       @blur="isOpenAutoComplete = false"
       :backfill="true"
     >
-      <template #option>
-        <SearchCard
-          v-for="(item, index) in dataSearch"
-          :index="index"
-          :key="item?.id"
-          :item="item"
-        />
+      <template #option="item">
+        <!-- v-for="(item, index) in dataSearch"
+        :index="index" 
+        -->
+        <SearchCard :key="item?.id" :item="item" />
       </template>
 
       <a-input-search
@@ -99,13 +97,10 @@
             @focus="isOpenAutoComplete = true"
             @blur="isOpenAutoComplete = false"
           >
-            <template #option>
-              <SearchCard
-                v-for="(item, index) in dataSearch"
-                :index="index"
-                :key="item?.id"
-                :item="item"
-              />
+            <template #option="item">
+              <!-- v-for="(item, index) in dataSearch"
+                :index="index" -->
+              <SearchCard :key="item?.id" :item="item" />
             </template>
             <a-input-search
               class="center-header-responsive"
@@ -236,15 +231,14 @@ export default {
 
     const handleChangeInput = () => {
       if (valueInput.value.length > 0) {
-        // dataSearch.value = [];
-
         clearTimeout(debounce.value);
         debounce.value = setTimeout(() => {
           loadingSearch.value = true;
+
           getDaTaSearch(valueInput.value, page.value).then((movieRespone) => {
             dataSearch.value = movieRespone?.data?.results;
           });
-        }, 700);
+        }, 1000);
 
         setTimeout(() => {
           loadingSearch.value = false;

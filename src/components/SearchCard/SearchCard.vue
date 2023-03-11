@@ -10,60 +10,48 @@
     class="movie-search-item"
   >
     <div class="img-box">
+      <!-- v-if="!loading" -->
       <a-image
-        v-if="!loading"
         class="movie-carousel-img"
         :src="
           getPoster(item?.poster_path ? item?.poster_path : item?.backdrop_path)
         "
         :preview="false"
-        v-lazy="
-          getPoster(item?.poster_path ? item?.poster_path : item?.backdrop_path)
-        "
       >
       </a-image>
 
-      <a-skeleton-image v-else class="ant-image" />
+      <!-- <a-skeleton-image v-else class="ant-image" /> -->
     </div>
 
     <!-- <a-tooltip :title="getLanguage(item?.original_language)?.english_name"> -->
     <div class="info">
-      <a-skeleton
-        :loading="loading"
-        :active="true"
-        :paragraph="{ rows: 4 }"
-        :title="false"
-      >
-        <p class="title">
-          {{ item?.name ? item?.name : item?.title }}
-        </p>
-        <p class="genres" v-if="item?.genres">
-          {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
-        </p>
-        <p class="genres" v-else-if="item?.genre_ids">
-          {{
-            getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
-              ' • '
-            )
-          }}
-        </p>
-        <p class="release-date">
-          Năm:
-          {{ item?.release_date ? item?.release_date : item?.first_air_date }}
-        </p>
-        <p class="duration-episode">
-          Thời lượng:
-          {{
-            isEpisodes
-              ? dataMovie?.number_of_episodes
-                ? dataMovie?.number_of_episodes + '-Tập'
-                : ''
-              : dataMovie?.runtime
-              ? dataMovie?.runtime + ' phút'
+      <p class="title">
+        {{ item?.name ? item?.name : item?.title }}
+      </p>
+      <p class="genres" v-if="item?.genres">
+        {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
+      </p>
+      <p class="genres" v-else-if="item?.genre_ids">
+        {{
+          getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(' • ')
+        }}
+      </p>
+      <p class="release-date">
+        Năm:
+        {{ item?.release_date ? item?.release_date : item?.first_air_date }}
+      </p>
+      <p class="duration-episode">
+        Thời lượng:
+        {{
+          isEpisodes
+            ? dataMovie?.number_of_episodes
+              ? dataMovie?.number_of_episodes + '-Tập'
               : ''
-          }}
-        </p>
-      </a-skeleton>
+            : dataMovie?.runtime
+            ? dataMovie?.runtime + ' phút'
+            : ''
+        }}
+      </p>
     </div>
     <!-- </a-tooltip> -->
   </router-link>
