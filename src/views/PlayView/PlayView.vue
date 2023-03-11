@@ -41,10 +41,15 @@
       <strong> Đánh giá phim</strong>
     </h3>
 
-    <div v-if="loading">
-      <a-skeleton-button :active="true" :size="'default'" :block="false">
-      </a-skeleton-button>
-    </div>
+    <a-skeleton-button
+      v-if="loading"
+      :loading="loading"
+      :active="true"
+      :size="'default'"
+      :block="false"
+      class="skeleton-interaction"
+    >
+    </a-skeleton-button>
     <Interaction v-else :dataMovie="dataMovie" />
 
     <div style="margin-top: 15px">
@@ -186,6 +191,11 @@ export default {
               .then((movieResponed) => {
                 isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
+
+                setTimeout(() => {
+                  loading.value = false;
+                  internalInstance.appContext.config.globalProperties.$Progress.finish();
+                }, 2500);
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
@@ -193,17 +203,17 @@ export default {
           else {
             isEpisodes.value = true;
             dataMovie.value = tvResponed?.data;
+
+            setTimeout(() => {
+              loading.value = false;
+              internalInstance.appContext.config.globalProperties.$Progress.finish();
+            }, 2500);
           }
         })
         .catch((e) => {
           loading.value = false;
           if (axios.isCancel(e)) return;
         });
-
-      setTimeout(() => {
-        loading.value = false;
-        internalInstance.appContext.config.globalProperties.$Progress.finish();
-      }, 2500);
     };
 
     onBeforeMount(() => {
@@ -216,12 +226,6 @@ export default {
 
     router.beforeEach((to) => {
       if (to.params.slug == 'play') {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
-        });
-
         dataCredit.value = [];
 
         getData();
@@ -240,6 +244,11 @@ export default {
       urlCodeMovie.value = data;
     };
 
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
     return {
       genresName,
       isEpisodes,

@@ -99,6 +99,13 @@
       text-align: justify;
     }
   }
+
+  .skeleton-interaction {
+    display: block;
+    .ant-skeleton-button {
+      padding: 17px 50px;
+    }
+  }
 }
 
 .list-episodes {

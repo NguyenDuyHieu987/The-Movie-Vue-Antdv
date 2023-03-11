@@ -321,6 +321,7 @@
           :active="true"
           :size="'default'"
           :block="false"
+          class="skeleton-interaction"
         >
         </a-skeleton-button>
         <Interaction v-else :dataMovie="dataMovie" />
@@ -616,6 +617,11 @@ export default {
                     'https://image.tmdb.org/t/p/original' + item?.file_path
                   );
                 });
+
+                setTimeout(() => {
+                  loading.value = false;
+                  internalInstance.appContext.config.globalProperties.$Progress.finish();
+                }, 2500);
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
@@ -631,6 +637,11 @@ export default {
                 'https://image.tmdb.org/t/p/original' + item?.file_path
               );
             });
+
+            setTimeout(() => {
+              loading.value = false;
+              internalInstance.appContext.config.globalProperties.$Progress.finish();
+            }, 2500);
           }
         })
         .catch((e) => {
@@ -662,11 +673,6 @@ export default {
             if (axios.isCancel(e)) return;
           });
       }
-
-      setTimeout(() => {
-        loading.value = false;
-        internalInstance.appContext.config.globalProperties.$Progress.finish();
-      }, 2500);
     };
 
     onBeforeMount(() => {
@@ -700,6 +706,7 @@ export default {
         });
       } else {
         if (isAddToList.value == false) {
+          alert('g');
           ElMessageBox({
             title: 'Thông báo',
             message: h(
@@ -839,12 +846,6 @@ export default {
 
     router.beforeEach((to) => {
       if (to.params.slug == 'info') {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
-        });
-
         dataCredit.value = [];
 
         getData();
@@ -870,6 +871,11 @@ export default {
       else return false;
     });
 
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
     return {
       responsiveCarousel,
       srcBackdropList,
