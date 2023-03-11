@@ -28,6 +28,7 @@
             background
             layout="prev, pager, next, total"
             :total="totalPage"
+            :pager-count="5"
           />
           <!-- @current-change="onChangePage" -->
         </div>
