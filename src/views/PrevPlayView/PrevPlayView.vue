@@ -706,7 +706,6 @@ export default {
         });
       } else {
         if (isAddToList.value == false) {
-          alert('g');
           ElMessageBox({
             title: 'Thông báo',
             message: h(
@@ -876,6 +875,7 @@ export default {
       left: 0,
       behavior: 'smooth',
     });
+
     return {
       responsiveCarousel,
       srcBackdropList,

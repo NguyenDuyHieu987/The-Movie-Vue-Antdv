@@ -22,7 +22,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-env": "^1.7.0",
-    "element-plus": "^2.2.34",
+    "element-plus": "^2.2.36",
     "epic-spinners": "^2.0.0",
     "md5": "^2.3.0",
     "normalize.css": "^8.0.1",

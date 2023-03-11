@@ -18,7 +18,6 @@ import 'element-plus/dist/index.css';
 import vi from 'element-plus/dist/locale/vi.mjs';
 import VueProgressBar from '@aacassandra/vue3-progressbar';
 import { createMetaManager } from 'vue-meta';
-import VueMeta from 'vue-meta';
 
 import {
   faVideoCamera,
@@ -100,9 +99,6 @@ app
   // .use(GAuth, gauthOption)
   .use(vue3GoogleLogin, gauthOption)
   .use(VueProgressBar, progressBarOptions)
-  .use(VueMeta, {
-    refreshOnceOnNavigation: true,
-  })
   .use(createMetaManager())
   .component('font-awesome-icon', FontAwesomeIcon);
 
