@@ -61,9 +61,14 @@ export default {
 }
 
 .auth-container {
+  overflow-y: scroll;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+
   .image-auth {
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     position: absolute;
   }
 
@@ -80,8 +85,5 @@ export default {
     opacity: 1;
     object-fit: cover;
   }
-  height: 100vh;
-  display: flex;
-  align-items: center;
 }
 </style>
