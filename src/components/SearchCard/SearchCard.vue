@@ -44,8 +44,8 @@
         Thời lượng:
         {{
           isEpisodes
-            ? dataMovie?.number_of_episodes
-              ? dataMovie?.number_of_episodes + '-Tập'
+            ? dataMovie?.last_episode_to_air?.episode_number
+              ? 'Tập ' + dataMovie?.last_episode_to_air?.episode_number
               : ''
             : dataMovie?.runtime
             ? dataMovie?.runtime + ' phút'
