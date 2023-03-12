@@ -28,6 +28,7 @@
     }
     .el-icon {
       margin-left: -6px;
+      margin-right: -2px;
       font-size: 3rem;
     }
   }
@@ -136,6 +137,12 @@
   }
 
   .right-header {
+    .ant-menu {
+      .ant-menu-item:hover {
+        background-color: var(--hover-regular-color) !important;
+      }
+    }
+
     .ant-btn {
       display: none;
     }

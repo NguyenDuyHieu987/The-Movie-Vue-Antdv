@@ -104,32 +104,18 @@ span {
     padding-right: 0px !important;
   }
 
-  .ant-popover.ant-popover-placement-bottom {
-    margin: auto;
-    width: 100%;
-    left: auto !important;
-    background-color: #000;
-    top: var(--header-height) !important;
-
-    .ant-popover-title {
-      border-bottom: none;
-    }
-
+  .el-popover {
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: 99% !important;
     .section-title.search {
-      font-size: 1.8rem;
-      margin: 0px;
+      margin-top: 0px;
     }
-
-    .ant-popover-content {
-      position: sticky;
-      width: 100%;
-      top: var(--header-height) !important;
-      z-index: 1000;
-    }
-
-    .ant-popover-inner {
-      background-color: #000;
-    }
+  }
+}
+@media only screen and (min-width: 800px) {
+  .el-popover {
+    display: none;
   }
 }
 
@@ -165,24 +151,6 @@ span {
     // background-color: #000;
   }
   .rc-virtual-list-holder-inner {
-  }
-}
-
-.ant-dropdown {
-  .ant-dropdown-menu.dropdown-search {
-    max-height: 500px;
-    overflow-y: scroll;
-    .ant-dropdown-menu-item {
-      padding: 10px;
-    }
-
-    // &::-webkit-scrollbar-thumb {
-    //   display: none;
-    // }
-
-    // &::-webkit-scrollbar {
-    //   display: none;
-    // }
   }
 }
 
@@ -485,8 +453,14 @@ span {
 }
 
 .ant-dropdown {
+  border: 1px solid var(--border-regular);
+
   .ant-dropdown-menu {
     padding: 0px;
+  }
+  .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
+    padding: 10px 20px;
+    font-size: 1.6rem;
   }
 
   .ant-menu-item:hover {
@@ -514,10 +488,6 @@ span {
   }
 }
 
-.ant-menu-item:hover {
-  background-color: var(--hover-regular-color) !important;
-}
-
 .ant-input-wrapper,
 .right-header {
   .ant-btn-primary {
@@ -540,11 +510,6 @@ span {
 .ant-input-affix-wrapper-focused {
   border-color: var(--input-border-color-focused);
   box-shadow: var(--input-border-color-focused);
-}
-
-.ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
-  padding: 10px 20px;
-  font-size: 1.6rem;
 }
 
 .el-message-box-parent--hidden {

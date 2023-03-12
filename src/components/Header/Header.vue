@@ -80,13 +80,18 @@
     </a-auto-complete>
 
     <div class="right-header">
-      <a-popover trigger="click" placement="bottom" class="popover-search">
-        <template #title>
+      <el-popover trigger="click" placement="bottom" class="popover-search">
+        <template #reference>
+          <a-button type="primary" shape="circle" size="large">
+            <template #icon><SearchOutlined /></template>
+          </a-button>
+        </template>
+
+        <template #title> </template>
+        <template #default>
           <h3 class="section-title search">
             <strong> Tìm kiếm </strong>
           </h3>
-        </template>
-        <template #content>
           <a-auto-complete
             v-model:value="valueInput"
             dropdown-class-name="certain-category-search-dropdown"
@@ -99,7 +104,7 @@
           >
             <template #option="item">
               <!-- v-for="(item, index) in dataSearch"
-                :index="index" -->
+                  :index="index" -->
               <SearchCard :key="item?.id" :item="item" />
             </template>
             <a-input-search
@@ -114,12 +119,7 @@
             ></a-input-search>
           </a-auto-complete>
         </template>
-
-        <a-button type="primary" shape="circle" size="large">
-          <template #icon><SearchOutlined /></template>
-        </a-button>
-      </a-popover>
-
+      </el-popover>
       <a-menu
         theme="dark"
         mode="horizontal"
@@ -132,7 +132,7 @@
             <UserOutlined />
           </template>
 
-          <a-dropdown :trigger="['click']">
+          <a-dropdown :trigger="['click']" class="dropdown-account">
             <a class="ant-dropdown-link" @click.prevent>
               <CaretDownOutlined />
             </a>
