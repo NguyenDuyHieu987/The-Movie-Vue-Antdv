@@ -36,6 +36,7 @@ import {
   faCheck,
   faFilter,
   faMagnifyingGlass,
+  faMoneyCheckDollar,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube, faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
@@ -59,7 +60,8 @@ library.add(
   faFilter,
   faFacebookF,
   faEnvelope,
-  faMagnifyingGlass
+  faMagnifyingGlass,
+  faMoneyCheckDollar
 );
 
 const gauthOption = {

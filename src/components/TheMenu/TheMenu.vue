@@ -274,6 +274,13 @@
         <span>Xếp hạng</span></router-link
       >
     </a-menu-item>
+
+    <a-menu-item key="ranking">
+      <template #icon>
+        <font-awesome-icon icon="fa-solid fa-money-check-dollar" />
+      </template>
+      <router-link :to="{ name: 'pricing' }"> <span>Pricing</span></router-link>
+    </a-menu-item>
   </a-menu>
 </template>
 

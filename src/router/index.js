@@ -86,6 +86,24 @@ const routes = [
       ),
   },
   {
+    path: '/pricing',
+    name: 'pricing',
+    meta: {
+      layout: 'default',
+    },
+    component: () =>
+      import(/* webpackChunkName: "pricing" */ '../views/Pricing/Pricing.vue'),
+  },
+  {
+    path: '/billing',
+    name: 'billing',
+    meta: {
+      layout: 'default',
+    },
+    component: () =>
+      import(/* webpackChunkName: "billing" */ '../views/Billing/Billing.vue'),
+  },
+  {
     path: '/login',
     name: 'login',
     meta: {

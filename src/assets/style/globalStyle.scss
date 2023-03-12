@@ -458,8 +458,17 @@ span {
   .ant-dropdown-menu {
     padding: 0px;
   }
+
+  .ant-dropdown-menu-item:first-child {
+    border-bottom: 0.5px solid var(--border-regular);
+  }
+
+  .ant-dropdown-menu-item:last-child {
+    border-top: 0.5px solid var(--border-regular);
+  }
+
   .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
-    padding: 10px 20px;
+    padding: 15px 20px;
     font-size: 1.6rem;
   }
 

@@ -150,6 +150,9 @@
                 <a-menu-item key="accounthome" v-if="$store.state?.isLogin">
                   <router-link :to="{ path: '/' }">Account Home</router-link>
                 </a-menu-item>
+                <a-menu-item key="pricing" v-if="$store.state?.isLogin">
+                  <router-link :to="{ path: '/billing' }">Billing</router-link>
+                </a-menu-item>
                 <a-menu-item key="logout">
                   <router-link :to="{ path: '/login' }" @click="handleLogout">
                     <span v-if="$store.state.isLogin"> Đăng xuất</span>
