@@ -275,7 +275,7 @@
       >
     </a-menu-item>
 
-    <a-menu-item key="ranking">
+    <a-menu-item key="pricing">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-money-check-dollar" />
       </template>
