@@ -81,6 +81,7 @@ import {
   getMoviesByGenres,
   getMoviesByYear,
   getMovieByCountry,
+  getCountry,
   getDaTaSearch,
   getNowPlaying,
   getUpComing,
@@ -383,10 +384,7 @@ export default {
                 if (axios.isCancel(e)) return;
               });
             metaHead.value =
-              'Quốc gia: ' +
-              store.state.allCountries.find(
-                (country) => country.short_name === route.params?.slug2
-              )?.name;
+              'Quốc gia: ' + getCountry(route.params?.slug2)?.name;
 
             break;
           default:

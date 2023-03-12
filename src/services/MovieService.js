@@ -313,12 +313,21 @@ const getGenresNameById = (genresName, allGenres) =>
     }
   });
 
-const getGenresNameByShortName = (genresName, allGenres) =>
-  allGenres.find((gen) => {
-    if (gen.short_name === genresName) {
-      return gen;
-    }
-  });
+const getGenresNameByShortName = (genresName, allGenres) => {
+  if (allGenres.length != 0) {
+    return allGenres.find((gen) => {
+      if (gen.short_name === genresName) {
+        return gen;
+      }
+    });
+  } else {
+    return ALLGENRES.find((gen) => {
+      if (gen.short_name === genresName) {
+        return gen;
+      }
+    });
+  }
+};
 
 const getCountry = (country_name) =>
   COUNTRIES.find((country) => country.short_name === country_name);
