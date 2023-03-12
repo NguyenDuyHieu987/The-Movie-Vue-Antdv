@@ -64,15 +64,16 @@
     padding: 0px 0px 24px 0px;
 
     &::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-      // background: #383838;
-      background: none;
+      display: none;
+      // width: 10px;
+      // height: 10px;
+      // background: none;
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 5px;
-      background: #acacac;
+      display: none;
+      // border-radius: 5px;
+      // background: #acacac;
     }
   }
 }
