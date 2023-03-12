@@ -174,7 +174,7 @@
         <a-tooltip
           :title="item?.name_vietsub"
           placement="right"
-          v-if="item?.name_vietsub?.length > 24"
+          v-if="item?.name_vietsub?.length > 30"
         >
           <router-link
             :to="{
