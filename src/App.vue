@@ -131,8 +131,8 @@ export default {
 }
 
 #components-back-top-demo-custom .ant-back-top {
-  bottom: 50px;
-  right: 50px;
+  bottom: 40px;
+  right: 40px;
 }
 #components-back-top-demo-custom .ant-back-top-inner {
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.72) !important;
