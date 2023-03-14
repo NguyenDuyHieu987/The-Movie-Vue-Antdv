@@ -226,7 +226,7 @@ export default {
                 setTimeout(() => {
                   loading.value = false;
                   internalInstance.appContext.config.globalProperties.$Progress.finish();
-                }, 2500);
+                }, 1500);
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
@@ -238,7 +238,7 @@ export default {
             setTimeout(() => {
               loading.value = false;
               internalInstance.appContext.config.globalProperties.$Progress.finish();
-            }, 2500);
+            }, 1500);
           }
         })
         .catch((e) => {
