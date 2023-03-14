@@ -141,6 +141,9 @@ export default {
               .then((movieResponed) => {
                 isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
@@ -148,9 +151,14 @@ export default {
           else {
             isEpisodes.value = true;
             dataMovie.value = tvResponed?.data;
+
+            setTimeout(() => {
+              loading.value = false;
+            }, 1000);
           }
         })
         .catch((e) => {
+          loading.value = false;
           if (axios.isCancel(e)) return;
         });
 
@@ -158,10 +166,6 @@ export default {
       //   props.item?.genre_ids ? props.item?.genre_ids : dataMovie.value.genres
       // );
     });
-
-    setTimeout(() => {
-      loading.value = false;
-    }, 3000);
 
     return {
       genresName,

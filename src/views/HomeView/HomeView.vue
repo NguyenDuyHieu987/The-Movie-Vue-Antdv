@@ -1,7 +1,5 @@
 <template>
   <div class="home-container">
-
-
     <SlideTopicHome />
     <h2 class="gradient-title-default" v-show="nowPlayings?.length">
       <strong>Phim nổi bật</strong>

@@ -16,21 +16,14 @@
         <font-awesome-icon icon="fa-solid fa-chevron-right" />
       </div>
     </template>
-    <div v-for="(item, index) in trendings || []" :index="index" :key="item.id">
+    <div v-for="(item, index) in trendings" :index="index" :key="item.id">
       <SlideTopicItem :item="item" />
     </div>
   </a-carousel>
 
-  <el-carousel
-    :interval="3000"
-    type="card"
-    height="80vh"
-    loop
-    trigger="click"
-    v-show="trendings?.length"
-  >
+  <el-carousel :interval="3000" type="card" height="80vh" loop trigger="click">
     <el-carousel-item
-      v-for="(item, index) in trendings || []"
+      v-for="(item, index) in trendings"
       :key="item.id"
       :index="index"
     >

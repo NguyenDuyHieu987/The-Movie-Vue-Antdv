@@ -25,7 +25,8 @@
       <template #default>
         <div class="img-box">
           <a-image
-            v-if="!loading"
+            class="ant-image"
+            v-show="!loading"
             :src="
               getPoster(
                 dataMovie?.backdrop_path
@@ -34,6 +35,7 @@
               )
             "
             :preview="false"
+            @load="onLoadImg"
           >
           </a-image>
 
@@ -146,23 +148,29 @@ export default {
               .then((movieResponed) => {
                 isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
+
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
               })
               .catch((e) => {
                 if (axios.isCancel(e)) return;
               });
           else {
+            setTimeout(() => {
+              loading.value = false;
+            }, 1000);
             isEpisodes.value = true;
             dataMovie.value = tvResponed?.data;
           }
         })
         .catch((e) => {
+          loading.value = false;
           if (axios.isCancel(e)) return;
         });
-
-      setTimeout(() => {
-        loading.value = false;
-      }, 3000);
     });
+
+    const onLoadImg = () => {};
     return {
       genresName,
       isEpisodes,
@@ -171,6 +179,7 @@ export default {
       getPoster,
       getAllGenresById,
       getLanguage,
+      onLoadImg,
     };
   },
 };
