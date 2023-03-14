@@ -13,13 +13,23 @@
         allowfullscreen
       ></iframe>
 
-      <iframe
+      <!-- <iframe
         v-else
         width="100%"
         height="100%"
         :src="`//ok.ru/videoembed/${'3056793684585'}`"
         frameborder="0"
         allow="autoplay"
+        allowfullscreen
+      ></iframe> -->
+
+      <iframe
+        v-else
+        src="https://player.vimeo.com/video/807171046"
+        width="100%"
+        height="100%"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
         allowfullscreen
       ></iframe>
     </div>

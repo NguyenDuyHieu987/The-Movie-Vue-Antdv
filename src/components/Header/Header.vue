@@ -14,34 +14,6 @@
         </a-tooltip>
       </router-link>
     </div>
-    <!-- <a-dropdown :trigger="['click']">
-      <a-input-search
-        class="center-header"
-        v-model:value="valueInput"
-        enter-button
-        placeholder="Nhập tên phim để tìm kiếm..."
-        size="large"
-        allowClear
-        bordered
-        :loading="loadingSearch"
-        @search="handleSearch"
-        @change="handleChangeInput"
-        style="width: 40%; min-width: 300px; max-width: 550px"
-      />
-      <template #overlay v-if="valueInput.length">
-        <a-menu class="dropdown-search">
-          <a-menu-item
-            v-for="(item, index) in dataSearch"
-            :index="index"
-            :key="item?.id"
-          >
-            <SearchCard :item="item" />
-
-            >
-          </a-menu-item>
-        </a-menu>
-      </template>
-    </a-dropdown> -->
 
     <a-auto-complete
       v-model:value="valueInput"

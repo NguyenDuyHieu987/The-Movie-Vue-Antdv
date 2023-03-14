@@ -144,7 +144,7 @@ span {
 
 .certain-category-search-dropdown {
   .rc-virtual-list-holder {
-    max-height: 40vh !important;
+    max-height: 400px !important;
     overflow-y: scroll !important;
   }
   .ant-select-item-option-active:not(.ant-select-item-option-disabled) {

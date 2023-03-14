@@ -15,9 +15,11 @@
     flex-direction: column;
 
     .logo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
       img {
         margin-right: 20px;
