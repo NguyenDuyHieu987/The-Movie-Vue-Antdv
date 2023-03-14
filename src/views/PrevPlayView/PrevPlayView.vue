@@ -409,7 +409,7 @@
       <strong>Diễn viên</strong>
     </h3> -->
 
-    <a-tabs v-model:activeKey="activeTabCast">
+    <a-tabs v-model:activeKey="activeTabCast" v-show="!checkEmptyDataMovies">
       <a-tab-pane key="1" tab="Diễn viên">
         <carousel
           v-if="dataCredit?.cast?.length"
@@ -471,7 +471,7 @@
     </a-tabs>
 
     <MovieSuggest
-      v-if="dataMovie?.id"
+      v-if="!checkEmptyDataMovies"
       :dataMovie="dataMovie"
       :isEpisodes="isEpisodes"
     />

@@ -183,6 +183,7 @@ import { getDaTaSearch } from '../../services/MovieService';
 import SearchCard from '@/components/SearchCard/SearchCard.vue';
 import { useRouter } from 'vue-router';
 import { Close } from '@element-plus/icons-vue';
+import axios from 'axios';
 
 export default {
   components: {
@@ -206,18 +207,22 @@ export default {
 
     const handleChangeInput = () => {
       if (valueInput.value.length > 0) {
+        loadingSearch.value = true;
+
         clearTimeout(debounce.value);
         debounce.value = setTimeout(() => {
-          loadingSearch.value = true;
-
-          getDaTaSearch(valueInput.value, page.value).then((movieRespone) => {
-            dataSearch.value = movieRespone?.data?.results;
-          });
+          getDaTaSearch(valueInput.value, page.value)
+            .then((movieRespone) => {
+              dataSearch.value = movieRespone?.data?.results;
+              setTimeout(() => {
+                loadingSearch.value = false;
+              }, 500);
+            })
+            .catch((e) => {
+              loadingSearch.value = false;
+              if (axios.isCancel(e)) return;
+            });
         }, 1000);
-
-        setTimeout(() => {
-          loadingSearch.value = false;
-        }, 2000);
       } else if (valueInput.value.length == 0) {
         dataSearch.value = [];
       }

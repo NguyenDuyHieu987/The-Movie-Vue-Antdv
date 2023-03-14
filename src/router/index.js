@@ -72,7 +72,7 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "play" */ '../views/PlayView/PlayView.vue'),
+      import(/* webpackChunkName: "playtv" */ '../views/PlayView/PlayView.vue'),
   },
   {
     path: '/profile',

@@ -62,15 +62,16 @@
     </a-skeleton-button>
     <Interaction v-else :dataMovie="dataMovie" />
 
-    <div style="margin-top: 15px">
+    <div>
       <a-skeleton
+        style="margin-top: 15px"
         :loading="loading"
         :active="true"
         :paragraph="{ rows: 1, width: '40%' }"
         :title="false"
       >
         <RatingMovie
-          v-if="dataMovie?.id"
+          v-show="!checkEmptyDataMovies"
           :voteAverage="dataMovie?.vote_average"
           :voteCount="dataMovie?.vote_count"
           :movieId="dataMovie?.id"
@@ -101,7 +102,6 @@
         <p :class="{ open: isOpenContent }">
           {{ dataMovie?.overview }}
           <router-link
-            v-if="dataMovie?.id"
             :to="{
               name: 'info',
               params: {
@@ -129,7 +129,7 @@
     ></div>
 
     <MovieSuggest
-      v-if="dataMovie?.id"
+      v-if="!checkEmptyDataMovies"
       :dataMovie="dataMovie"
       :isEpisodes="isEpisodes"
     />
@@ -255,31 +255,30 @@ export default {
       // getData();
     });
 
-    router.beforeEach((to) => {
-      if (to.params.slug == 'play') {
-        dataCredit.value = [];
-
-        getData();
-      }
+    router.beforeEach(() => {
+      // if (to.params.slug == 'play') {
+      //   dataCredit.value = [];
+      //   getData();
+      // }
     });
 
-    watch(route, () => {
-      // router.push({ path: newVal.path }).then(() => {
-      //   router.go();
-      // });
-      // console.log(router);
-      // router.go();
-    });
+    watch(route, () => {});
 
     const getUrlCodeMovie = (data) => {
       urlCodeMovie.value = data;
     };
+
+    const checkEmptyDataMovies = computed(() => {
+      if (Object.keys(dataMovie.value).length == 0) return true;
+      else return false;
+    });
 
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
+
     return {
       genresName,
       isEpisodes,
@@ -294,6 +293,7 @@ export default {
       urlComment,
       loading,
       urlCodeMovie,
+      checkEmptyDataMovies,
       getPoster,
       getAllGenresById,
       getUrlCodeMovie,

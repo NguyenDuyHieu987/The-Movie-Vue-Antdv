@@ -107,7 +107,7 @@ span {
   .el-popover {
     left: 50% !important;
     transform: translateX(-50%);
-    width: 99% !important;
+    width: 100% !important;
     .section-title.search {
       margin-top: 0px;
     }
@@ -523,4 +523,8 @@ span {
 
 .el-message-box-parent--hidden {
   width: 100% !important;
+}
+
+.rc-virtual-list-scrollbar {
+  display: none;
 }

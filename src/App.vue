@@ -7,7 +7,8 @@
     </metainfo>
     <vue-progress-bar />
     <component :is="layout">
-      <router-view :key="$route.fullPath" />
+      <!-- <router-view :key="$route.fullPath" /> -->
+      <router-view />
 
       <div id="components-back-top-demo-custom">
         <a-back-top class="ant-back-top-inner" :visibilityHeight="600">

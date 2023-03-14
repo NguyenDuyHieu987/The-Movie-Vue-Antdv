@@ -15,7 +15,7 @@
       :url="urlShare"
       :title="dataMovie?.name ? dataMovie?.name : dataMovie?.title"
       hashtags="phimhay247.site,vite"
-      style="white-space: nowrap"
+      style="white-space: nowrap; display: block"
     >
       <a-button round type="primary" shape="round">
         <template #icon>

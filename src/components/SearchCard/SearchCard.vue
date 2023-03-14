@@ -40,17 +40,17 @@
         Năm:
         {{ item?.release_date ? item?.release_date : item?.first_air_date }}
       </p>
-      <p class="duration-episode">
-        Thời lượng:
+      <p v-if="item?.last_episode_to_air" class="duration-episode">
+        Tập mới nhất:
         {{
-          isEpisodes
-            ? dataMovie?.last_episode_to_air?.episode_number
-              ? 'Tập ' + dataMovie?.last_episode_to_air?.episode_number
-              : ''
-            : dataMovie?.runtime
-            ? dataMovie?.runtime + ' phút'
+          item?.last_episode_to_air?.episode_number
+            ? 'Tập ' + item?.last_episode_to_air?.episode_number
             : ''
         }}
+      </p>
+      <p v-else-if="item?.runtime" class="duration-episode">
+        Thời lượng:
+        {{ item?.runtime ? item?.runtime + ' phút' : '' }}
       </p>
     </div>
     <!-- </a-tooltip> -->
@@ -58,12 +58,12 @@
 </template>
 <script>
 import { ref, onBeforeMount } from 'vue';
-import axios from 'axios';
+// import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
-  getTvById,
-  getMovieById,
+  // getTvById,
+  // getMovieById,
   getLanguage,
 } from '../../services/MovieService';
 
@@ -74,7 +74,7 @@ export default {
       type: Object,
     },
   },
-  setup(props) {
+  setup() {
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
@@ -83,30 +83,33 @@ export default {
     onBeforeMount(() => {
       loading.value = true;
 
-      getTvById(props.item?.id)
-        .then((tvResponed) => {
-          if (tvResponed?.data?.not_found === true)
-            getMovieById(props.item?.id)
-              .then((movieResponed) => {
-                isEpisodes.value = false;
-                dataMovie.value = movieResponed?.data;
-              })
-              .catch((e) => {
-                if (axios.isCancel(e)) return;
-              });
-          else {
-            isEpisodes.value = true;
-            dataMovie.value = tvResponed?.data;
-          }
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      // getTvById(props.item?.id)
+      //   .then((tvResponed) => {
+      //     if (tvResponed?.data?.not_found === true)
+      //       getMovieById(props.item?.id)
+      //         .then((movieResponed) => {
+      //           isEpisodes.value = false;
+      //           dataMovie.value = movieResponed?.data;
+      //           setTimeout(() => {
+      //             loading.value = false;
+      //           }, 1000);
+      //         })
+      //         .catch((e) => {
+      //           if (axios.isCancel(e)) return;
+      //         });
+      //     else {
+      //       isEpisodes.value = true;
+      //       dataMovie.value = tvResponed?.data;
+      //       setTimeout(() => {
+      //         loading.value = false;
+      //       }, 1000);
+      //     }
+      //   })
+      //   .catch((e) => {
+      //     loading.value = false;
+      //     if (axios.isCancel(e)) return;
+      //   });
     });
-
-    setTimeout(() => {
-      loading.value = false;
-    }, 1500);
 
     return {
       genresName,

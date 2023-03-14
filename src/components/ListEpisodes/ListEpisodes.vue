@@ -93,7 +93,6 @@
         :class="{ active: currentEpisode == item?.episode_number }"
       >
         <router-link
-          v-if="dataMovie?.id"
           :to="{
             name: 'playtv',
             params: {
@@ -136,7 +135,6 @@ export default {
     const router = useRouter();
     const dataSeason = ref({});
     const selectedSeason = ref(props?.dataMovie?.number_of_seasons);
-
     const currentEpisode = computed(() =>
       route.params?.tap?.replace('tap-', '')
         ? +route.params?.tap?.replace('tap-', '')
@@ -159,14 +157,15 @@ export default {
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
           emitUrlCode(dataSeason.value);
+
+          setTimeout(() => {
+            loading.value = false;
+          }, 1000);
         })
         .catch((e) => {
+          loading.value = false;
           if (axios.isCancel(e)) return;
         });
-
-      setTimeout(() => {
-        loading.value = false;
-      }, 1500);
     });
 
     const handleChange = (value) => {
@@ -182,14 +181,15 @@ export default {
           dataSeason.value = episodesRespones?.data;
 
           emitUrlCode(dataSeason.value);
+
+          setTimeout(() => {
+            loading.value = false;
+          }, 1000);
         })
         .catch((e) => {
+          loading.value = false;
           if (axios.isCancel(e)) return;
         });
-
-      setTimeout(() => {
-        loading.value = false;
-      }, 1000);
     });
 
     watch(route, () => {
