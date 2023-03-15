@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-// import { getWithExpiry } from '../untils/LocalStorage';
+// import { getWithExpiry } from '@/untils/LocalStorage';
 
 const routes = [
+  // =============Normal==============
   {
     path: '/',
     name: 'home',
@@ -9,7 +10,9 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ '../views/HomeView/HomeView.vue'),
+      import(
+        /* webpackChunkName: "home" */ '../views/Normal/HomeView/HomeView.vue'
+      ),
   },
   {
     path: '/discover/:slug/:slug2',
@@ -19,30 +22,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "discover" */ '../views/DiscoverMovieView/DiscoverMovieView.vue'
-      ),
-  },
-  {
-    path: '/follow',
-    name: 'follow',
-    meta: {
-      layout: 'default',
-      requiresAuth: true,
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "follow" */ '../views/FollowView/FollowView.vue'
-      ),
-  },
-  {
-    path: '/ranking',
-    name: 'ranking',
-    meta: {
-      layout: 'default',
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "ranking" */ '../views/RankingView/RankingView.vue'
+        /* webpackChunkName: "discover" */ '../views/Normal/DiscoverMovieView/DiscoverMovieView.vue'
       ),
   },
   {
@@ -53,7 +33,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "info" */ '../views/PrevPlayView/PrevPlayView.vue'
+        /* webpackChunkName: "info" */ '../views/Normal/PrevPlayView/PrevPlayView.vue'
       ),
   },
   {
@@ -63,16 +43,46 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "play" */ '../views/PlayView/PlayView.vue'),
+      import(
+        /* webpackChunkName: "play" */ '../views/Normal/PlayView/PlayView.vue'
+      ),
+    children: [
+      {
+        path: ':tap',
+        name: 'playtv',
+        meta: {
+          layout: 'default',
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "playtv" */ '../views/Normal/PlayView/PlayView.vue'
+          ),
+      },
+    ],
+  },
+
+  {
+    path: '/follow',
+    name: 'follow',
+    meta: {
+      layout: 'default',
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "follow" */ '../views/Normal/FollowView/FollowView.vue'
+      ),
   },
   {
-    path: '/play/:id/:name/:tap',
-    name: 'playtv',
+    path: '/ranking',
+    name: 'ranking',
     meta: {
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "playtv" */ '../views/PlayView/PlayView.vue'),
+      import(
+        /* webpackChunkName: "ranking" */ '../views/Normal/RankingView/RankingView.vue'
+      ),
   },
   {
     path: '/profile',
@@ -82,7 +92,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "profile" */ '../views/ProfileView/ProfileView.vue'
+        /* webpackChunkName: "profile" */ '../views/Normal/ProfileView/ProfileView.vue'
       ),
   },
   {
@@ -92,7 +102,9 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "pricing" */ '../views/Pricing/Pricing.vue'),
+      import(
+        /* webpackChunkName: "pricing" */ '../views/Normal/Pricing/Pricing.vue'
+      ),
   },
   {
     path: '/billing',
@@ -101,8 +113,25 @@ const routes = [
       layout: 'default',
     },
     component: () =>
-      import(/* webpackChunkName: "billing" */ '../views/Billing/Billing.vue'),
+      import(
+        /* webpackChunkName: "billing" */ '../views/Normal/Billing/Billing.vue'
+      ),
   },
+  // =============Admin==============
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    meta: {
+      layout: 'admin',
+      requiresAdmin: true,
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "dashboard" */ '../views/Admin/DashBoard/DashBoardView.vue'
+      ),
+  },
+  // =============Auth==============
   {
     path: '/login',
     name: 'login',
@@ -111,7 +140,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "login" */ '../views/LoginView/LoginView.vue'
+        /* webpackChunkName: "login" */ '../views/Normal/LoginView/LoginView.vue'
       ),
   },
   {
@@ -122,7 +151,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "signup" */ '../views/SignupView/SignupView.vue'
+        /* webpackChunkName: "signup" */ '../views/Normal/SignupView/SignupView.vue'
       ),
   },
   {
@@ -131,7 +160,7 @@ const routes = [
     name: '404',
     component: () =>
       import(
-        /* webpackChunkName: "NotFound" */ '../views/Error404View/Error404View.vue'
+        /* webpackChunkName: "NotFound" */ '../views/Normal/Error404View/Error404View.vue'
       ),
   },
   {
@@ -146,10 +175,19 @@ const router = createRouter({
 });
 
 // router.beforeEach((to, from, next) => {
-//   // if (to.matched.some((route) => route.meta.requireAuth)) {
-//   if (getWithExpiry('isLogin') != true) next('/login');
-//   else next();
-//   // } else next();
+//   if (to.matched.some((record) => record.meta.requiresAdmin)) {
+//     if (getWithExpiry('userAccount') != null) {
+//       if (getWithExpiry('userAccount')?.role == 'admin') {
+//         next();
+//       } else {
+//         next({ path: '/404' });
+//       }
+//     } else {
+//       next({ path: '/404' });
+//     }
+//   } else {
+//     next();
+//   }
 // });
 
 export default router;

@@ -1,22 +1,17 @@
 import { createStore } from 'vuex';
-import { getWithExpiry } from '../untils/LocalStorage';
-
-// import axios from 'axios';
+import { getWithExpiry } from '@/untils/LocalStorage';
 
 const store = createStore({
   state() {
     return {
       openDrawer: false,
       modalVisible: false,
-      isLogin:
-        //  JSON.parse(window.localStorage.getItem('isLogin'))
-        getWithExpiry('isLogin'),
+      isLogin: getWithExpiry('userAccount') != null ? true : false,
       breadCrumbValue: '',
+      role: 'normal',
       loadingSearch: false,
       loadingTable: false,
-      userAccount:
-        // JSON.parse(window.localStorage.getItem('userAccount'))
-        getWithExpiry('userAccount'),
+      userAccount: getWithExpiry('userAccount'),
       allGenres: [],
       allCountries: [],
     };

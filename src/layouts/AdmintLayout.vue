@@ -3,7 +3,6 @@
     <Header />
     <a-layout :class="[$store.state.collapsed ? 'expand' : '', 'body-content']">
       <Sider />
-      <Drawer />
       <a-layout>
         <BreadCrumb />
         <a-layout-content class="container">
@@ -17,12 +16,10 @@
 
 <script>
 import { ref } from 'vue';
-import Header from '@/components/Normal/Header/Header.vue';
-import Drawer from '@/components/Normal/Drawer/Drawer.vue';
-import Sider from '@/components/Normal/Sider/Sider.vue';
-// import Content from '@/components/Content.vue';
-import Footer from '@/components/Normal/Footer/Footer.vue';
-import BreadCrumb from '@/components/Normal/BreadCrumb/BreadCrumb.vue';
+import Header from '@/components/Admin/Header/Header.vue';
+import Sider from '@/components/Admin/Sider/Sider.vue';
+import Footer from '@/components/Admin/Footer/Footer.vue';
+import BreadCrumb from '@/components/Admin/BreadCrumb/BreadCrumb.vue';
 
 export default {
   components: {
@@ -30,7 +27,6 @@ export default {
     Sider,
     BreadCrumb,
     Footer,
-    Drawer,
   },
   data() {
     return {
@@ -57,12 +53,12 @@ export default {
 .ant-layout-content {
   // min-height: calc(100vh - 130px);
   padding: 15px 20px;
-  background-color: var(--background-content-color);
+  // background-color: var(--background-content-color);
 }
 
 @media (prefers-color-scheme: dark) {
   .ant-layout-content {
-    background-color: var(--background-content-color);
+    // background-color: var(--background-content-color);
   }
 }
 

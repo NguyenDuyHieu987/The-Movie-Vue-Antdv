@@ -23,10 +23,9 @@
   --footer-background-color: #000;
   --border-regular: #707070;
   --header-height: 65px;
-  --sider-width: 250px;
+  --sider-width: 230px;
   --sider-collapsed-width: 75px;
   --text-color: #ffff;
-  // color-scheme: dark light;
 }
 
 html {
@@ -322,7 +321,7 @@ span {
     }
 
     .info {
-      color: #ffffff;
+      color: #fff;
     }
   }
 
@@ -381,7 +380,7 @@ span {
 
   .info {
     padding: 10px 0px;
-    color: #3b3b3b;
+    color: #d0d0d0;
 
     .title,
     .genres {
@@ -458,7 +457,7 @@ span {
   }
 
   .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
-    padding: 15px 20px;
+    padding: 13px 20px;
     font-size: 1.6rem;
   }
 
@@ -517,4 +516,18 @@ span {
 
 .rc-virtual-list-scrollbar {
   display: none;
+}
+
+.el-skeleton {
+  --el-skeleton-color: rgba(190, 190, 190, 0.2) !important;
+  --el-skeleton-to-color: rgba(129, 129, 129, 0.24) !important;
+}
+
+.el-image__wrapper,
+.el-image__error {
+  color: #fff;
+  background-color: rgba(190, 190, 190, 0.17) !important;
+}
+
+.ant-collapse {
 }

@@ -1,0 +1,18 @@
+.rating-movie {
+  margin-top: 15px;
+  display: inline-block;
+  // display: flex;
+  // flex-direction: row;
+
+  .ant-rate {
+    font-size: 2.2rem;
+  }
+
+  .el-rate .el-rate__icon {
+    font-size: 2.7rem;
+  }
+  span,
+  p {
+    color: #fff;
+  }
+}

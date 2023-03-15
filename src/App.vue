@@ -6,7 +6,14 @@
       }}</template>
     </metainfo>
     <vue-progress-bar />
-    <component :is="layout">
+    <div v-if="loading" class="loading-page">
+      <div>
+        <img src="@/assets/images/logo.png" alt="" />
+        <h3>Đang tải bảng điều khiển...</h3>
+        <spring-spinner :animation-duration="3000" :size="30" color="#e82b00" />
+      </div>
+    </div>
+    <component v-else :is="layout">
       <!-- <router-view :key="$route.fullPath" /> -->
       <router-view />
 
@@ -20,96 +27,111 @@
 </template>
 
 <script>
-import { computed, onBeforeMount, h, createVNode } from 'vue';
+import { computed, onBeforeMount, h, createVNode, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { CloseCircleFilled } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
-import { getUserToken } from './services/MovieService';
-import { getWithExpiry } from './untils/LocalStorage';
+import { getUserToken } from '@/services/MovieService';
+import { getWithExpiry } from '@/untils/LocalStorage';
 import { Modal } from 'ant-design-vue';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { SpringSpinner } from 'epic-spinners';
 
 export default {
-  components: {},
+  components: { SpringSpinner },
   setup() {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
+    const loading = ref(false);
 
     onBeforeMount(() => {
-      // const remember = window.localStorage.getItem('remember');
-      // const userToken = window.localStorage.getItem('userToken');
-      // const isLogin = window.localStorage.getItem('isLogin');
-
-      // const remember = getWithExpiry('userToken');
-      const userToken = getWithExpiry('userToken');
-      // const isLogin = getWithExpiry('userToken');
+      // const remember = getWithExpiry('remember');
+      // const userToken = getWithExpiry('userAccount')?.user_token;
+      // const isLogin = getWithExpiry('isLogin');
 
       if (store.state.isLogin) {
         // if (remember) {
-        if (userToken != null) {
-          getUserToken({ user_token: userToken })
-            .then((accountResponse) => {
-              if (accountResponse.data?.isLogin == true) {
-                // window.localStorage.setItem(
-                //   'userAccount',
-                //   JSON.stringify({ value: accountResponse?.data?.result })
-                // );
-                store.state.userAccount = accountResponse.data?.result;
-                store.state.userAccount = getWithExpiry('userAccount');
-              }
-            })
-            .catch((e) => {
-              notification.open({
-                message: 'Failed!',
-                description: 'Some thing went wrong.',
-                icon: () =>
-                  h(CloseCircleFilled, {
-                    style: 'color: red',
-                  }),
-              });
-              if (axios.isCancel(e)) return;
+        getUserToken({ user_token: getWithExpiry('userAccount')?.user_token })
+          .then((accountResponse) => {
+            if (accountResponse.data?.isLogin == true) {
+              store.state.userAccount = accountResponse.data?.result;
+              store.state.role = accountResponse?.data?.result?.role;
+            }
+          })
+          .catch((e) => {
+            notification.open({
+              message: 'Failed!',
+              description: 'Some thing went wrong.',
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
             });
-          // }
-        } else {
-          // if (window.localStorage.getItem('userToken') == null) {
-          //   router.push({ path: '/login' });
-          // }
-          // console.log(router);
-        }
+            if (axios.isCancel(e)) return;
+          });
+        // }
+      } else {
+        // if (window.localStorage.getItem('userToken') == null) {
+        //   router.push({ path: '/login' });
+        // }
+        // console.log(router);
       }
 
       router.beforeEach((to, from, next) => {
         if (to.matched.some((record) => record.meta.requiresAuth)) {
-          // this route requires auth, check if logged in
-          // if not, redirect to login page.
-
           if (!store.state.isLogin) {
-            Modal.confirm({
-              title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
-              icon: createVNode(QuestionCircleOutlined),
-              // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
-              content: createVNode('h3', {}, 'Đăng nhập ngay?'),
-              okText: 'Có',
-              okType: 'primary',
-              cancelText: 'Không',
-              onOk() {
-                next({ path: '/login' });
-              },
-              onCancel() {},
-            });
+            if (to.matched.some((record) => record.meta.requiresAdmin)) {
+              next({ path: '/404' });
+            } else {
+              Modal.confirm({
+                title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
+                icon: createVNode(QuestionCircleOutlined),
+                // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
+                content: createVNode('h3', {}, 'Đăng nhập ngay?'),
+                okText: 'Có',
+                okType: 'primary',
+                cancelText: 'Không',
+                onOk() {
+                  next({ path: '/login' });
+                },
+                onCancel() {},
+              });
+            }
           } else {
-            next(); // go to wherever I'm going
+            if (to.matched.some((record) => record.meta.requiresAdmin)) {
+              loading.value = true;
+              getUserToken({
+                user_token: getWithExpiry('userAccount')?.user_token,
+              })
+                .then((accountResponse) => {
+                  if (accountResponse.data.result.role == 'admin') {
+                    next();
+                  } else {
+                    next({ path: '/404' });
+                  }
+                  setTimeout(() => {
+                    loading.value = false;
+                  }, 1000);
+                })
+                .catch((e) => {
+                  if (axios.isCancel(e)) return;
+                });
+            } else {
+              next();
+            }
           }
         } else {
-          next(); // does not require auth, make sure to always call next()!
+          next();
         }
       });
     });
+
     return {
       layout: computed(() => (route.meta.layout || 'default') + '-layout'),
+      loading,
     };
   },
 };
@@ -127,6 +149,18 @@ export default {
   #components-back-top-demo-custom .ant-back-top {
     bottom: 20px !important;
     right: 20px !important;
+  }
+}
+
+.loading-page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  h3 {
+    margin: 10px 0px;
   }
 }
 
