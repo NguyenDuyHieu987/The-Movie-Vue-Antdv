@@ -27,6 +27,9 @@
     <div class="info">
       <p class="title">
         {{ item?.name ? item?.name : item?.title }}
+        <span v-if="isEpisodes">
+          {{ ' - Phần ' + item?.last_episode_to_air?.season_number }}
+        </span>
       </p>
       <p class="genres" v-if="item?.genres">
         {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}

@@ -106,20 +106,7 @@ export default {
       },
     ]);
 
-    onBeforeMount(() => {
-      getTrending(pageTrending.value).then((movieRespone) => {
-        trendings.value = movieRespone.data?.results;
-        totalPage.value = movieRespone.data?.total_pages * 10;
-      });
-    });
-
-    watch(pageTrending, () => {
-      getTrending(pageTrending.value).then((movieRespone) => {
-        trendings.value = movieRespone.data?.results;
-      });
-    });
-
-    const handleTabClick = (activeKey) => {
+    const getDataRanking = (activeKey) => {
       switch (activeKey) {
         case 'day':
           activeTab.value = activeKey;
@@ -134,6 +121,23 @@ export default {
           activeTab.value = activeKey;
           break;
       }
+    };
+
+    onBeforeMount(() => {
+      getTrending(pageTrending.value).then((movieRespone) => {
+        trendings.value = movieRespone.data?.results;
+        totalPage.value = movieRespone.data?.total_pages * 10;
+      });
+    });
+
+    watch(pageTrending, () => {
+      getTrending(pageTrending.value).then((movieRespone) => {
+        trendings.value = movieRespone.data?.results;
+      });
+    });
+
+    const handleTabClick = (activeKey) => {
+      getDataRanking(activeKey);
     };
 
     useMeta({
