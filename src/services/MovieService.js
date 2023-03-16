@@ -9,8 +9,8 @@ const axios = require('axios').default;
 const TMDB_IMAGE_BASE_URL = process.env.VUE_APP_TMDB_IMAGE_BASE_URL;
 // const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
 
-// const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
-const URL_API = 'http://127.0.0.1:5000';
+const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
+// const URL_API = 'http://127.0.0.1:5000';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
 // const URL_API_IMAGE = 'https://phimhay247-nodejs-api-image.onrender.com';
