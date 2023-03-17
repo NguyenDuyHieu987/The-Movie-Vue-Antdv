@@ -131,6 +131,84 @@ const routes = [
         /* webpackChunkName: "dashboard" */ '../views/Admin/DashBoard/DashBoardView.vue'
       ),
   },
+  {
+    path: '/managefilm/movie',
+    name: 'managemovie',
+    meta: {
+      layout: 'admin',
+      requiresAdmin: true,
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "addmovie" */ '../views/Admin/ManageMovieView/ManageMovieView.vue'
+      ),
+  },
+  {
+    path: '/managefilm/movie/add',
+    name: 'addmovie',
+    meta: {
+      layout: 'admin',
+      requiresAdmin: true,
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "addmovie" */ '../views/Admin/AddMovieView/AddMovieView.vue'
+      ),
+  },
+  {
+    path: '/managefilm/movie/:id/edit',
+    name: 'editmovie',
+    meta: {
+      layout: 'admin',
+      requiresAdmin: true,
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "editmovie" */ '../views/Admin/EditMovieView/EditMovieView.vue'
+      ),
+  },
+  {
+    path: '/managefilm/tv',
+    name: 'managetv',
+    meta: {
+      layout: 'admin',
+      requiresAdmin: true,
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "addmovie" */ '../views/Admin/ManageTVView/ManageTVView.vue'
+      ),
+  },
+  {
+    path: '/managefilm/tv/add',
+    name: 'addtv',
+    meta: {
+      layout: 'admin',
+      requiresAdmin: true,
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "addmovie" */ '../views/Admin/AddTvView/AddTvView.vue'
+      ),
+  },
+  {
+    path: '/managefilm/tv/:id/edit',
+    name: 'edittv',
+    meta: {
+      layout: 'admin',
+      requiresAdmin: true,
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "editmovie" */ '../views/Admin/EditTvView/EditTvView.vue'
+      ),
+  },
   // =============Auth==============
   {
     path: '/login',

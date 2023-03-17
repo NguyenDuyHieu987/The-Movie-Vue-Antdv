@@ -9,12 +9,13 @@ const axios = require('axios').default;
 const TMDB_IMAGE_BASE_URL = process.env.VUE_APP_TMDB_IMAGE_BASE_URL;
 // const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
 
-const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
-// const URL_API = 'http://127.0.0.1:5000';
+// const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
+const URL_API = 'http://127.0.0.1:5000';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
 // const URL_API_IMAGE = 'https://phimhay247-nodejs-api-image.onrender.com';
-const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
+// const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
+const URL_API_IMAGE = 'http://127.0.0.1:5001';
 
 const emailValidation = (email) =>
   axios.get(
@@ -96,6 +97,12 @@ const getMoviesByGenres = async (genre_id, page) => {
 
   return await axios.get(
     `${URL_API}/discover/all?api=hieu987&with_genres=${genre.id}&page=${page}`
+  );
+};
+
+const getRanking = async (page) => {
+  return await axios.get(
+    `${URL_API}/discover/all?api=hieu987&sort_by=popularity_desc&page=${page}`
   );
 };
 
@@ -356,6 +363,13 @@ const getPoster = (path) => {
     : `${URL_API_IMAGE}/image${path}?api=hieu987`;
 };
 
+const addImage = async (file) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('image', file.raw);
+
+  return await axios.post(`${URL_API_IMAGE}/image/add`, bodyFormData);
+};
+
 const getAvatar = (path) => {
   return path === null || path === undefined
     ? ''
@@ -365,6 +379,7 @@ const getAvatar = (path) => {
 export {
   emailValidation,
   getPoster,
+  addImage,
   getIdGenresByName,
   getAllGenresById,
   getGenresNameById,
@@ -414,4 +429,5 @@ export {
   signIn,
   getUserToken,
   getAvatar,
+  getRanking,
 };

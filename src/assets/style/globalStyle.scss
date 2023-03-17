@@ -143,14 +143,21 @@ span {
 }
 
 .certain-category-search-dropdown {
+  background-color: #000;
+
   .rc-virtual-list-holder {
     max-height: 400px !important;
     overflow-y: scroll !important;
-  }
-  .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
-    // background-color: #000;
-  }
-  .rc-virtual-list-holder-inner {
+
+    .rc-virtual-list-holder-inner {
+      .ant-select-item-option {
+        transition: all 0.25s;
+      }
+
+      .ant-select-item-option-active {
+        background-color: #111111;
+      }
+    }
   }
 }
 

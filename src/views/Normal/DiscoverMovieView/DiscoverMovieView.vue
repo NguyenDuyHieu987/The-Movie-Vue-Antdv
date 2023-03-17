@@ -388,7 +388,7 @@ export default {
 
             break;
           default:
-            // router.push('/404');
+            router.push('/404');
             break;
         }
       }

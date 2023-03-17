@@ -7,7 +7,7 @@
           : item?.title?.replace(/\s/g, '+').toLowerCase()
       }`,
     }"
-    class="movie-search-item"
+    class="movie-rank-item"
   >
     <div class="img-box">
       <!-- v-if="!loading" -->
@@ -99,4 +99,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" src="./SearchCard.scss"></style>
+<style lang="scss" src="./RankCard.scss"></style>

@@ -67,6 +67,20 @@
             >Tất cả</el-radio-button
           >
         </el-radio-group> -->
+        <div
+          class="rank-data"
+          v-loading="loading"
+          element-loading-text="Đang tải..."
+        >
+          <el-scrollbar height="75vh">
+            <RankCard
+              v-for="(item, index) in rankData"
+              :index="index"
+              :key="item.id"
+              :item="item"
+            />
+          </el-scrollbar>
+        </div>
       </a-layout-sider>
     </a-layout>
   </div>
@@ -75,16 +89,21 @@
 <script>
 import { onBeforeMount, ref, watch } from 'vue';
 import MovieCarouselCardVertical from '@/components/Normal/MovieCardVertical/MovieCardVertical.vue';
-import { getTrending } from '@/services/MovieService';
+import RankCard from '@/components/Normal/RankCard/RankCard.vue';
+import { getTrending, getRanking } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
+import axios from 'axios';
 
 export default {
   components: {
     MovieCarouselCardVertical,
+    RankCard,
   },
   setup() {
     const activeTab = ref('day');
+    const loading = ref(false);
     const trendings = ref([]);
+    const rankData = ref([]);
     const pageTrending = ref(1);
     const totalPage = ref(100);
     const allTabs = ref([
@@ -107,33 +126,88 @@ export default {
     ]);
 
     const getDataRanking = (activeKey) => {
+      loading.value = true;
       switch (activeKey) {
         case 'day':
+          getRanking(1)
+            .then((movieRespone) => {
+              rankData.value = movieRespone.data?.results;
+              setTimeout(() => {
+                loading.value = false;
+              }, 1500);
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+
           activeTab.value = activeKey;
           break;
         case 'week':
+          getRanking(2)
+            .then((movieRespone) => {
+              rankData.value = movieRespone.data?.results;
+              setTimeout(() => {
+                loading.value = false;
+              }, 1500);
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+
           activeTab.value = activeKey;
           break;
         case 'month':
+          getRanking(3)
+            .then((movieRespone) => {
+              rankData.value = movieRespone.data?.results;
+              setTimeout(() => {
+                loading.value = false;
+              }, 1500);
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+
           activeTab.value = activeKey;
           break;
         case 'all':
+          getRanking(4)
+            .then((movieRespone) => {
+              rankData.value = movieRespone.data?.results;
+              setTimeout(() => {
+                loading.value = false;
+              }, 1500);
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+
           activeTab.value = activeKey;
           break;
       }
     };
 
     onBeforeMount(() => {
-      getTrending(pageTrending.value).then((movieRespone) => {
-        trendings.value = movieRespone.data?.results;
-        totalPage.value = movieRespone.data?.total_pages * 10;
-      });
+      getTrending(pageTrending.value)
+        .then((movieRespone) => {
+          trendings.value = movieRespone.data?.results;
+          totalPage.value = movieRespone.data?.total_pages * 10;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+
+      getDataRanking(activeTab.value);
     });
 
     watch(pageTrending, () => {
-      getTrending(pageTrending.value).then((movieRespone) => {
-        trendings.value = movieRespone.data?.results;
-      });
+      getTrending(pageTrending.value)
+        .then((movieRespone) => {
+          trendings.value = movieRespone.data?.results;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     });
 
     const handleTabClick = (activeKey) => {
@@ -149,6 +223,8 @@ export default {
 
     return {
       activeTab,
+      loading,
+      rankData,
       trendings,
       pageTrending,
       totalPage,

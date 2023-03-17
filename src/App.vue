@@ -80,7 +80,7 @@ export default {
         // console.log(router);
       }
 
-      router.beforeEach((to, from, next) => {
+      router.beforeResolve((to, from, next) => {
         if (to.matched.some((record) => record.meta.requiresAuth)) {
           if (!store.state.isLogin) {
             if (to.matched.some((record) => record.meta.requiresAdmin)) {
@@ -102,7 +102,12 @@ export default {
             }
           } else {
             if (to.matched.some((record) => record.meta.requiresAdmin)) {
-              loading.value = true;
+              if (to.matched.some((record) => record.name == 'dashboard')) {
+                loading.value = true;
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
+              }
               getUserToken({
                 user_token: getWithExpiry('userAccount')?.user_token,
               })
@@ -112,9 +117,6 @@ export default {
                   } else {
                     next({ path: '/404' });
                   }
-                  setTimeout(() => {
-                    loading.value = false;
-                  }, 1000);
                 })
                 .catch((e) => {
                   if (axios.isCancel(e)) return;

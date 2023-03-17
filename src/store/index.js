@@ -10,7 +10,7 @@ const store = createStore({
       breadCrumbValue: '',
       role: 'normal',
       loadingSearch: false,
-      loadingTable: false,
+      loadingDashBoard: false,
       userAccount: getWithExpiry('userAccount'),
       allGenres: [],
       allCountries: [],

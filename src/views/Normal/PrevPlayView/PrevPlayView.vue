@@ -631,11 +631,17 @@ export default {
                 dataMovie.value = movieResponed?.data;
                 dataCredit.value = movieResponed?.data?.credits;
 
-                movieResponed?.data?.images?.backdrops?.forEach((item) => {
-                  srcBackdropList.value.push(
+                // movieResponed?.data?.images?.backdrops?.forEach((item) => {
+                //   srcBackdropList.value.push(
+                //     'https://image.tmdb.org/t/p/original' + item?.file_path
+                //   );
+                // });
+
+                srcBackdropList.value = Array.from(
+                  movieResponed?.data?.images?.backdrops,
+                  (item) =>
                     'https://image.tmdb.org/t/p/original' + item?.file_path
-                  );
-                });
+                );
 
                 setTimeout(() => {
                   loading.value = false;
@@ -651,11 +657,16 @@ export default {
             dataCredit.value = tvResponed?.data?.credits;
             dataCredit.value = tvResponed?.data?.credits;
 
-            tvResponed?.data?.images?.backdrops?.forEach((item) => {
-              srcBackdropList.value.push(
-                'https://image.tmdb.org/t/p/original' + item?.file_path
-              );
-            });
+            // tvResponed?.data?.images?.backdrops?.forEach((item) => {
+            //   srcBackdropList.value.push(
+            //     'https://image.tmdb.org/t/p/original' + item?.file_path
+            //   );
+            // });
+
+            srcBackdropList.value = Array.from(
+              tvResponed?.data?.images?.backdrops,
+              (item) => 'https://image.tmdb.org/t/p/original' + item?.file_path
+            );
 
             setTimeout(() => {
               loading.value = false;
