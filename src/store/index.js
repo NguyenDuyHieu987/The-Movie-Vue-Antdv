@@ -4,6 +4,7 @@ import { getWithExpiry } from '@/untils/LocalStorage';
 const store = createStore({
   state() {
     return {
+      collapsed: false,
       openDrawer: false,
       modalVisible: false,
       isLogin: getWithExpiry('userAccount') != null ? true : false,

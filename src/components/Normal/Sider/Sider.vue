@@ -96,7 +96,6 @@
 
 <script>
 import { ref } from 'vue';
-import {} from 'ant-design-vue';
 import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons-vue';
 import TheMenu from '../TheMenu/TheMenu.vue';
 
