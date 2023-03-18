@@ -93,6 +93,14 @@
 }
 
 @media only screen and (max-width: 900px) {
+  .ant-carousel {
+    display: block !important;
+  }
+
+  .el-carousel {
+    display: none;
+  }
+
   .el-carousel {
     .el-carousel__container {
       height: 350px !important;
