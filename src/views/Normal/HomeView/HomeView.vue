@@ -13,7 +13,7 @@
         }"
         style="font-size: 1.8rem"
       >
-        <span>Xem tất cả</span>
+        <strong class="view-all">Xem tất cả</strong>
       </router-link>
     </h2>
     <carousel
@@ -86,7 +86,7 @@
         }"
         style="font-size: 1.8rem"
       >
-        <span>Xem tất cả</span>
+        <strong class="view-all">Xem tất cả</strong>
       </router-link>
     </h2>
 
@@ -112,7 +112,7 @@
         }"
         style="font-size: 1.8rem"
       >
-        <span>Xem tất cả</span>
+        <strong class="view-all">Xem tất cả</strong>
       </router-link>
     </h2>
 
@@ -136,8 +136,9 @@
           },
         }"
         style="font-size: 1.8rem"
-        >Xem tất cả</router-link
       >
+        <strong class="view-all">Xem tất cả</strong>
+      </router-link>
     </h2>
     <carousel
       v-if="topRateds?.length"
@@ -157,14 +158,17 @@
         500: {
           items: 2,
         },
-        600: {
+        550: {
           items: 3,
         },
-        799: {
+        700: {
           items: 4,
         },
         800: {
           items: 3,
+        },
+        900: {
+          items: 4,
         },
         1000: {
           items: 5,
@@ -186,6 +190,9 @@
         },
         1900: {
           items: 9,
+        },
+        2000: {
+          items: 10,
         },
         2200: {
           items: 11,

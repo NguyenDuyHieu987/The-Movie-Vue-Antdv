@@ -420,7 +420,7 @@ export default {
 
       // document.title = `Phimhay247 - ${metaHead.value}`;
       useMeta({
-        title: '`Phimhay247 | ' + metaHead.value,
+        title: '`Phimhay247 - ' + metaHead.value,
         htmlAttrs: { lang: 'vi', amp: true },
       });
     });

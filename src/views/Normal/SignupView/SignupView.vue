@@ -170,7 +170,7 @@ export default defineComponent({
     };
 
     useMeta({
-      title: '`Phimhay247 | Đăng ký',
+      title: '`Phimhay247 - Đăng ký',
       htmlAttrs: { lang: 'vi', amp: true },
     });
 

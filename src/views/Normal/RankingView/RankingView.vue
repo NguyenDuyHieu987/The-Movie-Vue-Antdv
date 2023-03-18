@@ -71,6 +71,7 @@
           class="rank-data"
           v-loading="loading"
           element-loading-text="Đang tải..."
+          element-loading-background="rgba(0, 0, 0, 0.75)"
         >
           <el-scrollbar height="75vh">
             <RankCard
@@ -215,7 +216,7 @@ export default {
     };
 
     useMeta({
-      title: '`Phimhay247 | Xếp hạng',
+      title: '`Phimhay247 - Xếp hạng',
       htmlAttrs: { lang: 'vi', amp: true },
     });
 

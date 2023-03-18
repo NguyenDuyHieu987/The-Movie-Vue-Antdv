@@ -6,6 +6,17 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import { useMeta } from 'vue-meta';
+
+export default {
+  setup() {
+    useMeta({
+      title: '`Phimhay247 - Profile',
+      htmlAttrs: { lang: 'vi', amp: true },
+    });
+  },
+};
+</script>
 
 <style lang="scss" src="./ProfileView.scss"></style>
