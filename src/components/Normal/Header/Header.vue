@@ -227,7 +227,7 @@ export default {
               loadingSearch.value = false;
               if (axios.isCancel(e)) return;
             });
-        }, 1000);
+        }, 500);
       } else if (valueInput.value.length == 0) {
         dataSearch.value = [];
       }

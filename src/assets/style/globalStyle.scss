@@ -141,6 +141,8 @@ span {
 
 .certain-category-search-dropdown {
   background-color: #000;
+  // top: calc(var(--header-height) - 10px) !important;
+  position: fixed !important;
 
   .rc-virtual-list-holder {
     max-height: 400px !important;
@@ -447,6 +449,7 @@ span {
 
 .ant-dropdown {
   border: 0.5px solid var(--border-regular);
+  position: fixed !important;
 
   .ant-dropdown-menu {
     padding: 0px;

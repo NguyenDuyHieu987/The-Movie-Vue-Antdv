@@ -15,13 +15,7 @@
         <div class="img-box" @click="handleClickTrailerIcon">
           <a-image
             v-if="!loading"
-            :src="
-              getPoster(
-                dataMovie?.backdrop_path
-                  ? dataMovie?.backdrop_path
-                  : dataMovie?.poster_path
-              )
-            "
+            :src="getPoster(dataMovie?.backdrop_path)"
             :preview="false"
           >
           </a-image>

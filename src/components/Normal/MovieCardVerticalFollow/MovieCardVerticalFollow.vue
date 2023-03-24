@@ -26,11 +26,7 @@
             <a-image
               v-if="!loading"
               class="movie-card-img"
-              :src="
-                getPoster(
-                  item?.poster_path ? item?.poster_path : item?.backdrop_path
-                )
-              "
+              :src="getPoster(item?.poster_path)"
               :preview="false"
             >
             </a-image>

@@ -27,13 +27,7 @@
           <a-image
             class="ant-image"
             v-show="!loading"
-            :src="
-              getPoster(
-                dataMovie?.backdrop_path
-                  ? dataMovie?.backdrop_path
-                  : dataMovie?.poster_path
-              )
-            "
+            :src="getPoster(dataMovie?.backdrop_path)"
             :preview="false"
             @load="onLoadImg"
           >
