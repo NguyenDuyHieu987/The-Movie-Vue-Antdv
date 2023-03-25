@@ -26,7 +26,7 @@
             <a-image
               v-if="!loading"
               class="movie-card-img"
-              :src="getPoster(item?.poster_path)"
+              :src="getPoster(dataMovie?.poster_path)"
               :preview="false"
             >
             </a-image>
