@@ -64,7 +64,6 @@ export default {
     const handleRating = (value) => {
       if (props?.isEpisodes) {
         ratingTV(props?.movieId, { value: value }).then((response) => {
-          console.log(response?.data);
           if (response.data?.success == true) {
             notification.open({
               message: 'Cảm ơn bạn đã đánh giá!',
