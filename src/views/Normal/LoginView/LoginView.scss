@@ -85,7 +85,8 @@
         var(--sider-header-background-color3)
       );
       transition: all 0.5s;
-      background-size: 200% 100%;
+      background-size: 100% 100%;
+      background-position: 100% center;
       border-radius: 3px;
       font-size: 1.5rem;
 

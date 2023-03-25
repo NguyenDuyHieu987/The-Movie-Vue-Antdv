@@ -43,15 +43,18 @@
               )
             }}
           </span>
+
           <!-- {{ getAllGenresById(item?.genres).join(' • ') }} -->
           <!-- <span class="genres" v--else-if="data?.genres">
               {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
             </span> -->
         </p>
       </div>
+
       <h1 class="title">
         {{ item?.name ? item?.name : item?.title }}
       </h1>
+
       <p class="overview">{{ item?.overview }}</p>
     </div>
   </router-link>

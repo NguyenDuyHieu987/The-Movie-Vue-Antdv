@@ -75,8 +75,8 @@
 
       <li
         v-for="(item, index) in dataSeason.episodes
-          .slice(0, dataMovie?.last_episode_to_air?.episode_number)
-          .slice(-10)
+          ?.slice(0, dataMovie?.last_episode_to_air?.episode_number)
+          ?.slice(-10)
           .reverse()"
         :index="index"
         :key="index"

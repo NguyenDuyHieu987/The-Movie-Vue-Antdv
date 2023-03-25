@@ -38,59 +38,39 @@
             </div>
           </template>
         </el-image>
-      </div>
 
-      <div class="info-movie">
-        <a-skeleton
-          :loading="loading"
-          :active="true"
-          :paragraph="{ rows: 2 }"
-          :title="false"
-        >
-          <h2>
-            <strong>{{
-              dataMovie?.name ? dataMovie?.name : dataMovie?.title
-            }}</strong>
-            <strong v-if="isEpisodes">
-              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
-            </strong>
-          </h2>
-
-          <strong>
-            {{
-              dataMovie?.original_title
-                ? dataMovie?.original_title
-                : dataMovie?.original_name
-            }}
-            {{
-              isEpisodes
-                ? `(${
-                    dataMovie?.last_air_date?.slice(0, 4)
-                      ? dataMovie?.last_air_date?.slice(0, 4)
-                      : dataMovie?.last_episode_to_air?.air_date?.slice(0, 4)
-                  })`
-                : `(${dataMovie?.release_date?.slice(0, 4)})`
-            }}
-          </strong>
-
-          <strong v-if="isEpisodes">
-            {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
-          </strong>
-        </a-skeleton>
-
-        <div v-if="loading" class="widget-skeleton">
-          <a-skeleton-button
-            :active="true"
-            :size="'default'"
-            :block="false"
-            v-for="(item, index) in 3"
-            :index="index"
-            :key="index"
+        <div class="poster-img">
+          <el-image
+            :src="getPoster(dataMovie?.poster_path)"
+            :preview-src-list="srcBackdropList"
+            :preview-teleported="true"
           >
-          </a-skeleton-button>
-        </div>
+            <template #placeholder>
+              <div
+                class="ant-image"
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                Đang tải<span class="dot">...</span>
+              </div>
+            </template>
+            <template #error>
+              <div
+                class="el-image error"
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                Đang tải<span class="dot">...</span>
+              </div>
+            </template>
+          </el-image>
 
-        <div v-else class="widget">
           <router-link
             v-if="isEpisodes"
             :to="{
@@ -109,7 +89,7 @@
             <span> Xem ngay</span>
           </router-link>
           <router-link
-            v-else-if="!isEpisodes"
+            v-else
             :to="{
               name: 'play',
               params: {
@@ -124,6 +104,127 @@
             <font-awesome-icon icon="fa-solid fa-play" />
             <span> Xem ngay</span>
           </router-link>
+        </div>
+      </div>
+
+      <div class="info-movie">
+        <a-skeleton
+          :loading="loading"
+          :active="true"
+          :paragraph="{ rows: 2 }"
+          :title="false"
+        >
+          <h2>
+            <strong>{{
+              dataMovie?.name ? dataMovie?.name : dataMovie?.title
+            }}</strong>
+            <strong v-if="isEpisodes">
+              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+            </strong>
+          </h2>
+
+          <h3>
+            <strong>
+              {{
+                dataMovie?.original_title
+                  ? dataMovie?.original_title
+                  : dataMovie?.original_name
+              }}
+              {{
+                isEpisodes
+                  ? `(${
+                      dataMovie?.last_air_date?.slice(0, 4)
+                        ? dataMovie?.last_air_date?.slice(0, 4)
+                        : dataMovie?.last_episode_to_air?.air_date?.slice(0, 4)
+                    })`
+                  : `(${dataMovie?.release_date?.slice(0, 4)})`
+              }}
+            </strong>
+            <strong v-if="isEpisodes">
+              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+            </strong>
+          </h3>
+        </a-skeleton>
+
+        <div v-if="loading" class="widget-skeleton">
+          <a-skeleton-button
+            :active="true"
+            :size="'default'"
+            :block="false"
+            v-for="(item, index) in 3"
+            :index="index"
+            :key="index"
+          >
+          </a-skeleton-button>
+        </div>
+
+        <div v-else class="widget">
+          <div class="poster-img-mobile">
+            <el-image
+              :src="getPoster(dataMovie?.poster_path)"
+              :preview-src-list="srcBackdropList"
+              :preview-teleported="true"
+            >
+              <template #placeholder>
+                <div
+                  class="ant-image"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  Đang tải<span class="dot">...</span>
+                </div>
+              </template>
+              <template #error>
+                <div
+                  class="el-image error"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  Đang tải<span class="dot">...</span>
+                </div>
+              </template>
+            </el-image>
+
+            <router-link
+              v-if="isEpisodes"
+              :to="{
+                name: 'playtv',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  tap: 'tap-1',
+                },
+              }"
+              class="btn-play-now"
+            >
+              <font-awesome-icon icon="fa-solid fa-play" />
+              <span> Xem ngay</span>
+            </router-link>
+            <router-link
+              v-else
+              :to="{
+                name: 'play',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                },
+              }"
+              class="btn-play-now"
+            >
+              <font-awesome-icon icon="fa-solid fa-play" />
+              <span> Xem ngay</span>
+            </router-link>
+          </div>
 
           <span
             class="btn-trailer"
@@ -139,35 +240,6 @@
             <span>Trailer</span>
           </span>
 
-          <!-- v-if="$store.state.isLogin" -->
-
-          <!-- <a-popconfirm
-            ok-text="Có"
-            cancel-text="Không"
-            class="btn-add-to-list"
-            :class="{ active: isAddToList }"
-            @confirm="handelAddToList"
-          >
-            <template #title>
-              <p v-if="!isAddToList">Bạn có muốn thêm phìm vào</p>
-              <p v-else>Bạn có muốn xoá phìm khỏi</p>
-              <p>danh sách phát không?</p>
-            </template>
-            <template #icon><question-circle-outlined /></template>
-
-            <span>
-              <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
-              <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
-              <span v-if="!isAddToList"> Add to list</span>
-              <span v-else> Remove list</span>
-            </span>
-          </a-popconfirm> -->
-
-          <!-- <span v-else class="btn-add-to-list">
-            <font-awesome-icon icon="fa-solid fa-bookmark" />
-            <span> Add to list</span>
-          </span> -->
-
           <span
             class="btn-add-to-list"
             :class="{ active: isAddToList }"
@@ -175,8 +247,8 @@
           >
             <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
             <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
-            <span v-if="!isAddToList"> Add to list</span>
-            <span v-else> Remove list</span>
+            <span v-if="!isAddToList"> Thêm vòa d/sách</span>
+            <span v-else> Xóa khỏi d/sách</span>
           </span>
         </div>
 
@@ -282,7 +354,24 @@
 
             <p>
               <label>Diểm IMDb: </label>
-              <span style="color: yellow; font-weight: bold">
+              <span
+                style="color: green; font-weight: bold"
+                v-if="dataMovie?.vote_average >= 8"
+              >
+                {{ dataMovie?.vote_average?.toFixed(2) }}
+              </span>
+              <span
+                style="color: yellow; font-weight: bold"
+                v-if="
+                  dataMovie?.vote_average >= 5 && dataMovie?.vote_average < 8
+                "
+              >
+                {{ dataMovie?.vote_average?.toFixed(2) }}
+              </span>
+              <span
+                style="color: red; font-weight: bold"
+                v-if="dataMovie?.vote_average < 5"
+              >
                 {{ dataMovie?.vote_average?.toFixed(2) }}
               </span>
             </p>

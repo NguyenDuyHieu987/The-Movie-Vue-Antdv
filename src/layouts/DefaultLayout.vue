@@ -7,7 +7,9 @@
       <a-layout>
         <BreadCrumb />
         <a-layout-content class="container">
-          <slot />
+          <div>
+            <slot />
+          </div>
         </a-layout-content>
         <Footer />
       </a-layout>
@@ -58,6 +60,11 @@ export default {
   // min-height: calc(100vh - 130px);
   padding: 15px 20px;
   background-color: var(--background-content-color);
+}
+.ant-layout-content.container {
+  & > div {
+    overflow: hidden;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
