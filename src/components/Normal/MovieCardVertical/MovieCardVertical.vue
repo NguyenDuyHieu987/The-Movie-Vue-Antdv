@@ -24,13 +24,13 @@
 
       <template #default>
         <div class="img-box">
-          <a-image
+          <e-image
             v-if="!loading"
             class="movie-card-img"
             :src="getPoster(item?.poster_path)"
             :preview="false"
           >
-          </a-image>
+          </e-image>
 
           <!-- <a-skeleton-image v-else class="ant-image" /> -->
 
