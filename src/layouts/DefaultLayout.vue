@@ -60,21 +60,20 @@ export default {
   // min-height: calc(100vh - 130px);
   padding: 15px 20px;
   background-color: var(--background-content-color);
-}
-.ant-layout-content.container {
+
   & > div {
     overflow: hidden;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  .ant-layout-content {
+  .ant-layout-content.container {
     background-color: var(--background-content-color);
   }
 }
 
 @media only screen and (max-width: 900px) {
-  .ant-layout-content {
+  .ant-layout-content.container {
     .container {
       padding: 15px 15px;
     }
