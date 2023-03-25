@@ -35,6 +35,7 @@ import { ref, h } from 'vue';
 import { ratingMovie, ratingTV } from '@/services/MovieService';
 import { notification } from 'ant-design-vue';
 import { CheckCircleFilled } from '@ant-design/icons-vue';
+import axios from 'axios';
 
 export default {
   components: {},
@@ -63,35 +64,43 @@ export default {
 
     const handleRating = (value) => {
       if (props?.isEpisodes) {
-        ratingTV(props?.movieId, { value: value }).then((response) => {
-          if (response.data?.success == true) {
-            notification.open({
-              message: 'Cảm ơn bạn đã đánh giá!',
-              description: `Đánh giá thành công ${value} điểm.`,
-              icon: () =>
-                h(CheckCircleFilled, {
-                  style: 'color: green',
-                }),
-            });
-            vote_Average.value = response.data?.vote_average;
-            vote_Count.value = response.data?.vote_count;
-          }
-        });
+        ratingTV(props?.movieId, { value: value })
+          .then((response) => {
+            if (response.data?.success == true) {
+              notification.open({
+                message: 'Cảm ơn bạn đã đánh giá!',
+                description: `Đánh giá thành công ${value} điểm.`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+              vote_Average.value = response.data?.vote_average;
+              vote_Count.value = response.data?.vote_count;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
       } else {
-        ratingMovie(props?.movieId, { value: value }).then((response) => {
-          if (response.data?.success == true) {
-            notification.open({
-              message: 'Cảm ơn bạn đã đánh giá!',
-              description: `Đánh giá thành công ${value} điểm.`,
-              icon: () =>
-                h(CheckCircleFilled, {
-                  style: 'color: green',
-                }),
-            });
-            vote_Average.value = response.data?.vote_average;
-            vote_Count.value = response.data?.vote_count;
-          }
-        });
+        ratingMovie(props?.movieId, { value: value })
+          .then((response) => {
+            if (response.data?.success == true) {
+              notification.open({
+                message: 'Cảm ơn bạn đã đánh giá!',
+                description: `Đánh giá thành công ${value} điểm.`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+              vote_Average.value = response.data?.vote_average;
+              vote_Count.value = response.data?.vote_count;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
       }
     };
 
