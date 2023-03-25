@@ -39,7 +39,7 @@
           </template>
         </el-image>
 
-        <div class="poster-img">
+        <div class="poster-img" v-show="!loading">
           <el-image
             :src="getPoster(dataMovie?.poster_path)"
             :preview-src-list="srcBackdropList"

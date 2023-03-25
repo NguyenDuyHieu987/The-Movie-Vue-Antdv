@@ -283,27 +283,34 @@ span {
   gap: 10px;
 }
 
-.movie-card-vertical-item {
-  .detail-flow {
-    height: 0px;
-    width: 0px;
-    overflow: hidden;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-51%) scale(1.05);
+.movie-group,
+.movie-discovered {
+  .movie-card-vertical-item,
+  .movie-card-horizontal-item {
+    .detail-flow {
+      height: 0px;
+      width: 0px;
+      overflow: hidden;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-51%) scale(1.05);
+    }
   }
 }
 
-.movie-card-horizontal-item {
-  .detail-flow {
-    height: 0px;
-    width: 0px;
-    overflow: hidden;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-51%) translateX(-1%) scale(1.05);
+.owl-carousel {
+  .movie-card-vertical-item,
+  .movie-card-horizontal-item {
+    .detail-flow {
+      height: 0px;
+      width: 0px;
+      overflow: hidden;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-51%) translateX(-1%) scale(1.05);
+    }
   }
 }
 
@@ -629,5 +636,5 @@ span {
 }
 
 .owl-carousel .owl-stage-outer {
-  overflow: visible;
+  overflow: visible !important;
 }
