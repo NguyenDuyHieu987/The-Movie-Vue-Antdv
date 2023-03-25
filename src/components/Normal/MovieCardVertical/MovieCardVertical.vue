@@ -183,7 +183,7 @@
             <el-tooltip content="Chia sẻ" placement="top">
               <ShareNetwork
                 network="facebook"
-                :url="$route.fullPath"
+                :url="urlShare"
                 :title="dataMovie?.name ? dataMovie?.name : dataMovie?.title"
                 hashtags="phimhay247.site,vite"
                 style="white-space: nowrap; display: block"
@@ -290,7 +290,7 @@
   </router-link>
 </template>
 <script>
-import { ref, onBeforeMount, createVNode, h, onMounted } from 'vue';
+import { ref, onBeforeMount, createVNode, h, onMounted, computed } from 'vue';
 import {
   PlusOutlined,
   InfoOutlined,
@@ -331,6 +331,7 @@ export default {
     const loading = ref(false);
     const dataAddToList = ref([]);
     const isAddToList = ref(false);
+    const urlShare = computed(() => window.location);
 
     onMounted(() => {
       const itemMovie = document.querySelectorAll('.movie-card-vertical-item');
@@ -548,6 +549,7 @@ export default {
       isAddToList,
       dataMovie,
       loading,
+      urlShare,
       handelAddToList,
       getPoster,
       getAllGenresById,
