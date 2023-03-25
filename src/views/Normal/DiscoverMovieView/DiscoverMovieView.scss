@@ -97,7 +97,7 @@
     // grid-template-columns: repeat(auto-fit, minmax(230px, auto));
     // margin-top: 10px;
     gap: 10px;
-    overflow: hidden;
+    // overflow: hidden;
     grid-template-columns: repeat(4, minmax(23%, auto));
     .movie-carousel-horizontal-item {
       float: left;
