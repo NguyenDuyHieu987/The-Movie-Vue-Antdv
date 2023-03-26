@@ -300,7 +300,7 @@ dl {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translateX(-50%) translateY(-52%) scale(1.05);
+      transform: translateX(-50%) translateY(-51%) scale(1.05);
     }
   }
 }
@@ -315,7 +315,7 @@ dl {
       position: absolute;
       right: 0;
       top: 50%;
-      transform: translateX(-1%) translateY(-52%) scale(1.05);
+      transform: translateX(-1%) translateY(-51%) scale(1.05);
     }
   }
 }
@@ -378,7 +378,7 @@ dl {
         0 9px 28px 8px #00000077;
 
       .img-box {
-        height: 170px;
+        height: 180px;
 
         .ant-image {
           img {
