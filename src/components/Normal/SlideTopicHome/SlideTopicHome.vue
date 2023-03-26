@@ -17,7 +17,7 @@
       </div>
     </template>
     <div v-for="(item, index) in trendings" :index="index" :key="item.id">
-      <SlideTopicItem :item="item" :type="item?.media_type" />
+      <SlideTopicItem :item="item" />
     </div>
   </a-carousel>
 
@@ -27,7 +27,7 @@
       :key="item.id"
       :index="index"
     >
-      <SlideTopicItem :item="item" :type="item?.media_type" />
+      <SlideTopicItem :item="item" />
     </el-carousel-item>
   </el-carousel>
 </template>
