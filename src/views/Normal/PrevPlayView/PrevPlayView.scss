@@ -316,7 +316,13 @@
 
     .hd-brand {
       padding: 5px 50px;
-      background-color: rgb(255, 38, 0);
+      background-image: linear-gradient(
+        to right,
+        var(--sider-header-background-color3),
+        var(--sider-header-background-color1),
+        var(--sider-header-background-color6)
+      );
+
       position: absolute;
       top: 6px;
       right: -40px;
