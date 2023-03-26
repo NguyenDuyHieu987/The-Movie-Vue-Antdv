@@ -227,6 +227,7 @@
               <font-awesome-icon icon="fa-solid fa-play" />
               <span> Xem ngay</span>
             </router-link>
+            <strong class="hd-brand">HD</strong>
           </div>
 
           <span
