@@ -196,17 +196,17 @@ export default {
 
       useMeta({
         title:
-          '`Phimhay247 - Xem phim - ' +
+          'Phimhay247 - Xem phim - ' +
           Array?.from(
             route.params?.name?.split('+'),
             (x) => x.charAt(0).toUpperCase() + x.slice(1)
           ).join(' ')
-            ? '`Phimhay247 - Xem phim - ' +
+            ? 'Phimhay247 - Xem phim - ' +
               Array?.from(
                 route.params?.name?.split('+'),
                 (x) => x.charAt(0).toUpperCase() + x.slice(1)
               ).join(' ')
-            : '`Phimhay247 - Xem phim - ' +
+            : 'Phimhay247 - Xem phim - ' +
               Array?.from(
                 route.params?.name?.split('+'),
                 (x) => x.charAt(0).toUpperCase() + x.slice(1)
