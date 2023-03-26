@@ -10,7 +10,7 @@
       }"
       class="movie-card-vertical-item"
     >
-      <el-skeleton :loading="loading" animated>
+      <el-skeleton :loading="loading" animated style="margin-bottom: 10px">
         <template #template>
           <div class="img-box">
             <el-skeleton-item class="ant-image" variant="image" />
@@ -87,7 +87,7 @@
       </el-skeleton>
     </router-link>
     <a-button style="width: 100%" danger @click="handleRemoveFromList()">
-      <span v-if="activeTabList == 'list'">Xóa khỏi danh sách phát</span>
+      <span v-if="activeTabList == 'list'">Xóa khỏi danh sách</span>
       <span v-else-if="activeTabList == 'history'">Xóa khỏi lịch sử xem</span>
     </a-button>
   </div>
@@ -116,9 +116,18 @@ export default {
     item: {
       type: Object,
     },
-    activeTabList: String,
-    getDataWhenRemoveList: Function,
-    getDataWhenRemoveHistory: Function,
+    type: {
+      type: String,
+    },
+    activeTabList: {
+      type: String,
+    },
+    getDataWhenRemoveList: {
+      type: Function,
+    },
+    getDataWhenRemoveHistory: {
+      type: Function,
+    },
   },
   setup(props) {
     const store = useStore();
@@ -130,33 +139,101 @@ export default {
     onBeforeMount(() => {
       loading.value = true;
 
-      getTvById(props.item?.id)
-        .then((tvResponed) => {
-          if (tvResponed?.data?.not_found === true)
+      if (props?.type) {
+        switch (props?.type) {
+          case 'movie':
             getMovieById(props.item?.id)
               .then((movieResponed) => {
                 isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
+
                 setTimeout(() => {
                   loading.value = false;
                 }, 1000);
               })
               .catch((e) => {
+                loading.value = false;
                 if (axios.isCancel(e)) return;
               });
-          else {
-            isEpisodes.value = true;
-            dataMovie.value = tvResponed?.data;
+            break;
+          case 'tv':
+            getTvById(props.item?.id)
+              .then((tvResponed) => {
+                isEpisodes.value = true;
+                dataMovie.value = tvResponed?.data;
 
-            setTimeout(() => {
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
+              })
+              .catch((e) => {
+                loading.value = false;
+                if (axios.isCancel(e)) return;
+              });
+            break;
+          default:
+            break;
+        }
+      } else {
+        if (props?.item?.type) {
+          getTvById(props.item?.id)
+            .then((tvResponed) => {
+              isEpisodes.value = true;
+              dataMovie.value = tvResponed?.data;
+
+              setTimeout(() => {
+                loading.value = false;
+              }, 1000);
+            })
+            .catch((e) => {
               loading.value = false;
-            }, 1000);
-          }
-        })
-        .catch((e) => {
-          loading.value = false;
-          if (axios.isCancel(e)) return;
-        });
+              if (axios.isCancel(e)) return;
+            });
+        } else {
+          getMovieById(props.item?.id)
+            .then((movieResponed) => {
+              isEpisodes.value = false;
+              dataMovie.value = movieResponed?.data;
+
+              setTimeout(() => {
+                loading.value = false;
+              }, 1000);
+            })
+            .catch((e) => {
+              loading.value = false;
+              if (axios.isCancel(e)) return;
+            });
+        }
+      }
+
+      // getTvById(props.item?.id)
+      //   .then((tvResponed) => {
+      //     if (tvResponed?.data?.not_found === true)
+      //       getMovieById(props.item?.id)
+      //         .then((movieResponed) => {
+      //           isEpisodes.value = false;
+      //           dataMovie.value = movieResponed?.data;
+      //           setTimeout(() => {
+      //             loading.value = false;
+      //           }, 1000);
+      //         })
+      //         .catch((e) => {
+      //           loading.value = false;
+      //           if (axios.isCancel(e)) return;
+      //         });
+      //     else {
+      //       isEpisodes.value = true;
+      //       dataMovie.value = tvResponed?.data;
+
+      //       setTimeout(() => {
+      //         loading.value = false;
+      //       }, 1000);
+      //     }
+      //   })
+      //   .catch((e) => {
+      //     loading.value = false;
+      //     if (axios.isCancel(e)) return;
+      //   });
     });
 
     const handleRemoveFromList = () => {

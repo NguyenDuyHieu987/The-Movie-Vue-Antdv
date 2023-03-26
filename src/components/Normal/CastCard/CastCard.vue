@@ -67,7 +67,9 @@ export default {
     item: {
       type: Object,
     },
-    loading: Boolean,
+    loading: {
+      type: Boolean,
+    },
   },
   setup() {
     return {

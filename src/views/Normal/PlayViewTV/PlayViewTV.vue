@@ -2,14 +2,29 @@
   <div class="play-container">
     <div class="video-player">
       <iframe
-        src="https://player.vimeo.com/video/807171046"
         width="100%"
         height="100%"
+        :src="`//ok.ru/videoembed/${
+          urlCodeMovie ? urlCodeMovie : '3056793684585'
+        }`"
         frameborder="0"
-        allow="autoplay; fullscreen; picture-in-picture"
+        allow="autoplay"
         allowfullscreen
       ></iframe>
     </div>
+
+    <ListEpisodes
+      v-if="!checkEmptyDataMovies"
+      :dataMovie="dataMovie"
+      :numberOfEpisodes="
+        dataMovie?.seasons?.find((item) =>
+          item.season_number === dataMovie?.last_episode_to_air?.season_number
+            ? item
+            : null
+        )?.episode_count
+      "
+      @setUrlCodeMovie="(data) => getUrlCodeMovie(data)"
+    />
 
     <h3 class="section-title width-fit" style="margin-top: 15px">
       <strong> Đánh giá phim</strong>
@@ -144,7 +159,7 @@ import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
-  getMovieById,
+  getTvById,
   getList,
   addItemList,
   removeItemList,
@@ -152,6 +167,7 @@ import {
 import Interaction from '@/components/Normal/Interaction/Interaction.vue';
 import RatingMovie from '@/components/Normal/RatingMovie/RatingMovie.vue';
 import MovieSuggest from '@/components/Normal/MovieSuggest/MovieSuggest.vue';
+import ListEpisodes from '@/components/Normal/ListEpisodes/ListEpisodes.vue';
 import { useMeta } from 'vue-meta';
 import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
@@ -166,11 +182,12 @@ export default {
     Interaction,
     RatingMovie,
     MovieSuggest,
+    ListEpisodes,
     PlusOutlined,
   },
   setup() {
-    const store = useStore();
     const route = useRoute();
+    const store = useStore();
     const router = useRouter();
     const genresName = ref([]);
     const isEpisodes = ref(false);
@@ -214,15 +231,10 @@ export default {
         htmlAttrs: { lang: 'vi', amp: true },
       });
 
-      // document.title = `${Array?.from(
-      //   route.params?.name?.split('+'),
-      //   (x) => x.charAt(0).toUpperCase() + x.slice(1)
-      // ).join(' ')} - Xem phim`;
-
-      getMovieById(route.params?.id)
-        .then((movieResponed) => {
-          isEpisodes.value = false;
-          dataMovie.value = movieResponed?.data;
+      getTvById(route.params?.id)
+        .then((tvResponed) => {
+          isEpisodes.value = true;
+          dataMovie.value = tvResponed?.data;
 
           setTimeout(() => {
             loading.value = false;
@@ -460,4 +472,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="./PlayView.scss"></style>
+<style lang="scss" src="./PlayViewTV.scss"></style>

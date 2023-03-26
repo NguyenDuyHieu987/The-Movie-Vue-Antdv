@@ -20,7 +20,6 @@
       v-if="nowPlayings?.length"
       :items="4"
       :autoplay="true"
-      :loop="true"
       :dots="false"
       :autoplayHoverPause="true"
       :autoplayTimeout="5000"
@@ -66,11 +65,12 @@
         },
       }"
     >
-      <MovieCarouselCardHorizontal
+      <MovieCardHorizontal
         v-for="(item, index) in nowPlayings"
         :item="item"
         :index="index"
         :key="item.id"
+        type="movie"
       />
     </carousel>
 
@@ -91,11 +91,12 @@
     </h2>
 
     <section class="movie-group vertical">
-      <MovieCarouselCardVertical
+      <MovieCardVertical
         v-for="(item, index) in tvAiringTodays"
         :index="index"
         :key="item.id"
         :item="item"
+        type="tv"
       />
     </section>
 
@@ -122,6 +123,7 @@
         :index="index"
         :key="item.id"
         :item="item"
+        type="movie"
       />
     </section>
 
@@ -144,7 +146,6 @@
       v-if="topRateds?.length"
       :items="4"
       :autoplay="true"
-      :loop="true"
       :dots="false"
       :autoplayHoverPause="true"
       :autoplayTimeout="5000"
@@ -199,11 +200,12 @@
         },
       }"
     >
-      <MovieCarouselCardVertical
+      <MovieCardVertical
         v-for="(item, index) in topRateds"
         :item="item"
         :index="index"
         :key="item.id"
+        type="movie"
       />
     </carousel>
   </div>
@@ -215,8 +217,8 @@ import { onBeforeMount, ref } from 'vue';
 import axios from 'axios';
 import carousel from 'vue-owl-carousel/src/Carousel';
 import SlideTopicHome from '@/components/Normal/SlideTopicHome/SlideTopicHome.vue';
-import MovieCarouselCardHorizontal from '@/components/Normal/MovieCardHorizontal/MovieCardHorizontal.vue';
-import MovieCarouselCardVertical from '@/components/Normal/MovieCardVertical/MovieCardVertical.vue';
+import MovieCardHorizontal from '@/components/Normal/MovieCardHorizontal/MovieCardHorizontal.vue';
+import MovieCardVertical from '@/components/Normal/MovieCardVertical/MovieCardVertical.vue';
 import MovieCardHorizontalTrailer from '@/components/Normal/MovieCardHorizontalTrailer/MovieCardHorizontalTrailer.vue';
 import {
   getNowPlaying,
@@ -231,8 +233,8 @@ export default {
   components: {
     SlideTopicHome,
     carousel,
-    MovieCarouselCardHorizontal,
-    MovieCarouselCardVertical,
+    MovieCardHorizontal,
+    MovieCardVertical,
     MovieCardHorizontalTrailer,
   },
   setup() {

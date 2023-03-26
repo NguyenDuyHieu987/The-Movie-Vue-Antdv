@@ -6,6 +6,7 @@
 
     <div v-if="loading" class="list-lastest-episodes skeleton">
       <a-skeleton-button
+        :loading="loading"
         :active="true"
         :size="size"
         :shape="'default'"

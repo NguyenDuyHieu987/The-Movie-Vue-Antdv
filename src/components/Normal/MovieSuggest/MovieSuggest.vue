@@ -7,7 +7,6 @@
     class="similar-container"
     :items="4"
     :autoplay="true"
-    :loop="true"
     :dots="false"
     :autoplayHoverPause="true"
     :autoplayTimeout="5000"
@@ -16,7 +15,7 @@
     :navText="[btnPrev, btnNext]"
     :responsive="responsive"
   >
-    <MovieCarouselCardVertical
+    <MovieCardVertical
       v-for="(item, index) in dataSimilar"
       :index="index"
       :key="item.id"
@@ -32,7 +31,6 @@
     class="recommend-container"
     :items="4"
     :autoplay="true"
-    :loop="true"
     :dots="false"
     :autoplayHoverPause="true"
     :autoplayTimeout="5000"
@@ -41,11 +39,12 @@
     :navText="[btnPrev, btnNext]"
     :responsive="responsive"
   >
-    <MovieCarouselCardVertical
+    <MovieCardVertical
       v-for="(item, index) in dataRecommend"
       :item="item"
       :index="index"
       :key="item.id"
+      :type="item?.media_type"
     />
   </carousel>
 </template>
@@ -55,13 +54,16 @@ import axios from 'axios';
 import { ref, onBeforeMount } from 'vue';
 import carousel from 'vue-owl-carousel/src/Carousel';
 import { getMovieBySimilar, getTrending } from '@/services/MovieService';
-import MovieCarouselCardVertical from '../MovieCardVertical/MovieCardVertical.vue';
+import MovieCardVertical from '../MovieCardVertical/MovieCardVertical.vue';
 
 export default {
-  props: { dataMovie: Object, isEpisodes: Boolean },
+  props: {
+    dataMovie: { type: Object },
+    isEpisodes: { type: Boolean },
+  },
   components: {
     carousel,
-    MovieCarouselCardVertical,
+    MovieCardVertical,
   },
   setup(props) {
     const dataSimilar = ref([]);

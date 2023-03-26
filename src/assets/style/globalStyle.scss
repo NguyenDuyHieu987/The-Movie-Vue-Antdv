@@ -59,6 +59,12 @@ span {
   margin: 0px;
 }
 
+ol,
+ul,
+dl {
+  margin: 0px;
+}
+
 @media only screen and (max-width: 1000px) {
   .movie-search-item {
     display: flex;
@@ -294,7 +300,7 @@ span {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translateX(-50%) translateY(-51%) scale(1.05);
+      transform: translateX(-50%) translateY(-52%) scale(1.05);
     }
   }
 }
@@ -309,7 +315,7 @@ span {
       position: absolute;
       right: 0;
       top: 50%;
-      transform: translateY(-51%) translateX(-1%) scale(1.05);
+      transform: translateX(-1%) translateY(-52%) scale(1.05);
     }
   }
 }

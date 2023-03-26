@@ -39,7 +39,7 @@
           </template>
         </el-image>
 
-        <div class="poster-img" v-show="!loading">
+        <div class="poster-img">
           <el-image
             :src="getPoster(dataMovie?.poster_path)"
             :preview-src-list="srcBackdropList"
@@ -104,6 +104,8 @@
             <font-awesome-icon icon="fa-solid fa-play" />
             <span> Xem ngay</span>
           </router-link>
+
+          <strong class="hd-brand">HD</strong>
         </div>
       </div>
 
@@ -148,6 +150,7 @@
 
         <div v-if="loading" class="widget-skeleton">
           <a-skeleton-button
+            :loading="loading"
             :active="true"
             :size="'default'"
             :block="false"
@@ -505,7 +508,6 @@
           class="cast"
           :items="4"
           :autoplay="true"
-          :loop="true"
           :dots="false"
           :autoplayHoverPause="true"
           :autoplayTimeout="5000"
@@ -579,7 +581,6 @@ import {
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import carousel from 'vue-owl-carousel/src/Carousel';
 import {
   getAllGenresById,
   getPoster,
@@ -594,6 +595,7 @@ import {
   // getMovieBySimilar,
   // getTrending,
 } from '@/services/MovieService';
+import carousel from 'vue-owl-carousel/src/Carousel';
 import Interaction from '@/components/Normal/Interaction/Interaction.vue';
 import RatingMovie from '@/components/Normal/RatingMovie/RatingMovie.vue';
 import LastestEpisodes from '@/components/Normal/LastestEpisodes/LastestEpisodes.vue';

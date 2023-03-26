@@ -109,6 +109,14 @@
       &:hover {
         background-color: #006999bb;
       }
+
+      &.active {
+        background-color: #006d4e;
+
+        &:hover {
+          background-color: #006d4e6c;
+        }
+      }
     }
 
     .skeleton-interaction {

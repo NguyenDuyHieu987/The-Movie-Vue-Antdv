@@ -134,6 +134,16 @@
   }
 }
 
+@media only screen and (max-width: 800px) {
+  .prev-play-conainer {
+    .backdrop-img {
+      &::after {
+        bottom: 10px !important;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 700px) {
   .prev-play-conainer {
     .backdrop-img {
@@ -172,9 +182,18 @@
       }
     }
 
+    .backdrop-img {
+      &::after,
+      &::before,
+      .hd-brand {
+        display: none !important;
+      }
+    }
+
     .poster-img-mobile {
       display: block !important;
     }
+
     .poster-img {
       display: none !important;
     }
@@ -202,7 +221,7 @@
   }
 
   .backdrop-img {
-    // height: 450px;
+    overflow: hidden;
     height: 60vh;
     width: 60%;
     position: relative;
@@ -218,15 +237,68 @@
         object-fit: cover;
       }
     }
+
+    &:hover {
+      .poster-img {
+        right: 10px;
+      }
+
+      &::before,
+      &::after {
+        z-index: -1;
+        opacity: 0;
+      }
+    }
+
+    &::before {
+      content: 'Xem phim ngay';
+      position: absolute;
+      z-index: 1;
+      bottom: 22px;
+      right: 10%;
+      color: #e80046;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    &::after {
+      content: '\203A';
+      position: absolute;
+      z-index: 1;
+      bottom: 7px;
+      left: 91%;
+      animation: episode-fade-out 1.2s infinite linear;
+      transition: all 0.2s;
+      font-size: 4rem;
+      font-weight: bold;
+      color: #e80046;
+    }
+
+    @keyframes episode-fade-out {
+      0% {
+        content: '\203A';
+        color: #e80046c5;
+      }
+      50% {
+        content: '\203A \203A';
+        color: #e8004686;
+      }
+      100% {
+        content: '\203A \203A \203A';
+        color: #e800462c;
+      }
+    }
   }
 
   .poster-img {
     display: flex;
     position: absolute;
-    right: 10px;
+    right: -150px;
     bottom: 10px;
     box-shadow: 0 3px 6px -4px #000000ba, 0 6px 16px 0 #00000098,
       0 9px 28px 8px #00000077;
+    transition: all 0.4s;
+    overflow: hidden;
 
     .ant-image,
     .el-image {
@@ -242,13 +314,23 @@
       }
     }
 
+    .hd-brand {
+      padding: 5px 50px;
+      background-color: rgb(255, 38, 0);
+      position: absolute;
+      top: 6px;
+      right: -40px;
+      transform: rotate(45deg);
+      font-size: 1.5rem;
+    }
+
     .btn-play-now {
       position: absolute;
       bottom: 5px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      opacity: 0.5;
+      opacity: 0.4;
       color: #fff;
       padding: 10px 15px;
       border-radius: 3px;
@@ -269,7 +351,7 @@
 
       &:hover {
         opacity: 1;
-        transform: translateX(-50%) scale(1.11);
+        transform: translateX(-50%) scale(1.105);
         background-size: 200% 100%;
         background-position: 100% center;
       }
@@ -485,33 +567,37 @@
       }
     }
   }
-}
 
-.widget-skeleton {
-  .ant-skeleton:not(:last-child) {
-    margin-right: 7px;
-  }
+  .widget-skeleton {
+    margin-top: 15px;
 
-  .ant-skeleton {
-    margin-bottom: 7px;
-    .ant-skeleton-button {
-      padding: 24px 63px;
+    .ant-skeleton:not(:last-child) {
+      margin-right: 7px;
+    }
+
+    .ant-skeleton {
+      margin-bottom: 7px;
+      .ant-skeleton-button {
+        padding: 24px 63px;
+      }
     }
   }
-}
 
-.skeleton-interaction {
-  .ant-skeleton-button {
-    padding: 17px 50px;
-  }
-}
-
-.list-lastest-episodes.skeleton {
-  .ant-skeleton {
-    margin: 7px 7px 0px 0px;
-
+  .skeleton-interaction {
+    margin-top: 15px;
     .ant-skeleton-button {
-      padding: 19px 40px;
+      padding: 17px 50px;
+      border-radius: 32px;
+    }
+  }
+
+  .list-lastest-episodes.skeleton {
+    .ant-skeleton {
+      margin: 7px 7px 0px 0px;
+
+      .ant-skeleton-button {
+        padding: 19px 40px;
+      }
     }
   }
 }

@@ -224,6 +224,9 @@ export default {
     item: {
       type: Object,
     },
+    type: {
+      type: String,
+    },
   },
   setup(props) {
     const genresName = ref([]);
@@ -235,32 +238,71 @@ export default {
     onBeforeMount(() => {
       loading.value = true;
 
-      getTvById(props.item?.id, 'videos')
-        .then((tvResponed) => {
-          if (tvResponed?.data?.not_found === true)
-            getMovieById(props.item?.id, 'videos')
+      if (props?.type) {
+        switch (props?.type) {
+          case 'movie':
+            getMovieById(props.item?.id)
               .then((movieResponed) => {
                 isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
+
                 setTimeout(() => {
                   loading.value = false;
                 }, 1000);
               })
               .catch((e) => {
+                loading.value = false;
                 if (axios.isCancel(e)) return;
               });
-          else {
-            isEpisodes.value = true;
-            dataMovie.value = tvResponed?.data;
-            setTimeout(() => {
-              loading.value = false;
-            }, 1000);
-          }
-        })
-        .catch((e) => {
-          loading.value = false;
-          if (axios.isCancel(e)) return;
-        });
+            break;
+          case 'tv':
+            getTvById(props.item?.id)
+              .then((tvResponed) => {
+                isEpisodes.value = true;
+                dataMovie.value = tvResponed?.data;
+
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
+              })
+              .catch((e) => {
+                loading.value = false;
+                if (axios.isCancel(e)) return;
+              });
+            break;
+          default:
+            break;
+        }
+      }
+
+      //   getTvById(props.item?.id, 'videos')
+      //     .then((tvResponed) => {
+      //       if (tvResponed?.data?.not_found === true)
+      //         getMovieById(props.item?.id, 'videos')
+      //           .then((movieResponed) => {
+      //             isEpisodes.value = false;
+      //             dataMovie.value = movieResponed?.data;
+      //             setTimeout(() => {
+      //               loading.value = false;
+      //             }, 1000);
+      //           })
+      //           .catch((e) => {
+      //       loading.value = false;
+
+      //             if (axios.isCancel(e)) return;
+      //           });
+      //       else {
+      //         isEpisodes.value = true;
+      //         dataMovie.value = tvResponed?.data;
+      //         setTimeout(() => {
+      //           loading.value = false;
+      //         }, 1000);
+      //       }
+      //     })
+      //     .catch((e) => {
+      //       loading.value = false;
+      //       if (axios.isCancel(e)) return;
+      //     });
     });
 
     const handleClickTrailerIcon = () => {

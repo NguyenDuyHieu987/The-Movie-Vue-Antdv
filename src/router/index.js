@@ -46,21 +46,18 @@ const routes = [
       import(
         /* webpackChunkName: "play" */ '../views/Normal/PlayView/PlayView.vue'
       ),
-    children: [
-      {
-        path: ':tap',
-        name: 'playtv',
-        meta: {
-          layout: 'default',
-        },
-        component: () =>
-          import(
-            /* webpackChunkName: "playtv" */ '../views/Normal/PlayView/PlayView.vue'
-          ),
-      },
-    ],
   },
-
+  {
+    path: '/playtv/:id/:name/:tap',
+    name: 'playtv',
+    meta: {
+      layout: 'default',
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "playtv" */ '../views/Normal/PlayViewTV/PlayViewTV.vue'
+      ),
+  },
   {
     path: '/follow',
     name: 'follow',

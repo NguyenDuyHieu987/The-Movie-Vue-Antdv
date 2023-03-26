@@ -13,9 +13,7 @@
     class="topic-item"
   >
     <el-image
-      :src="
-        getPoster(item?.backdrop_path ? item?.backdrop_path : item?.poster_path)
-      "
+      :src="getPoster(item?.backdrop_path)"
       :preview="false"
       loading="lazy"
       @load="onLoadImage"
