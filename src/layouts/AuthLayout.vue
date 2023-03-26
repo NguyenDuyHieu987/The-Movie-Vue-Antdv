@@ -65,6 +65,7 @@ export default {
   height: 100vh;
   display: flex;
   align-items: center;
+  overflow: hidden;
 
   .image-auth {
     height: 100%;
