@@ -288,6 +288,7 @@ export default {
           okText: 'Có',
           okType: 'primary',
           cancelText: 'Không',
+          centered: true,
           onOk() {
             router.push({ path: '/login' });
           },

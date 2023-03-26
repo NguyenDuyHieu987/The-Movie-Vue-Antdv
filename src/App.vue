@@ -94,6 +94,7 @@ export default {
                 okText: 'Có',
                 okType: 'primary',
                 cancelText: 'Không',
+                centered: true,
                 onOk() {
                   next({ path: '/login' });
                 },
