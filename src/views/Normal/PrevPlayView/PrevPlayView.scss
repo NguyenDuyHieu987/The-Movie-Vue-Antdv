@@ -316,13 +316,13 @@
 
     .hd-brand {
       padding: 5px 50px;
+      // background-color: #ff2600;
       background-image: linear-gradient(
         to right,
         var(--sider-header-background-color3),
         var(--sider-header-background-color1),
         var(--sider-header-background-color6)
       );
-
       position: absolute;
       top: 6px;
       right: -40px;
@@ -369,6 +369,7 @@
     position: relative;
     width: 170px;
     margin: 0px auto;
+    overflow: hidden;
 
     .ant-image,
     .el-image {
@@ -386,9 +387,10 @@
       bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      width: 90%;
+      opacity: 0.8;
+      width: 93%;
       color: #fff;
-      padding: 10px 15px;
+      padding: 7px 15px;
       border-radius: 3px;
       display: inline-block;
       white-space: nowrap;
@@ -406,10 +408,27 @@
       background-position: 100% center;
 
       &:hover {
-        transform: translateX(-50%) scale(1.11);
+        opacity: 1;
+        transform: translateX(-50%) scale(1.105);
         background-size: 200% 100%;
         background-position: 100% center;
       }
+    }
+
+    .hd-brand {
+      padding: 5px 50px;
+      // background-color: #ff2600;
+      background-image: linear-gradient(
+        to right,
+        var(--sider-header-background-color3),
+        var(--sider-header-background-color1),
+        var(--sider-header-background-color6)
+      );
+      position: absolute;
+      top: 5px;
+      right: -40px;
+      transform: rotate(45deg);
+      font-size: 1.5rem;
     }
   }
 
@@ -424,7 +443,7 @@
     .widget {
       margin-top: 7px;
 
-      a,
+      // .btn-play-now ,
       span.btn-add-to-list,
       span.btn-trailer {
         margin-right: 7px;
