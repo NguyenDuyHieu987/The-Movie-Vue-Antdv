@@ -75,7 +75,7 @@ export default {
       500: {
         items: 2,
       },
-      550: {
+      520: {
         items: 3,
       },
       700: {

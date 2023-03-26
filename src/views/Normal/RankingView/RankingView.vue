@@ -7,11 +7,12 @@
         </h2>
 
         <section class="movie-group vertical">
-          <MovieCarouselCardVertical
+          <MovieCardVertical
             v-for="(item, index) in trendings"
             :index="index"
             :key="item.id"
             :item="item"
+            :type="item?.media_type"
           />
         </section>
         <div class="control-page">
@@ -89,7 +90,7 @@
 
 <script>
 import { onBeforeMount, ref, watch } from 'vue';
-import MovieCarouselCardVertical from '@/components/Normal/MovieCardVertical/MovieCardVertical.vue';
+import MovieCardVertical from '@/components/Normal/MovieCardVertical/MovieCardVertical.vue';
 import RankCard from '@/components/Normal/RankCard/RankCard.vue';
 import { getTrending, getRanking } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
@@ -97,7 +98,7 @@ import axios from 'axios';
 
 export default {
   components: {
-    MovieCarouselCardVertical,
+    MovieCardVertical,
     RankCard,
   },
   setup() {

@@ -1,3 +1,25 @@
+@media only screen and (min-width: 2300px) {
+  .cast-item {
+    .cast-img-box {
+      .ant-image,
+      .el-image {
+        height: 250px !important;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .cast-item {
+    .cast-img-box {
+      .ant-image,
+      .el-image {
+        height: 250px !important;
+      }
+    }
+  }
+}
+
 .cast-item {
   color: #fff;
   cursor: pointer;
@@ -6,24 +28,24 @@
 
   .cast-img-box {
     position: relative;
-  }
 
-  .ant-image,
-  .el-image {
-    height: 200px;
-    width: 100%;
+    .ant-image,
+    .el-image {
+      height: 210px;
+      width: 100%;
 
-    img {
-      border-top-right-radius: 5px;
-      border-top-left-radius: 5px;
-      transition: all 0.3s;
-      height: 100%;
-      object-fit: cover;
+      img {
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        transition: all 0.3s;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      // &.error {
+      //   background: var(--el-fill-color-light);
+      // }
     }
-
-    // &.error {
-    //   background: var(--el-fill-color-light);
-    // }
   }
 
   .info {
