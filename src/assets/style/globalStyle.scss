@@ -300,7 +300,7 @@ dl {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translateX(-50%) translateY(-51%) scale(1.05);
+      transform: translateX(-50%) translateY(-50%) scale(1.05);
     }
   }
 }
@@ -315,7 +315,7 @@ dl {
       position: absolute;
       right: 0;
       top: 50%;
-      transform: translateX(-1%) translateY(-51%) scale(1.05);
+      transform: translateX(-1%) translateY(-50%) scale(1.05);
     }
   }
 }
@@ -367,7 +367,7 @@ dl {
     }
 
     .detail-flow {
-      height: auto;
+      height: 345px;
       width: 330px;
       transition-delay: 2s;
       background-color: #000;
@@ -376,6 +376,7 @@ dl {
       border-top-left-radius: 5px;
       box-shadow: 0 3px 6px -4px #000000ba, 0 6px 16px 0 #00000098,
         0 9px 28px 8px #00000077;
+      transition-duration: 0.15s;
 
       .img-box {
         height: 180px;

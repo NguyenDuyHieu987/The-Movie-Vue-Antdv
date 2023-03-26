@@ -353,13 +353,13 @@ export default {
             // if (e.x - x.offsetWidth <= 250) {
             detailFlow[0].style.left = '0';
             detailFlow[0].style.right = 'auto';
-            detailFlow[0].style.transform = 'translateY(-51%) scale(1.05)';
+            detailFlow[0].style.transform = 'translateY(-50%) scale(1.05)';
           }
 
           if (window.innerWidth - rect.right <= 37) {
             detailFlow[0].style.left = 'auto';
             detailFlow[0].style.right = '0';
-            detailFlow[0].style.transform = 'translateY(-51%) scale(1.05)';
+            detailFlow[0].style.transform = 'translateY(-50%) scale(1.05)';
           }
         });
       });
