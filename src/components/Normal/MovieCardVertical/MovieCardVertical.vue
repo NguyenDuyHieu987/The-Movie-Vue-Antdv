@@ -105,7 +105,7 @@
     </el-skeleton>
 
     <div class="detail-flow" v-if="!loading">
-      <div class="img-box">
+      <div class="backdrop-box">
         <a-image
           class="ant-image"
           v-show="!loading"
