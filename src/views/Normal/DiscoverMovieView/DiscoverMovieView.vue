@@ -395,9 +395,15 @@ export default {
     };
 
     watch(route, () => {
-      // isFilter.value = false;
-      // getData();
-      // document.title = `Phimhay247 - ${metaHead.value}`;
+      isFilter.value = false;
+      loading.value = true;
+      internalInstance.appContext.config.globalProperties.$Progress.start();
+      getData();
+      document.title = `Phimhay247 - ${metaHead.value}`;
+      setTimeout(() => {
+        loading.value = false;
+        internalInstance.appContext.config.globalProperties.$Progress.finish();
+      }, 3000);
     });
 
     router.beforeEach((to, from) => {
