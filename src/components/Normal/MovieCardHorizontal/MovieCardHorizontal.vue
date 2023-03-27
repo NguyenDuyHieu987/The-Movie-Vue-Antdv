@@ -344,21 +344,24 @@ export default {
       itemMovie.forEach((x) => {
         x?.addEventListener('mouseenter', () => {
           const rect = x.getBoundingClientRect();
-          const detailFlow = x.getElementsByClassName('detail-flow');
 
-          if (rect.left <= 300) {
-            // if (e.x - x.offsetWidth <= 250) {
-            detailFlow[0].style.left = '0';
-            detailFlow[0].style.right = 'auto';
-            detailFlow[0].style.transform =
-              'translateX(0%) translateY(-50%) scale(1.05)';
-          }
+          const detailFlow = x.getElementsByClassName('detail-flow')[0];
 
-          if (window.innerWidth - rect.right <= 37) {
-            detailFlow[0].style.left = 'auto';
-            detailFlow[0].style.right = '0';
-            detailFlow[0].style.transform =
-              'translateX(0%) translateY(-50%) scale(1.05)';
+          if (detailFlow?.style) {
+            if (rect.left <= 300) {
+              // if (e.x - x.offsetWidth <= 250) {
+              detailFlow.style.left = '0';
+              detailFlow.style.right = 'auto';
+              detailFlow.style.transform =
+                'translateX(0%) translateY(-50%) scale(1.05)';
+            }
+
+            if (window.innerWidth - rect.right <= 37) {
+              detailFlow.style.left = 'auto';
+              detailFlow.style.right = '0';
+              detailFlow.style.transform =
+                'translateX(0%) translateY(-50%) scale(1.05)';
+            }
           }
         });
       });
