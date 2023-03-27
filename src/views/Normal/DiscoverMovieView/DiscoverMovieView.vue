@@ -41,7 +41,7 @@
       class="movie-discovered"
       :class="{ collapse: $store.state.collapsed }"
     >
-      <MovieCarouselCardHorizontal
+      <MovieCardHorizontal
         v-for="(item, index) in dataDiscover"
         :index="index"
         :key="item.id"
@@ -93,13 +93,13 @@ import {
   getTvTopRated,
   getGenresNameByShortName,
 } from '@/services/MovieService';
-import MovieCarouselCardHorizontal from '@/components/Normal/MovieCardHorizontal/MovieCardHorizontal.vue';
+import MovieCardHorizontal from '@/components/Normal/MovieCardHorizontal/MovieCardHorizontal.vue';
 import FilterBar from '@/components/Normal/FilterBar/FilterBar.vue';
 import { useStore } from 'vuex';
 import { useMeta } from 'vue-meta';
 
 export default {
-  components: { MovieCarouselCardHorizontal, FilterBar },
+  components: { MovieCardHorizontal, FilterBar },
   setup() {
     const route = useRoute();
     const router = useRouter();
