@@ -2,6 +2,7 @@
   <div class="play-container">
     <div class="video-player">
       <iframe
+        id="vimeo-player"
         src="https://player.vimeo.com/video/809431505"
         width="100%"
         height="100%"
@@ -185,6 +186,17 @@ export default {
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
     const internalInstance = getCurrentInstance();
+
+    onMounted(() => {
+      // const iframe = document.querySelector('#vimeo-player');
+      // const player = new Vimeo.Player(iframe);
+      // player.on('play', function () {
+      //   alert('Played the video');
+      // });
+      // player.getVideoTitle().then(function (title) {
+      //   console.log('title:', title);
+      // });
+    });
 
     const getData = () => {
       loading.value = true;
