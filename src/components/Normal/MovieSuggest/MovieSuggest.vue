@@ -117,17 +117,19 @@ export default {
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
 
     onBeforeMount(() => {
-      getMovieBySimilar(
-        props?.isEpisodes ? 'tvall' : 'movieall',
-        props?.dataMovie?.genres[0],
-        1
-      )
-        .then((movieResponed) => {
-          dataSimilar.value = movieResponed?.data?.results;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      if (props?.dataMovie?.genres) {
+        getMovieBySimilar(
+          props?.isEpisodes ? 'tvall' : 'movieall',
+          props?.dataMovie?.genres[0],
+          1
+        )
+          .then((movieResponed) => {
+            dataSimilar.value = movieResponed?.data?.results;
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
 
       getTrending(Math.floor(Math.random() * 50) + 1)
         .then((movieResponed) => {
