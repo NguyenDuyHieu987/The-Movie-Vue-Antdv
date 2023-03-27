@@ -244,7 +244,7 @@
                   dataMovie?.last_episode_to_air?.season_number
                     ? item
                     : null
-                ).episode_count + ' tập'
+                )?.episode_count + ' tập'
               }}
             </p>
             <p v-else>
