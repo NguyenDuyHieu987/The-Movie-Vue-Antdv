@@ -347,7 +347,7 @@ export default {
         x?.addEventListener('mouseenter', () => {
           const rect = x.getBoundingClientRect();
 
-          const detailFlow = x.getElementsByClassName('detail-flow');
+          const detailFlow = x?.getElementsByClassName('detail-flow');
 
           if (rect.left <= 300) {
             // if (e.x - x.offsetWidth <= 250) {
