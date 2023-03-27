@@ -273,6 +273,36 @@ export default {
           default:
             break;
         }
+      } else {
+        if (props?.item?.media_type == 'tv' || props?.item?.type) {
+          getTvById(props.item?.id)
+            .then((tvResponed) => {
+              isEpisodes.value = true;
+              dataMovie.value = tvResponed?.data;
+
+              setTimeout(() => {
+                loading.value = false;
+              }, 1000);
+            })
+            .catch((e) => {
+              loading.value = false;
+              if (axios.isCancel(e)) return;
+            });
+        } else {
+          getMovieById(props.item?.id)
+            .then((movieResponed) => {
+              isEpisodes.value = false;
+              dataMovie.value = movieResponed?.data;
+
+              setTimeout(() => {
+                loading.value = false;
+              }, 1000);
+            })
+            .catch((e) => {
+              loading.value = false;
+              if (axios.isCancel(e)) return;
+            });
+        }
       }
 
       //   getTvById(props.item?.id, 'videos')

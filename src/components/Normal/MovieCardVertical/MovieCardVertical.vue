@@ -404,7 +404,7 @@ export default {
             break;
         }
       } else {
-        if (props?.item?.type) {
+        if (props?.item?.media_type == 'tv' || props?.item?.type) {
           getTvById(props.item?.id)
             .then((tvResponed) => {
               isEpisodes.value = true;
