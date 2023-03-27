@@ -120,11 +120,7 @@
       data-numposts="10"
     ></div>
 
-    <MovieSuggest
-      v-if="!checkEmptyDataMovies"
-      :dataMovie="dataMovie"
-      :isEpisodes="isEpisodes"
-    />
+    <MovieSuggest :dataMovie="dataMovie" :isEpisodes="isEpisodes" />
   </div>
 </template>
 

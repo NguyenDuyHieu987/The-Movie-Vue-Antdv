@@ -502,7 +502,7 @@
       <strong>Diễn viên</strong>
     </h3> -->
 
-    <a-tabs v-model:activeKey="activeTabCast" v-show="!checkEmptyDataMovies">
+    <a-tabs v-model:activeKey="activeTabCast" v-show="dataCredit?.cast?.length">
       <a-tab-pane key="1" tab="Diễn viên">
         <carousel
           v-if="dataCredit?.cast?.length"
