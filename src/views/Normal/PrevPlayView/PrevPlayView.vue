@@ -72,7 +72,7 @@
           </el-image>
 
           <router-link
-            v-if="isEpisodes"
+            v-if="isEpisodes && !loading"
             :to="{
               name: 'playtv',
               params: {
@@ -89,7 +89,7 @@
             <span> Xem ngay</span>
           </router-link>
           <router-link
-            v-else
+            v-else-if="!isEpisodes && !loading"
             :to="{
               name: 'play',
               params: {
@@ -195,7 +195,7 @@
             </el-image>
 
             <router-link
-              v-if="isEpisodes"
+              v-if="isEpisodes && !loading"
               :to="{
                 name: 'playtv',
                 params: {
@@ -212,7 +212,7 @@
               <span> Xem ngay</span>
             </router-link>
             <router-link
-              v-else
+              v-else-if="!isEpisodes && !loading"
               :to="{
                 name: 'play',
                 params: {
