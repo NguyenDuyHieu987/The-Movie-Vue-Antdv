@@ -28,7 +28,6 @@
                   justify-content: center;
                   align-items: center;
                   font-size: 1.4rem;
-
                 "
               >
                 Đang tải<span class="dot">...</span>

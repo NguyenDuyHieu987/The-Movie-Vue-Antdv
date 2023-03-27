@@ -562,11 +562,7 @@
       </a-tab-pane>
     </a-tabs>
 
-    <MovieSuggest
-      v-if="!checkEmptyDataMovies"
-      :dataMovie="dataMovie"
-      :isEpisodes="isEpisodes"
-    />
+    <MovieSuggest :dataMovie="dataMovie" :isEpisodes="isEpisodes" />
   </div>
 </template>
 <script>
