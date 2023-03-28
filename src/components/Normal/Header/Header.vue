@@ -35,7 +35,7 @@
       </template>
 
       <a-input-search
-        class="center-header"
+        class="center-search-header"
         placeholder="Nhập tên phim để tìm kiếm..."
         size="large"
         allowClear
@@ -80,7 +80,7 @@
               <SearchCard :key="item?.id" :item="item" />
             </template>
             <a-input-search
-              class="center-header-responsive"
+              class="center-search-header-responsive"
               enter-button
               placeholder="Nhập tên phim để tìm kiếm..."
               size="large"
@@ -88,7 +88,11 @@
               bordered
               :loading="loadingSearch"
               @search="handleSearch"
-            ></a-input-search>
+            >
+              <!-- <template #enterButton>
+                <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+              </template> -->
+            </a-input-search>
           </a-auto-complete>
         </template>
       </el-popover>

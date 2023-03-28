@@ -10,6 +10,7 @@
         v-show="$route.path == '/follow'"
         id="topic-follow-column-teleport"
       ></a-layout>
+
       <a-layout class="main-content">
         <BreadCrumb />
         <a-layout-content class="container">

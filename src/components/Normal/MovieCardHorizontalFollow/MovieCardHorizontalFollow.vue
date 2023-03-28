@@ -7,34 +7,29 @@
           : item?.title?.replace(/\s/g, '+').toLowerCase()
       }`,
     }"
-    class="movie-rank-item"
+    class="movie-follow-item"
   >
     <div class="img-box">
       <!-- v-if="!loading" -->
-      <a-image
-        class="movie-carousel-img"
-        :src="
-          getPoster(item?.poster_path ? item?.poster_path : item?.backdrop_path)
-        "
-        :preview="false"
-      >
+      <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
       </a-image>
-
-      <!-- <a-skeleton-image v-else class="ant-image" /> -->
     </div>
 
-    <!-- <a-tooltip :title="getLanguage(item?.original_language)?.english_name"> -->
     <div class="info">
-      <p class="title">
-        {{ item?.name ? item?.name : item?.title }}
-        <span v-if="isEpisodes">
-          {{ ' - Phần ' + item?.last_episode_to_air?.season_number }}
-        </span>
-      </p>
+      <h2 class="title">
+        <strong>
+          {{ item?.name ? item?.name : item?.title }}
+          <strong v-if="isEpisodes">
+            {{ ' - Phần ' + item?.last_episode_to_air?.season_number }}
+          </strong>
+        </strong>
+      </h2>
+
       <p class="genres" v-if="item?.genres">
-        {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
+        Thể loại: {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
       </p>
       <p class="genres" v-else-if="item?.genre_ids">
+        Thể loại:
         {{
           getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(' • ')
         }}
@@ -55,20 +50,103 @@
         Thời lượng:
         {{ item?.runtime ? item?.runtime + ' phút' : '' }}
       </p>
+
+      <p class="overview">
+        {{ item?.overview }}
+      </p>
     </div>
-    <!-- </a-tooltip> -->
+
+    <a-dropdown :trigger="['click']" class="dropdown-viewmore">
+      <a-button
+        circle
+        shape="circle"
+        size="large"
+        class="viewmore-btn"
+        @click.prevent=""
+      >
+        <template #icon>
+          <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+        </template>
+      </a-button>
+
+      <template #overlay>
+        <a-menu class="dropdown-viewmore">
+          <a-menu-item key="play">
+            <template #icon>
+              <font-awesome-icon icon="fa-solid fa-play" />
+            </template>
+
+            <router-link
+              v-if="isEpisodes && !loading"
+              :to="{
+                name: 'playtv',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  tap: 'tap-1',
+                },
+              }"
+              class="btn-play-now"
+            >
+              <span> Đến trang xem phim </span>
+            </router-link>
+            <router-link
+              v-else-if="!isEpisodes && !loading"
+              :to="{
+                name: 'play',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                },
+              }"
+              class="btn-play-now"
+            >
+              <span>Đến trang xem phim</span>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="share">
+            <template #icon>
+              <font-awesome-icon icon="fa-solid fa-share" />
+            </template>
+            <span>
+              <ShareNetwork
+                network="facebook"
+                :url="urlShare"
+                :title="dataMovie?.name ? dataMovie?.name : dataMovie?.title"
+                hashtags="phimhay247.site,vite"
+                style="white-space: nowrap; display: block"
+              >
+                Chia sẻ
+              </ShareNetwork>
+            </span>
+          </a-menu-item>
+          <a-menu-item key="remove-list">
+            <template #icon>
+              <font-awesome-icon icon="fa-solid fa-trash-can" />
+            </template>
+            <span>Xóa khỏi Danh sách phát</span>
+          </a-menu-item>
+        </a-menu>
+      </template>
+    </a-dropdown>
   </router-link>
 </template>
 <script>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 // import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
-  // getTvById,
-  // getMovieById,
+  getTvById,
+  getMovieById,
   getLanguage,
 } from '@/services/MovieService';
+import axios from 'axios';
+import disableScroll from 'disable-scroll';
 
 export default {
   components: {},
@@ -76,15 +154,100 @@ export default {
     item: {
       type: Object,
     },
+    type: {
+      type: String,
+    },
   },
-  setup() {
+  setup(props) {
     const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
     const loading = ref(false);
+    const urlShare = computed(() => window.location);
 
     onBeforeMount(() => {
+      const ant_btn = document.querySelector('.viewmore-btn');
+
+      ant_btn?.addEventListener('click', () => {
+        if (ant_btn?.classList.contains('ant-dropdown-open')) {
+          disableScroll.on();
+        } else {
+          disableScroll.off();
+        }
+      });
+
+      ant_btn?.addEventListener('blur', () => {
+        disableScroll.off();
+      });
+
       loading.value = true;
+
+      if (props?.type) {
+        switch (props?.type) {
+          case 'movie':
+            getMovieById(props.item?.id)
+              .then((movieResponed) => {
+                isEpisodes.value = false;
+                dataMovie.value = movieResponed?.data;
+
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
+              })
+              .catch((e) => {
+                loading.value = false;
+                if (axios.isCancel(e)) return;
+              });
+            break;
+          case 'tv':
+            getTvById(props.item?.id)
+              .then((tvResponed) => {
+                isEpisodes.value = true;
+                dataMovie.value = tvResponed?.data;
+
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
+              })
+              .catch((e) => {
+                loading.value = false;
+                if (axios.isCancel(e)) return;
+              });
+            break;
+          default:
+            break;
+        }
+      } else {
+        if (props?.item?.media_type == 'tv' || props?.item?.type) {
+          getTvById(props.item?.id)
+            .then((tvResponed) => {
+              isEpisodes.value = true;
+              dataMovie.value = tvResponed?.data;
+
+              setTimeout(() => {
+                loading.value = false;
+              }, 1000);
+            })
+            .catch((e) => {
+              loading.value = false;
+              if (axios.isCancel(e)) return;
+            });
+        } else {
+          getMovieById(props.item?.id)
+            .then((movieResponed) => {
+              isEpisodes.value = false;
+              dataMovie.value = movieResponed?.data;
+
+              setTimeout(() => {
+                loading.value = false;
+              }, 1000);
+            })
+            .catch((e) => {
+              loading.value = false;
+              if (axios.isCancel(e)) return;
+            });
+        }
+      }
     });
 
     return {
@@ -92,6 +255,7 @@ export default {
       isEpisodes,
       dataMovie,
       loading,
+      urlShare,
       getPoster,
       getAllGenresById,
       getLanguage,

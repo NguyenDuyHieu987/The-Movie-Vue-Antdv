@@ -295,7 +295,7 @@
     position: absolute;
     right: -150px;
     bottom: 10px;
-    box-shadow: 0 3px 6px -4px #000000ba, 0 6px 16px 0 #00000098,
+    box-shadow: 0 2px 4px -4px #000000ba, 0 6px 16px 0 #00000098,
       0 9px 28px 8px #00000077;
     transition: all 0.4s;
     overflow: hidden;
@@ -328,6 +328,8 @@
       right: -40px;
       transform: rotate(45deg);
       font-size: 1.5rem;
+      box-shadow: 0 2px 4px -4px #000000ba, 0 2px 4px 0 #00000098,
+        0 2px 4px 8px #00000077;
     }
 
     .btn-play-now {
@@ -429,6 +431,8 @@
       right: -40px;
       transform: rotate(45deg);
       font-size: 1.5rem;
+      box-shadow: 0 2px 4px -4px #000000ba, 0 2px 4px 0 #00000098,
+        0 2px 4px 8px #00000077;
     }
   }
 

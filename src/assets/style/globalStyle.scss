@@ -50,6 +50,22 @@ body {
   text-rendering: optimizeSpeed;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #acacac;
+  transition: all 0.1s;
+
+  &:active {
+    background-color: #acacacb4;
+  }
+}
+
 h1,
 h2,
 h3,
@@ -123,8 +139,8 @@ dl {
 }
 
 @media only screen and (max-width: 690px) {
-  .center-header.ant-input-group-wrapper,
-  .center-header {
+  .center-search-header.ant-input-group-wrapper,
+  .center-search-header {
     display: none;
   }
 

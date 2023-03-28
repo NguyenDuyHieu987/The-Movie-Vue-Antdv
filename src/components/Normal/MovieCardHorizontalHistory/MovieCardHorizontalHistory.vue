@@ -11,11 +11,7 @@
   >
     <div class="img-box">
       <!-- v-if="!loading" -->
-      <a-image
-        class="movie-carousel-img"
-        :src="getPoster(item?.backdrop_path)"
-        :preview="false"
-      >
+      <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
       </a-image>
     </div>
 
@@ -61,7 +57,13 @@
     </div>
 
     <a-dropdown :trigger="['click']" class="dropdown-viewmore">
-      <a-button circle shape="circle" size="large" @click.prevent="">
+      <a-button
+        circle
+        shape="circle"
+        size="large"
+        class="viewmore-btn"
+        @click.prevent=""
+      >
         <template #icon>
           <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
         </template>
@@ -69,15 +71,73 @@
 
       <template #overlay>
         <a-menu class="dropdown-viewmore">
-          <a-menu-item key="my-profile"> hieu</a-menu-item>
-          <a-menu-item key="my-profile"> hieu</a-menu-item>
+          <a-menu-item key="play">
+            <template #icon>
+              <font-awesome-icon icon="fa-solid fa-play" />
+            </template>
+
+            <router-link
+              v-if="isEpisodes && !loading"
+              :to="{
+                name: 'playtv',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  tap: 'tap-1',
+                },
+              }"
+              class="btn-play-now"
+            >
+              <span> Đến trang xem phim </span>
+            </router-link>
+            <router-link
+              v-else-if="!isEpisodes && !loading"
+              :to="{
+                name: 'play',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                },
+              }"
+              class="btn-play-now"
+            >
+              <span>Đến trang xem phim</span>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="add-list">
+            <template #icon>
+              <span class="material-icons-outlined"> playlist_add </span>
+            </template>
+            <span>Thêm vào danh sách phát</span>
+          </a-menu-item>
+
+          <a-menu-item key="share">
+            <template #icon>
+              <font-awesome-icon icon="fa-solid fa-share" />
+            </template>
+            <span>
+              <ShareNetwork
+                network="facebook"
+                :url="urlShare"
+                :title="dataMovie?.name ? dataMovie?.name : dataMovie?.title"
+                hashtags="phimhay247.site,vite"
+                style="white-space: nowrap; display: block"
+              >
+                Chia sẻ
+              </ShareNetwork>
+            </span>
+          </a-menu-item>
         </a-menu>
       </template>
     </a-dropdown>
   </router-link>
 </template>
 <script>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 // import axios from 'axios';
 import {
   getAllGenresById,
@@ -87,6 +147,7 @@ import {
   getLanguage,
 } from '@/services/MovieService';
 import axios from 'axios';
+import disableScroll from 'disable-scroll';
 
 export default {
   components: {},
@@ -103,9 +164,24 @@ export default {
     const isEpisodes = ref(false);
     const dataMovie = ref({});
     const loading = ref(false);
+    const urlShare = computed(() => window.location);
 
     onBeforeMount(() => {
       loading.value = true;
+
+      const ant_btn = document.querySelector('.viewmore-btn');
+
+      ant_btn?.addEventListener('click', () => {
+        if (ant_btn?.classList.contains('ant-dropdown-open')) {
+          disableScroll.on();
+        } else {
+          disableScroll.off();
+        }
+      });
+
+      ant_btn?.addEventListener('blur', () => {
+        disableScroll.off();
+      });
 
       if (props?.type) {
         switch (props?.type) {
@@ -180,6 +256,7 @@ export default {
       isEpisodes,
       dataMovie,
       loading,
+      urlShare,
       getPoster,
       getAllGenresById,
       getLanguage,
