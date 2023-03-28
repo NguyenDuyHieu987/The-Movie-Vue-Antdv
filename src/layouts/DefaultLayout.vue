@@ -1,13 +1,19 @@
 <template>
-  <a-layout>
+  <a-layout class="app-wrapper">
     <Header />
     <a-layout :class="[$store.state.collapsed ? 'expand' : '', 'body-content']">
       <Sider />
       <Drawer />
-      <a-layout>
+
+      <!-- :id="[$route.path == '/follow' ? 'topic-follow-column-teleport' : '']" -->
+      <a-layout
+        v-show="$route.path == '/follow'"
+        id="topic-follow-column-teleport"
+      ></a-layout>
+      <a-layout class="main-content">
         <BreadCrumb />
         <a-layout-content class="container">
-          <div>
+          <div class="wrapper">
             <slot />
           </div>
         </a-layout-content>
@@ -45,11 +51,33 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@media only screen and (min-width: 2160px) {
+  .ant-layout.main-content {
+    margin: 0px auto;
+    max-width: 2160px;
+  }
+
+  .body-content:has(.topic-follow-column) {
+    .ant-layout.main-content {
+      margin-left: 0px;
+    }
+  }
+}
+
+.ant-layout.main-content {
+  width: 100%;
+}
+
+.ant-layout {
+  background: #000;
+}
+
 .body-content {
   margin-left: var(--sider-width);
   min-height: calc(100vh - var(--header-height));
   margin-top: var(--header-height);
   transition: all 0.2s;
+  background: #000;
 }
 
 .body-content.expand {
@@ -61,7 +89,8 @@ export default {
   padding: 15px 20px;
   background-color: var(--background-content-color);
 
-  & > div {
+  & > .wrapper {
+    width: 100%;
     overflow: hidden;
   }
 }

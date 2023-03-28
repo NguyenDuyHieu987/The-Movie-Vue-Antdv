@@ -157,6 +157,7 @@ import {
   Modal,
   // message
 } from 'ant-design-vue';
+import Player from '@vimeo/player';
 
 export default {
   components: {
@@ -188,14 +189,18 @@ export default {
     const internalInstance = getCurrentInstance();
 
     onMounted(() => {
-      // const iframe = document.querySelector('#vimeo-player');
-      // const player = new Vimeo.Player(iframe);
-      // player.on('play', function () {
-      //   alert('Played the video');
-      // });
-      // player.getVideoTitle().then(function (title) {
-      //   console.log('title:', title);
-      // });
+      const iframe = document.querySelector('#vimeo-player');
+      const player = new Player(iframe);
+
+      player.on('pause', function () {
+        alert('g');
+      });
+
+      player.on('timeupdate', function (e) {
+        if (e?.seconds >= 1) {
+          // alert('Time update');
+        }
+      });
     });
 
     const getData = () => {

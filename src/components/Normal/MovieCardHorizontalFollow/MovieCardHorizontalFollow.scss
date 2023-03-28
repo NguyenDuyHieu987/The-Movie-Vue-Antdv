@@ -1,9 +1,11 @@
-.movie-search-item {
+.movie-rank-item {
   display: flex;
   padding: 5px 5px;
-  gap: 10px;
+  transition: all 0.25s;
 
   &:hover {
+    background-color: #111111;
+
     .info {
       color: #fff;
     }
@@ -21,6 +23,7 @@
   }
   .info {
     font-size: 1.4rem;
+    margin-left: 10px;
     color: #d0d0d0;
 
     .duration-episode {

@@ -87,13 +87,12 @@
       </el-skeleton>
     </router-link>
     <a-button style="width: 100%" danger @click="handleRemoveFromList()">
-      <span v-if="activeTabList == 'list'">Xóa khỏi danh sách</span>
-      <span v-else-if="activeTabList == 'history'">Xóa khỏi lịch sử xem</span>
+      <span>Xóa khỏi danh sách</span>
     </a-button>
   </div>
 </template>
 <script>
-import { ref, onBeforeMount, createVNode, h } from 'vue';
+import { ref, onBeforeMount, h } from 'vue';
 import axios from 'axios';
 import {
   getAllGenresById,
@@ -102,12 +101,8 @@ import {
   getMovieById,
   getLanguage,
   removeItemList,
-  handleWatchList,
-  getWatchList,
 } from '@/services/MovieService';
-import { Modal, message } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 
 export default {
@@ -117,9 +112,6 @@ export default {
       type: Object,
     },
     type: {
-      type: String,
-    },
-    activeTabList: {
       type: String,
     },
     getDataWhenRemoveList: {
@@ -237,97 +229,58 @@ export default {
     });
 
     const handleRemoveFromList = () => {
-      if (props.activeTabList == 'list') {
-        ElMessageBox({
-          title: 'Thông báo',
-          message: h(
-            'h3',
-            null,
-            'Bạn có muốn xóa phim khỏi danh sách theo dõi không?'
-          ),
-          showCancelButton: true,
-          showClose: false,
-          confirmButtonText: 'Có',
-          cancelButtonText: 'Không',
-          beforeClose: (action, instance, done) => {
-            if (action === 'confirm') {
-              instance.confirmButtonText = 'Đang xóa...';
-              instance.confirmButtonLoading = true;
-              removeItemList(store.state?.userAccount?.id, {
-                media_id: dataMovie.value?.id,
-              })
-                .then((movieRespone) => {
-                  if (movieRespone.data?.success == true) {
+      ElMessageBox({
+        title: 'Thông báo',
+        message: h(
+          'h3',
+          null,
+          'Bạn có muốn xóa phim khỏi danh sách theo dõi không?'
+        ),
+        showCancelButton: true,
+        showClose: false,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonText = 'Đang xóa...';
+            instance.confirmButtonLoading = true;
+            removeItemList(store.state?.userAccount?.id, {
+              media_id: dataMovie.value?.id,
+            })
+              .then((movieRespone) => {
+                if (movieRespone.data?.success == true) {
+                  setTimeout(() => {
+                    done();
                     setTimeout(() => {
-                      done();
-                      setTimeout(() => {
-                        props.getDataWhenRemoveList(movieRespone.data?.results);
-                        instance.confirmButtonLoading = false;
-                      }, 300);
-                    }, 2000);
-                  } else {
-                    ElMessage({
-                      type: 'error',
-                      message: `Xóa không thành công!`,
-                    });
-                  }
-                })
-                .catch((e) => {
-                  instance.confirmButtonLoading = false;
+                      props.getDataWhenRemoveList(movieRespone.data?.results);
+                      instance.confirmButtonLoading = false;
+                    }, 300);
+                  }, 2000);
+                } else {
                   ElMessage({
                     type: 'error',
                     message: `Xóa không thành công!`,
                   });
-                  if (axios.isCancel(e)) return;
+                }
+              })
+              .catch((e) => {
+                instance.confirmButtonLoading = false;
+                ElMessage({
+                  type: 'error',
+                  message: `Xóa không thành công!`,
                 });
-            } else {
-              done();
-            }
-          },
-        }).then(() => {
-          ElMessage({
-            type: 'success',
-            message: `Xóa thành công!`,
-          });
+                if (axios.isCancel(e)) return;
+              });
+          } else {
+            done();
+          }
+        },
+      }).then(() => {
+        ElMessage({
+          type: 'success',
+          message: `Xóa thành công!`,
         });
-      } else if (props.activeTabList == 'history') {
-        Modal.confirm({
-          title: `Bạn có mướn xóa phim: "${
-            dataMovie.value?.name
-              ? dataMovie.value?.name
-              : dataMovie.value?.title
-          }" khỏi lịch sử xem không?`,
-          icon: createVNode(QuestionCircleOutlined),
-          // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
-          content: createVNode('div', {}, ''),
-          okText: 'Có',
-          okType: 'default',
-          cancelText: 'Không',
-          onOk() {
-            handleWatchList(store.state.userAccount?.id, {
-              media_id: +dataMovie.value?.id,
-              watchlist: false,
-            });
-
-            message.loading({
-              content: 'Đang xóa khỏi lịch sử xem...',
-              duration: 2,
-            });
-            setTimeout(() => {
-              message.success({ content: 'Xóa thành công!', duration: 2 });
-
-              getWatchList(store?.state.userAccount?.id, 1)
-                .then((movieRespone) => {
-                  props.getDataWhenRemoveHistory(movieRespone.data?.results);
-                })
-                .catch((e) => {
-                  if (axios.isCancel(e)) return;
-                });
-            }, 2200);
-          },
-          onCancel() {},
-        });
-      }
+      });
     };
 
     return {

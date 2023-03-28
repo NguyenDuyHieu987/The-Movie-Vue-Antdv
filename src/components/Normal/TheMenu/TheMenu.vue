@@ -265,7 +265,16 @@
       </template>
       <router-link :to="{ name: 'follow' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
-    <!-- style="margin-bottom: 55vh" -->
+
+    <a-menu-item key="history">
+      <template #icon>
+        <font-awesome-icon icon="fa-solid fa-clock-rotate-left" />
+      </template>
+      <router-link :to="{ name: 'history' }">
+        <span>Lịch sử Xem </span>
+      </router-link>
+    </a-menu-item>
+
     <a-menu-item key="ranking">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-ranking-star" />

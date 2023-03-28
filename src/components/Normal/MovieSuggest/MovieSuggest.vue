@@ -51,7 +51,7 @@
 
 <script>
 import axios from 'axios';
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, watch } from 'vue';
 import carousel from 'vue-owl-carousel/src/Carousel';
 import { getMovieBySimilar, getTrending } from '@/services/MovieService';
 import MovieCardVertical from '../MovieCardVertical/MovieCardVertical.vue';
@@ -116,21 +116,21 @@ export default {
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
 
-    onBeforeMount(() => {
-      if (props?.dataMovie?.genres) {
-        getMovieBySimilar(
-          props?.isEpisodes ? 'tvall' : 'movieall',
-          props?.dataMovie?.genres[0],
-          1
-        )
-          .then((movieResponed) => {
-            dataSimilar.value = movieResponed?.data?.results;
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
+    watch(props, () => {
+      getMovieBySimilar(
+        props?.isEpisodes ? 'tvall' : 'movieall',
+        props?.dataMovie?.genres[0],
+        1
+      )
+        .then((movieResponed) => {
+          dataSimilar.value = movieResponed?.data?.results;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+    });
 
+    onBeforeMount(() => {
       getTrending(Math.floor(Math.random() * 50) + 1)
         .then((movieResponed) => {
           dataRecommend.value = movieResponed?.data?.results;

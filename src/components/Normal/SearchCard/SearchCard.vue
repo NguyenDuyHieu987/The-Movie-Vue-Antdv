@@ -11,14 +11,7 @@
   >
     <div class="img-box">
       <!-- v-if="!loading" -->
-      <a-image
-        class="movie-carousel-img"
-        :src="
-          getPoster(item?.poster_path ? item?.poster_path : item?.backdrop_path)
-        "
-        :preview="false"
-      >
-      </a-image>
+      <a-image :src="getPoster(item?.poster_path)" :preview="false"> </a-image>
 
       <!-- <a-skeleton-image v-else class="ant-image" /> -->
     </div>

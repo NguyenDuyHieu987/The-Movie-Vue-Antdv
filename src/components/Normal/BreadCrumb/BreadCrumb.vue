@@ -56,6 +56,9 @@ export default {
         case 'follow':
           breadList.push({ params: 'follow', name: 'Theo dõi' });
           break;
+        case 'history':
+          breadList.push({ params: 'history', name: 'Lịch sử xem' });
+          break;
         case 'ranking':
           breadList.push({ params: 'ranking', name: 'Xếp hạng' });
           break;

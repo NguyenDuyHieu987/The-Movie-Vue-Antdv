@@ -1,53 +1,50 @@
 <template>
   <div class="follow">
     <div v-if="isLogin" class="follow-container">
-      <a-tabs v-model:activeKey="activeTabList">
-        <a-tab-pane key="list" :tab="metaHead">
-          <section
-            v-if="dataList?.length"
-            class="movie-group vertical"
-            :class="{ collapse: $store.state.collapsed }"
-          >
-            <MovieCardVerticalFollow
+      <a-layout>
+        <Teleport
+          to="#topic-follow-column-teleport"
+          v-if="dataList[0]?.backdrop_path"
+        >
+          <a-layout-sider class="topic-follow-column" :width="340">
+            <div class="column-container">
+              <div class="backdrop">
+                <a-image
+                  :src="getPoster(dataList[0]?.backdrop_path)"
+                  :preview="false"
+                >
+                </a-image>
+              </div>
+              <img
+                class="overlay-image"
+                :src="getPoster(dataList[0]?.backdrop_path)"
+              />
+              <div class="info">
+                <h2 class="title">
+                  <strong>Video đã thêm vào danh sách phát</strong>
+                </h2>
+              </div>
+            </div>
+          </a-layout-sider>
+        </Teleport>
+
+        <a-layout-content class="follow-main-content">
+          <h2 class="gradient-title-default">
+            <strong>Danh sách phát</strong>
+          </h2>
+          <!-- <el-scrollbar height="100vh"> -->
+          <section class="movie-follow" v-show="dataList?.length">
+            <MovieCardHorizontalHistory
               v-for="(item, index) in dataList"
               :index="index"
               :key="item.id"
               :item="item"
-              :activeTabList="activeTabList"
-              :getDataWhenRemoveList="getDataWhenRemoveList"
-            /></section
-        ></a-tab-pane>
-        <a-tab-pane key="history" tab="Lịch sử xem phim">
-          <section
-            v-if="dataHistory?.length"
-            class="movie-group"
-            :class="{ collapse: $store.state.collapsed }"
-          >
-            <MovieCardVerticalFollow
-              v-for="(item, index) in dataHistory"
-              :index="index"
-              :key="item.id"
-              :item="item"
-              :activeTabList="activeTabList"
-              :getDataWhenRemoveHistory="getDataWhenRemoveHistory"
+              :type="item?.media_type"
             />
           </section>
-        </a-tab-pane>
-      </a-tabs>
-
-      <!-- <a-layout>
-        <a-layout-content>
-          <h2 class="gradient-title-default" style="margin-top: 0px">
-            <strong>{{ metaHead }}</strong>
-          </h2>
+          <!-- </el-scrollbar> -->
         </a-layout-content>
-
-        <a-layout-sider :width="300">
-          <h2 class="gradient-title-default" style="margin-top: 0px">
-            <strong>Lịch sử xem phim</strong>
-          </h2>
-        </a-layout-sider>
-      </a-layout> -->
+      </a-layout>
     </div>
 
     <a-result v-else title="Bạn cần đăng nhập để sử dụng chức năng này">
@@ -64,24 +61,28 @@
 </template>
 
 <script>
-import { watch, onBeforeMount, computed, ref } from 'vue';
+import { watch, onBeforeMount, computed, ref, getCurrentInstance } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
-import MovieCardVerticalFollow from '@/components/Normal/MovieCardVerticalFollow/MovieCardVerticalFollow.vue';
-import { getList, getWatchList } from '@/services/MovieService';
+import MovieCardHorizontalHistory from '@/components/Normal/MovieCardHorizontalHistory/MovieCardHorizontalHistory.vue';
+import {
+  //  getList,
+  getPoster,
+  getMovies,
+  getColorImage,
+} from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
+// import { extractColors } from 'extract-colors';
 
 export default {
-  components: { MovieCardVerticalFollow },
+  components: { MovieCardHorizontalHistory },
   setup() {
     const route = useRoute();
     const store = useStore();
     const isLogin = computed(() => store.state.isLogin);
-    const metaHead = ref('Theo dõi');
     const dataList = ref([]);
-    const dataHistory = ref([]);
-    const activeTabList = ref('list');
+    const internalInstance = getCurrentInstance();
 
     // document.title = 'Phimhay247 - Theo dõi';
     useMeta({
@@ -90,17 +91,62 @@ export default {
     });
 
     const getData = () => {
-      getList(store?.state.userAccount?.id)
-        .then((movieRespone) => {
-          dataList.value = movieRespone.data?.items;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      internalInstance.appContext.config.globalProperties.$Progress.start();
 
-      getWatchList(store?.state.userAccount?.id, 1)
+      // getList(store?.state.userAccount?.id)
+      //   .then((movieRespone) => {
+      //     dataList.value = movieRespone.data?.items?.reverse();
+
+      //     setTimeout(() => {
+      //       internalInstance.appContext.config.globalProperties.$Progress.finish();
+      //     }, 500);
+      //   })
+      //   .catch((e) => {
+      //     if (axios.isCancel(e)) return;
+      //   });
+
+      getMovies(1)
         .then((movieRespone) => {
-          dataHistory.value = movieRespone.data?.results;
+          dataList.value = movieRespone.data?.results?.reverse();
+
+          getColorImage(dataList.value[0]?.backdrop_path)
+            .then((colorResponse) => {
+              const color = colorResponse.data?.color;
+              // const main_color = `linear-gradient(to bottom, rgba(${color[0]}, ${color[1]}, ${color[2]}, 1), rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.75), rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.5), rgba(15, 15, 15, 0.25), rgba(0, 0, 0, 0));`;
+              const main_color = `linear-gradient(to bottom, rgba(${color[0]}, ${color[1]}, ${color[2]}, 1) 0%, rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.33) 33%, rgba(0, 0, 0, 1) 100%);`;
+              const topic_follow_column = document.getElementsByClassName(
+                'topic-follow-column'
+              )[0];
+
+              topic_follow_column.style = `background-image: ${main_color}`;
+              // topic_follow_column.style = `background: url("${getPoster(
+              //   dataList.value[0]?.backdrop_path
+              // )}");`;
+
+              // topic_follow_column.style.setProperty(
+              //   '--main-color',
+              //   `${main_color}`
+              // );
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+
+          // const imageURL = getPoster(dataList.value[0]?.backdrop_path);
+
+          // const loadedImg = new Image();
+          // loadedImg.crossOrigin = 'Anonymous';
+          // loadedImg.src = imageURL;
+          // loadedImg.setAttribute('crossOrigin', '');
+
+          // extractColors(loadedImg.src)
+          //   .then((color) => {
+          //     console.log(color);
+          //   })
+          //   .catch(console.error);
+          setTimeout(() => {
+            internalInstance.appContext.config.globalProperties.$Progress.finish();
+          }, 500);
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -108,32 +154,11 @@ export default {
     };
 
     onBeforeMount(() => {
-      // if (!store.state.isLogin) {
-      //   Modal.confirm({
-      //     title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
-      //     icon: createVNode(QuestionCircleOutlined),
-      //     // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
-      //     content: createVNode('div', {}, 'Đăng nhập ngay?'),
-      //     okText: 'Có',
-      //     okType: 'default',
-      //     cancelText: 'Không',
-      //     onOk() {
-      //       router.push({ path: '/login' });
-      //     },
-      //     onCancel() {},
-      //     class: 'require-login-confirm',
-      //   });
-      // }
-
       getData();
     });
 
     const getDataWhenRemoveList = (data) => {
       dataList.value = data;
-    };
-
-    const getDataWhenRemoveHistory = (data) => {
-      dataHistory.value = data;
     };
 
     watch(route, () => {
@@ -142,13 +167,10 @@ export default {
 
     return {
       isLogin,
-      metaHead,
       dataList,
-      dataHistory,
-      activeTabList,
       getData,
+      getPoster,
       getDataWhenRemoveList,
-      getDataWhenRemoveHistory,
     };
   },
   // beforeRouteEnter() {

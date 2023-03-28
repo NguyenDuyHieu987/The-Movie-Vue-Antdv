@@ -34,4 +34,7 @@ module.exports = defineConfig({
   // configureWebpack(config) {
   //   config.plugins = [...config.plugins, ...plugins];
   // },
+  configureWebpack: {
+    // node: { fs: 'empty' },
+  },
 });

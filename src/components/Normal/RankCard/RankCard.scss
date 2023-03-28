@@ -2,6 +2,7 @@
   display: flex;
   padding: 5px 5px;
   transition: all 0.25s;
+  gap: 10px;
 
   &:hover {
     background-color: #111111;
@@ -23,7 +24,6 @@
   }
   .info {
     font-size: 1.4rem;
-    margin-left: 10px;
     color: #d0d0d0;
 
     .duration-episode {

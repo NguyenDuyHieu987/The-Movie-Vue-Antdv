@@ -71,6 +71,18 @@ const routes = [
       ),
   },
   {
+    path: '/history',
+    name: 'history',
+    meta: {
+      layout: 'default',
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "history" */ '../views/Normal/HistoryView/HistoryView.vue'
+      ),
+  },
+  {
     path: '/ranking',
     name: 'ranking',
     meta: {

@@ -1,5 +1,5 @@
 @import 'normalize.css';
-@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Manrope&family=Mulish&family=Nunito+Sans&family=Roboto+Flex:opsz,wght@8..144,300&family=Roboto:wght@300&family=Source+Sans+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Lobster+Two&family=Mulish&family=Roboto&family=Roboto+Flex&display=swap');
 
 :root {
   --background-content-color: #000;
@@ -46,7 +46,7 @@ html {
 body {
   line-height: 1.43;
   font-size: 1.6rem;
-  font-family: 'Mulish', sans-serif;
+  font-family: 'Roboto Flex', sans-serif;
   text-rendering: optimizeSpeed;
 }
 
@@ -525,6 +525,10 @@ dl {
     iframe {
       height: 550px !important;
     }
+  }
+
+  .gradient-title-default {
+    font-size: 2.2rem;
   }
 }
 

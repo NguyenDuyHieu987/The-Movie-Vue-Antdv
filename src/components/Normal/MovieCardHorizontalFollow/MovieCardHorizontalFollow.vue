@@ -11,7 +11,14 @@
   >
     <div class="img-box">
       <!-- v-if="!loading" -->
-      <a-image :src="getPoster(item?.poster_path)" :preview="false"> </a-image>
+      <a-image
+        class="movie-carousel-img"
+        :src="
+          getPoster(item?.poster_path ? item?.poster_path : item?.backdrop_path)
+        "
+        :preview="false"
+      >
+      </a-image>
 
       <!-- <a-skeleton-image v-else class="ant-image" /> -->
     </div>
@@ -92,4 +99,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" src="./RankCard.scss"></style>
+<style lang="scss" src="./MovieCardHorizontalFollow.scss"></style>

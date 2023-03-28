@@ -1,0 +1,19 @@
+.history {
+  .history-container {
+    .gradient-title-default {
+      margin-top: 0px;
+    }
+
+    .movie-history {
+      max-width: 850px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
+}
+
+// .ant-layout-content.container:has(.history .history-container) {
+//   margin: 0px auto;
+//   max-width: 700px;
+// }

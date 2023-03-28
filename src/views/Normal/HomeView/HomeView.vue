@@ -90,7 +90,7 @@
       </router-link>
     </h2>
 
-    <section class="movie-group vertical">
+    <section class="movie-group vertical" v-show="tvAiringTodays?.length">
       <MovieCardVertical
         v-for="(item, index) in tvAiringTodays"
         :index="index"
@@ -117,7 +117,7 @@
       </router-link>
     </h2>
 
-    <section class="movie-group horizontal">
+    <section class="movie-group horizontal" v-show="upComings?.length">
       <MovieCardHorizontalTrailer
         v-for="(item, index) in upComings"
         :index="index"
