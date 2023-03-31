@@ -74,6 +74,8 @@ export default {
   }
 
   .image-auth.responsive {
+    height: 100%;
+    width: 100%;
     display: none;
   }
 
