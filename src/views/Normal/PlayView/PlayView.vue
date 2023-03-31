@@ -199,7 +199,7 @@ export default {
     const internalInstance = getCurrentInstance();
 
     onBeforeRouteLeave(() => {
-      if (isPlayVideo.value == true) {
+      if (isPlayVideo.value == true && store.state.isLogin) {
         if (isInHistory.value == true) {
           if (
             seconds.value > dataItemList.value?.seconds &&
