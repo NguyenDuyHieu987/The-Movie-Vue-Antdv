@@ -113,9 +113,9 @@ export default {
             if (to.matched.some((record) => record.meta.requiresAdmin)) {
               if (to.matched.some((record) => record.name == 'dashboard')) {
                 loading.value = true;
-                // setTimeout(() => {
-                //   loading.value = false;
-                // }, 1000);
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
               }
               getUserToken({
                 user_token: getWithExpiry('userAccount')?.user_token,
