@@ -64,7 +64,7 @@ export default {
   overflow-y: scroll;
   height: 100vh;
   display: flex;
-  align-items: center;
+  // align-items: center;
   overflow: hidden;
 
   .image-auth {
@@ -74,8 +74,6 @@ export default {
   }
 
   .image-auth.responsive {
-    height: 100%;
-    width: 100%;
     display: none;
   }
 
