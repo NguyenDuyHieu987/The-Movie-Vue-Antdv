@@ -13,9 +13,9 @@ const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
 // const URL_API = 'http://127.0.0.1:5001';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
-// const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
+const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
 // const URL_API_IMAGE = 'http://127.0.0.1:5000';
-const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
+// const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
 
 const emailValidation = (email) =>
   axios.get(

@@ -134,9 +134,9 @@ import {
   onMounted,
   getCurrentInstance,
   createVNode,
-  onUnmounted,
+  // onUnmounted,
 } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {
   getAllGenresById,
@@ -191,28 +191,42 @@ export default {
     const percent = ref(0);
     const duration = ref(0);
     const isPlayVideo = ref(false);
+    const isInHistory = ref(false);
     const dataItemList = ref({});
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
     const internalInstance = getCurrentInstance();
 
-    onUnmounted(() => {
-      if (
-        isPlayVideo.value == true &&
-        seconds.value > dataItemList.value?.seconds &&
-        percent.value > dataItemList.value?.percent &&
-        dataItemList.value?.seconds < duration.value
-      ) {
-        add_update_History(store?.state.userAccount?.id, {
-          media_type: 'movie',
-          media_id: dataMovie.value?.id,
-          duration: duration.value,
-          percent: percent.value,
-          seconds: seconds.value,
-        }).catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+    onBeforeRouteLeave(() => {
+      if (isPlayVideo.value == true) {
+        if (isInHistory.value == true) {
+          if (
+            seconds.value > dataItemList.value?.seconds &&
+            percent.value > dataItemList.value?.percent &&
+            dataItemList.value?.seconds < duration.value
+          ) {
+            add_update_History(store?.state.userAccount?.id, {
+              media_type: 'movie',
+              media_id: dataMovie.value?.id,
+              duration: duration.value,
+              percent: percent.value,
+              seconds: seconds.value,
+            }).catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+          }
+        } else {
+          add_update_History(store?.state.userAccount?.id, {
+            media_type: 'movie',
+            media_id: dataMovie.value?.id,
+            duration: duration.value,
+            percent: percent.value,
+            seconds: seconds.value,
+          }).catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+        }
       }
     });
 
@@ -306,7 +320,10 @@ export default {
         getItemHistory(store.state?.userAccount?.id, route.params?.id)
           .then((movieRespone) => {
             if (movieRespone?.data.success == true) {
+              isInHistory.value = true;
               dataItemList.value = movieRespone?.data?.result;
+            } else {
+              isInHistory.value = false;
             }
           })
           .catch((e) => {

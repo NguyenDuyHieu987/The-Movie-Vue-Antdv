@@ -258,7 +258,7 @@ export default {
     const total = ref(0);
     const dataHistory = ref([]);
     const loading = ref(false);
-    const topicImage = ref('');
+    const topicImage = ref('/d0YSRmp819pMRnKLfGMgAQchpnR.jpg');
     const internalInstance = getCurrentInstance();
 
     // document.title = 'Phimhay247 - Theo dõi';
@@ -338,9 +338,11 @@ export default {
       getHistory(store?.state.userAccount?.id)
         // getMovies(1)
         .then((movieRespone) => {
-          dataHistory.value = movieRespone.data?.items?.reverse();
-          total.value = movieRespone.data?.items?.length;
-          topicImage.value = dataHistory.value[0]?.backdrop_path;
+          if (movieRespone.data?.items?.length > 0) {
+            dataHistory.value = movieRespone.data?.items?.reverse();
+            total.value = movieRespone.data?.items?.length;
+            topicImage.value = dataHistory.value[0]?.backdrop_path;
+          }
 
           getColorImage(topicImage.value)
             .then((colorResponse) => {
