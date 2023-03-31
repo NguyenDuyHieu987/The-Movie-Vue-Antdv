@@ -17,7 +17,7 @@
 
     <a-auto-complete
       v-model:value="valueInput"
-      class="center-header"
+      class="center-search-header"
       dropdown-class-name="certain-category-search-dropdown"
       :options="dataSearch"
       style="width: 40%; min-width: 350px; max-width: 550px"
@@ -35,7 +35,7 @@
       </template>
 
       <a-input-search
-        class="center-header"
+        class="center-search-header"
         placeholder="Nhập tên phim để tìm kiếm..."
         size="large"
         allowClear
@@ -80,7 +80,7 @@
               <SearchCard :key="item?.id" :item="item" />
             </template>
             <a-input-search
-              class="center-header-responsive"
+              class="center-search-header-responsive"
               enter-button
               placeholder="Nhập tên phim để tìm kiếm..."
               size="large"
