@@ -7,7 +7,7 @@
     </metainfo>
     <vue-progress-bar />
     <div v-if="loading" class="loading-page">
-      <div>
+      <div class="loading-page-container">
         <img src="@/assets/images/logo.png" alt="" />
         <h3>Đang tải bảng điều khiển...</h3>
         <spring-spinner :animation-duration="3000" :size="30" color="#e82b00" />
@@ -113,9 +113,9 @@ export default {
             if (to.matched.some((record) => record.meta.requiresAdmin)) {
               if (to.matched.some((record) => record.name == 'dashboard')) {
                 loading.value = true;
-                setTimeout(() => {
-                  loading.value = false;
-                }, 1000);
+                // setTimeout(() => {
+                //   loading.value = false;
+                // }, 1000);
               }
               getUserToken({
                 user_token: getWithExpiry('userAccount')?.user_token,
@@ -170,8 +170,19 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  h3 {
-    margin: 10px 0px;
+  .loading-page-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    img {
+      width: 64px;
+      height: 64px;
+    }
+
+    // h3 {
+    //   margin: 10px 0px;
+    // }
   }
 }
 
