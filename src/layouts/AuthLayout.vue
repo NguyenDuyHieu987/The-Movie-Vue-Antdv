@@ -64,11 +64,11 @@ export default {
   overflow-y: scroll;
   height: 100vh;
   display: flex;
-  // align-items: center;
+  align-items: center;
   overflow: hidden;
 
   .image-auth {
-    height: 100%;
+    height: 100vh;
     width: 100%;
     position: absolute;
   }
