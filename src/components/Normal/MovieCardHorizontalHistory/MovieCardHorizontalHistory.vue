@@ -13,6 +13,7 @@
       <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
       </a-image>
       <div class="percent-viewed" :style="{ width: percent * 100 + '%' }"></div>
+      <div class="viewed-overlay-bar"></div>
     </div>
 
     <div class="info">
