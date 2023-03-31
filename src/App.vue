@@ -59,6 +59,14 @@ export default {
             if (accountResponse.data?.isLogin == true) {
               store.state.userAccount = accountResponse.data?.result;
               store.state.role = accountResponse?.data?.result?.role;
+            } else {
+              window.localStorage.removeItem('userAccount');
+              window.localStorage.removeItem('userToken');
+              window.localStorage.removeItem('remember');
+              window.localStorage.removeItem('isLogin');
+              store.state.userAccount = {};
+              store.state.role = 'normal';
+              store.state.isLogin = false;
             }
           })
           .catch((e) => {

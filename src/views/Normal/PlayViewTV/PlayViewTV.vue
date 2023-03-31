@@ -155,7 +155,8 @@ import {
   getAllGenresById,
   getPoster,
   getTvById,
-  getList,
+  // getList,
+  getItemList,
   addItemList,
   removeItemList,
 } from '@/services/MovieService';
@@ -197,7 +198,7 @@ export default {
     const loading = ref(false);
     const urlCodeMovie = ref('');
     const isAddToList = ref(false);
-    const dataAddToList = ref([]);
+    // const dataAddToList = ref([]);
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
@@ -244,19 +245,29 @@ export default {
         });
 
       if (store.state.isLogin) {
-        getList(store.state?.userAccount?.id)
+        getItemList(store.state?.userAccount?.id, route.params?.id)
           .then((movieRespone) => {
-            dataAddToList.value = movieRespone?.data?.items;
-
-            dataAddToList.value?.map((item) => {
-              if (item?.id == route.params?.id) {
-                isAddToList.value = true;
-              }
-            });
+            if (movieRespone?.data.success == true) {
+              isAddToList.value = true;
+            }
           })
           .catch((e) => {
             if (axios.isCancel(e)) return;
           });
+
+        // getList(store.state?.userAccount?.id)
+        //   .then((movieRespone) => {
+        //     dataAddToList.value = movieRespone?.data?.items;
+
+        //     dataAddToList.value?.map((item) => {
+        //       if (item?.id == route.params?.id) {
+        //         isAddToList.value = true;
+        //       }
+        //     });
+        //   })
+        //   .catch((e) => {
+        //     if (axios.isCancel(e)) return;
+        //   });
       }
     };
 
@@ -358,7 +369,7 @@ export default {
                 isAddToList.value = true;
                 ElMessage({
                   type: 'error',
-                  message: `Xóa không thành công!`,
+                  message: `Xóa thất bại!`,
                 });
               }
             })
@@ -367,7 +378,7 @@ export default {
               isAddToList.value = true;
               ElMessage({
                 type: 'error',
-                message: `Xóa không thành công!`,
+                message: `Xóa thất bại!`,
               });
               if (axios.isCancel(e)) return;
             });

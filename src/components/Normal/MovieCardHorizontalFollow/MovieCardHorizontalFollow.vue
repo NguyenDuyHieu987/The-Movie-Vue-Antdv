@@ -87,10 +87,10 @@
                   :to="{
                     name: 'playtv',
                     params: {
-                      id: dataMovie?.id,
-                      name: dataMovie?.name
-                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                      id: item?.id,
+                      name: item?.name
+                        ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                        : item?.title?.replace(/\s/g, '+').toLowerCase(),
                       tap: 'tap-1',
                     },
                   }"
@@ -103,10 +103,10 @@
                   :to="{
                     name: 'play',
                     params: {
-                      id: dataMovie?.id,
-                      name: dataMovie?.name
-                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                      id: item?.id,
+                      name: item?.name
+                        ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                        : item?.title?.replace(/\s/g, '+').toLowerCase(),
                     },
                   }"
                   class="btn-play-now"
@@ -122,9 +122,7 @@
                   <ShareNetwork
                     network="facebook"
                     :url="urlShare"
-                    :title="
-                      dataMovie?.name ? dataMovie?.name : dataMovie?.title
-                    "
+                    :title="item?.name ? item?.name : item?.title"
                     hashtags="phimhay247.site,vite"
                     style="white-space: nowrap; display: block"
                   >
@@ -159,8 +157,6 @@ import { ref, onBeforeMount, computed, h } from 'vue';
 import {
   getAllGenresById,
   getPoster,
-  getTvById,
-  getMovieById,
   getLanguage,
   removeItemList,
 } from '@/services/MovieService';
@@ -187,7 +183,6 @@ export default {
     const store = useStore();
     const genresName = ref([]);
     const isEpisodes = ref(false);
-    const dataMovie = ref({});
     const loading = ref(false);
     const urlShare = computed(() => window.location);
 
@@ -213,67 +208,24 @@ export default {
       if (props?.type) {
         switch (props?.type) {
           case 'movie':
-            getMovieById(props.item?.id)
-              .then((movieResponed) => {
-                isEpisodes.value = false;
-                dataMovie.value = movieResponed?.data;
+            isEpisodes.value = false;
+            loading.value = false;
 
-                setTimeout(() => {
-                  loading.value = false;
-                }, 1000);
-              })
-              .catch((e) => {
-                loading.value = false;
-                if (axios.isCancel(e)) return;
-              });
             break;
           case 'tv':
-            getTvById(props.item?.id)
-              .then((tvResponed) => {
-                isEpisodes.value = true;
-                dataMovie.value = tvResponed?.data;
-
-                setTimeout(() => {
-                  loading.value = false;
-                }, 1000);
-              })
-              .catch((e) => {
-                loading.value = false;
-                if (axios.isCancel(e)) return;
-              });
+            isEpisodes.value = true;
+            loading.value = false;
             break;
           default:
             break;
         }
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
-          getTvById(props.item?.id)
-            .then((tvResponed) => {
-              isEpisodes.value = true;
-              dataMovie.value = tvResponed?.data;
-
-              setTimeout(() => {
-                loading.value = false;
-              }, 1000);
-            })
-            .catch((e) => {
-              loading.value = false;
-              if (axios.isCancel(e)) return;
-            });
+          isEpisodes.value = true;
+          loading.value = false;
         } else {
-          getMovieById(props.item?.id)
-            .then((movieResponed) => {
-              isEpisodes.value = false;
-              dataMovie.value = movieResponed?.data;
-
-              setTimeout(() => {
-                loading.value = false;
-              }, 1000);
-            })
-            .catch((e) => {
-              loading.value = false;
-              if (axios.isCancel(e)) return;
-            });
+          isEpisodes.value = false;
+          loading.value = false;
         }
       }
     });
@@ -295,7 +247,7 @@ export default {
             instance.confirmButtonText = 'Đang xóa...';
             instance.confirmButtonLoading = true;
             removeItemList(store.state?.userAccount?.id, {
-              media_id: dataMovie.value?.id,
+              media_id: props.item?.id,
             })
               .then((movieRespone) => {
                 if (movieRespone.data?.success == true) {
@@ -309,7 +261,7 @@ export default {
                 } else {
                   ElMessage({
                     type: 'error',
-                    message: `Xóa không thành công!`,
+                    message: `Xóa thất bại!`,
                   });
                 }
               })
@@ -317,7 +269,7 @@ export default {
                 instance.confirmButtonLoading = false;
                 ElMessage({
                   type: 'error',
-                  message: `Xóa không thành công!`,
+                  message: `Xóa thất bại!`,
                 });
                 if (axios.isCancel(e)) return;
               });
@@ -337,7 +289,7 @@ export default {
       message.loading({ content: 'Đang xóa' });
 
       removeItemList(store.state?.userAccount?.id, {
-        media_id: dataMovie.value?.id,
+        media_id: props.item?.id,
       })
         .then((movieRespone) => {
           if (movieRespone.data?.success == true) {
@@ -353,7 +305,7 @@ export default {
             message.destroy();
             ElMessage({
               type: 'error',
-              message: `Xóa không thành công!`,
+              message: `Xóa thất bại!`,
             });
           }
         })
@@ -361,7 +313,7 @@ export default {
           message.destroy();
           ElMessage({
             type: 'error',
-            message: `Xóa không thành công!`,
+            message: `Xóa thất bại!`,
           });
           if (axios.isCancel(e)) return;
         });
@@ -370,7 +322,6 @@ export default {
     return {
       genresName,
       isEpisodes,
-      dataMovie,
       loading,
       urlShare,
       getPoster,

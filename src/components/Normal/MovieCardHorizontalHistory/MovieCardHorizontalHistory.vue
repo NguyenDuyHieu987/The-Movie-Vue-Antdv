@@ -10,9 +10,9 @@
     class="movie-history-item"
   >
     <div class="img-box">
-      <!-- v-if="!loading" -->
       <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
       </a-image>
+      <div class="percent-viewed" :style="{ width: percent * 100 + '%' }"></div>
     </div>
 
     <div class="info">
@@ -106,10 +106,10 @@
                   :to="{
                     name: 'playtv',
                     params: {
-                      id: dataMovie?.id,
-                      name: dataMovie?.name
-                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                      id: item?.id,
+                      name: item?.name
+                        ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                        : item?.title?.replace(/\s/g, '+').toLowerCase(),
                       tap: 'tap-1',
                     },
                   }"
@@ -122,10 +122,10 @@
                   :to="{
                     name: 'play',
                     params: {
-                      id: dataMovie?.id,
-                      name: dataMovie?.name
-                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                      id: item?.id,
+                      name: item?.name
+                        ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                        : item?.title?.replace(/\s/g, '+').toLowerCase(),
                     },
                   }"
                   class="btn-play-now"
@@ -148,9 +148,7 @@
                   <ShareNetwork
                     network="facebook"
                     :url="urlShare"
-                    :title="
-                      dataMovie?.name ? dataMovie?.name : dataMovie?.title
-                    "
+                    :title="item?.name ? item?.name : item?.title"
                     hashtags="phimhay247.site,vite"
                     style="white-space: nowrap; display: block"
                   >
@@ -163,7 +161,11 @@
             <hr />
 
             <div class="danger-zone">
-              <a-menu-item key="remove-history" class="remove-history">
+              <a-menu-item
+                key="remove-history"
+                class="remove-history"
+                @click="handleRemoveFromHistory"
+              >
                 <template #icon>
                   <font-awesome-icon icon="fa-solid fa-trash-can" />
                 </template>
@@ -177,19 +179,21 @@
   </router-link>
 </template>
 <script>
-import { ref, onBeforeMount, computed } from 'vue';
+import { ref, onBeforeMount, computed, onMounted } from 'vue';
 // import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
-  getTvById,
-  getMovieById,
   getLanguage,
+  removeItemHistory,
 } from '@/services/MovieService';
-import axios from 'axios';
 import disableScroll from 'disable-scroll';
+import axios from 'axios';
+import { useStore } from 'vuex';
 // import { CloseOutlined } from '@ant-design/icons-vue';
 import { Close } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
+import { message } from 'ant-design-vue';
 
 export default {
   components: { Close },
@@ -200,16 +204,22 @@ export default {
     type: {
       type: String,
     },
+    getDataWhenRemoveHistory: {
+      type: Function,
+    },
   },
   setup(props) {
-    const genresName = ref([]);
+    const store = useStore();
     const isEpisodes = ref(false);
-    const dataMovie = ref({});
     const loading = ref(false);
     const urlShare = computed(() => window.location);
+    const percent = ref(0);
+
+    onMounted(() => {});
 
     onBeforeMount(() => {
       loading.value = true;
+      percent.value = props.item?.percent;
       const ant_btn = document.querySelectorAll('.action .viewmore-btn');
 
       ant_btn?.forEach((btn) => {
@@ -229,80 +239,70 @@ export default {
       if (props?.type) {
         switch (props?.type) {
           case 'movie':
-            getMovieById(props.item?.id)
-              .then((movieResponed) => {
-                isEpisodes.value = false;
-                dataMovie.value = movieResponed?.data;
-
-                setTimeout(() => {
-                  loading.value = false;
-                }, 1000);
-              })
-              .catch((e) => {
-                loading.value = false;
-                if (axios.isCancel(e)) return;
-              });
+            isEpisodes.value = false;
+            loading.value = false;
             break;
           case 'tv':
-            getTvById(props.item?.id)
-              .then((tvResponed) => {
-                isEpisodes.value = true;
-                dataMovie.value = tvResponed?.data;
-
-                setTimeout(() => {
-                  loading.value = false;
-                }, 1000);
-              })
-              .catch((e) => {
-                loading.value = false;
-                if (axios.isCancel(e)) return;
-              });
+            isEpisodes.value = true;
+            loading.value = false;
             break;
           default:
             break;
         }
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
-          getTvById(props.item?.id)
-            .then((tvResponed) => {
-              isEpisodes.value = true;
-              dataMovie.value = tvResponed?.data;
-
-              setTimeout(() => {
-                loading.value = false;
-              }, 1000);
-            })
-            .catch((e) => {
-              loading.value = false;
-              if (axios.isCancel(e)) return;
-            });
+          isEpisodes.value = true;
+          loading.value = false;
         } else {
-          getMovieById(props.item?.id)
-            .then((movieResponed) => {
-              isEpisodes.value = false;
-              dataMovie.value = movieResponed?.data;
-
-              setTimeout(() => {
-                loading.value = false;
-              }, 1000);
-            })
-            .catch((e) => {
-              loading.value = false;
-              if (axios.isCancel(e)) return;
-            });
+          isEpisodes.value = false;
+          loading.value = false;
         }
       }
     });
 
+    const handleRemoveFromHistory = () => {
+      message.loading({ content: 'Đang xóa' });
+
+      removeItemHistory(store.state?.userAccount?.id, {
+        media_id: props.item?.id,
+      })
+        .then((movieRespone) => {
+          if (movieRespone.data?.success == true) {
+            setTimeout(() => {
+              props.getDataWhenRemoveHistory(movieRespone.data?.results);
+              message.destroy();
+              ElMessage({
+                type: 'success',
+                message: `Xóa thành công!`,
+              });
+            }, 500);
+          } else {
+            message.destroy();
+            ElMessage({
+              type: 'error',
+              message: `Xóa thất bại!`,
+            });
+          }
+        })
+        .catch((e) => {
+          message.destroy();
+          ElMessage({
+            type: 'error',
+            message: `Xóa thất bại!`,
+          });
+          if (axios.isCancel(e)) return;
+        });
+    };
+
     return {
-      genresName,
       isEpisodes,
-      dataMovie,
       loading,
       urlShare,
+      percent,
       getPoster,
       getAllGenresById,
       getLanguage,
+      handleRemoveFromHistory,
     };
   },
 };

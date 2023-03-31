@@ -27,7 +27,7 @@
                     </strong>
                   </p>
                   <p class="count-video">
-                    {{ dataList?.length }} video
+                    {{ total }} video
                     <span> Cập nhật hôm nay </span>
                   </p>
                 </div>
@@ -121,7 +121,7 @@
                     </strong>
                   </p>
                   <p class="count-video">
-                    {{ dataHistory?.length }} video
+                    {{ total }} video
                     <span> Cập nhật hôm nay </span>
                   </p>
                   <a-dropdown
@@ -206,6 +206,7 @@
               :key="item.id"
               :item="item"
               :type="item?.media_type"
+              :getDataWhenRemoveHistory="getDataWhenRemoveHistory"
             />
           </section>
         </a-layout-content>
@@ -241,8 +242,8 @@ import MovieCardHorizontalHistory from '@/components/Normal/MovieCardHorizontalH
 import {
   getPoster,
   getColorImage,
-  // getWatchList,
-  getMovies,
+  getHistory,
+  // getMovies,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
 import { InfoCircleOutlined } from '@ant-design/icons-vue';
@@ -254,7 +255,7 @@ export default {
     const route = useRoute();
     const store = useStore();
     const isLogin = computed(() => store.state.isLogin);
-
+    const total = ref(0);
     const dataHistory = ref([]);
     const loading = ref(false);
     const topicImage = ref('');
@@ -334,10 +335,11 @@ export default {
       loading.value = true;
       internalInstance.appContext.config.globalProperties.$Progress.start();
 
-      // getWatchList(store?.state.userAccount?.id)
-      getMovies(1)
+      getHistory(store?.state.userAccount?.id)
+        // getMovies(1)
         .then((movieRespone) => {
-          dataHistory.value = movieRespone.data?.results?.reverse();
+          dataHistory.value = movieRespone.data?.items?.reverse();
+          total.value = movieRespone.data?.items?.length;
           topicImage.value = dataHistory.value[0]?.backdrop_path;
 
           getColorImage(topicImage.value)
@@ -366,6 +368,7 @@ export default {
 
     const getDataWhenRemoveHistory = (data) => {
       dataHistory.value = data;
+      total.value = data?.length;
     };
 
     watch(route, () => {
@@ -373,6 +376,7 @@ export default {
     });
 
     return {
+      total,
       topicImage,
       loading,
       isLogin,

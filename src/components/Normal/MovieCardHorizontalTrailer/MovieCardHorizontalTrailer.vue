@@ -229,7 +229,6 @@ export default {
     },
   },
   setup(props) {
-    const genresName = ref([]);
     const dataMovie = ref({});
     const isEpisodes = ref(false);
     const loading = ref(false);
@@ -344,7 +343,6 @@ export default {
     };
 
     return {
-      genresName,
       isEpisodes,
       dataMovie,
       loading,

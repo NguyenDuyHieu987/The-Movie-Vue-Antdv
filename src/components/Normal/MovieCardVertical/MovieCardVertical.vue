@@ -309,7 +309,8 @@ import {
   getLanguage,
   addItemList,
   removeItemList,
-  getList,
+  // getList,
+  getItemList,
 } from '@/services/MovieService';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -333,11 +334,10 @@ export default {
   setup(props) {
     const store = useStore();
     const router = useRouter();
-    const genresName = ref([]);
     const isEpisodes = ref(false);
     const dataMovie = ref({});
     const loading = ref(false);
-    const dataAddToList = ref([]);
+    // const dataAddToList = ref([]);
     const isAddToList = ref(false);
     const urlShare = computed(() => window.location);
 
@@ -468,19 +468,29 @@ export default {
       //   });
 
       if (store.state.isLogin) {
-        getList(store.state?.userAccount?.id)
+        getItemList(store.state?.userAccount?.id, props.item?.id)
           .then((movieRespone) => {
-            dataAddToList.value = movieRespone?.data?.items;
-
-            dataAddToList.value?.map((item) => {
-              if (item?.id == dataMovie.value?.id) {
-                isAddToList.value = true;
-              }
-            });
+            if (movieRespone?.data.success == true) {
+              isAddToList.value = true;
+            }
           })
           .catch((e) => {
             if (axios.isCancel(e)) return;
           });
+
+        // getList(store.state?.userAccount?.id)
+        //   .then((movieRespone) => {
+        //     dataAddToList.value = movieRespone?.data?.items;
+
+        //     dataAddToList.value?.map((item) => {
+        //       if (item?.id == dataMovie.value?.id) {
+        //         isAddToList.value = true;
+        //       }
+        //     });
+        //   })
+        //   .catch((e) => {
+        //     if (axios.isCancel(e)) return;
+        //   });
       }
     });
 
@@ -556,7 +566,7 @@ export default {
                 isAddToList.value = true;
                 ElMessage({
                   type: 'error',
-                  message: `Xóa không thành công!`,
+                  message: `Xóa thất bại!`,
                 });
               }
             })
@@ -565,7 +575,7 @@ export default {
               isAddToList.value = true;
               ElMessage({
                 type: 'error',
-                message: `Xóa không thành công!`,
+                message: `Xóa thất bại!`,
               });
               if (axios.isCancel(e)) return;
             });
@@ -574,7 +584,6 @@ export default {
     };
 
     return {
-      genresName,
       isEpisodes,
       isAddToList,
       dataMovie,

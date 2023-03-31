@@ -41,16 +41,31 @@
   }
 
   .img-box {
+    position: relative;
+    // width: 250px;
+    flex: 1 0 250px;
+    height: auto;
+    overflow: hidden;
+    border-radius: 5px;
+
     .ant-image {
-      width: 250px;
-      overflow: hidden;
-      border-radius: 5px;
+      width: 100%;
+      height: 100%;
 
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
+    }
+
+    .percent-viewed {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 4px;
+      width: var(--percent-viewed);
+      background-color: red;
     }
   }
 

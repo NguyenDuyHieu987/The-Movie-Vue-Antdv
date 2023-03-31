@@ -585,7 +585,8 @@ import {
   getLanguage,
   addItemList,
   removeItemList,
-  getList,
+  getItemList,
+  // getList,
   // getColorImage,
 } from '@/services/MovieService';
 import carousel from 'vue-owl-carousel/src/Carousel';
@@ -623,7 +624,7 @@ export default {
     const isEpisodes = ref(false);
     const dataMovie = ref({});
     const dataCredit = ref([]);
-    const dataAddToList = ref([]);
+    // const dataAddToList = ref([]);
     const dataSimilar = ref([]);
     const dataRecommend = ref([]);
     const responsiveCarousel = ref({
@@ -767,19 +768,29 @@ export default {
         });
 
       if (store.state.isLogin) {
-        getList(store.state?.userAccount?.id)
+        getItemList(store.state?.userAccount?.id, route.params?.id)
           .then((movieRespone) => {
-            dataAddToList.value = movieRespone?.data?.items;
-
-            dataAddToList.value?.map((item) => {
-              if (item?.id == route.params?.id) {
-                isAddToList.value = true;
-              }
-            });
+            if (movieRespone?.data.success == true) {
+              isAddToList.value = true;
+            }
           })
           .catch((e) => {
             if (axios.isCancel(e)) return;
           });
+
+        // getList(store.state?.userAccount?.id)
+        //   .then((movieRespone) => {
+        //     dataAddToList.value = movieRespone?.data?.items;
+
+        //     dataAddToList.value?.map((item) => {
+        //       if (item?.id == route.params?.id) {
+        //         isAddToList.value = true;
+        //       }
+        //     });
+        //   })
+        //   .catch((e) => {
+        //     if (axios.isCancel(e)) return;
+        //   });
       }
     };
 
@@ -846,7 +857,7 @@ export default {
                     } else {
                       ElMessage({
                         type: 'error',
-                        message: `Thêm không thành công!`,
+                        message: `Thêm thất bại!`,
                       });
                     }
                   })
@@ -855,7 +866,7 @@ export default {
                     instance.confirmButtonLoading = false;
                     ElMessage({
                       type: 'error',
-                      message: `Thêm không thành công!`,
+                      message: `Thêm thất bại!`,
                     });
                     if (axios.isCancel(e)) return;
                   });
@@ -908,7 +919,7 @@ export default {
                     } else {
                       ElMessage({
                         type: 'error',
-                        message: `Xóa không thành công!`,
+                        message: `Xóa thất bại!`,
                       });
                     }
                   })
@@ -917,7 +928,7 @@ export default {
                     instance.confirmButtonLoading = false;
                     ElMessage({
                       type: 'error',
-                      message: `Xóa không thành công!`,
+                      message: `Xóa thất bại!`,
                     });
                     if (axios.isCancel(e)) return;
                   });
@@ -1020,7 +1031,7 @@ export default {
                 isAddToList.value = true;
                 ElMessage({
                   type: 'error',
-                  message: `Xóa không thành công!`,
+                  message: `Xóa thất bại!`,
                 });
               }
             })
@@ -1029,7 +1040,7 @@ export default {
               isAddToList.value = true;
               ElMessage({
                 type: 'error',
-                message: `Xóa không thành công!`,
+                message: `Xóa thất bại!`,
               });
               if (axios.isCancel(e)) return;
             });

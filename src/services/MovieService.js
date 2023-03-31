@@ -13,9 +13,9 @@ const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
 // const URL_API = 'http://127.0.0.1:5001';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
-const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
 // const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
 // const URL_API_IMAGE = 'http://127.0.0.1:5000';
+const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
 
 const emailValidation = (email) =>
   axios.get(
@@ -150,12 +150,21 @@ const getMovieBySimilar = async (type, genres, page) => {
     `${URL_API}/discover/${type}?with_genres=${genrnStr}&page=${page}&api=hieu987`
   );
 };
+
 const getList = async (userID) =>
   await axios.get(`${URL_API}/list/${userID}/getlist?api=hieu987`);
 
-const getWatchList = async (userID, page) =>
+const getItemList = async (userID, movieId) =>
+  await axios.get(`${URL_API}/list/${userID}/getitem/${movieId}?api=hieu987`);
+
+const getHistory = async (userID, page) =>
   await axios.get(
-    `${URL_API}/watchlist/getwatchlist/${userID}/all?api=hieu987&page=${page}`
+    `${URL_API}/history/${userID}/gethistory?api=hieu987&page=${page}`
+  );
+
+const getItemHistory = async (userID, movieId) =>
+  await axios.get(
+    `${URL_API}/history/${userID}/getitem/${movieId}?api=hieu987`
   );
 
 const getTheMostVoteCount = async (page) =>
@@ -238,10 +247,36 @@ const removeItemList = async (userID, params) => {
   );
 };
 
-const handleWatchList = async (userID, params) =>
-  userID
-    ? await axios.post(`${URL_API}/watchlist/${userID}?api=hieu987`, params)
-    : await axios.post(`${URL_API}/watchlist/5831457?api=hieu987`, params);
+const removeAllItemList = async (userID) => {
+  return await axios.post(
+    `${URL_API}/list/${userID}/removeall_item?api=hieu987`
+  );
+};
+
+const add_update_History = async (userID, params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('media_type', params.media_type);
+  bodyFormData.append('media_id', params.media_id);
+  bodyFormData.append('duration', params.duration);
+  bodyFormData.append('percent', params.percent);
+  bodyFormData.append('seconds', params.seconds);
+
+  return await axios.post(
+    `${URL_API}/history/${userID}/add_item?api=hieu987`,
+    bodyFormData
+  );
+};
+
+const removeItemHistory = async (userID, params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('media_type', params.media_type);
+  bodyFormData.append('media_id', params.media_id);
+
+  return await axios.post(
+    `${URL_API}/history/${userID}/remove_item?api=hieu987`,
+    bodyFormData
+  );
+};
 
 const ratingMovie = async (moveid, { value }) => {
   const bodyFormData = new FormData();
@@ -415,9 +450,11 @@ export {
   getMovieByCountry,
   getCountry,
   getCountryVietSub,
-  getList,
   getTheMostVoteCount,
-  getWatchList,
+  getList,
+  getHistory,
+  getItemList,
+  getItemHistory,
   FilterDataMovie,
   getTv,
   getTvById,
@@ -428,7 +465,9 @@ export {
   getAllYear,
   addItemList,
   removeItemList,
-  handleWatchList,
+  removeAllItemList,
+  add_update_History,
+  removeItemHistory,
   getPosterCast,
   getMovies,
   ratingMovie,

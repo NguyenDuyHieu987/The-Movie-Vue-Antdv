@@ -134,6 +134,7 @@ import {
   onMounted,
   getCurrentInstance,
   createVNode,
+  onUnmounted,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
@@ -141,9 +142,12 @@ import {
   getAllGenresById,
   getPoster,
   getMovieById,
-  getList,
+  // getList,
+  getItemList,
+  getItemHistory,
   addItemList,
   removeItemList,
+  add_update_History,
 } from '@/services/MovieService';
 import Interaction from '@/components/Normal/Interaction/Interaction.vue';
 import RatingMovie from '@/components/Normal/RatingMovie/RatingMovie.vue';
@@ -182,22 +186,62 @@ export default {
     const loading = ref(false);
     const urlCodeMovie = ref('');
     const isAddToList = ref(false);
-    const dataAddToList = ref([]);
+    // const dataAddToList = ref([]);
+    const seconds = ref(0);
+    const percent = ref(0);
+    const duration = ref(0);
+    const isPlayVideo = ref(false);
+    const dataItemList = ref({});
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
     const internalInstance = getCurrentInstance();
 
+    onUnmounted(() => {
+      if (
+        isPlayVideo.value == true &&
+        seconds.value > dataItemList.value?.seconds &&
+        percent.value > dataItemList.value?.percent &&
+        dataItemList.value?.seconds < duration.value
+      ) {
+        add_update_History(store?.state.userAccount?.id, {
+          media_type: 'movie',
+          media_id: dataMovie.value?.id,
+          duration: duration.value,
+          percent: percent.value,
+          seconds: seconds.value,
+        }).catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+      }
+    });
+
     onMounted(() => {
       const iframe = document.querySelector('#vimeo-player');
       const player = new Player(iframe);
 
-      player.on('pause', function () {
-        alert('g');
+      player.on('play', function (e) {
+        // alert('play');
+        duration.value = e.duration;
+        isPlayVideo.value = true;
       });
 
       player.on('timeupdate', function (e) {
-        if (e?.seconds >= 1) {
+        if (e?.seconds > 0) {
+          if (e.seconds > seconds.value && e.percent > percent.value) {
+            if (seconds.value > e.duration - 6) {
+              seconds.value = e.seconds;
+              percent.value = e.percent;
+            } else {
+              setTimeout(() => {
+                seconds.value = e.seconds;
+                percent.value = e.percent;
+              }, 5000);
+            }
+          }
+          // console.log('seconds:', seconds.value);
+          // console.log('percent:', percent.value);
+
           // alert('Time update');
         }
       });
@@ -249,19 +293,39 @@ export default {
         });
 
       if (store.state.isLogin) {
-        getList(store.state?.userAccount?.id)
+        getItemList(store.state?.userAccount?.id, route.params?.id)
           .then((movieRespone) => {
-            dataAddToList.value = movieRespone?.data?.items;
-
-            dataAddToList.value?.map((item) => {
-              if (item?.id == route.params?.id) {
-                isAddToList.value = true;
-              }
-            });
+            if (movieRespone?.data.success == true) {
+              isAddToList.value = true;
+            }
           })
           .catch((e) => {
             if (axios.isCancel(e)) return;
           });
+
+        getItemHistory(store.state?.userAccount?.id, route.params?.id)
+          .then((movieRespone) => {
+            if (movieRespone?.data.success == true) {
+              dataItemList.value = movieRespone?.data?.result;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+
+        // getList(store.state?.userAccount?.id)
+        //   .then((movieRespone) => {
+        //     dataAddToList.value = movieRespone?.data?.items;
+
+        //     dataAddToList.value?.map((item) => {
+        //       if (item?.id == route.params?.id) {
+        //         isAddToList.value = true;
+        //       }
+        //     });
+        //   })
+        //   .catch((e) => {
+        //     if (axios.isCancel(e)) return;
+        //   });
       }
     };
 
@@ -363,7 +427,7 @@ export default {
                 isAddToList.value = true;
                 ElMessage({
                   type: 'error',
-                  message: `Xóa không thành công!`,
+                  message: `Xóa thất bại!`,
                 });
               }
             })
@@ -372,7 +436,7 @@ export default {
               isAddToList.value = true;
               ElMessage({
                 type: 'error',
-                message: `Xóa không thành công!`,
+                message: `Xóa thất bại!`,
               });
               if (axios.isCancel(e)) return;
             });

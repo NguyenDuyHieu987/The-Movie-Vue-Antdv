@@ -108,6 +108,7 @@
                   type="primary"
                   shape="round"
                   class="remove-all-follow-btn"
+                  @click="removeAllFollowList"
                 >
                   <template #icon>
                     <span class="material-icons-outlined"> delete_sweep </span>
@@ -261,6 +262,7 @@
                   type="primary"
                   shape="round"
                   class="remove-all-follow-btn"
+                  @click="removeAllFollowList"
                 >
                   <template #icon>
                     <span class="material-icons-outlined"> delete_sweep </span>
@@ -327,11 +329,14 @@ import {
   getPoster,
   // getMovies,
   getColorImage,
+  removeAllItemList,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
 import { InfoCircleOutlined } from '@ant-design/icons-vue';
 // import { extractColors } from 'extract-colors';
 import disableScroll from 'disable-scroll';
+import { ElMessage } from 'element-plus';
+import { message } from 'ant-design-vue';
 
 export default {
   components: { MovieCardHorizontalFollow, InfoCircleOutlined },
@@ -474,11 +479,44 @@ export default {
 
     const getDataWhenRemoveList = (data) => {
       dataList.value = data?.reverse();
+      total.value = data?.length;
     };
 
     watch(route, () => {
       // getData();
     });
+
+    const removeAllFollowList = () => {
+      message.loading({ content: 'Đang xóa tất cả Danh sách phát' });
+
+      removeAllItemList(store?.state.userAccount?.id)
+        .then((movieRespone) => {
+          if (movieRespone.data?.success == true) {
+            setTimeout(() => {
+              dataList.value = movieRespone.data?.results;
+              message.destroy();
+              ElMessage({
+                type: 'success',
+                message: `Xóa thành công!`,
+              });
+            }, 500);
+          } else {
+            message.destroy();
+            ElMessage({
+              type: 'error',
+              message: `Xóa không thành công!`,
+            });
+          }
+        })
+        .catch((e) => {
+          message.destroy();
+          ElMessage({
+            type: 'error',
+            message: `Xóa không thành công!`,
+          });
+          if (axios.isCancel(e)) return;
+        });
+    };
 
     return {
       loading,
@@ -489,6 +527,7 @@ export default {
       getData,
       getPoster,
       getDataWhenRemoveList,
+      removeAllFollowList,
     };
   },
   // beforeRouteEnter() {
