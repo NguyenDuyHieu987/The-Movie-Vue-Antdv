@@ -10,8 +10,47 @@
           <div class="column-container">
             <div class="top">
               <div class="backdrop">
-                <a-image :src="getPoster(topicImage)" :preview="false">
-                </a-image>
+                <router-link
+                  v-if="dataList[0]?.type && dataList[0]?.id"
+                  :to="{
+                    name: 'playtv',
+                    params: {
+                      id: dataList[0]?.id,
+                      name: dataList[0]?.name
+                        ? dataList[0]?.name?.replace(/\s/g, '+').toLowerCase()
+                        : dataList[0]?.title?.replace(/\s/g, '+').toLowerCase(),
+                      tap: 'tap-1',
+                    },
+                  }"
+                >
+                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  </a-image>
+                  <div class="play-now">
+                    <span>
+                      <font-awesome-icon icon="fa-solid fa-play" />
+                      PHÁT NGAY
+                    </span>
+                  </div>
+                </router-link>
+                <router-link
+                  v-else-if="!dataList[0]?.type && dataList[0]?.id"
+                  :to="{
+                    name: 'play',
+                    params: {
+                      id: dataList[0]?.id,
+                      name: dataList[0]?.name
+                        ? dataList[0]?.name?.replace(/\s/g, '+').toLowerCase()
+                        : dataList[0]?.title?.replace(/\s/g, '+').toLowerCase(),
+                    },
+                  }"
+                >
+                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  </a-image>
+                  <div class="play-now">
+                    <font-awesome-icon icon="fa-solid fa-play" />
+                    <span>PHÁT NGAY</span>
+                  </div>
+                </router-link>
               </div>
               <img class="overlay-image" :src="getPoster(topicImage)" />
 
@@ -19,19 +58,62 @@
                 <h2 class="title">
                   <strong>Video đã thêm vào danh sách phát</strong>
                 </h2>
+
+                <div class="user-info">
+                  <p>
+                    <strong>
+                      {{ $store.state.userAccount?.username }}
+                    </strong>
+                  </p>
+                  <p class="count-video">
+                    {{ total }} video
+                    <span> Cập nhật hôm nay </span>
+                  </p>
+                </div>
+
+                <a-dropdown
+                  :trigger="['click']"
+                  placement="bottomRight"
+                  class="dropdown-viewmore"
+                >
+                  <el-button
+                    circle
+                    shape="circle"
+                    size="large"
+                    class="viewmore-btn-follow"
+                    @click.prevent=""
+                  >
+                    <template #icon>
+                      <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+                    </template>
+                  </el-button>
+
+                  <template #overlay>
+                    <a-menu class="dropdown-viewmore">
+                      <a-menu-item key="info-list">
+                        <template #icon>
+                          <InfoCircleOutlined />
+                        </template>
+                        <span>Thông tin chi tiết</span>
+                      </a-menu-item>
+                    </a-menu>
+                  </template>
+                </a-dropdown>
               </div>
             </div>
             <div class="bottom">
-              <div class="user-info">
-                <p>
-                  <strong>
-                    {{ $store.state.userAccount?.username }}
-                  </strong>
-                </p>
-                <p class="count-video">
-                  {{ dataList?.length }} video
-                  <span> Cập nhật hôm nay </span>
-                </p>
+              <div class="box-btn">
+                <el-button
+                  round
+                  type="primary"
+                  shape="round"
+                  class="remove-all-follow-btn"
+                >
+                  <template #icon>
+                    <span class="material-icons-outlined"> delete_sweep </span>
+                  </template>
+                  Xóa tất cả Danh sách phát
+                </el-button>
               </div>
               <div class="widget">
                 <a-input-search
@@ -62,23 +144,94 @@
           <a-layout-sider class="topic-follow-column" :width="340">
             <div class="column-container">
               <div class="backdrop">
-                <a-image :src="getPoster(topicImage)" :preview="false">
-                </a-image>
+                <router-link
+                  v-if="dataList[0]?.type && dataList[0]?.id"
+                  :to="{
+                    name: 'playtv',
+                    params: {
+                      id: dataList[0]?.id,
+                      name: dataList[0]?.name
+                        ? dataList[0]?.name?.replace(/\s/g, '+').toLowerCase()
+                        : dataList[0]?.title?.replace(/\s/g, '+').toLowerCase(),
+                      tap: 'tap-1',
+                    },
+                  }"
+                >
+                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  </a-image>
+                  <div class="play-now">
+                    <span>
+                      <font-awesome-icon icon="fa-solid fa-play" />
+                      PHÁT NGAY
+                    </span>
+                  </div>
+                </router-link>
+                <router-link
+                  v-else-if="!dataList[0]?.type && dataList[0]?.id"
+                  :to="{
+                    name: 'play',
+                    params: {
+                      id: dataList[0]?.id,
+                      name: dataList[0]?.name
+                        ? dataList[0]?.name?.replace(/\s/g, '+').toLowerCase()
+                        : dataList[0]?.title?.replace(/\s/g, '+').toLowerCase(),
+                    },
+                  }"
+                >
+                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  </a-image>
+                  <div class="play-now">
+                    <font-awesome-icon icon="fa-solid fa-play" />
+                    <span>PHÁT NGAY</span>
+                  </div>
+                </router-link>
               </div>
               <img class="overlay-image" :src="getPoster(topicImage)" />
               <div class="info">
                 <h2 class="title">
                   <strong>Video đã thêm vào danh sách phát</strong>
                 </h2>
-                <p>
-                  <strong>
-                    {{ $store.state.userAccount?.username }}
-                  </strong>
-                </p>
-                <p class="count-video">
-                  {{ dataList?.length }} video
-                  <span> Cập nhật hôm nay </span>
-                </p>
+                <div class="user-info">
+                  <p>
+                    <strong>
+                      {{ $store.state.userAccount?.username }}
+                    </strong>
+                  </p>
+                  <p class="count-video">
+                    {{ total }} video
+                    <span> Cập nhật hôm nay </span>
+                  </p>
+                  <a-dropdown
+                    :trigger="['click']"
+                    placement="bottomRight"
+                    class="dropdown-viewmore"
+                  >
+                    <el-button
+                      circle
+                      shape="circle"
+                      size="large"
+                      class="viewmore-btn-follow"
+                      @click.prevent=""
+                    >
+                      <template #icon>
+                        <font-awesome-icon
+                          icon="fa-solid fa-ellipsis-vertical"
+                        />
+                      </template>
+                    </el-button>
+
+                    <template #overlay>
+                      <a-menu class="dropdown-viewmore">
+                        <a-menu-item key="info-list">
+                          <template #icon>
+                            <InfoCircleOutlined />
+                          </template>
+                          <span>Thông tin chi tiết</span>
+                        </a-menu-item>
+                      </a-menu>
+                    </template>
+                  </a-dropdown>
+                </div>
               </div>
 
               <div class="widget">
@@ -102,6 +255,18 @@
                     </el-tooltip>
                   </template>
                 </a-input-search>
+
+                <el-button
+                  round
+                  type="primary"
+                  shape="round"
+                  class="remove-all-follow-btn"
+                >
+                  <template #icon>
+                    <span class="material-icons-outlined"> delete_sweep </span>
+                  </template>
+                  Xóa tất cả Danh sách phát
+                </el-button>
               </div>
             </div>
           </a-layout-sider>
@@ -113,13 +278,18 @@
           </h2>
           <!-- <el-scrollbar height="100vh"> -->
           <section class="movie-follow" v-show="dataList?.length">
-            <MovieCardHorizontalFollow
+            <div
               v-for="(item, index) in dataList"
               :index="index"
               :key="item.id"
-              :item="item"
-              :type="item?.media_type"
-            />
+              class="movie-item-follow"
+            >
+              <span class="index-item">{{ index + 1 }} </span>
+              <MovieCardHorizontalFollow
+                :item="item"
+                :getDataWhenRemoveList="getDataWhenRemoveList"
+              />
+            </div>
           </section>
           <!-- </el-scrollbar> -->
         </a-layout-content>
@@ -140,27 +310,37 @@
 </template>
 
 <script>
-import { watch, onBeforeMount, computed, ref, getCurrentInstance } from 'vue';
+import {
+  watch,
+  onBeforeMount,
+  computed,
+  ref,
+  getCurrentInstance,
+  onMounted,
+} from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import MovieCardHorizontalFollow from '@/components/Normal/MovieCardHorizontalFollow/MovieCardHorizontalFollow.vue';
 import {
-  //  getList,
+  getList,
   getPoster,
-  getMovies,
+  // getMovies,
   getColorImage,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
+import { InfoCircleOutlined } from '@ant-design/icons-vue';
 // import { extractColors } from 'extract-colors';
+import disableScroll from 'disable-scroll';
 
 export default {
-  components: { MovieCardHorizontalFollow },
+  components: { MovieCardHorizontalFollow, InfoCircleOutlined },
   setup() {
     const route = useRoute();
     const store = useStore();
     const isLogin = computed(() => store.state.isLogin);
     const dataList = ref([]);
+    const total = ref(0);
     const internalInstance = getCurrentInstance();
     const loading = ref(false);
     const topicImage = ref('');
@@ -217,26 +397,33 @@ export default {
       // );
     };
 
+    onMounted(() => {
+      const ant_btn = document.querySelector(
+        '.topic-follow-column .viewmore-btn-follow'
+      );
+
+      ant_btn?.addEventListener('click', () => {
+        if (ant_btn?.classList.contains('ant-dropdown-open')) {
+          disableScroll.on();
+        } else {
+          disableScroll.off();
+        }
+      });
+
+      ant_btn?.addEventListener('blur', () => {
+        disableScroll.off();
+      });
+    });
+
     const getData = () => {
       loading.value = true;
       internalInstance.appContext.config.globalProperties.$Progress.start();
 
-      // getList(store?.state.userAccount?.id)
-      //   .then((movieRespone) => {
-      //     dataList.value = movieRespone.data?.items?.reverse();
-
-      //     setTimeout(() => {
-      //       internalInstance.appContext.config.globalProperties.$Progress.finish();
-      //     }, 500);
-      //   })
-      //   .catch((e) => {
-      //     if (axios.isCancel(e)) return;
-      //   });
-
-      getMovies(1)
+      getList(store?.state.userAccount?.id)
         .then((movieRespone) => {
-          dataList.value = movieRespone.data?.results?.reverse();
-          topicImage.value = dataList.value[2]?.backdrop_path;
+          dataList.value = movieRespone.data?.items?.reverse();
+          total.value = movieRespone.data?.items?.length;
+          topicImage.value = dataList.value[0]?.backdrop_path;
 
           getColorImage(topicImage.value)
             .then((colorResponse) => {
@@ -247,28 +434,38 @@ export default {
               if (axios.isCancel(e)) return;
             });
 
-          // const imageURL = getPoster(topicImage.value);
-
-          // const loadedImg = new Image();
-          // loadedImg.crossOrigin = 'Anonymous';
-          // loadedImg.src = imageURL;
-          // loadedImg.setAttribute('crossOrigin', '');
-
-          // extractColors(loadedImg.src)
-          //   .then((color) => {
-          //     console.log(color);
-          //   })
-          //   .catch(console.error);
-
           setTimeout(() => {
             internalInstance.appContext.config.globalProperties.$Progress.finish();
           }, 500);
           loading.value = false;
         })
         .catch((e) => {
-          loading.value = false;
           if (axios.isCancel(e)) return;
         });
+
+      // getMovies(1)
+      //   .then((movieRespone) => {
+      //     dataList.value = movieRespone.data?.results?.reverse();
+      //     topicImage.value = dataList.value[0]?.backdrop_path;
+
+      //     getColorImage(topicImage.value)
+      //       .then((colorResponse) => {
+      //         const color = colorResponse.data?.color;
+      //         setBackgroundColor(color);
+      //       })
+      //       .catch((e) => {
+      //         if (axios.isCancel(e)) return;
+      //       });
+
+      //     setTimeout(() => {
+      //       internalInstance.appContext.config.globalProperties.$Progress.finish();
+      //     }, 500);
+      //     loading.value = false;
+      //   })
+      //   .catch((e) => {
+      //     loading.value = false;
+      //     if (axios.isCancel(e)) return;
+      //   });
     };
 
     onBeforeMount(() => {
@@ -276,7 +473,7 @@ export default {
     });
 
     const getDataWhenRemoveList = (data) => {
-      dataList.value = data;
+      dataList.value = data?.reverse();
     };
 
     watch(route, () => {
@@ -287,6 +484,7 @@ export default {
       loading,
       isLogin,
       dataList,
+      total,
       topicImage,
       getData,
       getPoster,

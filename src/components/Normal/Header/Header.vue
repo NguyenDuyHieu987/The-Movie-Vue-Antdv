@@ -17,7 +17,7 @@
 
     <a-auto-complete
       v-model:value="valueInput"
-      class="center-header"
+      class="center-search-header"
       dropdown-class-name="certain-category-search-dropdown"
       :options="dataSearch"
       style="width: 40%; min-width: 350px; max-width: 550px"

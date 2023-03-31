@@ -148,7 +148,6 @@ import {
   onMounted,
   getCurrentInstance,
   createVNode,
-  h,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
@@ -167,11 +166,12 @@ import ListEpisodes from '@/components/Normal/ListEpisodes/ListEpisodes.vue';
 import { useMeta } from 'vue-meta';
 import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import {
   Modal,
   // message
 } from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 
 export default {
   components: {
@@ -296,8 +296,6 @@ export default {
           okText: 'Có',
           okType: 'primary',
           cancelText: 'Không',
-          centered: true,
-
           onOk() {
             router.push({ path: '/login' });
           },
@@ -306,135 +304,73 @@ export default {
         });
       } else {
         if (isAddToList.value == false) {
-          ElMessageBox({
-            title: 'Thông báo',
-            message: h(
-              'h3',
-              null,
-              'Bạn có muốn thêm phim vào danh sách theo dõi không?'
-            ),
-            showCancelButton: true,
-            showClose: false,
-            confirmButtonText: 'Có',
-            cancelButtonText: 'Không',
-            beforeClose: (action, instance, done) => {
-              if (action === 'confirm') {
-                instance.confirmButtonText = 'Đang thêm...';
-                instance.confirmButtonLoading = true;
-                addItemList(store.state?.userAccount?.id, {
-                  media_type: isEpisodes.value ? 'tv' : 'movie',
-                  media_id: dataMovie.value?.id,
-                })
-                  .then((response) => {
-                    if (response.data.success == true) {
-                      setTimeout(() => {
-                        done();
-                        setTimeout(() => {
-                          isAddToList.value = true;
-                          instance.confirmButtonLoading = false;
-                        }, 300);
-                      }, 2000);
-                    } else {
-                      ElMessage({
-                        type: 'error',
-                        message: `Thêm không thành công!`,
-                      });
-                    }
-                  })
-                  .catch((e) => {
-                    isAddToList.value = false;
-                    instance.confirmButtonLoading = false;
-                    ElMessage({
-                      type: 'error',
-                      message: `Thêm không thành công!`,
-                    });
-                    if (axios.isCancel(e)) return;
+          isAddToList.value = true;
+          message.loading({ content: 'Đang thêm' });
+          addItemList(store.state?.userAccount?.id, {
+            media_type: 'tv',
+            media_id: dataMovie.value?.id,
+          })
+            .then((response) => {
+              if (response.data.success == true) {
+                setTimeout(() => {
+                  message.destroy();
+                  ElMessage({
+                    type: 'success',
+                    message: `Thêm thành công!`,
                   });
+                }, 500);
               } else {
-                done();
+                message.destroy();
+                isAddToList.value = false;
+                ElMessage({
+                  type: 'error',
+                  message: `Thêm thất bại!`,
+                });
               }
-            },
-          }).then(() => {
-            ElMessage({
-              type: 'success',
-              message: `Thêm thành công!`,
+            })
+            .catch((e) => {
+              message.destroy();
+              isAddToList.value = false;
+              ElMessage({
+                type: 'error',
+                message: `Thêm thất bại!`,
+              });
+              if (axios.isCancel(e)) return;
             });
-          });
-
-          // message.loading({ content: 'Đang thêm...', duration: 2 });
-          // if (response.data.success == true) {
-          //   setTimeout(() => {
-          //     message.success({ content: 'Thêm thành công!', duration: 2 });
-          //     isAddToList.value = true;
-          //   }, 2200);
-          // }
         } else {
-          ElMessageBox({
-            title: 'Thông báo',
-            message: h(
-              'h3',
-              null,
-              'Bạn có muốn xóa phim khỏi danh sách theo dõi không?'
-            ),
-            showCancelButton: true,
-            showClose: false,
-            confirmButtonText: 'Có',
-            cancelButtonText: 'Không',
-            beforeClose: (action, instance, done) => {
-              if (action === 'confirm') {
-                instance.confirmButtonText = 'Đang xóa...';
-                instance.confirmButtonLoading = true;
-                removeItemList(store.state?.userAccount?.id, {
-                  media_id: dataMovie.value?.id,
-                })
-                  .then((response) => {
-                    if (response.data.success == true) {
-                      setTimeout(() => {
-                        done();
-                        setTimeout(() => {
-                          isAddToList.value = false;
-                          instance.confirmButtonLoading = false;
-                        }, 300);
-                      }, 2000);
-                    } else {
-                      ElMessage({
-                        type: 'error',
-                        message: `Xóa không thành công!`,
-                      });
-                    }
-                  })
-                  .catch((e) => {
-                    isAddToList.value = true;
-                    instance.confirmButtonLoading = false;
-                    ElMessage({
-                      type: 'error',
-                      message: `Xóa không thành công!`,
-                    });
-                    if (axios.isCancel(e)) return;
+          isAddToList.value = false;
+          message.loading({ content: 'Đang xóa' });
+
+          removeItemList(store.state?.userAccount?.id, {
+            media_id: dataMovie.value?.id,
+          })
+            .then((movieRespone) => {
+              if (movieRespone.data?.success == true) {
+                setTimeout(() => {
+                  message.destroy();
+                  ElMessage({
+                    type: 'success',
+                    message: `Xóa thành công!`,
                   });
+                }, 500);
               } else {
-                done();
+                message.destroy();
+                isAddToList.value = true;
+                ElMessage({
+                  type: 'error',
+                  message: `Xóa không thành công!`,
+                });
               }
-            },
-          }).then(() => {
-            ElMessage({
-              type: 'success',
-              message: `Xóa thành công!`,
+            })
+            .catch((e) => {
+              message.destroy();
+              isAddToList.value = true;
+              ElMessage({
+                type: 'error',
+                message: `Xóa không thành công!`,
+              });
+              if (axios.isCancel(e)) return;
             });
-          });
-
-          // removeItemList(store.state?.userAccount?.id, {
-          //   media_id: dataMovie.value?.id,
-          // }).then((response) => {
-          //   message.loading({ content: 'Đang xóa...', duration: 2 });
-
-          //   if (response.data.success == true) {
-          //     setTimeout(() => {
-          //       message.success({ content: 'Xóa thành công!', duration: 2 });
-          //       isAddToList.value = false;
-          //     }, 2200);
-          //   }
-          // });
         }
       }
     };

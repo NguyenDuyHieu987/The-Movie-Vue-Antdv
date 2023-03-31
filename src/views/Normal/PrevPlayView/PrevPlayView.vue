@@ -2,46 +2,9 @@
   <div class="prev-play-conainer">
     <div class="main-info">
       <div class="backdrop-img">
-        <el-image
-          :src="
-            getPoster(
-              dataMovie?.backdrop_path
-                ? dataMovie?.backdrop_path
-                : dataMovie?.poster_path
-            )
-          "
-          :preview-src-list="srcBackdropList"
-          :preview-teleported="true"
-        >
-          <template #placeholder>
-            <div
-              class="ant-image"
-              style="
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
-            >
-              Đang tải<span class="dot">...</span>
-            </div>
-          </template>
-          <template #error>
-            <div
-              class="el-image error"
-              style="
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
-            >
-              Đang tải<span class="dot">...</span>
-            </div>
-          </template>
-        </el-image>
-
-        <div class="poster-img">
+        <div class="backdrop-wrapper">
           <el-image
-            :src="getPoster(dataMovie?.poster_path)"
+            :src="getPoster(dataMovie?.backdrop_path)"
             :preview-src-list="srcBackdropList"
             :preview-teleported="true"
           >
@@ -71,41 +34,77 @@
             </template>
           </el-image>
 
-          <router-link
-            v-if="isEpisodes && !loading"
-            :to="{
-              name: 'playtv',
-              params: {
-                id: dataMovie?.id,
-                name: dataMovie?.name
-                  ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-                tap: 'tap-1',
-              },
-            }"
-            class="btn-play-now"
-          >
-            <font-awesome-icon icon="fa-solid fa-play" />
-            <span> Xem ngay</span>
-          </router-link>
-          <router-link
-            v-else-if="!isEpisodes && !loading"
-            :to="{
-              name: 'play',
-              params: {
-                id: dataMovie?.id,
-                name: dataMovie?.name
-                  ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-              },
-            }"
-            class="btn-play-now"
-          >
-            <font-awesome-icon icon="fa-solid fa-play" />
-            <span> Xem ngay</span>
-          </router-link>
+          <div class="poster-img">
+            <el-image
+              :src="getPoster(dataMovie?.poster_path)"
+              :preview-src-list="srcBackdropList"
+              :preview-teleported="true"
+            >
+              <template #placeholder>
+                <div
+                  class="ant-image"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  Đang tải<span class="dot">...</span>
+                </div>
+              </template>
+              <template #error>
+                <div
+                  class="el-image error"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  Đang tải<span class="dot">...</span>
+                </div>
+              </template>
+            </el-image>
 
-          <strong class="hd-brand">HD</strong>
+            <router-link
+              v-if="isEpisodes && !loading"
+              :to="{
+                name: 'playtv',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  tap: 'tap-1',
+                },
+              }"
+              class="btn-play-now"
+            >
+              <font-awesome-icon icon="fa-solid fa-play" />
+              <span> Xem ngay</span>
+            </router-link>
+            <router-link
+              v-else-if="!isEpisodes && !loading"
+              :to="{
+                name: 'play',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                },
+              }"
+              class="btn-play-now"
+            >
+              <font-awesome-icon icon="fa-solid fa-play" />
+              <span> Xem ngay</span>
+            </router-link>
+
+            <strong class="hd-brand">HD</strong>
+          </div>
+        </div>
+        <div class="overlay-backdrop">
+          <img :src="getPoster(dataMovie?.backdrop_path)" />
         </div>
       </div>
 
@@ -584,13 +583,10 @@ import {
   getTvById,
   getMovieById,
   getLanguage,
-  // getMovieByCredit,
-  // getTvByCredit,
   addItemList,
   removeItemList,
   getList,
-  // getMovieBySimilar,
-  // getTrending,
+  // getColorImage,
 } from '@/services/MovieService';
 import carousel from 'vue-owl-carousel/src/Carousel';
 import Interaction from '@/components/Normal/Interaction/Interaction.vue';
@@ -607,6 +603,7 @@ import {
 import { removeVietnameseTones } from '@/untils/RemoveVietnameseTones';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { useMeta } from 'vue-meta';
+import { message } from 'ant-design-vue';
 
 export default {
   components: {
@@ -676,6 +673,8 @@ export default {
     const btnPrev = ref('<i class="fa-solid fa-chevron-left"></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right"></i>');
     const internalInstance = getCurrentInstance();
+
+    onMounted(() => {});
 
     const getData = () => {
       isAddToList.value = false;
@@ -767,15 +766,6 @@ export default {
           if (axios.isCancel(e)) return;
         });
 
-      // getMovieByCredit(isEpisodes.value ? 'tv' : 'movie', route.params?.id)
-      //   .then((movieResponed) => {
-      //     dataCredit.value = movieResponed?.data;
-      //   })
-      //   .catch((e) => {
-      //     loading.value = false;
-      //     if (axios.isCancel(e)) return;
-      //   });
-
       if (store.state.isLogin) {
         getList(store.state?.userAccount?.id)
           .then((movieRespone) => {
@@ -806,7 +796,7 @@ export default {
       trailer_youtube.scrollIntoView();
     };
 
-    const handelAddToList = () => {
+    const temp = () => {
       if (!store.state.isLogin) {
         Modal.confirm({
           title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
@@ -958,6 +948,95 @@ export default {
       }
     };
 
+    const handelAddToList = () => {
+      if (!store.state.isLogin) {
+        Modal.confirm({
+          title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
+          icon: createVNode(QuestionCircleOutlined),
+          // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
+          content: createVNode('h3', {}, 'Đăng nhập ngay?'),
+          okText: 'Có',
+          okType: 'primary',
+          cancelText: 'Không',
+          onOk() {
+            router.push({ path: '/login' });
+          },
+          onCancel() {},
+          class: 'require-login-confirm',
+        });
+      } else {
+        if (isAddToList.value == false) {
+          isAddToList.value = true;
+          message.loading({ content: 'Đang thêm' });
+          addItemList(store.state?.userAccount?.id, {
+            media_type: isEpisodes.value ? 'tv' : 'movie',
+            media_id: dataMovie.value?.id,
+          })
+            .then((response) => {
+              if (response.data.success == true) {
+                setTimeout(() => {
+                  message.destroy();
+                  ElMessage({
+                    type: 'success',
+                    message: `Thêm thành công!`,
+                  });
+                }, 500);
+              } else {
+                message.destroy();
+                isAddToList.value = false;
+                ElMessage({
+                  type: 'error',
+                  message: `Thêm thất bại!`,
+                });
+              }
+            })
+            .catch((e) => {
+              message.destroy();
+              isAddToList.value = false;
+              ElMessage({
+                type: 'error',
+                message: `Thêm thất bại!`,
+              });
+              if (axios.isCancel(e)) return;
+            });
+        } else {
+          isAddToList.value = false;
+          message.loading({ content: 'Đang xóa' });
+
+          removeItemList(store.state?.userAccount?.id, {
+            media_id: dataMovie.value?.id,
+          })
+            .then((movieRespone) => {
+              if (movieRespone.data?.success == true) {
+                setTimeout(() => {
+                  message.destroy();
+                  ElMessage({
+                    type: 'success',
+                    message: `Xóa thành công!`,
+                  });
+                }, 500);
+              } else {
+                message.destroy();
+                isAddToList.value = true;
+                ElMessage({
+                  type: 'error',
+                  message: `Xóa không thành công!`,
+                });
+              }
+            })
+            .catch((e) => {
+              message.destroy();
+              isAddToList.value = true;
+              ElMessage({
+                type: 'error',
+                message: `Xóa không thành công!`,
+              });
+              if (axios.isCancel(e)) return;
+            });
+        }
+      }
+    };
+
     const handelRequireLogin = () => {
       router.push({ path: '/login' });
     };
@@ -1019,6 +1098,7 @@ export default {
       handelAddToList,
       handelRequireLogin,
       removeVietnameseTones,
+      temp,
     };
   },
 };

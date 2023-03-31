@@ -20,6 +20,10 @@
         </a-layout-content>
         <Footer />
       </a-layout>
+      <a-layout
+        v-show="$route.path == '/history'"
+        id="topic-history-column-teleport"
+      ></a-layout>
     </a-layout>
   </a-layout>
 </template>
@@ -54,23 +58,12 @@ export default {
 <style lang="scss" scoped>
 @media only screen and (min-width: 2160px) {
   .ant-layout.main-content {
-    margin: 0px auto;
-    max-width: 2160px;
   }
-
-  .body-content:has(.topic-follow-column) {
-    .ant-layout.main-content {
-      margin-left: 0px;
-    }
-  }
-}
-
-.ant-layout.main-content {
-  width: 100%;
 }
 
 .ant-layout {
-  background: #000;
+  background-color: var(--background-content-color);
+  // background-color: transparent;
 }
 
 .body-content {
@@ -78,27 +71,34 @@ export default {
   min-height: calc(100vh - var(--header-height));
   margin-top: var(--header-height);
   transition: all 0.2s;
-  background: #000;
-}
 
-.body-content.expand {
-  margin-left: var(--sider-collapsed-width);
-}
-
-.ant-layout-content {
-  // min-height: calc(100vh - 130px);
-  padding: 15px 20px;
-  background-color: var(--background-content-color);
-
-  & > .wrapper {
-    width: 100%;
-    overflow: hidden;
+  &.expand {
+    margin-left: var(--sider-collapsed-width);
   }
 }
 
+.ant-layout.main-content {
+  width: 100%;
+  // height: 100%;
+  max-width: 2160px;
+  margin: 0px auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.ant-layout-content.container {
+  // min-height: calc(100vh - 130px);
+  padding: 15px 20px;
+  // background-color: var(--background-content-color);
+  background-color: transparent;
+
+  & > .wrapper {
+    width: 100%;
+  }
+}
 @media (prefers-color-scheme: dark) {
   .ant-layout-content.container {
-    background-color: var(--background-content-color);
+    // background-color: var(--background-content-color);
   }
 }
 

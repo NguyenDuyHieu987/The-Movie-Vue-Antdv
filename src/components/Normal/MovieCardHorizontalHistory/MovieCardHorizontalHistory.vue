@@ -34,10 +34,10 @@
           getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(' • ')
         }}
       </p>
-      <p class="release-date">
+      <!-- <p class="release-date">
         Năm:
         {{ item?.release_date ? item?.release_date : item?.first_air_date }}
-      </p>
+      </p> -->
       <p v-if="item?.last_episode_to_air" class="duration-episode">
         Tập mới nhất:
         {{
@@ -56,84 +56,124 @@
       </p>
     </div>
 
-    <a-dropdown :trigger="['click']" class="dropdown-viewmore">
-      <a-button
-        circle
-        shape="circle"
-        size="large"
-        class="viewmore-btn"
-        @click.prevent=""
+    <div class="action">
+      <el-tooltip
+        title="Xóa khỏi Lịch sử xem"
+        content="Xóa khỏi Lịch sử xem"
+        effect="dark"
+        placement="bottom"
       >
-        <template #icon>
-          <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+        <el-button
+          circle
+          shape="circle"
+          size="large"
+          class="remove-btn"
+          @click.prevent=""
+        >
+          <template #icon>
+            <Close />
+          </template>
+        </el-button>
+      </el-tooltip>
+
+      <a-dropdown
+        :trigger="['click']"
+        placement="bottomRight"
+        class="dropdown-viewmore"
+      >
+        <el-button
+          circle
+          shape="circle"
+          size="large"
+          class="viewmore-btn"
+          @click.prevent=""
+        >
+          <template #icon>
+            <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+          </template>
+        </el-button>
+
+        <template #overlay>
+          <a-menu class="dropdown-item-viewmore">
+            <div class="main-action">
+              <a-menu-item key="play">
+                <template #icon>
+                  <font-awesome-icon icon="fa-solid fa-play" />
+                </template>
+
+                <router-link
+                  v-if="isEpisodes && !loading"
+                  :to="{
+                    name: 'playtv',
+                    params: {
+                      id: dataMovie?.id,
+                      name: dataMovie?.name
+                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                      tap: 'tap-1',
+                    },
+                  }"
+                  class="btn-play-now"
+                >
+                  <span> Đến trang xem phim </span>
+                </router-link>
+                <router-link
+                  v-else-if="!isEpisodes && !loading"
+                  :to="{
+                    name: 'play',
+                    params: {
+                      id: dataMovie?.id,
+                      name: dataMovie?.name
+                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                    },
+                  }"
+                  class="btn-play-now"
+                >
+                  <span>Đến trang xem phim</span>
+                </router-link>
+              </a-menu-item>
+              <a-menu-item key="add-list">
+                <template #icon>
+                  <span class="material-icons-outlined"> playlist_add </span>
+                </template>
+                <span>Thêm vào Danh sách phát</span>
+              </a-menu-item>
+
+              <a-menu-item key="share">
+                <template #icon>
+                  <font-awesome-icon icon="fa-solid fa-share" />
+                </template>
+                <span>
+                  <ShareNetwork
+                    network="facebook"
+                    :url="urlShare"
+                    :title="
+                      dataMovie?.name ? dataMovie?.name : dataMovie?.title
+                    "
+                    hashtags="phimhay247.site,vite"
+                    style="white-space: nowrap; display: block"
+                  >
+                    Chia sẻ
+                  </ShareNetwork>
+                </span>
+              </a-menu-item>
+            </div>
+
+            <hr />
+
+            <div class="danger-zone">
+              <a-menu-item key="remove-history" class="remove-history">
+                <template #icon>
+                  <font-awesome-icon icon="fa-solid fa-trash-can" />
+                </template>
+                <span>Xóa khỏi Lịch sử xem</span>
+              </a-menu-item>
+            </div>
+          </a-menu>
         </template>
-      </a-button>
-
-      <template #overlay>
-        <a-menu class="dropdown-viewmore">
-          <a-menu-item key="play">
-            <template #icon>
-              <font-awesome-icon icon="fa-solid fa-play" />
-            </template>
-
-            <router-link
-              v-if="isEpisodes && !loading"
-              :to="{
-                name: 'playtv',
-                params: {
-                  id: dataMovie?.id,
-                  name: dataMovie?.name
-                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-                  tap: 'tap-1',
-                },
-              }"
-              class="btn-play-now"
-            >
-              <span> Đến trang xem phim </span>
-            </router-link>
-            <router-link
-              v-else-if="!isEpisodes && !loading"
-              :to="{
-                name: 'play',
-                params: {
-                  id: dataMovie?.id,
-                  name: dataMovie?.name
-                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
-                },
-              }"
-              class="btn-play-now"
-            >
-              <span>Đến trang xem phim</span>
-            </router-link>
-          </a-menu-item>
-          <a-menu-item key="add-list">
-            <template #icon>
-              <span class="material-icons-outlined"> playlist_add </span>
-            </template>
-            <span>Thêm vào danh sách phát</span>
-          </a-menu-item>
-
-          <a-menu-item key="share">
-            <template #icon>
-              <font-awesome-icon icon="fa-solid fa-share" />
-            </template>
-            <span>
-              <ShareNetwork
-                network="facebook"
-                :url="urlShare"
-                :title="dataMovie?.name ? dataMovie?.name : dataMovie?.title"
-                hashtags="phimhay247.site,vite"
-                style="white-space: nowrap; display: block"
-              >
-                Chia sẻ
-              </ShareNetwork>
-            </span>
-          </a-menu-item>
-        </a-menu>
-      </template>
-    </a-dropdown>
+      </a-dropdown>
+    </div>
   </router-link>
 </template>
 <script>
@@ -148,9 +188,11 @@ import {
 } from '@/services/MovieService';
 import axios from 'axios';
 import disableScroll from 'disable-scroll';
+// import { CloseOutlined } from '@ant-design/icons-vue';
+import { Close } from '@element-plus/icons-vue';
 
 export default {
-  components: {},
+  components: { Close },
   props: {
     item: {
       type: Object,
@@ -168,19 +210,20 @@ export default {
 
     onBeforeMount(() => {
       loading.value = true;
+      const ant_btn = document.querySelectorAll('.action .viewmore-btn');
 
-      const ant_btn = document.querySelector('.viewmore-btn');
+      ant_btn?.forEach((btn) => {
+        btn?.addEventListener('click', () => {
+          if (btn?.classList.contains('ant-dropdown-open')) {
+            disableScroll.on();
+          } else {
+            disableScroll.off();
+          }
+        });
 
-      ant_btn?.addEventListener('click', () => {
-        if (ant_btn?.classList.contains('ant-dropdown-open')) {
-          disableScroll.on();
-        } else {
+        btn?.addEventListener('blur', () => {
           disableScroll.off();
-        }
-      });
-
-      ant_btn?.addEventListener('blur', () => {
-        disableScroll.off();
+        });
       });
 
       if (props?.type) {

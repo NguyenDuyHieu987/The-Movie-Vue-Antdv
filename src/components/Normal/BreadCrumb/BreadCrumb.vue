@@ -18,12 +18,11 @@
       v-for="(item, index) in path"
       :index="index"
       :key="index"
+      style="text-transform: capitalize"
     >
-      <router-link
-        :to="{ path: $route.path }"
-        style="text-transform: capitalize"
-        >{{ item?.name?.replaceAll('+', ' ') }}</router-link
-      >
+      <router-link :to="{ path: $route.path }">{{
+        item?.name?.replaceAll('+', ' ')
+      }}</router-link>
     </a-breadcrumb-item>
   </a-breadcrumb>
 </template>
@@ -40,9 +39,7 @@ export default {
     const route = useRoute();
     const store = useStore();
 
-    // path.value = route.path.slice(1).replaceAll('/', ', ').split(', ');
-
-    const path = computed(() => {
+    const getParamsRoute = () => {
       const breadList = [];
 
       switch (
@@ -108,16 +105,24 @@ export default {
           break;
       }
 
-      if (route.params?.name) {
-        breadList.push({ params: 'years', name: route.params.name });
+      if (route.params?.id && route.params?.name) {
+        breadList.push({ params: '', name: route.params.name });
       }
 
       return breadList;
+    };
+
+    const path = computed(() => {
+      return getParamsRoute();
     });
+
+    // watch(route, () => {
+    //   path.value = getParamsRoute();
+    // });
 
     return { path };
   },
 };
 </script>
 
-<style scoped lang="scss" src="./BreadCrumb.scss"></style>
+<style lang="scss" src="./BreadCrumb.scss"></style>

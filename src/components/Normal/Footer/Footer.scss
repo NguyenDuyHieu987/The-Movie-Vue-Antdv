@@ -1,11 +1,11 @@
 @media (prefers-color-scheme: dark) {
   .ant-layout-footer.footer {
-    background-color: var(--background-content-color);
+    // background-color: var(--background-content-color);
   }
 }
 
 .ant-layout-footer.footer {
-  background-color: var(--footer-background-color);
+  background-color: transparent;
   border-top: 1px solid var(--border-regular);
   margin-top: auto;
   display: flex;
