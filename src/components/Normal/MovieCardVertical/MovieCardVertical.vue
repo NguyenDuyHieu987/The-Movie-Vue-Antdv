@@ -114,6 +114,12 @@
           @load="onLoadImg"
         >
         </a-image>
+        <div
+          v-show="isInHistory"
+          class="percent-viewed"
+          :style="{ width: percent * 100 + '%' }"
+        ></div>
+        <div v-show="isInHistory" class="viewed-overlay-bar"></div>
       </div>
 
       <div class="bottom-content">
@@ -292,6 +298,7 @@ import {
   removeItemList,
   // getList,
   getItemList,
+  getItemHistory,
 } from '@/services/MovieService';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -321,6 +328,8 @@ export default {
     const loading = ref(false);
     // const dataAddToList = ref([]);
     const isAddToList = ref(false);
+    const isInHistory = ref(false);
+    const percent = ref(0);
     const urlShare = computed(() => window.location);
 
     onMounted(() => {
@@ -452,16 +461,6 @@ export default {
       //   });
 
       if (store.state.isLogin) {
-        getItemList(store.state?.userAccount?.id, props.item?.id)
-          .then((movieRespone) => {
-            if (movieRespone?.data.success == true) {
-              isAddToList.value = true;
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-
         // getList(store.state?.userAccount?.id)
         //   .then((movieRespone) => {
         //     dataAddToList.value = movieRespone?.data?.items;
@@ -475,6 +474,27 @@ export default {
         //   .catch((e) => {
         //     if (axios.isCancel(e)) return;
         //   });
+
+        getItemList(store.state?.userAccount?.id, props.item?.id)
+          .then((movieRespone) => {
+            if (movieRespone?.data.success == true) {
+              isAddToList.value = true;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+
+        getItemHistory(store.state?.userAccount?.id, props.item?.id)
+          .then((movieRespone) => {
+            if (movieRespone?.data.success == true) {
+              isInHistory.value = true;
+              percent.value = movieRespone?.data?.result?.percent;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
       }
     });
 
@@ -572,6 +592,8 @@ export default {
       isAddToList,
       dataMovie,
       loading,
+      isInHistory,
+      percent,
       urlShare,
       handelAddToList,
       getPoster,

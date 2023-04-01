@@ -44,7 +44,7 @@ import {
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube, faFacebookF } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { faEnvelope, faBell } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
   faVideoCamera,
@@ -71,7 +71,8 @@ library.add(
   faShareAlt,
   faClockRotateLeft,
   faEllipsisV,
-  faTrashCan
+  faTrashCan,
+  faBell
 );
 
 const gauthOption = {

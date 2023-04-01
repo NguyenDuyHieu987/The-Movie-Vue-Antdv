@@ -33,6 +33,13 @@
 
           <!-- <a-skeleton-image v-else class="ant-image" /> -->
 
+          <div
+            v-show="isInHistory"
+            class="percent-viewed"
+            :style="{ width: percent * 100 + '%' }"
+          ></div>
+          <div v-show="isInHistory" class="viewed-overlay-bar"></div>
+
           <div v-if="!loading" class="duration-episode-box">
             <p class="duration-episode">
               {{
@@ -215,7 +222,9 @@ import {
   getTvById,
   getMovieById,
   getLanguage,
+  getItemHistory,
 } from '@/services/MovieService';
+import { useStore } from 'vuex';
 
 export default {
   components: {},
@@ -228,9 +237,12 @@ export default {
     },
   },
   setup(props) {
+    const store = useStore();
     const dataMovie = ref({});
     const isEpisodes = ref(false);
     const loading = ref(false);
+    const isInHistory = ref(false);
+    const percent = ref(0);
     const isOenModalTrailer = ref(false);
 
     onBeforeMount(() => {
@@ -240,6 +252,7 @@ export default {
         switch (props?.type) {
           case 'movie':
             isEpisodes.value = false;
+
             getMovieById(props.item?.id)
               .then((movieResponed) => {
                 dataMovie.value = movieResponed?.data;
@@ -331,6 +344,18 @@ export default {
       //       loading.value = false;
       //       if (axios.isCancel(e)) return;
       //     });
+      if (store.state.isLogin) {
+        getItemHistory(store.state?.userAccount?.id, props.item?.id)
+          .then((movieRespone) => {
+            if (movieRespone?.data.success == true) {
+              isInHistory.value = true;
+              percent.value = movieRespone?.data?.result?.percent;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
     });
 
     const handleClickTrailerIcon = () => {
@@ -345,6 +370,8 @@ export default {
       isEpisodes,
       dataMovie,
       loading,
+      isInHistory,
+      percent,
       isOenModalTrailer,
       getPoster,
       getAllGenresById,

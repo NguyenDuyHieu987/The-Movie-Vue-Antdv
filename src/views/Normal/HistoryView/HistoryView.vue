@@ -252,6 +252,7 @@ import { InfoCircleOutlined } from '@ant-design/icons-vue';
 import disableScroll from 'disable-scroll';
 import { ElMessage } from 'element-plus';
 import { message } from 'ant-design-vue';
+import _ from 'lodash';
 
 export default {
   components: { MovieCardHorizontalHistory, InfoCircleOutlined },
@@ -260,6 +261,7 @@ export default {
     const store = useStore();
     const isLogin = computed(() => store.state.isLogin);
     const total = ref(0);
+    const skip = ref(1);
     const dataHistory = ref([]);
     const loading = ref(false);
     const topicImage = ref('/d0YSRmp819pMRnKLfGMgAQchpnR.jpg');
@@ -346,9 +348,9 @@ export default {
       getHistory(store?.state.userAccount?.id)
         // getMovies(1)
         .then((movieRespone) => {
-          if (movieRespone.data?.items?.length > 0) {
-            dataHistory.value = movieRespone.data?.items?.reverse();
-            total.value = movieRespone.data?.items?.length;
+          if (movieRespone.data?.result?.items?.length > 0) {
+            dataHistory.value = movieRespone.data?.result?.items;
+            total.value = movieRespone.data?.total;
             topicImage.value = dataHistory.value[0]?.backdrop_path;
           }
 
@@ -374,11 +376,32 @@ export default {
 
     onBeforeMount(() => {
       getData();
+
+      const scrollBottom = require('scroll-bottom');
+      window.onscroll = () => {
+        if (scrollBottom() == 0) {
+          getHistory(store?.state.userAccount?.id, skip.value)
+            .then((movieRespone) => {
+              if (movieRespone.data?.result?.length > 0) {
+                dataHistory.value = dataHistory.value.concat(
+                  movieRespone.data?.result
+                );
+                skip.value += 1;
+              }
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+        }
+      };
     });
 
     const getDataWhenRemoveHistory = (data) => {
-      dataHistory.value = data;
-      total.value = data?.length;
+      // dataHistory.value = data;
+      dataHistory.value = _.reject(dataHistory.value, (x) => {
+        return x.id === data;
+      });
+      // total.value = data?.length;
     };
 
     const removeAllHistoryList = () => {

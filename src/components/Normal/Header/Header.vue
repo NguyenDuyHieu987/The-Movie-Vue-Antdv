@@ -103,6 +103,49 @@
         style="height: 100%; background: transparent"
         triggerSubMenuAction="click"
       >
+        <a-menu-item key="notification" v-if="$store.state?.isLogin">
+          <a-dropdown
+            :trigger="['click']"
+            class="dropdown-notification"
+            placement="bottomRight"
+          >
+            <a class="ant-dropdown-link" @click.prevent>
+              <a-badge :count="3" :overflow-count="9">
+                <font-awesome-icon icon="fa-regular fa-bell" />
+              </a-badge>
+            </a>
+
+            <template #overlay>
+              <a-menu class="dropdown-notification">
+                <a-layout-header class="notification-header">
+                  <span> Thông báo</span>
+                </a-layout-header>
+
+                <a-menu-item-group class="public" key="public">
+                  <template #title>
+                    <p>Thông báo chung</p>
+                    <p>1</p>
+                  </template>
+                  <a-menu-item key="1"
+                    >Chào mừng bạn đến với Phimhay247</a-menu-item
+                  >
+                </a-menu-item-group>
+
+                <div class="separate" />
+
+                <a-menu-item-group class="private" key="private">
+                  <template #title>
+                    <p>Thông báo cá nhân</p>
+                    <p>2</p>
+                  </template>
+                  <a-menu-item key="3">Option 1</a-menu-item>
+                  <a-menu-item key="4">Option 2</a-menu-item>
+                </a-menu-item-group>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </a-menu-item>
+
         <a-menu-item key="account">
           <template #icon>
             <UserOutlined />
@@ -113,7 +156,7 @@
               <CaretDownOutlined />
             </a>
             <template #overlay>
-              <a-menu>
+              <a-menu class="dropdown-account">
                 <a-menu-item key="my-profile" v-if="$store.state?.isLogin">
                   <router-link :to="{ name: 'profile' }"
                     ><span>My Profile</span>

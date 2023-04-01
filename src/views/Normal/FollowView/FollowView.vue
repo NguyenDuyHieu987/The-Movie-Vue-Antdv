@@ -353,6 +353,7 @@ import {
 import disableScroll from 'disable-scroll';
 import { ElMessage } from 'element-plus';
 import { message, Modal } from 'ant-design-vue';
+import _ from 'lodash';
 
 export default {
   components: { MovieCardHorizontalFollow, InfoCircleOutlined },
@@ -362,6 +363,7 @@ export default {
     const isLogin = computed(() => store.state.isLogin);
     const dataList = ref([]);
     const total = ref(0);
+    const skip = ref(1);
     const internalInstance = getCurrentInstance();
     const loading = ref(false);
     const topicImage = ref('/d0YSRmp819pMRnKLfGMgAQchpnR.jpg');
@@ -442,9 +444,9 @@ export default {
 
       getList(store?.state.userAccount?.id)
         .then((movieRespone) => {
-          if (movieRespone.data?.items?.length > 0) {
-            dataList.value = movieRespone.data?.items?.reverse();
-            total.value = movieRespone.data?.items?.length;
+          if (movieRespone.data?.result?.items?.length > 0) {
+            dataList.value = movieRespone.data?.result?.items;
+            total.value = movieRespone.data?.total;
             topicImage.value = dataList.value[0]?.backdrop_path;
           }
 
@@ -465,39 +467,55 @@ export default {
         .catch((e) => {
           if (axios.isCancel(e)) return;
         });
-
-      // getMovies(1)
-      //   .then((movieRespone) => {
-      //     dataList.value = movieRespone.data?.results?.reverse();
-      //     topicImage.value = dataList.value[0]?.backdrop_path;
-
-      //     getColorImage(topicImage.value)
-      //       .then((colorResponse) => {
-      //         const color = colorResponse.data?.color;
-      //         setBackgroundColor(color);
-      //       })
-      //       .catch((e) => {
-      //         if (axios.isCancel(e)) return;
-      //       });
-
-      //     setTimeout(() => {
-      //       internalInstance.appContext.config.globalProperties.$Progress.finish();
-      //     }, 500);
-      //     loading.value = false;
-      //   })
-      //   .catch((e) => {
-      //     loading.value = false;
-      //     if (axios.isCancel(e)) return;
-      //   });
     };
 
     onBeforeMount(() => {
       getData();
+
+      // var scrollBefore = 0;
+      const scrollBottom = require('scroll-bottom');
+      window.onscroll = () => {
+        // console.log('scroll bottom =', scrollBottom());
+        // const scrolled = window.scrollY;
+
+        // const bottomOfWindow =
+        //   document.documentElement.scrollTop + window.innerHeight >
+        //   document.documentElement.scrollHeight - 200;
+
+        // const bottomOfWindow = window.scrollY > window.innerHeight - 200
+        // console.log(document.documentElement.scrollHeight);
+
+        // if (scrollBefore > scrolled) {
+        //   //ScrollUP
+        //   scrollBefore = scrolled;
+        // } else {
+        //   //ScrollDOWN
+        //   scrollBefore = scrolled;
+        if (scrollBottom() == 0) {
+          getList(store?.state.userAccount?.id, skip.value)
+            .then((movieRespone) => {
+              if (movieRespone.data?.result?.length > 0) {
+                dataList.value = dataList.value.concat(
+                  movieRespone.data?.result
+                );
+
+                skip.value += 1;
+              }
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+        }
+        // }
+      };
     });
 
     const getDataWhenRemoveList = (data) => {
-      dataList.value = data?.reverse();
-      total.value = data?.length;
+      // dataList.value = data;
+      dataList.value = _.reject(dataList.value, (x) => {
+        return x.id === data;
+      });
+      // total.value = data?.length;
     };
 
     watch(route, () => {

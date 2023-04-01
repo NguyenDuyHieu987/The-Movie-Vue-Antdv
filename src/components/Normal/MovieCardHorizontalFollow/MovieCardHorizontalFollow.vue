@@ -17,6 +17,12 @@
         <!-- v-if="!loading" -->
         <a-image :src="getPoster(dataMovie?.backdrop_path)" :preview="false">
         </a-image>
+        <div
+          v-show="isInHistory"
+          class="percent-viewed"
+          :style="{ width: percent * 100 + '%' }"
+        ></div>
+        <div v-show="isInHistory" class="viewed-overlay-bar"></div>
       </div>
 
       <div class="info">
@@ -169,6 +175,7 @@ import {
   removeItemList,
   getMovieById,
   getTvById,
+  getItemHistory,
 } from '@/services/MovieService';
 import axios from 'axios';
 import disableScroll from 'disable-scroll';
@@ -198,6 +205,8 @@ export default {
     const dataMovie = ref({});
     const isEpisodes = ref(false);
     const loading = ref(false);
+    const isInHistory = ref(false);
+    const percent = ref(0);
     const urlShare = computed(() => window.location);
 
     onBeforeMount(() => {
@@ -285,6 +294,17 @@ export default {
             });
         }
       }
+
+      getItemHistory(store.state?.userAccount?.id, props.item?.id)
+        .then((movieRespone) => {
+          if (movieRespone?.data.success == true) {
+            isInHistory.value = true;
+            percent.value = movieRespone?.data?.result?.percent;
+          }
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     });
 
     const temp = () => {
@@ -351,7 +371,8 @@ export default {
         .then((movieRespone) => {
           if (movieRespone.data?.success == true) {
             setTimeout(() => {
-              props.getDataWhenRemoveList(movieRespone.data?.results);
+              // props.getDataWhenRemoveList(movieRespone.data?.results);
+              props.getDataWhenRemoveList(props.item?.id);
               message.destroy();
               ElMessage({
                 type: 'success',
@@ -380,6 +401,8 @@ export default {
       dataMovie,
       isEpisodes,
       loading,
+      isInHistory,
+      percent,
       urlShare,
       getPoster,
       getAllGenresById,

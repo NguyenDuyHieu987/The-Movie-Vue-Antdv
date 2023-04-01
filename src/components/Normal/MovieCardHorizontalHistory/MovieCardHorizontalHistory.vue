@@ -418,7 +418,9 @@ export default {
         .then((movieRespone) => {
           if (movieRespone.data?.success == true) {
             setTimeout(() => {
-              props.getDataWhenRemoveHistory(movieRespone.data?.results);
+              // props.getDataWhenRemoveHistory(movieRespone.data?.results);
+              props.getDataWhenRemoveHistory(props.item?.id);
+
               message.destroy();
               ElMessage({
                 type: 'success',

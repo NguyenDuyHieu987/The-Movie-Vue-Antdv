@@ -102,7 +102,7 @@ const getMoviesByGenres = async (genre_id, page) => {
 
 const getRanking = async (page) => {
   return await axios.get(
-    `${URL_API}/discover/all?api=hieu987&sort_by=popularity_desc&page=${page}`
+    `${URL_API}/discover/all?api=hieu987&sort_by=views_desc&page=${page}`
   );
 };
 
@@ -151,15 +151,15 @@ const getMovieBySimilar = async (type, genres, page) => {
   );
 };
 
-const getList = async (userID) =>
-  await axios.get(`${URL_API}/list/${userID}/getlist?api=hieu987`);
+const getList = async (userID, skip = 0) =>
+  await axios.get(`${URL_API}/list/${userID}/getlist?skip=${skip}&api=hieu987`);
 
 const getItemList = async (userID, movieId) =>
   await axios.get(`${URL_API}/list/${userID}/getitem/${movieId}?api=hieu987`);
 
-const getHistory = async (userID, page) =>
+const getHistory = async (userID, skip = 0) =>
   await axios.get(
-    `${URL_API}/history/${userID}/gethistory?api=hieu987&page=${page}`
+    `${URL_API}/history/${userID}/gethistory?skip=${skip}&api=hieu987`
   );
 
 const getItemHistory = async (userID, movieId) =>

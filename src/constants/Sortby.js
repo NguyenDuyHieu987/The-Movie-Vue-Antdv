@@ -1,6 +1,6 @@
 export default [
   {
-    id: 'popularity_desc',
+    id: 'views_desc',
     name: 'Xem nhiều',
   },
   {
