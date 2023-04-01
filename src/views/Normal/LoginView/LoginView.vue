@@ -121,7 +121,7 @@ import { useStore } from 'vuex';
 import axios from 'axios';
 import md5 from 'md5';
 import { signIn } from '@/services/MovieService';
-import { setWithExpiry } from '@/untils/LocalStorage';
+import { setWithExpiry } from '@/utils/LocalStorage';
 // import { googleAuthCodeLogin } from 'vue3-google-login';
 import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';

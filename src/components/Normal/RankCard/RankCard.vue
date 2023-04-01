@@ -1,11 +1,13 @@
 <template>
   <router-link
     :to="{
-      path: `/info/${item?.id}/${
-        item?.name
+      name: item?.type || item?.media_type == 'tv' ? 'infoTV' : 'info',
+      params: {
+        id: item?.id,
+        name: item?.name
           ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase()
-      }`,
+          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+      },
     }"
     class="movie-rank-item"
   >
@@ -18,36 +20,43 @@
 
     <!-- <a-tooltip :title="getLanguage(item?.original_language)?.english_name"> -->
     <div class="info">
-      <p class="title">
-        {{ item?.name ? item?.name : item?.title }}
-        <span v-if="isEpisodes">
-          {{ ' - Phần ' + item?.last_episode_to_air?.season_number }}
-        </span>
-      </p>
-      <p class="genres" v-if="item?.genres">
-        {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
-      </p>
-      <p class="genres" v-else-if="item?.genre_ids">
-        {{
-          getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(' • ')
-        }}
-      </p>
-      <p class="release-date">
-        Năm:
-        {{ item?.release_date ? item?.release_date : item?.first_air_date }}
-      </p>
-      <p v-if="item?.last_episode_to_air" class="duration-episode">
-        Tập mới nhất:
-        {{
-          item?.last_episode_to_air?.episode_number
-            ? 'Tập ' + item?.last_episode_to_air?.episode_number
-            : ''
-        }}
-      </p>
-      <p v-else-if="item?.runtime" class="duration-episode">
-        Thời lượng:
-        {{ item?.runtime ? item?.runtime + ' phút' : '' }}
-      </p>
+      <div class="top">
+        <p class="title">
+          {{ item?.name ? item?.name : item?.title }}
+          <span v-if="isEpisodes">
+            {{ ' - Phần ' + item?.last_episode_to_air?.season_number }}
+          </span>
+        </p>
+        <p class="genres" v-if="item?.genres">
+          {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
+        </p>
+        <p class="genres" v-else-if="item?.genre_ids">
+          {{
+            getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
+              ' • '
+            )
+          }}
+        </p>
+        <p class="release-date">
+          Năm:
+          {{ item?.release_date ? item?.release_date : item?.first_air_date }}
+        </p>
+        <p v-if="item?.last_episode_to_air" class="duration-episode">
+          Tập mới nhất:
+          {{
+            item?.last_episode_to_air?.episode_number
+              ? 'Tập ' + item?.last_episode_to_air?.episode_number
+              : ''
+          }}
+        </p>
+        <p v-else-if="item?.runtime" class="duration-episode">
+          Thời lượng:
+          {{ item?.runtime ? item?.runtime + ' phút' : '' }}
+        </p>
+      </div>
+      <div class="bottom">
+        <span class="views">{{ ViewFormatter(item?.views) }} lượt xem</span>
+      </div>
     </div>
     <!-- </a-tooltip> -->
   </router-link>
@@ -62,6 +71,7 @@ import {
   // getMovieById,
   getLanguage,
 } from '@/services/MovieService';
+import { ViewFormatter } from '@/utils/convertViews';
 
 export default {
   components: {},
@@ -88,6 +98,7 @@ export default {
       getPoster,
       getAllGenresById,
       getLanguage,
+      ViewFormatter,
     };
   },
 };

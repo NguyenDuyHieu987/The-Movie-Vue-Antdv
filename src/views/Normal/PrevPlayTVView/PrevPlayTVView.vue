@@ -69,12 +69,13 @@
             <router-link
               v-if="!loading"
               :to="{
-                name: 'play',
+                name: 'playtv',
                 params: {
                   id: dataMovie?.id,
                   name: dataMovie?.name
                     ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
                     : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  tap: 'tap-1',
                 },
               }"
               class="btn-play-now"
@@ -102,6 +103,9 @@
             <strong>{{
               dataMovie?.name ? dataMovie?.name : dataMovie?.title
             }}</strong>
+            <strong>
+              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+            </strong>
           </h2>
 
           <h3>
@@ -111,7 +115,16 @@
                   ? dataMovie?.original_title
                   : dataMovie?.original_name
               }}
-              {{ `(${dataMovie?.release_date?.slice(0, 4)})` }}
+              {{
+                `(${
+                  dataMovie?.last_air_date?.slice(0, 4)
+                    ? dataMovie?.last_air_date?.slice(0, 4)
+                    : dataMovie?.last_episode_to_air?.air_date?.slice(0, 4)
+                })`
+              }}
+            </strong>
+            <strong>
+              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
             </strong>
           </h3>
         </a-skeleton>
@@ -165,12 +178,13 @@
             <router-link
               v-if="!loading"
               :to="{
-                name: 'play',
+                name: 'playtv',
                 params: {
                   id: dataMovie?.id,
                   name: dataMovie?.name
                     ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
                     : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  tap: 'tap-1',
                 },
               }"
               class="btn-play-now"
@@ -178,6 +192,7 @@
               <font-awesome-icon icon="fa-solid fa-play" />
               <span> Xem ngay</span>
             </router-link>
+
             <strong class="hd-brand">HD</strong>
           </div>
 
@@ -332,6 +347,18 @@
             </p>
 
             <p>
+              <label>Số lượng tập: </label>
+              {{
+                dataMovie?.seasons?.find((item) =>
+                  item?.season_number ===
+                  dataMovie?.last_episode_to_air?.season_number
+                    ? item
+                    : null
+                ).episode_count + ' tập'
+              }}
+            </p>
+
+            <p>
               <label>Lượt xem: </label>
               <span>{{
                 dataMovie?.views
@@ -341,8 +368,10 @@
             </p>
 
             <p>
-              <label>Thời lượng: </label>
-              <span>{{ dataMovie?.runtime + ' phút' }}</span>
+              <label> Thời lượng trên tập: </label>
+              <span>
+                {{ dataMovie?.episode_run_time[0] + ' phút' }}
+              </span>
             </p>
 
             <p>
@@ -380,6 +409,19 @@
         </a-skeleton>
       </div>
     </div>
+
+    <LastestEpisodes
+      v-if="!checkEmptyDataMovies"
+      :dataMovie="dataMovie"
+      :numberOfEpisodes="
+        dataMovie?.seasons?.find((item) =>
+          item.season_number === dataMovie?.last_episode_to_air?.season_number
+            ? item
+            : null
+        )?.episode_count
+      "
+      :loading="loading"
+    />
 
     <h3 class="section-title">
       <strong>Nội dung phim</strong>
@@ -512,7 +554,7 @@ import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
-  getMovieById,
+  getTvById,
   getLanguage,
   addItemList,
   removeItemList,
@@ -523,6 +565,7 @@ import {
 import carousel from 'vue-owl-carousel/src/Carousel';
 import Interaction from '@/components/Normal/Interaction/Interaction.vue';
 import RatingMovie from '@/components/Normal/RatingMovie/RatingMovie.vue';
+import LastestEpisodes from '@/components/Normal/LastestEpisodes/LastestEpisodes.vue';
 import CastCard from '@/components/Normal/CastCard/CastCard.vue';
 import MovieSuggest from '@/components/Normal/MovieSuggest/MovieSuggest.vue';
 import { useStore } from 'vuex';
@@ -541,6 +584,7 @@ export default {
     carousel,
     Interaction,
     RatingMovie,
+    LastestEpisodes,
     CastCard,
     MovieSuggest,
     // QuestionCircleOutlined,
@@ -632,27 +676,23 @@ export default {
         htmlAttrs: { lang: 'vi', amp: true },
       });
 
-      // document.title = `${Array?.from(
-      //   route.params?.name?.split('+'),
-      //   (x) => x.charAt(0).toUpperCase() + x?.slice(1)
-      // ).join(' ')} - Thông tin`;
-
       srcBackdropList.value = [];
-      isEpisodes.value = false;
 
-      getMovieById(route.params?.id, 'images,credits')
-        .then((movieResponed) => {
-          dataMovie.value = movieResponed?.data;
-          dataCredit.value = movieResponed?.data?.credits;
+      getTvById(route.params?.id, 'images,credits')
+        .then((tvResponed) => {
+          isEpisodes.value = true;
+          dataMovie.value = tvResponed?.data;
+          dataCredit.value = tvResponed?.data?.credits;
+          dataCredit.value = tvResponed?.data?.credits;
 
-          // movieResponed?.data?.images?.backdrops?.forEach((item) => {
+          // tvResponed?.data?.images?.backdrops?.forEach((item) => {
           //   srcBackdropList.value.push(
           //     'https://image.tmdb.org/t/p/original' + item?.file_path
           //   );
           // });
 
           srcBackdropList.value = Array.from(
-            movieResponed?.data?.images?.backdrops,
+            tvResponed?.data?.images?.backdrops,
             (item) => 'https://image.tmdb.org/t/p/original' + item?.file_path
           );
 
@@ -662,6 +702,7 @@ export default {
           }, 1500);
         })
         .catch((e) => {
+          loading.value = false;
           if (axios.isCancel(e)) return;
         });
 
@@ -740,7 +781,7 @@ export default {
                 instance.confirmButtonText = 'Đang thêm...';
                 instance.confirmButtonLoading = true;
                 addItemList(store.state?.userAccount?.id, {
-                  media_type: 'movie',
+                  media_type: 'tv',
                   media_id: dataMovie.value?.id,
                 })
                   .then((response) => {
@@ -878,7 +919,7 @@ export default {
           isAddToList.value = true;
           message.loading({ content: 'Đang thêm' });
           addItemList(store.state?.userAccount?.id, {
-            media_type: 'movie',
+            media_type: 'tv',
             media_id: dataMovie.value?.id,
           })
             .then((response) => {
@@ -1013,4 +1054,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="./PrevPlayView.scss"></style>
+<style lang="scss" src="./PrevPlayTVView.scss"></style>

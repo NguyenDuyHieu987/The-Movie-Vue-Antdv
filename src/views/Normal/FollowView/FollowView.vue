@@ -11,7 +11,7 @@
             <div class="top">
               <div class="backdrop">
                 <router-link
-                  v-if="dataList[0]?.type && dataList[0]?.id"
+                  v-if="dataList[0]?.media_type == 'tv' && dataList[0]?.id"
                   :to="{
                     name: 'playtv',
                     params: {
@@ -33,7 +33,9 @@
                   </div>
                 </router-link>
                 <router-link
-                  v-else-if="!dataList[0]?.type && dataList[0]?.id"
+                  v-else-if="
+                    dataList[0]?.media_type == 'movie' && dataList[0]?.id
+                  "
                   :to="{
                     name: 'play',
                     params: {
@@ -51,6 +53,12 @@
                     <span>PHÁT NGAY</span>
                   </div>
                 </router-link>
+                <a-image
+                  v-if="!dataList?.length"
+                  :src="getPoster(topicImage)"
+                  :preview="false"
+                >
+                </a-image>
               </div>
               <img class="overlay-image" :src="getPoster(topicImage)" />
 
@@ -146,7 +154,7 @@
             <div class="column-container">
               <div class="backdrop">
                 <router-link
-                  v-if="dataList[0]?.type && dataList[0]?.id"
+                  v-if="dataList[0]?.media_type == 'tv' && dataList[0]?.id"
                   :to="{
                     name: 'playtv',
                     params: {
@@ -168,7 +176,9 @@
                   </div>
                 </router-link>
                 <router-link
-                  v-else-if="!dataList[0]?.type && dataList[0]?.id"
+                  v-else-if="
+                    dataList[0]?.media_type == 'movie' && dataList[0]?.id
+                  "
                   :to="{
                     name: 'play',
                     params: {
@@ -186,6 +196,12 @@
                     <span>PHÁT NGAY</span>
                   </div>
                 </router-link>
+                <a-image
+                  v-if="!dataList?.length"
+                  :src="getPoster(topicImage)"
+                  :preview="false"
+                >
+                </a-image>
               </div>
               <img class="overlay-image" :src="getPoster(topicImage)" />
               <div class="info">
@@ -280,18 +296,14 @@
           </h2>
           <!-- <el-scrollbar height="100vh"> -->
           <section class="movie-follow" v-show="dataList?.length">
-            <div
+            <MovieCardHorizontalFollow
               v-for="(item, index) in dataList"
               :index="index"
               :key="item.id"
-              class="movie-item-follow"
-            >
-              <span class="index-item">{{ index + 1 }} </span>
-              <MovieCardHorizontalFollow
-                :item="item"
-                :getDataWhenRemoveList="getDataWhenRemoveList"
-              />
-            </div>
+              :item="item"
+              :type="item?.media_type"
+              :getDataWhenRemoveList="getDataWhenRemoveList"
+            />
           </section>
           <!-- </el-scrollbar> -->
         </a-layout-content>
@@ -319,6 +331,7 @@ import {
   ref,
   getCurrentInstance,
   onMounted,
+  createVNode,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
@@ -332,11 +345,14 @@ import {
   removeAllItemList,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
-import { InfoCircleOutlined } from '@ant-design/icons-vue';
+import {
+  InfoCircleOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons-vue';
 // import { extractColors } from 'extract-colors';
 import disableScroll from 'disable-scroll';
 import { ElMessage } from 'element-plus';
-import { message } from 'ant-design-vue';
+import { message, Modal } from 'ant-design-vue';
 
 export default {
   components: { MovieCardHorizontalFollow, InfoCircleOutlined },
@@ -489,35 +505,52 @@ export default {
     });
 
     const removeAllFollowList = () => {
-      message.loading({ content: 'Đang xóa tất cả Danh sách phát' });
+      Modal.confirm({
+        title: 'Thông Báo',
+        icon: createVNode(QuestionCircleOutlined),
+        // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
+        content: createVNode(
+          'h3',
+          {},
+          'Bạn có muốn xóa toàn bộ Danh sách phát không?'
+        ),
+        okText: 'Có',
+        okType: 'primary',
+        cancelText: 'Không',
+        centered: true,
+        onOk() {
+          message.loading({ content: 'Đang xóa tất cả Danh sách phát' });
 
-      removeAllItemList(store?.state.userAccount?.id)
-        .then((movieRespone) => {
-          if (movieRespone.data?.success == true) {
-            setTimeout(() => {
-              dataList.value = movieRespone.data?.results;
+          removeAllItemList(store?.state.userAccount?.id)
+            .then((movieRespone) => {
+              if (movieRespone.data?.success == true) {
+                setTimeout(() => {
+                  dataList.value = movieRespone.data?.results;
+                  message.destroy();
+                  ElMessage({
+                    type: 'success',
+                    message: `Xóa thành công!`,
+                  });
+                }, 500);
+              } else {
+                message.destroy();
+                ElMessage({
+                  type: 'error',
+                  message: `Xóa thất bại!`,
+                });
+              }
+            })
+            .catch((e) => {
               message.destroy();
               ElMessage({
-                type: 'success',
-                message: `Xóa thành công!`,
+                type: 'error',
+                message: `Xóa thất bại!`,
               });
-            }, 500);
-          } else {
-            message.destroy();
-            ElMessage({
-              type: 'error',
-              message: `Xóa không thành công!`,
+              if (axios.isCancel(e)) return;
             });
-          }
-        })
-        .catch((e) => {
-          message.destroy();
-          ElMessage({
-            type: 'error',
-            message: `Xóa không thành công!`,
-          });
-          if (axios.isCancel(e)) return;
-        });
+        },
+        onCancel() {},
+      });
     };
 
     return {

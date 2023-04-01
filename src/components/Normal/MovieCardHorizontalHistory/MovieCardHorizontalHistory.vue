@@ -1,16 +1,19 @@
 <template>
   <router-link
+    v-if="dataMovie?.id"
     :to="{
-      path: `/info/${item?.id}/${
-        item?.name
-          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase()
-      }`,
+      name: isEpisodes ? 'infoTV' : 'info',
+      params: {
+        id: dataMovie?.id,
+        name: dataMovie?.name
+          ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+          : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+      },
     }"
     class="movie-history-item"
   >
     <div class="img-box">
-      <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
+      <a-image :src="getPoster(dataMovie?.backdrop_path)" :preview="false">
       </a-image>
       <div class="percent-viewed" :style="{ width: percent * 100 + '%' }"></div>
       <div class="viewed-overlay-bar"></div>
@@ -19,41 +22,48 @@
     <div class="info">
       <h2 class="title">
         <strong>
-          {{ item?.name ? item?.name : item?.title }}
+          {{ dataMovie?.name ? dataMovie?.name : dataMovie?.title }}
           <strong v-if="isEpisodes">
-            {{ ' - Phần ' + item?.last_episode_to_air?.season_number }}
+            {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
           </strong>
         </strong>
       </h2>
 
-      <p class="genres" v-if="item?.genres">
-        Thể loại: {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
-      </p>
-      <p class="genres" v-else-if="item?.genre_ids">
-        Thể loại:
-        {{
-          getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(' • ')
-        }}
-      </p>
       <!-- <p class="release-date">
         Năm:
-        {{ item?.release_date ? item?.release_date : item?.first_air_date }}
+        {{ dataMovie?.release_date ? dataMovie?.release_date : dataMovie?.first_air_date }}
       </p> -->
-      <p v-if="item?.last_episode_to_air" class="duration-episode">
+      <p v-if="dataMovie?.last_episode_to_air" class="duration-episode">
         Tập mới nhất:
         {{
-          item?.last_episode_to_air?.episode_number
-            ? 'Tập ' + item?.last_episode_to_air?.episode_number
+          dataMovie?.last_episode_to_air?.episode_number
+            ? 'Tập ' + dataMovie?.last_episode_to_air?.episode_number
             : ''
         }}
       </p>
-      <p v-else-if="item?.runtime" class="duration-episode">
+
+      <p v-else-if="dataMovie?.runtime" class="duration-episode">
         Thời lượng:
-        {{ item?.runtime ? item?.runtime + ' phút' : '' }}
+        {{ dataMovie?.runtime ? dataMovie?.runtime + ' phút' : '' }}
       </p>
 
+      <div class="year-views">
+        <p class="year">
+          Năm:
+          {{
+            dataMovie?.release_date
+              ? dataMovie?.release_date?.slice(0, 4)
+              : dataMovie?.last_air_date?.slice(0, 4)
+              ? dataMovie?.last_air_date?.slice(0, 4)
+              : dataMovie?.first_air_date?.slice(0, 4)
+          }}
+        </p>
+        •
+        <p class="views">{{ ViewFormatter(dataMovie?.views) }} lượt xem</p>
+      </div>
+
       <p class="overview">
-        {{ item?.overview }}
+        {{ dataMovie?.overview }}
       </p>
     </div>
 
@@ -69,7 +79,7 @@
           shape="circle"
           size="large"
           class="remove-btn"
-          @click.prevent=""
+          @click.prevent="handleRemoveFromHistory"
         >
           <template #icon>
             <Close />
@@ -82,13 +92,7 @@
         placement="bottomRight"
         class="dropdown-viewmore"
       >
-        <el-button
-          circle
-          shape="circle"
-          size="large"
-          class="viewmore-btn"
-          @click.prevent=""
-        >
+        <el-button circle shape="circle" size="large" class="viewmore-btn">
           <template #icon>
             <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
           </template>
@@ -107,10 +111,10 @@
                   :to="{
                     name: 'playtv',
                     params: {
-                      id: item?.id,
-                      name: item?.name
-                        ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                        : item?.title?.replace(/\s/g, '+').toLowerCase(),
+                      id: dataMovie?.id,
+                      name: dataMovie?.name
+                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
                       tap: 'tap-1',
                     },
                   }"
@@ -123,10 +127,10 @@
                   :to="{
                     name: 'play',
                     params: {
-                      id: item?.id,
-                      name: item?.name
-                        ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                        : item?.title?.replace(/\s/g, '+').toLowerCase(),
+                      id: dataMovie?.id,
+                      name: dataMovie?.name
+                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
                     },
                   }"
                   class="btn-play-now"
@@ -134,11 +138,19 @@
                   <span>Đến trang xem phim</span>
                 </router-link>
               </a-menu-item>
-              <a-menu-item key="add-list">
+              <a-menu-item key="add-list" @click="handelAddToList">
                 <template #icon>
-                  <span class="material-icons-outlined"> playlist_add </span>
+                  <span v-if="isAddToList" class="material-icons-outlined">
+                    playlist_add_check
+                  </span>
+
+                  <span v-else class="material-icons-outlined">
+                    playlist_add
+                  </span>
                 </template>
-                <span>Thêm vào Danh sách phát</span>
+                <span v-if="isAddToList">Xóa khỏi Danh sách phát</span>
+
+                <span v-else>Thêm vào Danh sách phát</span>
               </a-menu-item>
 
               <a-menu-item key="share">
@@ -149,7 +161,9 @@
                   <ShareNetwork
                     network="facebook"
                     :url="urlShare"
-                    :title="item?.name ? item?.name : item?.title"
+                    :title="
+                      dataMovie?.name ? dataMovie?.name : dataMovie?.title
+                    "
                     hashtags="phimhay247.site,vite"
                     style="white-space: nowrap; display: block"
                   >
@@ -187,6 +201,11 @@ import {
   getPoster,
   getLanguage,
   removeItemHistory,
+  getMovieById,
+  getTvById,
+  addItemList,
+  removeItemList,
+  getItemList,
 } from '@/services/MovieService';
 import disableScroll from 'disable-scroll';
 import axios from 'axios';
@@ -195,6 +214,7 @@ import { useStore } from 'vuex';
 import { Close } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { message } from 'ant-design-vue';
+import { ViewFormatter } from '@/utils/convertViews';
 
 export default {
   components: { Close },
@@ -211,10 +231,12 @@ export default {
   },
   setup(props) {
     const store = useStore();
+    const dataMovie = ref({});
     const isEpisodes = ref(false);
     const loading = ref(false);
     const urlShare = computed(() => window.location);
     const percent = ref(0);
+    const isAddToList = ref(false);
 
     onMounted(() => {});
 
@@ -240,26 +262,152 @@ export default {
       if (props?.type) {
         switch (props?.type) {
           case 'movie':
-            isEpisodes.value = false;
-            loading.value = false;
+            getMovieById(props.item?.id)
+              .then((movieResponed) => {
+                isEpisodes.value = false;
+                dataMovie.value = movieResponed?.data;
+
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
+              })
+              .catch((e) => {
+                loading.value = false;
+                if (axios.isCancel(e)) return;
+              });
             break;
           case 'tv':
-            isEpisodes.value = true;
-            loading.value = false;
+            getTvById(props.item?.id)
+              .then((tvResponed) => {
+                isEpisodes.value = true;
+                dataMovie.value = tvResponed?.data;
+
+                setTimeout(() => {
+                  loading.value = false;
+                }, 1000);
+              })
+              .catch((e) => {
+                loading.value = false;
+                if (axios.isCancel(e)) return;
+              });
             break;
           default:
             break;
         }
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
-          isEpisodes.value = true;
-          loading.value = false;
+          getTvById(props.item?.id)
+            .then((tvResponed) => {
+              isEpisodes.value = true;
+              dataMovie.value = tvResponed?.data;
+
+              setTimeout(() => {
+                loading.value = false;
+              }, 1000);
+            })
+            .catch((e) => {
+              loading.value = false;
+              if (axios.isCancel(e)) return;
+            });
         } else {
-          isEpisodes.value = false;
-          loading.value = false;
+          getMovieById(props.item?.id)
+            .then((movieResponed) => {
+              isEpisodes.value = false;
+              dataMovie.value = movieResponed?.data;
+
+              setTimeout(() => {
+                loading.value = false;
+              }, 1000);
+            })
+            .catch((e) => {
+              loading.value = false;
+              if (axios.isCancel(e)) return;
+            });
         }
       }
+
+      getItemList(store.state?.userAccount?.id, props.item?.id)
+        .then((movieRespone) => {
+          if (movieRespone?.data.success == true) {
+            isAddToList.value = true;
+          }
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     });
+
+    const handelAddToList = () => {
+      if (isAddToList.value == false) {
+        isAddToList.value = true;
+        message.loading({ content: 'Đang thêm' });
+        addItemList(store.state?.userAccount?.id, {
+          media_type: isEpisodes.value ? 'tv' : 'movie',
+          media_id: dataMovie.value?.id,
+        })
+          .then((response) => {
+            if (response.data.success == true) {
+              setTimeout(() => {
+                message.destroy();
+                ElMessage({
+                  type: 'success',
+                  message: `Thêm thành công!`,
+                });
+              }, 500);
+            } else {
+              message.destroy();
+              isAddToList.value = false;
+              ElMessage({
+                type: 'error',
+                message: `Thêm thất bại!`,
+              });
+            }
+          })
+          .catch((e) => {
+            message.destroy();
+            isAddToList.value = false;
+            ElMessage({
+              type: 'error',
+              message: `Thêm thất bại!`,
+            });
+            if (axios.isCancel(e)) return;
+          });
+      } else {
+        isAddToList.value = false;
+        message.loading({ content: 'Đang xóa' });
+
+        removeItemList(store.state?.userAccount?.id, {
+          media_id: dataMovie.value?.id,
+        })
+          .then((movieRespone) => {
+            if (movieRespone.data?.success == true) {
+              setTimeout(() => {
+                message.destroy();
+                ElMessage({
+                  type: 'success',
+                  message: `Xóa thành công!`,
+                });
+              }, 500);
+            } else {
+              message.destroy();
+              isAddToList.value = true;
+              ElMessage({
+                type: 'error',
+                message: `Xóa thất bại!`,
+              });
+            }
+          })
+          .catch((e) => {
+            message.destroy();
+            isAddToList.value = true;
+            ElMessage({
+              type: 'error',
+              message: `Xóa thất bại!`,
+            });
+            if (axios.isCancel(e)) return;
+          });
+      }
+    };
 
     const handleRemoveFromHistory = () => {
       message.loading({ content: 'Đang xóa' });
@@ -296,14 +444,18 @@ export default {
     };
 
     return {
+      dataMovie,
       isEpisodes,
       loading,
       urlShare,
       percent,
+      isAddToList,
       getPoster,
       getAllGenresById,
       getLanguage,
       handleRemoveFromHistory,
+      ViewFormatter,
+      handelAddToList,
     };
   },
 };

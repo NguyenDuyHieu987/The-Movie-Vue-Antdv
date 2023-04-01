@@ -26,7 +26,7 @@ const routes = [
       ),
   },
   {
-    path: '/info/:id/:name',
+    path: '/info/movie/:id/:name',
     name: 'info',
     meta: {
       layout: 'default',
@@ -37,7 +37,18 @@ const routes = [
       ),
   },
   {
-    path: '/play/:id/:name',
+    path: '/info/tv/:id/:name',
+    name: 'infoTV',
+    meta: {
+      layout: 'default',
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "info" */ '../views/Normal/PrevPlayTVView/PrevPlayTVView.vue'
+      ),
+  },
+  {
+    path: '/play/movie/:id/:name',
     name: 'play',
     meta: {
       layout: 'default',
@@ -48,7 +59,7 @@ const routes = [
       ),
   },
   {
-    path: '/playtv/:id/:name/:tap',
+    path: '/play/tv/:id/:name/:tap',
     name: 'playtv',
     meta: {
       layout: 'default',

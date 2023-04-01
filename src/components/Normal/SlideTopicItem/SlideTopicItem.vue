@@ -2,7 +2,7 @@
   <router-link
     v-if="item?.id"
     :to="{
-      name: 'info',
+      name: item?.media_type == 'movie' ? 'info' : 'infoTV',
       params: {
         id: item?.id,
         name: item?.name

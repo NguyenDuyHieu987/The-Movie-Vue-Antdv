@@ -21,7 +21,8 @@
   --login-background-color: #0f7251;
   --breadcrumb-background-color: #000;
   --footer-background-color: #000;
-  --border-regular: #707070;
+  --border-regular-light: rgba(255, 255, 255, 0.3);
+  --border-regular: #e3e3e3;
   --header-height: 65px;
   --sider-width: 230px;
   --sider-collapsed-width: 75px;
@@ -83,15 +84,6 @@ ol,
 ul,
 dl {
   margin: 0px;
-}
-
-.el-overlay {
-  margin-top: var(--header-height);
-}
-
-.el-popup-parent--hidden {
-  width: 100% !important;
-  overflow: visible !important;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -676,6 +668,21 @@ dl {
 }
 
 .ant-collapse {
+}
+
+.ant-modal {
+  box-shadow: 0 3px 6px -4px #000000ba, 0 6px 16px 0 #00000098,
+    0 9px 28px 8px #00000077;
+  border-radius: 5px;
+}
+
+.el-overlay {
+  margin-top: var(--header-height);
+}
+
+.el-popup-parent--hidden {
+  width: 100% !important;
+  // overflow: visible !important;
 }
 
 .owl-carousel .owl-stage-outer {

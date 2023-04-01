@@ -1,11 +1,13 @@
 <template>
   <router-link
     :to="{
-      path: `/info/${item?.id}/${
-        item?.name
+      name: item?.type ? 'infoTV' : 'info',
+      params: {
+        id: item?.id,
+        name: item?.name
           ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase()
-      }`,
+          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+      },
     }"
     class="movie-search-item"
   >

@@ -1,16 +1,22 @@
 <template>
-  <div class="play-container">
+  <div class="playtv-container">
     <div class="video-player">
-      <iframe
-        width="100%"
-        height="100%"
-        :src="`//ok.ru/videoembed/${
-          urlCodeMovie ? urlCodeMovie : '3056793684585'
-        }`"
-        frameborder="0"
-        allow="autoplay"
-        allowfullscreen
-      ></iframe>
+      <div class="video-player-wrapper">
+        <iframe
+          width="100%"
+          height="100%"
+          :src="`//ok.ru/videoembed/${
+            urlCodeMovie ? urlCodeMovie : '3056793684585'
+          }`"
+          frameborder="0"
+          allow="autoplay"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div class="overlay-backdrop">
+        <img :src="getPoster(dataMovie?.backdrop_path)" />
+      </div>
     </div>
 
     <ListEpisodes
@@ -110,7 +116,7 @@
           {{ dataMovie?.overview }}
           <router-link
             :to="{
-              name: 'info',
+              name: 'infoTV',
               params: {
                 id: dataMovie?.id,
                 name: dataMovie?.name

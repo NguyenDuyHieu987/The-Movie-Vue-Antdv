@@ -18,7 +18,7 @@
     border: none;
     cursor: pointer;
     color: #fff;
-    // border-right: 0.25px solid var(--border-regular);
+    // border-right: 0.25px solid var( --border-regular-light);
     // margin-right: 10px;
 
     svg {
@@ -80,7 +80,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 20px 0px 20px;
-  border-bottom: 0.25px solid var(--border-regular);
+  border-bottom: 0.25px solid var(--border-regular-light);
   height: var(--header-height);
   position: fixed;
   left: 0;

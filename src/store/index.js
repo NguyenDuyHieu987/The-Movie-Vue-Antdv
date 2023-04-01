@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { getWithExpiry } from '@/untils/LocalStorage';
+import { getWithExpiry } from '@/utils/LocalStorage';
 
 const store = createStore({
   state() {

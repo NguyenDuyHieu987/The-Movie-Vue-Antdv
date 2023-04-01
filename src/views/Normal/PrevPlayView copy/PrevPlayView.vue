@@ -67,7 +67,24 @@
             </el-image>
 
             <router-link
-              v-if="!loading"
+              v-if="isEpisodes && !loading"
+              :to="{
+                name: 'playtv',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  tap: 'tap-1',
+                },
+              }"
+              class="btn-play-now"
+            >
+              <font-awesome-icon icon="fa-solid fa-play" />
+              <span> Xem ngay</span>
+            </router-link>
+            <router-link
+              v-else-if="!isEpisodes && !loading"
               :to="{
                 name: 'play',
                 params: {
@@ -102,6 +119,9 @@
             <strong>{{
               dataMovie?.name ? dataMovie?.name : dataMovie?.title
             }}</strong>
+            <strong v-if="isEpisodes">
+              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+            </strong>
           </h2>
 
           <h3>
@@ -111,7 +131,18 @@
                   ? dataMovie?.original_title
                   : dataMovie?.original_name
               }}
-              {{ `(${dataMovie?.release_date?.slice(0, 4)})` }}
+              {{
+                isEpisodes
+                  ? `(${
+                      dataMovie?.last_air_date?.slice(0, 4)
+                        ? dataMovie?.last_air_date?.slice(0, 4)
+                        : dataMovie?.last_episode_to_air?.air_date?.slice(0, 4)
+                    })`
+                  : `(${dataMovie?.release_date?.slice(0, 4)})`
+              }}
+            </strong>
+            <strong v-if="isEpisodes">
+              {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
             </strong>
           </h3>
         </a-skeleton>
@@ -163,7 +194,24 @@
             </el-image>
 
             <router-link
-              v-if="!loading"
+              v-if="isEpisodes && !loading"
+              :to="{
+                name: 'playtv',
+                params: {
+                  id: dataMovie?.id,
+                  name: dataMovie?.name
+                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
+                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  tap: 'tap-1',
+                },
+              }"
+              class="btn-play-now"
+            >
+              <font-awesome-icon icon="fa-solid fa-play" />
+              <span> Xem ngay</span>
+            </router-link>
+            <router-link
+              v-else-if="!isEpisodes && !loading"
               :to="{
                 name: 'play',
                 params: {
@@ -308,7 +356,7 @@
             </p>
 
             <p>
-              <label>Diểm đánh giá: </label>
+              <label>Diểm IMDb: </label>
               <span
                 style="color: green; font-weight: bold"
                 v-if="dataMovie?.vote_average >= 8"
@@ -331,18 +379,25 @@
               </span>
             </p>
 
-            <p>
-              <label>Lượt xem: </label>
-              <span>{{
-                dataMovie?.views
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' lượt xem'
-              }}</span>
+            <p v-if="isEpisodes">
+              <label>Số lượng tập: </label>
+              {{
+                dataMovie?.seasons?.find((item) =>
+                  item?.season_number ===
+                  dataMovie?.last_episode_to_air?.season_number
+                    ? item
+                    : null
+                ).episode_count + ' tập'
+              }}
             </p>
 
             <p>
-              <label>Thời lượng: </label>
-              <span>{{ dataMovie?.runtime + ' phút' }}</span>
+              <label v-if="isEpisodes"> Thời lượng trên tập: </label>
+              <label v-else>Thời lượng: </label>
+              <span v-if="isEpisodes">
+                {{ dataMovie?.episode_run_time[0] + ' phút' }}
+              </span>
+              <span v-else>{{ dataMovie?.runtime + ' phút' }}</span>
             </p>
 
             <p>
@@ -380,6 +435,19 @@
         </a-skeleton>
       </div>
     </div>
+
+    <LastestEpisodes
+      v-if="isEpisodes"
+      :dataMovie="dataMovie"
+      :numberOfEpisodes="
+        dataMovie?.seasons?.find((item) =>
+          item.season_number === dataMovie?.last_episode_to_air?.season_number
+            ? item
+            : null
+        )?.episode_count
+      "
+      :loading="loading"
+    />
 
     <h3 class="section-title">
       <strong>Nội dung phim</strong>
@@ -512,6 +580,7 @@ import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
+  getTvById,
   getMovieById,
   getLanguage,
   addItemList,
@@ -523,6 +592,7 @@ import {
 import carousel from 'vue-owl-carousel/src/Carousel';
 import Interaction from '@/components/Normal/Interaction/Interaction.vue';
 import RatingMovie from '@/components/Normal/RatingMovie/RatingMovie.vue';
+import LastestEpisodes from '@/components/Normal/LastestEpisodes/LastestEpisodes.vue';
 import CastCard from '@/components/Normal/CastCard/CastCard.vue';
 import MovieSuggest from '@/components/Normal/MovieSuggest/MovieSuggest.vue';
 import { useStore } from 'vuex';
@@ -541,6 +611,7 @@ export default {
     carousel,
     Interaction,
     RatingMovie,
+    LastestEpisodes,
     CastCard,
     MovieSuggest,
     // QuestionCircleOutlined,
@@ -638,30 +709,61 @@ export default {
       // ).join(' ')} - Thông tin`;
 
       srcBackdropList.value = [];
-      isEpisodes.value = false;
 
-      getMovieById(route.params?.id, 'images,credits')
-        .then((movieResponed) => {
-          dataMovie.value = movieResponed?.data;
-          dataCredit.value = movieResponed?.data?.credits;
+      getTvById(route.params?.id, 'images,credits')
+        .then((tvResponed) => {
+          if (tvResponed?.data?.not_found === true)
+            getMovieById(route.params?.id, 'images,credits')
+              .then((movieResponed) => {
+                isEpisodes.value = false;
+                dataMovie.value = movieResponed?.data;
+                dataCredit.value = movieResponed?.data?.credits;
 
-          // movieResponed?.data?.images?.backdrops?.forEach((item) => {
-          //   srcBackdropList.value.push(
-          //     'https://image.tmdb.org/t/p/original' + item?.file_path
-          //   );
-          // });
+                // movieResponed?.data?.images?.backdrops?.forEach((item) => {
+                //   srcBackdropList.value.push(
+                //     'https://image.tmdb.org/t/p/original' + item?.file_path
+                //   );
+                // });
 
-          srcBackdropList.value = Array.from(
-            movieResponed?.data?.images?.backdrops,
-            (item) => 'https://image.tmdb.org/t/p/original' + item?.file_path
-          );
+                srcBackdropList.value = Array.from(
+                  movieResponed?.data?.images?.backdrops,
+                  (item) =>
+                    'https://image.tmdb.org/t/p/original' + item?.file_path
+                );
 
-          setTimeout(() => {
-            loading.value = false;
-            internalInstance.appContext.config.globalProperties.$Progress.finish();
-          }, 1500);
+                setTimeout(() => {
+                  loading.value = false;
+                  internalInstance.appContext.config.globalProperties.$Progress.finish();
+                }, 1500);
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+          else {
+            isEpisodes.value = true;
+            dataMovie.value = tvResponed?.data;
+            dataCredit.value = tvResponed?.data?.credits;
+            dataCredit.value = tvResponed?.data?.credits;
+
+            // tvResponed?.data?.images?.backdrops?.forEach((item) => {
+            //   srcBackdropList.value.push(
+            //     'https://image.tmdb.org/t/p/original' + item?.file_path
+            //   );
+            // });
+
+            srcBackdropList.value = Array.from(
+              tvResponed?.data?.images?.backdrops,
+              (item) => 'https://image.tmdb.org/t/p/original' + item?.file_path
+            );
+
+            setTimeout(() => {
+              loading.value = false;
+              internalInstance.appContext.config.globalProperties.$Progress.finish();
+            }, 1500);
+          }
         })
         .catch((e) => {
+          loading.value = false;
           if (axios.isCancel(e)) return;
         });
 
@@ -740,7 +842,7 @@ export default {
                 instance.confirmButtonText = 'Đang thêm...';
                 instance.confirmButtonLoading = true;
                 addItemList(store.state?.userAccount?.id, {
-                  media_type: 'movie',
+                  media_type: isEpisodes.value ? 'tv' : 'movie',
                   media_id: dataMovie.value?.id,
                 })
                   .then((response) => {
@@ -878,7 +980,7 @@ export default {
           isAddToList.value = true;
           message.loading({ content: 'Đang thêm' });
           addItemList(store.state?.userAccount?.id, {
-            media_type: 'movie',
+            media_type: isEpisodes.value ? 'tv' : 'movie',
             media_id: dataMovie.value?.id,
           })
             .then((response) => {

@@ -1,15 +1,20 @@
 <template>
   <div class="play-container">
     <div class="video-player">
-      <iframe
-        id="vimeo-player"
-        src="https://player.vimeo.com/video/809431505"
-        width="100%"
-        height="100%"
-        frameborder="0"
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+      <div class="video-player-wrapper">
+        <iframe
+          id="vimeo-player"
+          src="https://player.vimeo.com/video/809431505"
+          width="100%"
+          height="100%"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="overlay-backdrop">
+        <img :src="getPoster(dataMovie?.backdrop_path)" />
+      </div>
     </div>
 
     <h3 class="section-title width-fit" style="margin-top: 15px">
@@ -148,6 +153,7 @@ import {
   addItemList,
   removeItemList,
   add_update_History,
+  UpdateViewMovie,
 } from '@/services/MovieService';
 import Interaction from '@/components/Normal/Interaction/Interaction.vue';
 import RatingMovie from '@/components/Normal/RatingMovie/RatingMovie.vue';
@@ -191,6 +197,7 @@ export default {
     const percent = ref(0);
     const duration = ref(0);
     const isPlayVideo = ref(false);
+    const isUpdataView = ref(true);
     const isInHistory = ref(false);
     const dataItemList = ref({});
 
@@ -252,7 +259,15 @@ export default {
                 percent.value = e.percent;
               }, 5000);
             }
+
+            if (seconds.value > e.duration / 2) {
+              if (isUpdataView.value == true) {
+                UpdateViewMovie(route.params?.id);
+                isUpdataView.value = false;
+              }
+            }
           }
+
           // console.log('seconds:', seconds.value);
           // console.log('percent:', percent.value);
 
@@ -285,14 +300,10 @@ export default {
         htmlAttrs: { lang: 'vi', amp: true },
       });
 
-      // document.title = `${Array?.from(
-      //   route.params?.name?.split('+'),
-      //   (x) => x.charAt(0).toUpperCase() + x.slice(1)
-      // ).join(' ')} - Xem phim`;
+      isEpisodes.value = false;
 
       getMovieById(route.params?.id)
         .then((movieResponed) => {
-          isEpisodes.value = false;
           dataMovie.value = movieResponed?.data;
 
           setTimeout(() => {

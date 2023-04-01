@@ -1,5 +1,16 @@
 <template>
-  <div class="movie-card-horizontal-item">
+  <router-link
+    :to="{
+      name: isEpisodes ? 'infoTV' : 'info',
+      params: {
+        id: item?.id,
+        name: item?.name
+          ? item?.name?.replace(/\s/g, '+').toLowerCase()
+          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+      },
+    }"
+    class="movie-card-horizontal-item"
+  >
     <el-skeleton :loading="loading" animated>
       <template #template>
         <div class="img-box">
@@ -12,7 +23,7 @@
       </template>
 
       <template #default>
-        <div class="img-box" @click="handleClickTrailerIcon">
+        <div class="img-box">
           <a-image
             v-if="!loading"
             :src="getPoster(dataMovie?.backdrop_path)"
@@ -36,7 +47,11 @@
             </p>
           </div>
 
-          <div class="youtub-icon" v-if="!loading">
+          <div
+            class="youtub-icon"
+            v-if="!loading"
+            @click.prevent="handleClickTrailerIcon"
+          >
             <font-awesome-icon icon="fa-brands fa-youtube" />
           </div>
 
@@ -61,34 +76,21 @@
               : ''
           "
         >
-          <router-link
-            :to="{
-              name: 'info',
-              params: {
-                id: item?.id,
-                name: item?.name
-                  ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                  : item?.title?.replace(/\s/g, '+').toLowerCase(),
-              },
-            }"
-          >
-            <div class="info">
-              <!-- <a-skeleton
+          <div class="info">
+            <!-- <a-skeleton
                 :loading="loading"
                 :active="true"
                 :paragraph="{ rows: 2 }"
                 :title="false"
               > -->
-              <p class="title">
-                {{ item?.name ? item?.name : item?.title }}
-                <span v-if="isEpisodes">
-                  {{
-                    ' - Phần ' + dataMovie?.last_episode_to_air?.season_number
-                  }}
-                </span>
-              </p>
-              <div class="info-bottom">
-                <!-- <p class="genres" v-if="item?.genre_ids">
+            <p class="title">
+              {{ item?.name ? item?.name : item?.title }}
+              <span v-if="isEpisodes">
+                {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+              </span>
+            </p>
+            <div class="info-bottom">
+              <!-- <p class="genres" v-if="item?.genre_ids">
                   {{
                     getAllGenresById(
                       item?.genre_ids,
@@ -96,15 +98,12 @@
                     ).join(' • ')
                   }}
                 </p> -->
-                <p class="genres" v-if="dataMovie?.genres">
-                  {{
-                    Array?.from(dataMovie?.genres, (x) => x.name).join(' • ')
-                  }}
-                </p>
-              </div>
-              <!-- </a-skeleton> -->
+              <p class="genres" v-if="dataMovie?.genres">
+                {{ Array?.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
+              </p>
             </div>
-          </router-link>
+            <!-- </a-skeleton> -->
+          </div>
         </a-tooltip>
 
         <a-modal
@@ -205,7 +204,7 @@
         </a-modal>
       </template>
     </el-skeleton>
-  </div>
+  </router-link>
 </template>
 <script>
 import { ref, onBeforeMount } from 'vue';
@@ -240,9 +239,9 @@ export default {
       if (props?.type) {
         switch (props?.type) {
           case 'movie':
+            isEpisodes.value = false;
             getMovieById(props.item?.id)
               .then((movieResponed) => {
-                isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
 
                 setTimeout(() => {
@@ -255,9 +254,9 @@ export default {
               });
             break;
           case 'tv':
+            isEpisodes.value = true;
             getTvById(props.item?.id)
               .then((tvResponed) => {
-                isEpisodes.value = true;
                 dataMovie.value = tvResponed?.data;
 
                 setTimeout(() => {
@@ -274,9 +273,9 @@ export default {
         }
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
+          isEpisodes.value = true;
           getTvById(props.item?.id)
             .then((tvResponed) => {
-              isEpisodes.value = true;
               dataMovie.value = tvResponed?.data;
 
               setTimeout(() => {
@@ -288,9 +287,9 @@ export default {
               if (axios.isCancel(e)) return;
             });
         } else {
+          isEpisodes.value = false;
           getMovieById(props.item?.id)
             .then((movieResponed) => {
-              isEpisodes.value = false;
               dataMovie.value = movieResponed?.data;
 
               setTimeout(() => {

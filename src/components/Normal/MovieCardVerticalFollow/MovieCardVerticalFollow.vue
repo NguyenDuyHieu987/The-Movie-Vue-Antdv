@@ -2,11 +2,13 @@
   <div style="display: flex; flex-direction: column">
     <router-link
       :to="{
-        path: `/info/${item?.id}/${
-          item?.name
+        name: isEpisodes ? 'infoTV' : 'info',
+        params: {
+          id: item?.id,
+          name: item?.name
             ? item?.name?.replace(/\s/g, '+').toLowerCase()
-            : item?.title?.replace(/\s/g, '+').toLowerCase()
-        }`,
+            : item?.title?.replace(/\s/g, '+').toLowerCase(),
+        },
       }"
       class="movie-card-vertical-item"
     >
@@ -133,9 +135,9 @@ export default {
       if (props?.type) {
         switch (props?.type) {
           case 'movie':
+            isEpisodes.value = false;
             getMovieById(props.item?.id)
               .then((movieResponed) => {
-                isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
 
                 setTimeout(() => {
@@ -148,9 +150,9 @@ export default {
               });
             break;
           case 'tv':
+            isEpisodes.value = true;
             getTvById(props.item?.id)
               .then((tvResponed) => {
-                isEpisodes.value = true;
                 dataMovie.value = tvResponed?.data;
 
                 setTimeout(() => {
@@ -167,9 +169,9 @@ export default {
         }
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
+          isEpisodes.value = true;
           getTvById(props.item?.id)
             .then((tvResponed) => {
-              isEpisodes.value = true;
               dataMovie.value = tvResponed?.data;
 
               setTimeout(() => {
@@ -181,9 +183,9 @@ export default {
               if (axios.isCancel(e)) return;
             });
         } else {
+          isEpisodes.value = false;
           getMovieById(props.item?.id)
             .then((movieResponed) => {
-              isEpisodes.value = false;
               dataMovie.value = movieResponed?.data;
 
               setTimeout(() => {

@@ -303,7 +303,7 @@ import {
 } from '@/services/MovieService';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
-import { removeVietnameseTones } from '@/untils/RemoveVietnameseTones';
+import { removeVietnameseTones } from '@/utils/RemoveVietnameseTones';
 import { useStore } from 'vuex';
 
 export default {

@@ -22,12 +22,27 @@
       object-fit: cover;
     }
   }
+
   .info {
     font-size: 1.4rem;
     color: #d0d0d0;
+    width: 100%;
 
-    .duration-episode {
-      // margin-left: 10px;
+    .top {
+      .duration-episode {
+        // margin-left: 10px;
+      }
+    }
+
+    .bottom {
+      color: #aaa;
+      display: flex;
+      margin-top: 14px;
+      margin-right: 5px;
+      justify-content: flex-end;
+      .views {
+        font-size: 1.3rem;
+      }
     }
   }
 }

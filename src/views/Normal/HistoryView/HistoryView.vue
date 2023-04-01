@@ -184,6 +184,7 @@
                   type="primary"
                   shape="round"
                   class="remove-all-history-btn"
+                  @click="removeAllHistoryList"
                 >
                   <template #icon>
                     <span class="material-icons-outlined"> delete_sweep </span>
@@ -244,10 +245,13 @@ import {
   getColorImage,
   getHistory,
   // getMovies,
+  removeAllItemHistory,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
 import { InfoCircleOutlined } from '@ant-design/icons-vue';
 import disableScroll from 'disable-scroll';
+import { ElMessage } from 'element-plus';
+import { message } from 'ant-design-vue';
 
 export default {
   components: { MovieCardHorizontalHistory, InfoCircleOutlined },
@@ -377,6 +381,38 @@ export default {
       total.value = data?.length;
     };
 
+    const removeAllHistoryList = () => {
+      message.loading({ content: 'Đang xóa tất cả Lịch sử xem' });
+
+      removeAllItemHistory(store?.state.userAccount?.id)
+        .then((movieRespone) => {
+          if (movieRespone.data?.success == true) {
+            setTimeout(() => {
+              dataHistory.value = movieRespone.data?.results;
+              message.destroy();
+              ElMessage({
+                type: 'success',
+                message: `Xóa thành công!`,
+              });
+            }, 500);
+          } else {
+            message.destroy();
+            ElMessage({
+              type: 'error',
+              message: `Xóa thất bại!`,
+            });
+          }
+        })
+        .catch((e) => {
+          message.destroy();
+          ElMessage({
+            type: 'error',
+            message: `Xóa thất bại!`,
+          });
+          if (axios.isCancel(e)) return;
+        });
+    };
+
     watch(route, () => {
       // getData();
     });
@@ -390,6 +426,7 @@ export default {
       getData,
       getPoster,
       getDataWhenRemoveHistory,
+      removeAllHistoryList,
     };
   },
   // beforeRouteEnter() {

@@ -125,28 +125,32 @@ import axios from 'axios';
 
 export default {
   props: {
-    dataMovie: Object,
-    numberOfEpisodes: Number,
-    loading: Boolean,
+    dataMovie: { type: Object },
+    numberOfEpisodes: { type: Number },
+    loading: { type: Boolean },
   },
   components: {},
   setup(props) {
     const route = useRoute();
     const dataSeason = ref({});
+    const loadingLastestEpisodes = ref(false);
 
     onBeforeMount(() => {
+      loadingLastestEpisodes.value = true;
       getMoviesBySeason(
         route.params?.id,
         props.dataMovie?.last_episode_to_air?.season_number
       )
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
+          loadingLastestEpisodes.value = false;
         })
         .catch((e) => {
+          loadingLastestEpisodes.value = false;
           if (axios.isCancel(e)) return;
         });
     });
-    return { dataSeason };
+    return { dataSeason, loadingLastestEpisodes };
   },
 };
 </script>

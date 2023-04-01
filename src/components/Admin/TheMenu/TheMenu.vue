@@ -44,7 +44,7 @@ import { reactive, toRefs, watch } from 'vue';
 import { HomeOutlined } from '@ant-design/icons-vue';
 
 import { useRoute } from 'vue-router';
-import { removeVietnameseTones } from '@/untils/RemoveVietnameseTones';
+import { removeVietnameseTones } from '@/utils/RemoveVietnameseTones';
 
 export default {
   components: {

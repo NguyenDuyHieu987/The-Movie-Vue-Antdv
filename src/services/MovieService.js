@@ -10,11 +10,11 @@ const TMDB_IMAGE_BASE_URL = process.env.VUE_APP_TMDB_IMAGE_BASE_URL;
 // const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
 
 const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
-// const URL_API = 'http://127.0.0.1:5001';
+// const URL_API = 'http://127.0.0.1:5000';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
 // const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
-// const URL_API_IMAGE = 'http://127.0.0.1:5000';
+// const URL_API_IMAGE = 'http://127.0.0.1:5001';
 const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
 
 const emailValidation = (email) =>
@@ -217,10 +217,16 @@ const getMovieById = async (movieId, append_to_response = '') =>
     `${URL_API}/movie/detail/${movieId}?append_to_response=${append_to_response}&api=hieu987`
   );
 
+const UpdateViewMovie = async (movieId) =>
+  await axios.post(`${URL_API}/movie/updateview/${movieId}?api=hieu987`);
+
 const getTvById = async (movieid, append_to_response = '') =>
   await axios.get(
     `${URL_API}/tv/detail/${movieid}?append_to_response=${append_to_response}&api=hieu987`
   );
+
+const UpdateViewTV = async (movieId) =>
+  await axios.post(`${URL_API}/tv/updateview/${movieId}?api=hieu987`);
 
 const getMoviesBySeason = async (movieid, season) =>
   await axios.get(`${URL_API}/tv/${movieid}/season/${season}?api=hieu987`);
@@ -275,6 +281,12 @@ const removeItemHistory = async (userID, params) => {
   return await axios.post(
     `${URL_API}/history/${userID}/remove_item?api=hieu987`,
     bodyFormData
+  );
+};
+
+const removeAllItemHistory = async (userID) => {
+  return await axios.post(
+    `${URL_API}/history/${userID}/removeall_item?api=hieu987`
   );
 };
 
@@ -439,6 +451,7 @@ export {
   getLanguage,
   getDaTaSearch,
   getMovieById,
+  UpdateViewMovie,
   getMoviesByGenres,
   getMoviesByYear,
   getMoviesByYearBeFore2000,
@@ -458,6 +471,7 @@ export {
   FilterDataMovie,
   getTv,
   getTvById,
+  UpdateViewTV,
   getMoviesBySeason,
   getAllSortBy,
   getAllGenre,
@@ -468,6 +482,7 @@ export {
   removeAllItemList,
   add_update_History,
   removeItemHistory,
+  removeAllItemHistory,
   getPosterCast,
   getMovies,
   ratingMovie,

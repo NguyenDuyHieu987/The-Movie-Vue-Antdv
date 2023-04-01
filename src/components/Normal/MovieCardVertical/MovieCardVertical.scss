@@ -199,13 +199,22 @@
         .info {
           padding: 0px;
 
+          .title {
+            color: #fff;
+          }
+
+          .info-bottom {
+            color: #d0d0d0;
+          }
+
           .title,
           .genres {
             white-space: normal;
             overflow: visible;
           }
 
-          .country-imdb {
+          .views-imdb {
+            color: #d0d0d0;
             display: flex;
             flex-direction: row;
             justify-content: space-between;

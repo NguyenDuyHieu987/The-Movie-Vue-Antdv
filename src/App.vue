@@ -34,7 +34,7 @@ import axios from 'axios';
 import { CloseCircleFilled } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
 import { getUserToken } from '@/services/MovieService';
-import { getWithExpiry } from '@/untils/LocalStorage';
+import { getWithExpiry } from '@/utils/LocalStorage';
 import { Modal } from 'ant-design-vue';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { SpringSpinner } from 'epic-spinners';

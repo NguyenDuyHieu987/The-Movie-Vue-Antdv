@@ -32,6 +32,7 @@
       height="80vh"
       loop
       trigger="click"
+      :pause-on-hover="true"
     >
       <el-carousel-item
         v-for="(item, index) in trendings"

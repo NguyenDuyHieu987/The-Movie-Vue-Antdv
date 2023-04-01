@@ -1,7 +1,7 @@
 <template>
   <router-link
     :to="{
-      name: 'info',
+      name: isEpisodes ? 'infoTV' : 'info',
       params: {
         id: item?.id,
         name: item?.name
@@ -199,7 +199,7 @@
             <el-tooltip content="Chi tiết phim" placement="top">
               <router-link
                 :to="{
-                  name: 'info',
+                  name: isEpisodes ? 'infoTV' : 'info',
                   params: {
                     id: item?.id,
                     name: item?.name
@@ -218,12 +218,12 @@
           </div>
         </div>
         <div class="info">
-          <p class="title">
+          <h3 class="title">
             {{ item?.name ? item?.name : item?.title }}
             <span v-if="isEpisodes">
               {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
             </span>
-          </p>
+          </h3>
           <div class="info-bottom">
             <p class="genres" v-if="item?.genres">
               {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
@@ -236,28 +236,8 @@
             </p>
           </div>
 
-          <div class="country-imdb">
-            <p v-if="isEpisodes">
-              {{
-                dataMovie?.seasons?.find((item) =>
-                  item?.season_number ===
-                  dataMovie?.last_episode_to_air?.season_number
-                    ? item
-                    : null
-                )?.episode_count + ' tập'
-              }}
-            </p>
-            <p v-else>
-              {{
-                getLanguage(item?.original_language, $store.state.allCountries)
-                  ?.name
-                  ? getLanguage(
-                      item?.original_language,
-                      $store.state.allCountries
-                    )?.name
-                  : ''
-              }}
-            </p>
+          <div class="views-imdb">
+            <p class="views">{{ ViewFormatter(dataMovie?.views) }} lượt xem</p>
 
             <p>
               <span
@@ -316,6 +296,7 @@ import {
 } from 'ant-design-vue';
 import { ElMessage } from 'element-plus';
 import { message } from 'ant-design-vue';
+import { ViewFormatter } from '@/utils/convertViews';
 
 export default {
   components: { PlusOutlined, InfoOutlined },
@@ -343,21 +324,25 @@ export default {
       );
 
       itemMovie.forEach((x) => {
-        x?.addEventListener('mouseenter', () => {
-          const rect = x.getBoundingClientRect();
+        x?.addEventListener('mouseenter', (e) => {
+          // const rect = x.getBoundingClientRect();
 
           const detailFlow = x.getElementsByClassName('detail-flow')[0];
 
           if (detailFlow?.style) {
-            if (rect.left <= 300) {
-              // if (e.x - x.offsetWidth <= 250) {
+            // if (rect.left <= 300) {
+            if (e.x - x.offsetWidth <= 250) {
               detailFlow.style.left = '0';
               detailFlow.style.right = 'auto';
               detailFlow.style.transform =
                 'translateX(0%) translateY(-50%) scale(1.05)';
             }
 
-            if (window.innerWidth - rect.right <= 37) {
+            // console.log('e: ', e.x);
+            // console.log('x:', x.offsetWidth);
+            // console.log('rect: ', rect.right);
+
+            if (window.innerWidth - e.x <= x.offsetWidth) {
               detailFlow.style.left = 'auto';
               detailFlow.style.right = '0';
               detailFlow.style.transform =
@@ -374,9 +359,9 @@ export default {
       if (props?.type) {
         switch (props?.type) {
           case 'movie':
+            isEpisodes.value = false;
             getMovieById(props.item?.id)
               .then((movieResponed) => {
-                isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
 
                 setTimeout(() => {
@@ -389,9 +374,9 @@ export default {
               });
             break;
           case 'tv':
+            isEpisodes.value = true;
             getTvById(props.item?.id)
               .then((tvResponed) => {
-                isEpisodes.value = true;
                 dataMovie.value = tvResponed?.data;
 
                 setTimeout(() => {
@@ -408,9 +393,9 @@ export default {
         }
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
+          isEpisodes.value = true;
           getTvById(props.item?.id)
             .then((tvResponed) => {
-              isEpisodes.value = true;
               dataMovie.value = tvResponed?.data;
 
               setTimeout(() => {
@@ -422,9 +407,9 @@ export default {
               if (axios.isCancel(e)) return;
             });
         } else {
+          isEpisodes.value = false;
           getMovieById(props.item?.id)
             .then((movieResponed) => {
-              isEpisodes.value = false;
               dataMovie.value = movieResponed?.data;
 
               setTimeout(() => {
@@ -593,6 +578,7 @@ export default {
       getPoster,
       getAllGenresById,
       getLanguage,
+      ViewFormatter,
     };
   },
 };
