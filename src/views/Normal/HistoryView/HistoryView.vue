@@ -314,9 +314,13 @@ export default {
     };
 
     onMounted(() => {
-      const ant_btn = document.querySelector(
-        '.topic-history-column .viewmore-btn-history'
-      );
+      // const ant_btn = document.querySelector(
+      //   '.topic-history-column .viewmore-btn-history'
+      // );
+
+      const ant_btn = document.getElementsByClassName(
+        'viewmore-btn-history'
+      )[0];
 
       ant_btn?.addEventListener('click', () => {
         if (ant_btn?.classList.contains('ant-dropdown-open')) {

@@ -403,10 +403,10 @@ export default {
     };
 
     onMounted(() => {
-      const ant_btn = document.querySelector(
-        '.topic-follow-column .viewmore-btn-follow'
-      );
-
+      // const ant_btn = document.querySelector(
+      //   '.topic-follow-column .viewmore-btn-follow'
+      // );
+      const ant_btn = document.getElementsByClassName('viewmore-btn-follow')[0];
       ant_btn?.addEventListener('click', () => {
         if (ant_btn?.classList.contains('ant-dropdown-open')) {
           disableScroll.on();
