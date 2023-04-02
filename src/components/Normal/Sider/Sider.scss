@@ -103,6 +103,8 @@
   padding: 0px 20px;
   padding-left: 24px;
   transition: padding 0.1s cubic-bezier(0.215, 0.61, 0.355, 1);
+  display: flex;
+  align-items: center;
 
   .title-trigger-collapse {
     margin-left: 10px;
@@ -110,6 +112,12 @@
     opacity: 1;
     transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s,
       color 0.3s;
+  }
+
+  svg {
+    font-size: 1.5rem;
+    height: 15px;
+    width: 15px;
   }
 }
 

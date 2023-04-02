@@ -217,7 +217,8 @@
               >
                 <a-button shape="circle" size="large">
                   <template #icon>
-                    <InfoOutlined />
+                    <!-- <InfoOutlined /> -->
+                    <i class="fa-sharp fa-solid fa-info"></i>
                   </template>
                 </a-button>
               </router-link>
@@ -280,7 +281,7 @@
 import { ref, onBeforeMount, createVNode, onMounted, computed } from 'vue';
 import {
   PlusOutlined,
-  InfoOutlined,
+  // InfoOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons-vue';
 import axios from 'axios';
@@ -307,7 +308,10 @@ import { message } from 'ant-design-vue';
 import { ViewFormatter } from '@/utils/convertViews';
 
 export default {
-  components: { PlusOutlined, InfoOutlined },
+  components: {
+    PlusOutlined,
+    //  InfoOutlined
+  },
   props: {
     item: {
       type: Object,

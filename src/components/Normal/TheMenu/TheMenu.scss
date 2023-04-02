@@ -30,6 +30,19 @@
     align-items: center;
   }
 
+  svg.ant-menu-item-icon {
+    font-size: 1.5rem !important;
+    height: 15px;
+    width: 15px;
+  }
+  .ant-menu-item-icon {
+    svg {
+      font-size: 1.5rem;
+      height: 15px;
+      width: 15px;
+    }
+  }
+
   .ant-menu-item:has(.material-symbols-outlined.ant-menu-item-icon) {
     .material-symbols-outlined.ant-menu-item-icon {
       font-family: 'Material Icons Outlined';
