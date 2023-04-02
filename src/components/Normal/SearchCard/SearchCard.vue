@@ -18,7 +18,6 @@
       <!-- <a-skeleton-image v-else class="ant-image" /> -->
     </div>
 
-    <!-- <a-tooltip :title="getLanguage(item?.original_language)?.english_name"> -->
     <div class="info">
       <p class="title">
         {{ item?.name ? item?.name : item?.title }}
@@ -51,7 +50,6 @@
         {{ item?.runtime ? item?.runtime + ' phút' : '' }}
       </p>
     </div>
-    <!-- </a-tooltip> -->
   </router-link>
 </template>
 <script>

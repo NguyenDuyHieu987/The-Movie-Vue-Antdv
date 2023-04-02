@@ -1,3 +1,17 @@
+@media only screen and (min-width: 800px) {
+  .el-popover {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .ant-layout-sider.sider-bar {
+    width: 0px !important;
+    min-width: 0px !important;
+    overflow: hidden;
+  }
+}
+
 .ant-layout-sider.sider-bar {
   position: fixed;
   left: 0;

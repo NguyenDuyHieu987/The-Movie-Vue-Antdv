@@ -10,7 +10,64 @@
           <div class="column-container">
             <div class="top">
               <div class="backdrop">
-                <a-image :src="getPoster(topicImage)" :preview="false">
+                <router-link
+                  v-if="
+                    dataHistory[0]?.media_type == 'tv' && dataHistory[0]?.id
+                  "
+                  :to="{
+                    name: 'playtv',
+                    params: {
+                      id: dataHistory[0]?.id,
+                      name: dataHistory[0]?.name
+                        ? dataHistory[0]?.name
+                            ?.replace(/\s/g, '+')
+                            .toLowerCase()
+                        : dataHistory[0]?.title
+                            ?.replace(/\s/g, '+')
+                            .toLowerCase(),
+                      tap: 'tap-1',
+                    },
+                  }"
+                >
+                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  </a-image>
+                  <div class="play-now">
+                    <span>
+                      <font-awesome-icon icon="fa-solid fa-play" />
+                      PHÁT NGAY
+                    </span>
+                  </div>
+                </router-link>
+                <router-link
+                  v-else-if="
+                    dataHistory[0]?.media_type == 'movie' && dataHistory[0]?.id
+                  "
+                  :to="{
+                    name: 'play',
+                    params: {
+                      id: dataHistory[0]?.id,
+                      name: dataHistory[0]?.name
+                        ? dataHistory[0]?.name
+                            ?.replace(/\s/g, '+')
+                            .toLowerCase()
+                        : dataHistory[0]?.title
+                            ?.replace(/\s/g, '+')
+                            .toLowerCase(),
+                    },
+                  }"
+                >
+                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  </a-image>
+                  <div class="play-now">
+                    <font-awesome-icon icon="fa-solid fa-play" />
+                    <span>PHÁT NGAY</span>
+                  </div>
+                </router-link>
+                <a-image
+                  v-if="!dataList?.length"
+                  :src="getPoster(topicImage)"
+                  :preview="false"
+                >
                 </a-image>
               </div>
               <img class="overlay-image" :src="getPoster(topicImage)" />
@@ -108,7 +165,64 @@
           <a-layout-sider class="topic-history-column" :width="340">
             <div class="column-container">
               <div class="backdrop">
-                <a-image :src="getPoster(topicImage)" :preview="false">
+                <router-link
+                  v-if="
+                    dataHistory[0]?.media_type == 'tv' && dataHistory[0]?.id
+                  "
+                  :to="{
+                    name: 'playtv',
+                    params: {
+                      id: dataHistory[0]?.id,
+                      name: dataHistory[0]?.name
+                        ? dataHistory[0]?.name
+                            ?.replace(/\s/g, '+')
+                            .toLowerCase()
+                        : dataHistory[0]?.title
+                            ?.replace(/\s/g, '+')
+                            .toLowerCase(),
+                      tap: 'tap-1',
+                    },
+                  }"
+                >
+                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  </a-image>
+                  <div class="play-now">
+                    <span>
+                      <font-awesome-icon icon="fa-solid fa-play" />
+                      PHÁT NGAY
+                    </span>
+                  </div>
+                </router-link>
+                <router-link
+                  v-else-if="
+                    dataHistory[0]?.media_type == 'movie' && dataHistory[0]?.id
+                  "
+                  :to="{
+                    name: 'play',
+                    params: {
+                      id: dataHistory[0]?.id,
+                      name: dataHistory[0]?.name
+                        ? dataHistory[0]?.name
+                            ?.replace(/\s/g, '+')
+                            .toLowerCase()
+                        : dataHistory[0]?.title
+                            ?.replace(/\s/g, '+')
+                            .toLowerCase(),
+                    },
+                  }"
+                >
+                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  </a-image>
+                  <div class="play-now">
+                    <font-awesome-icon icon="fa-solid fa-play" />
+                    <span>PHÁT NGAY</span>
+                  </div>
+                </router-link>
+                <a-image
+                  v-if="!dataHistory?.length"
+                  :src="getPoster(topicImage)"
+                  :preview="false"
+                >
                 </a-image>
               </div>
               <img class="overlay-image" :src="getPoster(topicImage)" />
@@ -239,6 +353,7 @@ import {
   ref,
   getCurrentInstance,
   onMounted,
+  createVNode,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
@@ -252,10 +367,13 @@ import {
   removeAllItemHistory,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
-// import { InfoCircleOutlined } from '@ant-design/icons-vue';
+import {
+  // InfoCircleOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons-vue';
 import disableScroll from 'disable-scroll';
 import { ElMessage } from 'element-plus';
-import { message } from 'ant-design-vue';
+import { message, Modal } from 'ant-design-vue';
 import _ from 'lodash';
 
 export default {
@@ -317,7 +435,7 @@ export default {
       }
 
       // topic_history_column.style = `background: url("${getPoster(
-      //   dataList.value[0]?.backdrop_path
+      //   dataHistory.value[0]?.backdrop_path
       // )}");`;
 
       // topic_history_column.style.setProperty(
@@ -412,35 +530,53 @@ export default {
     };
 
     const removeAllHistoryList = () => {
-      message.loading({ content: 'Đang xóa tất cả Lịch sử xem' });
+      if (dataHistory.value?.length > 0) {
+        Modal.confirm({
+          title: 'Thông Báo',
+          icon: createVNode(QuestionCircleOutlined),
+          content: createVNode(
+            'h3',
+            {},
+            'Bạn có muốn xóa toàn bộ Lịch sử xem không?'
+          ),
+          okText: 'Có',
+          okType: 'primary',
+          cancelText: 'Không',
+          centered: true,
+          onOk() {
+            message.loading({ content: 'Đang xóa tất cả Lịch sử xem' });
 
-      removeAllItemHistory(store?.state.userAccount?.id)
-        .then((movieRespone) => {
-          if (movieRespone.data?.success == true) {
-            setTimeout(() => {
-              dataHistory.value = movieRespone.data?.results;
-              message.destroy();
-              ElMessage({
-                type: 'success',
-                message: `Xóa thành công!`,
+            removeAllItemHistory(store?.state.userAccount?.id)
+              .then((movieRespone) => {
+                if (movieRespone.data?.success == true) {
+                  setTimeout(() => {
+                    dataHistory.value = movieRespone.data?.results;
+                    message.destroy();
+                    ElMessage({
+                      type: 'success',
+                      message: `Xóa thành công!`,
+                    });
+                  }, 500);
+                } else {
+                  message.destroy();
+                  ElMessage({
+                    type: 'error',
+                    message: `Xóa thất bại!`,
+                  });
+                }
+              })
+              .catch((e) => {
+                message.destroy();
+                ElMessage({
+                  type: 'error',
+                  message: `Xóa thất bại!`,
+                });
+                if (axios.isCancel(e)) return;
               });
-            }, 500);
-          } else {
-            message.destroy();
-            ElMessage({
-              type: 'error',
-              message: `Xóa thất bại!`,
-            });
-          }
-        })
-        .catch((e) => {
-          message.destroy();
-          ElMessage({
-            type: 'error',
-            message: `Xóa thất bại!`,
-          });
-          if (axios.isCancel(e)) return;
+          },
+          onCancel() {},
         });
+      }
     };
 
     watch(route, () => {

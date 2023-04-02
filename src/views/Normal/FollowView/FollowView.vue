@@ -530,52 +530,53 @@ export default {
     });
 
     const removeAllFollowList = () => {
-      Modal.confirm({
-        title: 'Thông Báo',
-        icon: createVNode(QuestionCircleOutlined),
-        // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
-        content: createVNode(
-          'h3',
-          {},
-          'Bạn có muốn xóa toàn bộ Danh sách phát không?'
-        ),
-        okText: 'Có',
-        okType: 'primary',
-        cancelText: 'Không',
-        centered: true,
-        onOk() {
-          message.loading({ content: 'Đang xóa tất cả Danh sách phát' });
+      if (dataList.value?.length > 0) {
+        Modal.confirm({
+          title: 'Thông Báo',
+          icon: createVNode(QuestionCircleOutlined),
+          content: createVNode(
+            'h3',
+            {},
+            'Bạn có muốn xóa toàn bộ Danh sách phát không?'
+          ),
+          okText: 'Có',
+          okType: 'primary',
+          cancelText: 'Không',
+          centered: true,
+          onOk() {
+            message.loading({ content: 'Đang xóa tất cả Danh sách phát' });
 
-          removeAllItemList(store?.state.userAccount?.id)
-            .then((movieRespone) => {
-              if (movieRespone.data?.success == true) {
-                setTimeout(() => {
-                  dataList.value = movieRespone.data?.results;
+            removeAllItemList(store?.state.userAccount?.id)
+              .then((movieRespone) => {
+                if (movieRespone.data?.success == true) {
+                  setTimeout(() => {
+                    dataList.value = movieRespone.data?.results;
+                    message.destroy();
+                    ElMessage({
+                      type: 'success',
+                      message: `Xóa thành công!`,
+                    });
+                  }, 500);
+                } else {
                   message.destroy();
                   ElMessage({
-                    type: 'success',
-                    message: `Xóa thành công!`,
+                    type: 'error',
+                    message: `Xóa thất bại!`,
                   });
-                }, 500);
-              } else {
+                }
+              })
+              .catch((e) => {
                 message.destroy();
                 ElMessage({
                   type: 'error',
                   message: `Xóa thất bại!`,
                 });
-              }
-            })
-            .catch((e) => {
-              message.destroy();
-              ElMessage({
-                type: 'error',
-                message: `Xóa thất bại!`,
+                if (axios.isCancel(e)) return;
               });
-              if (axios.isCancel(e)) return;
-            });
-        },
-        onCancel() {},
-      });
+          },
+          onCancel() {},
+        });
+      }
     };
 
     return {

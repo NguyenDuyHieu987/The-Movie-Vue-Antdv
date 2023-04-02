@@ -121,22 +121,9 @@ dl {
   margin: 0px;
 }
 
-@media only screen and (max-width: 1000px) {
-  .movie-search-item {
-    display: flex;
-    padding: 5px 5px;
-  }
-}
-
 @media only screen and (max-width: 800px) {
   html {
     font-size: 9px;
-  }
-
-  .logo {
-    .menu-btn {
-      display: block !important;
-    }
   }
 
   .gradient-title-default {
@@ -147,12 +134,6 @@ dl {
     font-size: 1.8rem !important;
   }
 
-  .ant-layout-sider.sider-bar {
-    width: 0px !important;
-    min-width: 0px !important;
-    overflow: hidden;
-  }
-
   .body-content {
     margin-left: 0px !important;
   }
@@ -160,65 +141,6 @@ dl {
   .ant-layout-header {
     padding-left: 0px !important;
     padding-right: 0px !important;
-  }
-
-  .el-popover {
-    left: 50% !important;
-    transform: translateX(-50%);
-    width: 100% !important;
-    .section-title.search {
-      margin-top: 0px;
-    }
-  }
-}
-
-@media only screen and (min-width: 800px) {
-  .el-popover {
-    display: none;
-  }
-}
-
-@media only screen and (max-width: 690px) {
-  .center-search-header.ant-input-group-wrapper,
-  .center-search-header {
-    display: none;
-  }
-
-  .right-header {
-    display: flex;
-    align-items: center;
-
-    .ant-btn {
-      display: block !important;
-      margin-right: 0px;
-    }
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  // .ant-popover.ant-popover-placement-bottom {
-  //   width: 100vw;
-  // }
-}
-
-.certain-category-search-dropdown {
-  background-color: #000;
-  // top: calc(var(--header-height) - 10px) !important;
-  position: fixed !important;
-
-  .rc-virtual-list-holder {
-    max-height: 400px !important;
-    overflow-y: scroll !important;
-
-    .rc-virtual-list-holder-inner {
-      .ant-select-item-option {
-        transition: all 0.25s;
-      }
-
-      .ant-select-item-option-active {
-        background-color: #111111;
-      }
-    }
   }
 }
 
@@ -463,20 +385,6 @@ dl {
   .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
     height: 45px;
     line-height: 45px;
-  }
-}
-
-.ant-input-wrapper,
-.right-header {
-  .ant-btn-primary {
-    background: var(--btn-backgroud-color);
-    border-color: var(--btn-backgroud-color);
-  }
-
-  .ant-btn-primary:hover,
-  .ant-btn-primary:focus {
-    border-color: var(--btn-backgroud-color-hover);
-    background: var(--btn-backgroud-color-hover);
   }
 }
 

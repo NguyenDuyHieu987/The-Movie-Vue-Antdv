@@ -97,7 +97,6 @@ export default {
               Modal.confirm({
                 title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
                 icon: createVNode(QuestionCircleOutlined),
-                // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
                 content: createVNode('h3', {}, 'Đăng nhập ngay?'),
                 okText: 'Có',
                 okType: 'primary',

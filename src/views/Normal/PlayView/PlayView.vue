@@ -4,7 +4,7 @@
       <div class="video-player-wrapper">
         <iframe
           id="vimeo-player"
-          src="https://player.vimeo.com/video/809431505"
+          :src="`https://player.vimeo.com/video/${urlCodeMovie}`"
           width="100%"
           height="100%"
           frameborder="0"
@@ -166,8 +166,8 @@ import {
   Modal,
   // message
 } from 'ant-design-vue';
-import Player from '@vimeo/player';
 import { message } from 'ant-design-vue';
+import Player from '@vimeo/player';
 
 export default {
   components: {
@@ -190,7 +190,7 @@ export default {
     const isOpenTrailerYoutube = ref(false);
     const urlComment = computed(() => window.location);
     const loading = ref(false);
-    const urlCodeMovie = ref('');
+    const urlCodeMovie = ref('809431505');
     const isAddToList = ref(false);
     // const dataAddToList = ref([]);
     const seconds = ref(0);
@@ -199,7 +199,7 @@ export default {
     const isPlayVideo = ref(false);
     const isUpdataView = ref(true);
     const isInHistory = ref(false);
-    const dataItemList = ref({});
+    const dataItemHistory = ref({});
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
@@ -207,23 +207,47 @@ export default {
 
     onBeforeRouteLeave(() => {
       if (isPlayVideo.value == true && store.state.isLogin) {
-        if (isInHistory.value == true) {
-          if (
-            seconds.value > dataItemList.value?.seconds &&
-            percent.value > dataItemList.value?.percent &&
-            dataItemList.value?.seconds < duration.value
-          ) {
-            add_update_History(store?.state.userAccount?.id, {
-              media_type: 'movie',
-              media_id: dataMovie.value?.id,
-              duration: duration.value,
-              percent: percent.value,
-              seconds: seconds.value,
-            }).catch((e) => {
-              if (axios.isCancel(e)) return;
-            });
-          }
-        } else {
+        // if (isInHistory.value == true) {
+        //   if (
+        //     seconds.value > dataItemHistory.value?.seconds &&
+        //     percent.value > dataItemHistory.value?.percent &&
+        //     dataItemHistory.value?.seconds < duration.value
+        //   ) {
+        //     add_update_History(store?.state.userAccount?.id, {
+        //       media_type: 'movie',
+        //       media_id: dataMovie.value?.id,
+        //       duration: duration.value,
+        //       percent: percent.value,
+        //       seconds: seconds.value,
+        //     }).catch((e) => {
+        //       if (axios.isCancel(e)) return;
+        //     });
+        //   } else {
+        //     if (seconds.value > 0 && percent.value > 0) {
+        //       add_update_History(store?.state.userAccount?.id, {
+        //         media_type: 'movie',
+        //         media_id: dataMovie.value?.id,
+        //         duration: dataItemHistory.value?.duration,
+        //         percent: dataItemHistory.value?.percent,
+        //         seconds: dataItemHistory.value?.seconds,
+        //       }).catch((e) => {
+        //         if (axios.isCancel(e)) return;
+        //       });
+        //     }
+        //   }
+        // } else {
+        //   add_update_History(store?.state.userAccount?.id, {
+        //     media_type: 'movie',
+        //     media_id: dataMovie.value?.id,
+        //     duration: duration.value,
+        //     percent: percent.value,
+        //     seconds: seconds.value,
+        //   }).catch((e) => {
+        //     if (axios.isCancel(e)) return;
+        //   });
+        // }
+
+        if (seconds.value > 0 && percent.value > 0 && duration.value > 0) {
           add_update_History(store?.state.userAccount?.id, {
             media_type: 'movie',
             media_id: dataMovie.value?.id,
@@ -332,7 +356,7 @@ export default {
           .then((movieRespone) => {
             if (movieRespone?.data.success == true) {
               isInHistory.value = true;
-              dataItemList.value = movieRespone?.data?.result;
+              dataItemHistory.value = movieRespone?.data?.result;
             } else {
               isInHistory.value = false;
             }
@@ -373,10 +397,6 @@ export default {
     });
 
     watch(route, () => {});
-
-    const getUrlCodeMovie = (data) => {
-      urlCodeMovie.value = data;
-    };
 
     const checkEmptyDataMovies = computed(() => {
       if (Object.keys(dataMovie.value).length == 0) return true;
@@ -496,7 +516,6 @@ export default {
       isAddToList,
       getPoster,
       getAllGenresById,
-      getUrlCodeMovie,
       handelAddToList,
     };
   },

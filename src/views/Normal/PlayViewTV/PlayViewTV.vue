@@ -3,6 +3,8 @@
     <div class="video-player">
       <div class="video-player-wrapper">
         <iframe
+          v-if="urlCodeMovie"
+          id="okru-player"
           width="100%"
           height="100%"
           :src="`//ok.ru/videoembed/${
@@ -10,6 +12,16 @@
           }`"
           frameborder="0"
           allow="autoplay"
+          allowfullscreen
+        ></iframe>
+        <iframe
+          v-else
+          id="vimeo-player"
+          src="https://player.vimeo.com/video/809431505"
+          width="100%"
+          height="100%"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
           allowfullscreen
         ></iframe>
       </div>
@@ -155,7 +167,7 @@ import {
   getCurrentInstance,
   createVNode,
 } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
 import axios from 'axios';
 import {
   getAllGenresById,
@@ -165,6 +177,9 @@ import {
   getItemList,
   addItemList,
   removeItemList,
+  add_update_History,
+  UpdateViewMovie,
+  getItemHistory,
 } from '@/services/MovieService';
 import Interaction from '@/components/Normal/Interaction/Interaction.vue';
 import RatingMovie from '@/components/Normal/RatingMovie/RatingMovie.vue';
@@ -179,6 +194,7 @@ import {
   // message
 } from 'ant-design-vue';
 import { message } from 'ant-design-vue';
+import Player from '@vimeo/player';
 
 export default {
   components: {
@@ -205,10 +221,112 @@ export default {
     const urlCodeMovie = ref('');
     const isAddToList = ref(false);
     // const dataAddToList = ref([]);
+    const seconds = ref(0);
+    const percent = ref(0);
+    const duration = ref(0);
+    const isPlayVideo = ref(false);
+    const isUpdataView = ref(true);
+    const isInHistory = ref(false);
+    const dataItemHistory = ref({});
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
     const internalInstance = getCurrentInstance();
+
+    onBeforeRouteLeave(() => {
+      if (isPlayVideo.value == true && store.state.isLogin) {
+        // if (isInHistory.value == true) {
+        //   if (
+        //     seconds.value > dataItemHistory.value?.seconds &&
+        //     percent.value > dataItemHistory.value?.percent &&
+        //     dataItemHistory.value?.seconds < duration.value
+        //   ) {
+        //     add_update_History(store?.state.userAccount?.id, {
+        //       media_type: 'tv',
+        //       media_id: dataMovie.value?.id,
+        //       duration: duration.value,
+        //       percent: percent.value,
+        //       seconds: seconds.value,
+        //     }).catch((e) => {
+        //       if (axios.isCancel(e)) return;
+        //     });
+        //   } else {
+        //     if (seconds.value > 0 && percent.value > 0) {
+        //       add_update_History(store?.state.userAccount?.id, {
+        //         media_type: 'tv',
+        //         media_id: dataMovie.value?.id,
+        //         duration: dataItemHistory.value?.duration,
+        //         percent: dataItemHistory.value?.percent,
+        //         seconds: dataItemHistory.value?.seconds,
+        //       }).catch((e) => {
+        //         if (axios.isCancel(e)) return;
+        //       });
+        //     }
+        //   }
+        // } else {
+        //   add_update_History(store?.state.userAccount?.id, {
+        //     media_type: 'tv',
+        //     media_id: dataMovie.value?.id,
+        //     duration: duration.value,
+        //     percent: percent.value,
+        //     seconds: seconds.value,
+        //   }).catch((e) => {
+        //     if (axios.isCancel(e)) return;
+        //   });
+        // }
+
+        if (seconds.value > 0 && percent.value > 0 && duration.value > 0) {
+          add_update_History(store?.state.userAccount?.id, {
+            media_type: 'tv',
+            media_id: dataMovie.value?.id,
+            duration: duration.value,
+            percent: percent.value,
+            seconds: seconds.value,
+          }).catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+        }
+      }
+    });
+
+    onMounted(() => {
+      const iframe = document.querySelector('#vimeo-player');
+      const player = new Player(iframe);
+
+      player.on('play', function (e) {
+        // alert('play');
+        duration.value = e.duration;
+        isPlayVideo.value = true;
+      });
+
+      player.on('timeupdate', function (e) {
+        if (e?.seconds > 0) {
+          if (e.seconds > seconds.value && e.percent > percent.value) {
+            if (seconds.value > e.duration - 6) {
+              seconds.value = e.seconds;
+              percent.value = e.percent;
+            } else {
+              setTimeout(() => {
+                seconds.value = e.seconds;
+                percent.value = e.percent;
+              }, 5000);
+            }
+
+            if (seconds.value > e.duration / 2) {
+              if (isUpdataView.value == true) {
+                UpdateViewMovie(route.params?.id);
+                isUpdataView.value = false;
+              }
+            }
+          }
+
+          // console.log('seconds:', seconds.value);
+          // console.log('percent:', percent.value);
+
+          // alert('Time update');
+        }
+      });
+    });
 
     const getData = () => {
       loading.value = true;
@@ -255,6 +373,19 @@ export default {
           .then((movieRespone) => {
             if (movieRespone?.data.success == true) {
               isAddToList.value = true;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+
+        getItemHistory(store.state?.userAccount?.id, route.params?.id)
+          .then((movieRespone) => {
+            if (movieRespone?.data.success == true) {
+              isInHistory.value = true;
+              dataItemHistory.value = movieRespone?.data?.result;
+            } else {
+              isInHistory.value = false;
             }
           })
           .catch((e) => {
