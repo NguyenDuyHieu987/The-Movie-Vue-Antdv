@@ -310,6 +310,30 @@
             />
           </section>
           <!-- </el-scrollbar> -->
+          <div class="skeleton-loadmore" v-if="loadMore">
+            <el-skeleton
+              :loading="true"
+              animated
+              v-for="index in 2"
+              :key="index"
+            >
+              <template #template>
+                <span class="index-item">{{ dataList?.length + index }} </span>
+                <div class="img-box">
+                  <el-skeleton-item class="image-skeleton" variant="image" />
+                </div>
+                <div style="margin-top: 7px" class="info">
+                  <el-skeleton-item variant="text" style="width: 40%" />
+                  <el-skeleton-item variant="text" style="width: 20%" />
+                  <el-skeleton-item variant="text" style="width: 30%" />
+                  <div class="overview">
+                    <el-skeleton-item variant="text" />
+                    <el-skeleton-item variant="text" style="width: 50%" />
+                  </div>
+                </div>
+              </template>
+            </el-skeleton>
+          </div>
         </a-layout-content>
       </a-layout>
     </div>
@@ -373,6 +397,8 @@ export default {
     const skip = ref(1);
     const internalInstance = getCurrentInstance();
     const loading = ref(false);
+    const loadMore = ref(false);
+    const isScroll = ref(false);
     const topicImage = ref('/d0YSRmp819pMRnKLfGMgAQchpnR.jpg');
 
     // document.title = 'Phimhay247 - Theo dõi';
@@ -498,14 +524,27 @@ export default {
         // } else {
         //   //ScrollDOWN
         //   scrollBefore = scrolled;
-        if (scrollBottom() == 0) {
+
+        window.addEventListener('scroll', () => {
+          isScroll.value = true;
+        });
+
+        if (
+          scrollBottom() == 0 &&
+          isScroll.value == true &&
+          total.value > 20 &&
+          dataList.value?.length < total.value
+        ) {
+          loadMore.value = true;
           getList(store?.state.userAccount?.id, skip.value)
             .then((movieRespone) => {
               if (movieRespone.data?.result?.length > 0) {
-                dataList.value = dataList.value.concat(
-                  movieRespone.data?.result
-                );
-
+                setTimeout(() => {
+                  loadMore.value = false;
+                  dataList.value = dataList.value.concat(
+                    movieRespone.data?.result
+                  );
+                }, 2000);
                 skip.value += 1;
               }
             })
@@ -581,6 +620,7 @@ export default {
 
     return {
       loading,
+      loadMore,
       isLogin,
       dataList,
       total,

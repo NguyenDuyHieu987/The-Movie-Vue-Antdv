@@ -359,6 +359,43 @@
           }
         }
       }
+      .el-skeleton {
+        // margin-left: 28px;
+        position: relative;
+        display: flex;
+        width: 100%;
+        gap: 15px;
+        margin-top: 17px;
+        flex-direction: row;
+
+        .index-item {
+          margin: auto 0px;
+        }
+
+        .img-box {
+          position: relative;
+          flex: 1 0 250px;
+          max-width: 250px;
+          height: 141px;
+          overflow: hidden;
+          border-radius: 7px;
+
+          .image-skeleton {
+            height: 100%;
+            width: 100%;
+          }
+        }
+
+        .info {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          width: 100%;
+          .overview {
+            margin-top: 3px;
+          }
+        }
+      }
     }
   }
 }

@@ -328,6 +328,29 @@
               :getDataWhenRemoveHistory="getDataWhenRemoveHistory"
             />
           </section>
+          <div class="skeleton-loadmore" v-if="loadMore">
+            <el-skeleton
+              :loading="true"
+              animated
+              v-for="index in 2"
+              :key="index"
+            >
+              <template #template>
+                <div class="img-box">
+                  <el-skeleton-item class="image-skeleton" variant="image" />
+                </div>
+                <div style="margin-top: 7px" class="info">
+                  <el-skeleton-item variant="text" style="width: 40%" />
+                  <el-skeleton-item variant="text" style="width: 20%" />
+                  <el-skeleton-item variant="text" style="width: 30%" />
+                  <div class="overview">
+                    <el-skeleton-item variant="text" />
+                    <el-skeleton-item variant="text" style="width: 50%" />
+                  </div>
+                </div>
+              </template>
+            </el-skeleton>
+          </div>
         </a-layout-content>
       </a-layout>
     </div>
@@ -389,6 +412,8 @@ export default {
     const skip = ref(1);
     const dataHistory = ref([]);
     const loading = ref(false);
+    const isScroll = ref(false);
+    const loadMore = ref(false);
     const topicImage = ref('/d0YSRmp819pMRnKLfGMgAQchpnR.jpg');
     const internalInstance = getCurrentInstance();
 
@@ -503,22 +528,33 @@ export default {
       getData();
 
       const scrollBottom = require('scroll-bottom');
-      window.onscroll = () => {
-        if (scrollBottom() == 0) {
-          getHistory(store?.state.userAccount?.id, skip.value)
-            .then((movieRespone) => {
-              if (movieRespone.data?.result?.length > 0) {
+      window.addEventListener('scroll', () => {
+        isScroll.value = true;
+      });
+
+      if (
+        scrollBottom() == 0 &&
+        isScroll.value == true &&
+        total.value > 20 &&
+        dataHistory.value?.length < total.value
+      ) {
+        loadMore.value = true;
+        getHistory(store?.state.userAccount?.id, skip.value)
+          .then((movieRespone) => {
+            if (movieRespone.data?.result?.length > 0) {
+              setTimeout(() => {
+                loadMore.value = false;
                 dataHistory.value = dataHistory.value.concat(
                   movieRespone.data?.result
                 );
-                skip.value += 1;
-              }
-            })
-            .catch((e) => {
-              if (axios.isCancel(e)) return;
-            });
-        }
-      };
+              }, 2000);
+              skip.value += 1;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
     });
 
     const getDataWhenRemoveHistory = (data) => {
@@ -587,6 +623,7 @@ export default {
       total,
       topicImage,
       loading,
+      loadMore,
       isLogin,
       dataHistory,
       getData,
