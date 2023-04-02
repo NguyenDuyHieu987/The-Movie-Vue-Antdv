@@ -21,6 +21,10 @@
   .movie-history-item {
     flex-direction: column;
     gap: 5px !important;
+
+    .img-box {
+      flex: 1 0 auto !important;
+    }
   }
 }
 
