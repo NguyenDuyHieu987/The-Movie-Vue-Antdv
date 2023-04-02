@@ -90,7 +90,9 @@
               <div class="main-action">
                 <a-menu-item key="play">
                   <template #icon>
-                    <font-awesome-icon icon="fa-solid fa-play" />
+                    <!-- <font-awesome-icon icon="fa-solid fa-play" /> -->
+                    <i class="fa-sharp fa-regular fa-play"></i>
+                    <!-- <i class="fa-sharp fa-solid fa-play"></i> -->
                   </template>
 
                   <router-link
@@ -127,7 +129,8 @@
                 </a-menu-item>
                 <a-menu-item key="share">
                   <template #icon>
-                    <font-awesome-icon icon="fa-solid fa-share" />
+                    <!-- <font-awesome-icon icon="fa-solid fa-share" /> -->
+                    <i class="fa-sharp fa-regular fa-share"></i>
                   </template>
                   <span>
                     <ShareNetwork

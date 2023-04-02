@@ -18,6 +18,7 @@ import 'element-plus/dist/index.css';
 import vi from 'element-plus/dist/locale/vi.mjs';
 import VueProgressBar from '@aacassandra/vue3-progressbar';
 import { createMetaManager } from 'vue-meta';
+// import 'material-icons/iconfont/material-icons.css';
 
 import {
   faVideoCamera,
@@ -42,9 +43,13 @@ import {
   faClockRotateLeft,
   faEllipsisV,
   faTrashCan,
+  faBell,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube, faFacebookF } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope, faBell } from '@fortawesome/free-regular-svg-icons';
+import {
+  faEnvelope,
+  faBell as faBell1,
+} from '@fortawesome/free-regular-svg-icons';
 
 library.add(
   faVideoCamera,
@@ -72,7 +77,8 @@ library.add(
   faClockRotateLeft,
   faEllipsisV,
   faTrashCan,
-  faBell
+  faBell,
+  faBell1
 );
 
 const gauthOption = {

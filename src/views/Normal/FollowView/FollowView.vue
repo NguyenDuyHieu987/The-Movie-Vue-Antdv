@@ -100,7 +100,8 @@
                     <a-menu class="dropdown-viewmore">
                       <a-menu-item key="info-list">
                         <template #icon>
-                          <InfoCircleOutlined />
+                          <!-- <InfoCircleOutlined /> -->
+                          <i class="fa-regular fa-circle-info"></i>
                         </template>
                         <span>Thông tin chi tiết</span>
                       </a-menu-item>
@@ -119,7 +120,8 @@
                   @click="removeAllFollowList"
                 >
                   <template #icon>
-                    <span class="material-icons-outlined"> delete_sweep </span>
+                    <!-- <span class="material-icons-outlined"> delete_sweep </span> -->
+                    <i class="fa-sharp fa-regular fa-trash-can-list"></i>
                   </template>
                   Xóa tất cả Danh sách phát
                 </el-button>
@@ -241,7 +243,8 @@
                       <a-menu class="dropdown-viewmore">
                         <a-menu-item key="info-list">
                           <template #icon>
-                            <InfoCircleOutlined />
+                            <!-- <InfoCircleOutlined /> -->
+                            <i class="fa-regular fa-circle-info"></i>
                           </template>
                           <span>Thông tin chi tiết</span>
                         </a-menu-item>
@@ -281,7 +284,8 @@
                   @click="removeAllFollowList"
                 >
                   <template #icon>
-                    <span class="material-icons-outlined"> delete_sweep </span>
+                    <!-- <span class="material-icons-outlined"> delete_sweep </span> -->
+                    <i class="fa-sharp fa-regular fa-trash-can-list"></i>
                   </template>
                   Xóa tất cả Danh sách phát
                 </el-button>
@@ -346,7 +350,7 @@ import {
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
 import {
-  InfoCircleOutlined,
+  // InfoCircleOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons-vue';
 // import { extractColors } from 'extract-colors';
@@ -356,7 +360,10 @@ import { message, Modal } from 'ant-design-vue';
 import _ from 'lodash';
 
 export default {
-  components: { MovieCardHorizontalFollow, InfoCircleOutlined },
+  components: {
+    MovieCardHorizontalFollow,
+    //  InfoCircleOutlined
+  },
   setup() {
     const route = useRoute();
     const store = useStore();

@@ -88,6 +88,14 @@
           v-if="!$store.state.collapsed"
         />
         <DoubleRightOutlined v-else />
+        <!-- <i
+          style="transition: all 0.3s"
+          v-if="!$store.state.collapsed"
+          class="fa-solid fa-chevrons-left"
+        ></i>
+
+        <i v-else class="fa-solid fa-chevrons-right"></i> -->
+
         <span class="title-trigger-collapse">Đóng</span>
       </div>
     </a-layout-footer>

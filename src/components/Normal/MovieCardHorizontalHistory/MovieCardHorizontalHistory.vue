@@ -82,7 +82,8 @@
           @click.prevent="handleRemoveFromHistory"
         >
           <template #icon>
-            <Close />
+            <!-- <Close /> -->
+            <i class="fa-light fa-xmark"></i>
           </template>
         </el-button>
       </el-tooltip>
@@ -103,7 +104,9 @@
             <div class="main-action">
               <a-menu-item key="play">
                 <template #icon>
-                  <font-awesome-icon icon="fa-solid fa-play" />
+                  <!-- <font-awesome-icon icon="fa-solid fa-play" /> -->
+                  <i class="fa-sharp fa-regular fa-play"></i>
+                  <!-- <i class="fa-sharp fa-solid fa-play"></i> -->
                 </template>
 
                 <router-link
@@ -155,7 +158,8 @@
 
               <a-menu-item key="share">
                 <template #icon>
-                  <font-awesome-icon icon="fa-solid fa-share" />
+                  <!-- <font-awesome-icon icon="fa-solid fa-share" /> -->
+                  <i class="fa-sharp fa-regular fa-share"></i>
                 </template>
                 <span>
                   <ShareNetwork
@@ -211,13 +215,13 @@ import disableScroll from 'disable-scroll';
 import axios from 'axios';
 import { useStore } from 'vuex';
 // import { CloseOutlined } from '@ant-design/icons-vue';
-import { Close } from '@element-plus/icons-vue';
+// import { Close } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { message } from 'ant-design-vue';
 import { ViewFormatter } from '@/utils/convertViews';
 
 export default {
-  components: { Close },
+  // components: { Close },
   props: {
     item: {
       type: Object,

@@ -53,7 +53,8 @@
                     <a-menu class="dropdown-viewmore">
                       <a-menu-item key="remove-list">
                         <template #icon>
-                          <InfoCircleOutlined />
+                          <!-- <InfoCircleOutlined /> -->
+                          <i class="fa-regular fa-circle-info"></i>
                         </template>
                         <span>Thông tin chi tiết</span>
                       </a-menu-item>
@@ -71,7 +72,8 @@
                   class="remove-all-history-btn"
                 >
                   <template #icon>
-                    <span class="material-icons-outlined"> delete_sweep </span>
+                    <!-- <span class="material-icons-outlined"> delete_sweep </span> -->
+                    <i class="fa-sharp fa-regular fa-trash-can-list"></i>
                   </template>
                   Xóa tất cả video đã xem
                 </el-button>
@@ -147,7 +149,8 @@
                       <a-menu class="dropdown-viewmore">
                         <a-menu-item key="remove-list">
                           <template #icon>
-                            <InfoCircleOutlined />
+                            <!-- <InfoCircleOutlined /> -->
+                            <i class="fa-regular fa-circle-info"></i>
                           </template>
                           <span>Thông tin chi tiết</span>
                         </a-menu-item>
@@ -187,7 +190,8 @@
                   @click="removeAllHistoryList"
                 >
                   <template #icon>
-                    <span class="material-icons-outlined"> delete_sweep </span>
+                    <!-- <span class="material-icons-outlined"> delete_sweep </span> -->
+                    <i class="fa-sharp fa-regular fa-trash-can-list"></i>
                   </template>
                   Xóa tất cả Video đã xem
                 </el-button>
@@ -248,14 +252,17 @@ import {
   removeAllItemHistory,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
-import { InfoCircleOutlined } from '@ant-design/icons-vue';
+// import { InfoCircleOutlined } from '@ant-design/icons-vue';
 import disableScroll from 'disable-scroll';
 import { ElMessage } from 'element-plus';
 import { message } from 'ant-design-vue';
 import _ from 'lodash';
 
 export default {
-  components: { MovieCardHorizontalHistory, InfoCircleOutlined },
+  components: {
+    MovieCardHorizontalHistory,
+    // InfoCircleOutlined
+  },
   setup() {
     const route = useRoute();
     const store = useStore();

@@ -153,6 +153,25 @@
         .fa-bell {
           font-size: 1.7rem;
         }
+
+        .ant-dropdown-link.dropdown-notification {
+          .fa-bell.fa-solid {
+            display: none;
+          }
+          .fa-bell.fa-regular {
+            display: inline-block;
+          }
+        }
+
+        .ant-dropdown-link.dropdown-notification.ant-dropdown-open {
+          .fa-bell.fa-solid {
+            display: inline-block;
+          }
+
+          .fa-bell.fa-regular {
+            display: none;
+          }
+        }
       }
 
       .ant-menu-item:hover {

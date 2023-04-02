@@ -18,7 +18,8 @@
 
     <a-sub-menu key="movie">
       <template #icon>
-        <font-awesome-icon icon="fa-solid fa-video-camera" />
+        <!-- <font-awesome-icon icon="fa-solid fa-video-camera" /> -->
+        <i class="fa-regular fa-video"></i>
       </template>
       <template #title>Phim lẻ</template>
       <a-menu-item key="all">
@@ -207,7 +208,8 @@
 
     <a-sub-menu key="years">
       <template #icon>
-        <font-awesome-icon icon="fa-solid fa-calendar-days" />
+        <!-- <font-awesome-icon icon="fa-solid fa-calendar-days" /> -->
+        <i class="fa-sharp fa-light fa-calendar-days"></i>
       </template>
       <template #title>Năm phát hành</template>
       <a-menu-item
@@ -235,7 +237,8 @@
 
     <a-sub-menu key="countries">
       <template #icon>
-        <font-awesome-icon icon="fa-solid fa-globe" />
+        <!-- <font-awesome-icon icon="fa-solid fa-globe" /> -->
+        <i class="fa-regular fa-globe"></i>
       </template>
       <template #title>Quốc gia</template>
       <a-menu-item
@@ -261,7 +264,8 @@
 
     <a-menu-item key="follow">
       <template #icon>
-        <font-awesome-icon icon="fa-solid fa-bookmark" />
+        <!-- <font-awesome-icon icon="fa-solid fa-bookmark" /> -->
+        <span class="material-symbols-outlined"> playlist_play </span>
       </template>
       <router-link :to="{ name: 'follow' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
@@ -286,7 +290,8 @@
 
     <a-menu-item key="pricing">
       <template #icon>
-        <font-awesome-icon icon="fa-solid fa-money-check-dollar" />
+        <!-- <font-awesome-icon icon="fa-solid fa-money-check-dollar" /> -->
+        <i class="fa-regular fa-money-check-dollar-pen"></i>
       </template>
       <router-link :to="{ name: 'pricing' }"> <span>Pricing</span></router-link>
     </a-menu-item>

@@ -196,30 +196,37 @@
             <strong class="hd-brand">HD</strong>
           </div>
 
-          <span
-            class="btn-trailer"
-            id="btn-trailer"
-            @click="
-              () => {
-                isOpenTrailerYoutube = !isOpenTrailerYoutube;
-                if (isOpenTrailerYoutube) scrolltoTrailerYoutube();
-              }
-            "
-          >
-            <font-awesome-icon icon="fa-brands fa-youtube" />
-            <span>Trailer</span>
-          </span>
+          <div class="widget-2">
+            <div
+              class="btn-trailer"
+              id="btn-trailer"
+              @click="
+                () => {
+                  isOpenTrailerYoutube = !isOpenTrailerYoutube;
+                  if (isOpenTrailerYoutube) scrolltoTrailerYoutube();
+                }
+              "
+            >
+              <font-awesome-icon icon="fa-brands fa-youtube" />
+              <span>Trailer</span>
+            </div>
 
-          <span
-            class="btn-add-to-list"
-            :class="{ active: isAddToList }"
-            @click="handelAddToList"
-          >
-            <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
-            <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
-            <span v-if="!isAddToList"> Thêm vòa d/sách</span>
-            <span v-else> Xóa khỏi d/sách</span>
-          </span>
+            <div
+              class="btn-add-to-list"
+              :class="{ active: isAddToList }"
+              @click="handelAddToList"
+            >
+              <!-- <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
+              <font-awesome-icon v-else icon="fa-solid fa-bookmark" /> -->
+              <span v-if="isAddToList" class="material-icons-outlined">
+                playlist_add_check
+              </span>
+              <span v-else class="material-icons-outlined"> playlist_add </span>
+
+              <span v-if="!isAddToList"> Thêm vòa d/sách</span>
+              <span v-else> Xóa khỏi d/sách</span>
+            </div>
+          </div>
         </div>
 
         <div class="misc">

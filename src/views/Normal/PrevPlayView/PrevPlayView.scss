@@ -473,23 +473,32 @@
     }
 
     .widget {
-      margin-top: 7px;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .widget-2 {
+        display: flex;
+        gap: 10px;
+      }
 
       // .btn-play-now ,
-      span.btn-add-to-list,
-      span.btn-trailer {
-        margin-right: 7px;
-        margin-top: 7px;
+      .btn-add-to-list,
+      .btn-trailer {
+        // margin-right: 7px;
+        // margin-top: 7px;
         color: #fff;
         padding: 10px 15px;
         border-radius: 3px;
         transition: all 0.3s;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         white-space: nowrap;
         cursor: pointer;
         text-align: center;
 
-        span {
+        span:last-child {
           margin-left: 3px;
         }
       }

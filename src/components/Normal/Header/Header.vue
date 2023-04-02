@@ -111,7 +111,11 @@
           >
             <a class="ant-dropdown-link" @click.prevent>
               <a-badge :count="3" :overflow-count="9">
-                <font-awesome-icon icon="fa-regular fa-bell" />
+                <font-awesome-icon
+                  icon="fa-regular fa-bell"
+                  class="fa-regular"
+                />
+                <font-awesome-icon icon="fa-solid fa-bell" class="fa-solid" />
               </a-badge>
             </a>
 
