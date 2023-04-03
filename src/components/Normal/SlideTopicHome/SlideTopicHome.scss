@@ -93,6 +93,12 @@
 }
 
 @media only screen and (max-width: 900px) {
+  .slide-topic-home {
+    .overlay-backdrop {
+      width: 120% !important;
+      height: 120% !important;
+    }
+  }
   .ant-carousel,
   .el-carousel.topic-home-responsive {
     display: block !important;
@@ -250,8 +256,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 150%;
-    height: 150%;
+    width: 100%;
+    height: 100%;
     z-index: 0;
     transform: translateX(-50%) translateY(-50%);
 
