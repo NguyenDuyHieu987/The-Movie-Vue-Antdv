@@ -1,12 +1,6 @@
 <template>
   <div class="slide-topic-home">
-    <a-carousel
-      :arrows="true"
-      :autoplay="true"
-      :dots="false"
-      effect="fade"
-      v-show="trendings?.length"
-    >
+    <!-- <a-carousel :arrows="true" :autoplay="true" :dots="false" effect="fade">
       <template #prevArrow>
         <div class="custom-slick-arrow">
           <font-awesome-icon icon="fa-solid fa-chevron-left" />
@@ -17,13 +11,37 @@
           <font-awesome-icon icon="fa-solid fa-chevron-right" />
         </div>
       </template>
-      <div v-for="(item, index) in trendings" :index="index" :key="item.id">
+      <SlideTopicItem
+        v-for="(item, index) in trendings"
+        :index="index"
+        :key="item.id"
+        :item="item"
+      />
+    </a-carousel> -->
+
+    <el-carousel
+      :interval="3000"
+      height="80vh"
+      loop
+      trigger="click"
+      :pause-on-hover="true"
+      indicator-position="none"
+      arrow="always"
+      class="topic-home-responsive"
+      @change="handleSwitchCarouelResponsive"
+    >
+      <el-carousel-item
+        v-for="(item, index) in trendings"
+        :key="item.id"
+        :index="index"
+      >
         <SlideTopicItem :item="item" />
-      </div>
-    </a-carousel>
+      </el-carousel-item>
+    </el-carousel>
 
     <div class="overlay-backdrop">
-      <img :src="getPoster('/vgLBiFtDCf33W5adaXnSkCtSwgl.jpg')" />
+      <!-- <img :src="getPoster('/vgLBiFtDCf33W5adaXnSkCtSwgl.jpg')" /> -->
+      <img :src="getPoster(trendings[0]?.backdrop_path)" />
     </div>
 
     <el-carousel
@@ -33,6 +51,9 @@
       loop
       trigger="click"
       :pause-on-hover="true"
+      ref="topicHome"
+      class="topic-home"
+      @change="handleSwitchCarouel"
     >
       <el-carousel-item
         v-for="(item, index) in trendings"
@@ -54,21 +75,21 @@ export default {
   components: { SlideTopicItem },
   setup() {
     const trendings = ref([]);
+    const topicHome = ref();
 
     onMounted(() => {
-      const el_carousel_btn = document.querySelectorAll('.el-carousel__arrow');
-      const overlay_backdrop =
-        document.getElementsByClassName('overlay-backdrop')[0];
-      const img_overlay_backdrop = overlay_backdrop.querySelector('img');
-
-      el_carousel_btn?.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const img_silde_topic_item_active = document.querySelector(
-            '.el-carousel__item.is-active .el-image img'
-          );
-          img_overlay_backdrop.src = img_silde_topic_item_active.src;
-        });
-      });
+      // const el_carousel_btn = document.querySelectorAll('.el-carousel__arrow');
+      // const overlay_backdrop =
+      //   document.getElementsByClassName('overlay-backdrop')[0];
+      // const img_overlay_backdrop = overlay_backdrop.querySelector('img');
+      // el_carousel_btn?.forEach((btn) => {
+      //   btn.addEventListener('click', () => {
+      //     const img_silde_topic_item_active = document.querySelector(
+      //       '.el-carousel__item.is-active .el-image img'
+      //     );
+      //     img_overlay_backdrop.src = img_silde_topic_item_active.src;
+      //   });
+      // });
     });
 
     onBeforeMount(() => {
@@ -81,9 +102,121 @@ export default {
         });
     });
 
+    const handleSwitchCarouel = (e) => {
+      const el_carousel_topic_home = document.querySelector(
+        '.el-carousel.topic-home'
+      );
+
+      const index_silde_topic_item_active =
+        el_carousel_topic_home.querySelector('.el-carousel__item.is-active');
+      let index = +index_silde_topic_item_active.getAttribute('index') + 1;
+      if (index == 21) {
+        index = 0;
+      }
+
+      const img_silde_topic_item_active =
+        el_carousel_topic_home.getElementsByClassName(
+          'el-carousel__item is-active'
+        )[0];
+
+      const overlay_backdrop =
+        document.getElementsByClassName('overlay-backdrop')[0];
+      const img_overlay_backdrop = overlay_backdrop.querySelector('img');
+
+      if (getComputedStyle(el_carousel_topic_home).display == 'block') {
+        if (e == index) {
+          if (index == 0) {
+            img_overlay_backdrop.src = el_carousel_topic_home.querySelectorAll(
+              '.el-carousel__item .el-image img'
+            )[0].src;
+          } else {
+            if (img_silde_topic_item_active?.nextElementSibling) {
+              img_overlay_backdrop.src =
+                img_silde_topic_item_active.nextElementSibling.querySelector(
+                  '.el-image img'
+                ).src;
+            }
+          }
+        } else {
+          if (e == 20) {
+            img_overlay_backdrop.src = el_carousel_topic_home.querySelectorAll(
+              '.el-carousel__item .el-image img'
+            )[20].src;
+          } else {
+            if (img_silde_topic_item_active?.previousElementSibling) {
+              img_overlay_backdrop.src =
+                img_silde_topic_item_active.previousElementSibling.querySelector(
+                  '.el-image img'
+                ).src;
+            }
+          }
+        }
+      }
+    };
+
+    const handleSwitchCarouelResponsive = (e) => {
+      const el_carousel_topic_home_responsive = document.querySelector(
+        '.el-carousel.topic-home-responsive'
+      );
+
+      const index_silde_topic_item_active =
+        el_carousel_topic_home_responsive.querySelector(
+          '.el-carousel__item.is-active'
+        );
+      let index = +index_silde_topic_item_active.getAttribute('index') + 1;
+      if (index == 21) {
+        index = 0;
+      }
+
+      const img_silde_topic_item_active =
+        el_carousel_topic_home_responsive.getElementsByClassName(
+          'el-carousel__item is-active'
+        )[0];
+
+      const overlay_backdrop =
+        document.getElementsByClassName('overlay-backdrop')[0];
+      const img_overlay_backdrop = overlay_backdrop.querySelector('img');
+
+      if (
+        getComputedStyle(el_carousel_topic_home_responsive).display == 'block'
+      ) {
+        if (e == index) {
+          if (index == 0) {
+            img_overlay_backdrop.src =
+              el_carousel_topic_home_responsive.querySelectorAll(
+                '.el-carousel__item .el-image img'
+              )[0].src;
+          } else {
+            if (img_silde_topic_item_active?.nextElementSibling) {
+              img_overlay_backdrop.src =
+                img_silde_topic_item_active.nextElementSibling.querySelector(
+                  '.el-image img'
+                ).src;
+            }
+          }
+        } else {
+          if (e == 20) {
+            img_overlay_backdrop.src =
+              el_carousel_topic_home_responsive.querySelectorAll(
+                '.el-carousel__item .el-image img'
+              )[20].src;
+          } else {
+            if (img_silde_topic_item_active?.previousElementSibling) {
+              img_overlay_backdrop.src =
+                img_silde_topic_item_active.previousElementSibling.querySelector(
+                  '.el-image img'
+                ).src;
+            }
+          }
+        }
+      }
+    };
     return {
       trendings,
+      topicHome,
       getPoster,
+      handleSwitchCarouel,
+      handleSwitchCarouelResponsive,
     };
   },
 };

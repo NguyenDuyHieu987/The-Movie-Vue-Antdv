@@ -1,6 +1,5 @@
 <template>
   <router-link
-    v-if="item?.id"
     :to="{
       name: item?.media_type == 'movie' ? 'info' : 'infoTV',
       params: {
