@@ -129,6 +129,7 @@
                   type="primary"
                   shape="round"
                   class="remove-all-history-btn"
+                  @click="removeAllHistoryList"
                 >
                   <template #icon>
                     <!-- <span class="material-icons-outlined"> delete_sweep </span> -->
