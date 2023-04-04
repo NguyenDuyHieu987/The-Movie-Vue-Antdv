@@ -5,6 +5,8 @@
     }
 
     .topic-item-info {
+      left: 30px !important;
+
       h1 {
         font-size: 2.5rem !important;
       }
@@ -24,17 +26,29 @@
     }
 
     .topic-item-info {
-      h1 {
-        font-size: 2rem !important;
-      }
-      .topic-item-info-head {
-        span {
-          font-size: 1.6rem !important;
-        }
-      }
-      .overview {
-        font-size: 1.4rem !important;
-      }
+      left: 20px !important;
+      // h1 {
+      //   font-size: 2rem !important;
+      // }
+      // .topic-item-info-head {
+      //   span {
+      //     font-size: 1.6rem !important;
+      //   }
+      // }
+      // .overview {
+      //   font-size: 1.4rem !important;
+      // }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .topic-item {
+    .overview {
+    }
+
+    .topic-item-info {
+      left: 17px !important;
     }
   }
 }
