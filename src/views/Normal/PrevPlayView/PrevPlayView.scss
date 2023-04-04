@@ -397,16 +397,17 @@
   .poster-img-mobile {
     display: none;
     position: relative;
-    width: 170px;
+    height: 262px;
     margin: 0px auto;
     overflow: hidden;
 
     .ant-image,
     .el-image {
+      height: 100%;
       border-radius: 5px;
 
       img {
-        height: auto;
+        height: 100%;
         width: 100%;
         object-fit: cover;
       }
@@ -414,11 +415,11 @@
 
     .btn-play-now {
       position: absolute;
-      bottom: 10px;
+      bottom: 5px;
       left: 50%;
       transform: translateX(-50%);
       opacity: 0.8;
-      width: 90%;
+      width: 95%;
       color: #fff;
       padding: 10px 15px;
       border-radius: 3px;
@@ -467,7 +468,6 @@
   .info-movie {
     padding: 0px 0px 10px 0px;
     color: #fff;
-    z-index: 1;
 
     h2 {
       color: #fff;
