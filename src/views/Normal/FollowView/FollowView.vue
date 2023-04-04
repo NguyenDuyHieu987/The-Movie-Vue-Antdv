@@ -129,26 +129,26 @@
                 </el-button>
               </div>
               <div class="widget">
-                <a-input-search
+                <a-input
+                  v-model:value="valueInput"
                   class="search-follow"
                   placeholder="Tìm kiếm trong danh sách video..."
                   size="large"
                   allowClear
-                  bordered
                   :loading="loadingSearch"
-                  @search="handleSearch"
+                  @change="searchFollow"
                 >
-                  <template #enterButton>
-                    <el-tooltip
+                  <template #prefix>
+                    <!-- <el-tooltip
                       title="Tìm kiếm"
                       content="Tìm kiếm"
                       effect="dark"
                       placement="top"
-                    >
-                      <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                    </el-tooltip>
+                    > -->
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                    <!-- </el-tooltip> -->
                   </template>
-                </a-input-search>
+                </a-input>
               </div>
             </div>
           </div>
@@ -257,26 +257,26 @@
               </div>
 
               <div class="widget">
-                <a-input-search
+                <a-input
+                  v-model:value="valueInput"
                   class="search-follow"
                   placeholder="Tìm kiếm trong danh sách video..."
                   size="large"
                   allowClear
-                  bordered
                   :loading="loadingSearch"
-                  @search="handleSearch"
+                  @change="searchFollow"
                 >
-                  <template #enterButton>
-                    <el-tooltip
+                  <template #prefix>
+                    <!-- <el-tooltip
                       title="Tìm kiếm"
                       content="Tìm kiếm"
                       effect="dark"
                       placement="top"
-                    >
-                      <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                    </el-tooltip>
+                    > -->
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                    <!-- </el-tooltip> -->
                   </template>
-                </a-input-search>
+                </a-input>
 
                 <el-button
                   round
@@ -370,7 +370,7 @@ import MovieCardHorizontalFollow from '@/components/Normal/MovieCardHorizontalFo
 import {
   getList,
   getPoster,
-  // getMovies,
+  searchList,
   getColorImage,
   removeAllItemList,
 } from '@/services/MovieService';
@@ -395,10 +395,13 @@ export default {
     const store = useStore();
     const isLogin = computed(() => store.state.isLogin);
     const dataList = ref([]);
+    const valueInput = ref('');
+    const debounce = ref();
     const total = ref(0);
     const skip = ref(1);
     const internalInstance = getCurrentInstance();
     const loading = ref(false);
+    const loadingSearch = ref(false);
     const loadMore = ref(false);
     const isScroll = ref(false);
     const topicImage = ref('/d0YSRmp819pMRnKLfGMgAQchpnR.jpg');
@@ -420,12 +423,13 @@ export default {
       if (topic_follow_column) {
         topic_follow_column.style = `background-image: ${main_color}`;
 
-        const search_follow =
-          topic_follow_column.querySelector('.search-follow');
+        // const search_follow =
+        //   topic_follow_column.querySelector('.search-follow');
 
-        const ant_input_affix_wrapper = search_follow.getElementsByClassName(
-          'ant-input-affix-wrapper'
-        )[0];
+        const ant_input_affix_wrapper =
+          topic_follow_column.getElementsByClassName(
+            'ant-input-affix-wrapper'
+          )[0];
         ant_input_affix_wrapper.style = `border-bottom: 2px solid rgb(${color[0]}, ${color[1]}, ${color[2]});`;
       }
 
@@ -436,12 +440,14 @@ export default {
       if (topic_follow_column_responsive) {
         topic_follow_column_responsive.style = `background-image: ${main_color}`;
 
-        const search_follow =
-          topic_follow_column_responsive.querySelector('.search-follow');
+        // const search_follow =
+        //   topic_follow_column_responsive.querySelector('.search-follow');
 
-        const ant_input_affix_wrapper = search_follow.getElementsByClassName(
-          'ant-input-affix-wrapper'
-        )[0];
+        const ant_input_affix_wrapper =
+          topic_follow_column_responsive.getElementsByClassName(
+            'ant-input-affix-wrapper'
+          )[0];
+
         ant_input_affix_wrapper.style = `border-bottom: 2px solid rgb(${color[0]}, ${color[1]}, ${color[2]});`;
       }
 
@@ -620,8 +626,34 @@ export default {
       }
     };
 
+    const searchFollow = (e) => {
+      if (e.target.value.length >= 0) {
+        loadingSearch.value = true;
+
+        clearTimeout(debounce.value);
+        debounce.value = setTimeout(() => {
+          searchList(store?.state.userAccount?.id, e.target.value)
+            .then((movieRespone) => {
+              dataList.value = movieRespone?.data?.results;
+              setTimeout(() => {
+                loadingSearch.value = false;
+              }, 500);
+            })
+            .catch((e) => {
+              loadingSearch.value = false;
+              if (axios.isCancel(e)) return;
+            });
+        }, 500);
+      }
+      // else if (valueInput.value.length == 0) {
+      //   dataList.value = [];
+      // }
+    };
+
     return {
+      valueInput,
       loading,
+      loadingSearch,
       loadMore,
       isLogin,
       dataList,
@@ -631,6 +663,7 @@ export default {
       getPoster,
       getDataWhenRemoveList,
       removeAllFollowList,
+      searchFollow,
     };
   },
   // beforeRouteEnter() {

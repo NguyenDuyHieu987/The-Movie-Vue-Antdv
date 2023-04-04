@@ -71,99 +71,99 @@
         <p class="overview">
           {{ dataMovie?.overview }}
         </p>
-      </div>
 
-      <div class="action">
-        <a-dropdown
-          :trigger="['click']"
-          placement="bottomRight"
-          class="dropdown-viewmore"
-        >
-          <el-button circle shape="circle" size="large" class="viewmore-btn">
-            <template #icon>
-              <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-            </template>
-          </el-button>
+        <div class="action">
+          <a-dropdown
+            :trigger="['click']"
+            placement="bottomRight"
+            class="dropdown-viewmore"
+          >
+            <el-button circle shape="circle" size="large" class="viewmore-btn">
+              <template #icon>
+                <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+              </template>
+            </el-button>
 
-          <template #overlay>
-            <a-menu class="dropdown-item-viewmore">
-              <div class="main-action">
-                <a-menu-item key="play">
-                  <template #icon>
-                    <!-- <font-awesome-icon icon="fa-solid fa-play" /> -->
-                    <i class="fa-sharp fa-regular fa-play"></i>
-                    <!-- <i class="fa-sharp fa-solid fa-play"></i> -->
-                  </template>
+            <template #overlay>
+              <a-menu class="dropdown-item-viewmore">
+                <div class="main-action">
+                  <a-menu-item key="play">
+                    <template #icon>
+                      <!-- <font-awesome-icon icon="fa-solid fa-play" /> -->
+                      <i class="fa-sharp fa-regular fa-play"></i>
+                      <!-- <i class="fa-sharp fa-solid fa-play"></i> -->
+                    </template>
 
-                  <router-link
-                    v-if="isEpisodes && !loading"
-                    :to="{
-                      name: 'playtv',
-                      params: {
-                        id: item?.id,
-                        name: item?.name
-                          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                          : item?.title?.replace(/\s/g, '+').toLowerCase(),
-                        tap: 'tap-1',
-                      },
-                    }"
-                    class="btn-play-now"
-                  >
-                    <span> Đến trang xem phim </span>
-                  </router-link>
-                  <router-link
-                    v-else-if="!isEpisodes && !loading"
-                    :to="{
-                      name: 'play',
-                      params: {
-                        id: item?.id,
-                        name: item?.name
-                          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                          : item?.title?.replace(/\s/g, '+').toLowerCase(),
-                      },
-                    }"
-                    class="btn-play-now"
-                  >
-                    <span>Đến trang xem phim</span>
-                  </router-link>
-                </a-menu-item>
-                <a-menu-item key="share">
-                  <template #icon>
-                    <!-- <font-awesome-icon icon="fa-solid fa-share" /> -->
-                    <i class="fa-sharp fa-regular fa-share"></i>
-                  </template>
-                  <span>
-                    <ShareNetwork
-                      network="facebook"
-                      :url="urlShare"
-                      :title="
-                        dataMovie?.name ? dataMovie?.name : dataMovie?.title
-                      "
-                      hashtags="phimhay247.site,vite"
-                      style="white-space: nowrap; display: block"
+                    <router-link
+                      v-if="isEpisodes && !loading"
+                      :to="{
+                        name: 'playtv',
+                        params: {
+                          id: item?.id,
+                          name: item?.name
+                            ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                            : item?.title?.replace(/\s/g, '+').toLowerCase(),
+                          tap: 'tap-1',
+                        },
+                      }"
+                      class="btn-play-now"
                     >
-                      Chia sẻ
-                    </ShareNetwork>
-                  </span>
-                </a-menu-item>
-              </div>
+                      <span> Đến trang xem phim </span>
+                    </router-link>
+                    <router-link
+                      v-else-if="!isEpisodes && !loading"
+                      :to="{
+                        name: 'play',
+                        params: {
+                          id: item?.id,
+                          name: item?.name
+                            ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                            : item?.title?.replace(/\s/g, '+').toLowerCase(),
+                        },
+                      }"
+                      class="btn-play-now"
+                    >
+                      <span>Đến trang xem phim</span>
+                    </router-link>
+                  </a-menu-item>
+                  <a-menu-item key="share">
+                    <template #icon>
+                      <!-- <font-awesome-icon icon="fa-solid fa-share" /> -->
+                      <i class="fa-sharp fa-regular fa-share"></i>
+                    </template>
+                    <span>
+                      <ShareNetwork
+                        network="facebook"
+                        :url="urlShare"
+                        :title="
+                          dataMovie?.name ? dataMovie?.name : dataMovie?.title
+                        "
+                        hashtags="phimhay247.site,vite"
+                        style="white-space: nowrap; display: block"
+                      >
+                        Chia sẻ
+                      </ShareNetwork>
+                    </span>
+                  </a-menu-item>
+                </div>
 
-              <hr />
-              <div class="danger-zone">
-                <a-menu-item
-                  key="remove-list"
-                  class="remove-list"
-                  @click="handleRemoveFromList"
-                >
-                  <template #icon>
-                    <font-awesome-icon icon="fa-solid fa-trash-can" />
-                  </template>
-                  <span>Xóa khỏi Danh sách phát</span>
-                </a-menu-item>
-              </div>
-            </a-menu>
-          </template>
-        </a-dropdown>
+                <hr />
+                <div class="danger-zone">
+                  <a-menu-item
+                    key="remove-list"
+                    class="remove-list"
+                    @click="handleRemoveFromList"
+                  >
+                    <template #icon>
+                      <font-awesome-icon icon="fa-solid fa-trash-can" />
+                    </template>
+                    <span>Xóa khỏi Danh sách phát</span>
+                  </a-menu-item>
+                </div>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </div>
       </div>
     </router-link>
   </div>

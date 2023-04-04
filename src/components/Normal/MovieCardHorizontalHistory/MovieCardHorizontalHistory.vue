@@ -64,9 +64,8 @@
       <p class="overview">
         {{ dataMovie?.overview }}
       </p>
-    </div>
 
-    <div class="action">
+      <div class="action">
       <el-tooltip
         title="Xóa khỏi Lịch sử xem"
         content="Xóa khỏi Lịch sử xem"
@@ -194,6 +193,9 @@
         </template>
       </a-dropdown>
     </div>
+    </div>
+
+
   </router-link>
 </template>
 <script>

@@ -261,13 +261,13 @@ export default {
     const debounce = ref();
     const valueInput = ref('');
 
-    const handleChangeInput = () => {
-      if (valueInput.value.length > 0) {
+    const handleChangeInput = (query) => {
+      if (query.length > 0) {
         loadingSearch.value = true;
 
         clearTimeout(debounce.value);
         debounce.value = setTimeout(() => {
-          getDaTaSearch(valueInput.value, page.value)
+          getDaTaSearch(query, page.value)
             .then((movieRespone) => {
               dataSearch.value = movieRespone?.data?.results;
               setTimeout(() => {
@@ -279,7 +279,7 @@ export default {
               if (axios.isCancel(e)) return;
             });
         }, 500);
-      } else if (valueInput.value.length == 0) {
+      } else if (query.length == 0) {
         dataSearch.value = [];
       }
     };

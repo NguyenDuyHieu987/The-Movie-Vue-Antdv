@@ -13,6 +13,7 @@
     }
 
     .action {
+      top: -5px !important;
       opacity: 1 !important;
     }
   }
@@ -24,7 +25,9 @@
     gap: 5px !important;
 
     .img-box {
-      flex: 1 0 auto !important;
+      // flex: 1 0 auto !important;
+      flex: 1 0 100% !important;
+      max-width: 100% !important;
     }
   }
 }
@@ -106,6 +109,7 @@
   }
 
   .info {
+    position: relative;
     font-size: 1.4rem;
     color: #fff;
 

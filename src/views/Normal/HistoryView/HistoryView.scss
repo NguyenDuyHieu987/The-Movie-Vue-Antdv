@@ -122,6 +122,8 @@
 
       .img-box {
         flex: 1 0 auto !important;
+        width: 100% !important ;
+        height: 160px !important;
       }
     }
   }
@@ -326,12 +328,25 @@
           .widget {
             flex: 1 0 50%;
 
-            .search-history {
+            .search-history.ant-input-affix-wrapper {
+              background: transparent;
+              border: none;
+              border-bottom: 2px solid #104480;
+              padding-left: 2px;
+
+              .ant-input {
+                font-size: 1.5rem;
+                padding-left: 5px;
+                background: transparent;
+              }
+            }
+
+            .ant-input-group-wrapper.search-history {
               .ant-input-affix-wrapper {
                 background: transparent;
                 border: none;
                 border-bottom: 2px solid #104480;
-                padding-left: 25px;
+                padding-left: 27px;
 
                 .ant-input {
                   font-size: 1.5rem;
@@ -342,7 +357,7 @@
               .ant-input-group-addon {
                 background: transparent;
                 position: absolute;
-                left: 0;
+                left: 2px;
                 top: 0;
 
                 .ant-input-search-button {
@@ -377,15 +392,15 @@
         gap: 15px;
         margin-top: 17px;
         flex-direction: row;
+        align-items: center;
 
         .index-item {
-          margin: auto 0px;
         }
 
         .img-box {
           position: relative;
           flex: 1 0 250px;
-          max-width: 250px;
+          width: 250px;
           height: 141px;
           overflow: hidden;
           border-radius: 7px;
@@ -568,12 +583,25 @@
         flex-direction: column;
         gap: 17px;
 
-        .search-history {
+        .search-history.ant-input-affix-wrapper {
+          background: transparent;
+          border: none;
+          border-bottom: 2px solid #104480;
+          padding-left: 2px;
+
+          .ant-input {
+            font-size: 1.5rem;
+            padding-left: 5px;
+            background: transparent;
+          }
+        }
+
+        .ant-input-group-wrapper.search-history {
           .ant-input-affix-wrapper {
             background: transparent;
             border: none;
             border-bottom: 2px solid #104480;
-            padding-left: 25px;
+            padding-left: 27px;
 
             .ant-input {
               font-size: 1.5rem;
@@ -584,7 +612,7 @@
           .ant-input-group-addon {
             background: transparent;
             position: absolute;
-            left: 0;
+            left: 2px;
             top: 0;
 
             .ant-input-search-button {

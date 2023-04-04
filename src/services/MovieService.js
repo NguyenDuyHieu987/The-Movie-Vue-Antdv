@@ -154,12 +154,22 @@ const getMovieBySimilar = async (type, genres, page) => {
 const getList = async (userID, skip = 0) =>
   await axios.get(`${URL_API}/list/${userID}/getlist?skip=${skip}&api=hieu987`);
 
+const searchList = async (userID, query) =>
+  await axios.get(
+    `${URL_API}/list/${userID}/searchlist?query=${query}&api=hieu987`
+  );
+
 const getItemList = async (userID, movieId) =>
   await axios.get(`${URL_API}/list/${userID}/getitem/${movieId}?api=hieu987`);
 
 const getHistory = async (userID, skip = 0) =>
   await axios.get(
     `${URL_API}/history/${userID}/gethistory?skip=${skip}&api=hieu987`
+  );
+
+const searchHistory = async (userID, query) =>
+  await axios.get(
+    `${URL_API}/history/${userID}/searchhistory?query=${query}&api=hieu987`
   );
 
 const getItemHistory = async (userID, movieId) =>
@@ -466,6 +476,8 @@ export {
   getTheMostVoteCount,
   getList,
   getHistory,
+  searchList,
+  searchHistory,
   getItemList,
   getItemHistory,
   FilterDataMovie,
