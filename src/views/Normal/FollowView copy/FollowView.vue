@@ -81,7 +81,7 @@ export default {
 
     // document.title = 'Phimhay247 - Theo dõi';
     useMeta({
-      title: '`Phimhay247 - Theo dõi',
+      title: 'Phimhay247 - Theo dõi',
       htmlAttrs: { lang: 'vi', amp: true },
     });
 

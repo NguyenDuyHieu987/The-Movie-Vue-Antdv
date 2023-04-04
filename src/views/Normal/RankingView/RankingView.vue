@@ -64,7 +64,7 @@ export default {
     const internalInstance = getCurrentInstance();
 
     useMeta({
-      title: '`Phimhay247 - Xếp hạng',
+      title: 'Phimhay247 - Xếp hạng',
       htmlAttrs: { lang: 'vi', amp: true },
     });
 

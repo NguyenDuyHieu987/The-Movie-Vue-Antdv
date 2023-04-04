@@ -175,9 +175,12 @@
 }
 
 .ant-dropdown:has(.dropdown-item-viewmore) {
+  display: inline-flex;
+  position: relative !important;
   border: none;
   border-radius: 10px;
   overflow: hidden;
+  z-index: 5;
 
   .ant-dropdown-menu.dropdown-item-viewmore {
     // padding: 10px 0px;

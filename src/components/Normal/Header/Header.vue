@@ -107,7 +107,7 @@
           <a-dropdown
             :trigger="['click']"
             class="dropdown-notification"
-            placement="bottomRight"
+            placement="bottomLeft"
           >
             <a class="ant-dropdown-link" @click.prevent>
               <a-badge :count="3" :overflow-count="9">

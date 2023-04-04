@@ -77,37 +77,39 @@
                     {{ total }} video
                     <span> Cập nhật hôm nay </span>
                   </p>
-                </div>
 
-                <a-dropdown
-                  :trigger="['click']"
-                  placement="bottomRight"
-                  class="dropdown-viewmore"
-                >
-                  <el-button
-                    circle
-                    shape="circle"
-                    size="large"
-                    class="viewmore-btn-follow"
-                    @click.prevent=""
+                  <a-dropdown
+                    :trigger="['click']"
+                    placement="bottomRight"
+                    class="dropdown-viewmore"
                   >
-                    <template #icon>
-                      <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-                    </template>
-                  </el-button>
+                    <el-button
+                      circle
+                      shape="circle"
+                      size="large"
+                      class="viewmore-btn-follow"
+                      @click.prevent=""
+                    >
+                      <template #icon>
+                        <font-awesome-icon
+                          icon="fa-solid fa-ellipsis-vertical"
+                        />
+                      </template>
+                    </el-button>
 
-                  <template #overlay>
-                    <a-menu class="dropdown-viewmore">
-                      <a-menu-item key="info-list">
-                        <template #icon>
-                          <!-- <InfoCircleOutlined /> -->
-                          <i class="fa-regular fa-circle-info"></i>
-                        </template>
-                        <span>Thông tin chi tiết</span>
-                      </a-menu-item>
-                    </a-menu>
-                  </template>
-                </a-dropdown>
+                    <template #overlay>
+                      <a-menu class="dropdown-viewmore">
+                        <a-menu-item key="info-list">
+                          <template #icon>
+                            <!-- <InfoCircleOutlined /> -->
+                            <i class="fa-regular fa-circle-info"></i>
+                          </template>
+                          <span>Thông tin chi tiết</span>
+                        </a-menu-item>
+                      </a-menu>
+                    </template>
+                  </a-dropdown>
+                </div>
               </div>
             </div>
             <div class="bottom">
@@ -298,7 +300,6 @@
           <h2 class="gradient-title-default">
             <strong>Danh sách phát</strong>
           </h2>
-          <!-- <el-scrollbar height="100vh"> -->
           <section class="movie-follow" v-show="dataList?.length">
             <MovieCardHorizontalFollow
               v-for="(item, index) in dataList"
@@ -309,7 +310,6 @@
               :getDataWhenRemoveList="getDataWhenRemoveList"
             />
           </section>
-          <!-- </el-scrollbar> -->
           <div class="skeleton-loadmore" v-if="loadMore">
             <el-skeleton
               :loading="true"
@@ -405,7 +405,7 @@ export default {
 
     // document.title = 'Phimhay247 - Theo dõi';
     useMeta({
-      title: '`Phimhay247 - Theo dõi',
+      title: 'Phimhay247 - Theo dõi',
       htmlAttrs: { lang: 'vi', amp: true },
     });
 

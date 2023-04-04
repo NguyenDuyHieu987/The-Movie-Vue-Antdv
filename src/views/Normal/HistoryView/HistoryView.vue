@@ -87,37 +87,39 @@
                     {{ total }} video
                     <span> Cập nhật hôm nay </span>
                   </p>
-                </div>
 
-                <a-dropdown
-                  :trigger="['click']"
-                  placement="bottomRight"
-                  class="dropdown-viewmore"
-                >
-                  <el-button
-                    circle
-                    shape="circle"
-                    size="large"
-                    class="viewmore-btn-history"
-                    @click.prevent=""
+                  <a-dropdown
+                    :trigger="['click']"
+                    placement="bottomRight"
+                    class="dropdown-viewmore"
                   >
-                    <template #icon>
-                      <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-                    </template>
-                  </el-button>
+                    <el-button
+                      circle
+                      shape="circle"
+                      size="large"
+                      class="viewmore-btn-history"
+                      @click.prevent=""
+                    >
+                      <template #icon>
+                        <font-awesome-icon
+                          icon="fa-solid fa-ellipsis-vertical"
+                        />
+                      </template>
+                    </el-button>
 
-                  <template #overlay>
-                    <a-menu class="dropdown-viewmore">
-                      <a-menu-item key="remove-list">
-                        <template #icon>
-                          <!-- <InfoCircleOutlined /> -->
-                          <i class="fa-regular fa-circle-info"></i>
-                        </template>
-                        <span>Thông tin chi tiết</span>
-                      </a-menu-item>
-                    </a-menu>
-                  </template>
-                </a-dropdown>
+                    <template #overlay>
+                      <a-menu class="dropdown-viewmore">
+                        <a-menu-item key="remove-list">
+                          <template #icon>
+                            <!-- <InfoCircleOutlined /> -->
+                            <i class="fa-regular fa-circle-info"></i>
+                          </template>
+                          <span>Thông tin chi tiết</span>
+                        </a-menu-item>
+                      </a-menu>
+                    </template>
+                  </a-dropdown>
+                </div>
               </div>
             </div>
             <div class="bottom">
@@ -419,7 +421,7 @@ export default {
 
     // document.title = 'Phimhay247 - Theo dõi';
     useMeta({
-      title: '`Phimhay247 - Lịch sử xem',
+      title: 'Phimhay247 - Lịch sử xem',
       htmlAttrs: { lang: 'vi', amp: true },
     });
 

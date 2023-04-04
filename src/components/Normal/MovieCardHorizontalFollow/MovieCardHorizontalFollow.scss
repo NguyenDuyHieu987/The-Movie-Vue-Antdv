@@ -29,6 +29,17 @@
   }
 }
 
+.movie-item-follow-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+
+  .index-item {
+    font-size: 1.5rem;
+  }
+}
+
 .movie-follow-item {
   position: relative;
   display: flex;

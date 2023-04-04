@@ -1,19 +1,18 @@
 <template>
   <router-link
-    v-if="dataMovie?.id"
     :to="{
       name: isEpisodes ? 'infoTV' : 'info',
       params: {
-        id: dataMovie?.id,
-        name: dataMovie?.name
-          ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-          : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+        id: item?.id,
+        name: item?.name
+          ? item?.name?.replace(/\s/g, '+').toLowerCase()
+          : item?.title?.replace(/\s/g, '+').toLowerCase(),
       },
     }"
     class="movie-history-item"
   >
     <div class="img-box">
-      <a-image :src="getPoster(dataMovie?.backdrop_path)" :preview="false">
+      <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
       </a-image>
       <div class="percent-viewed" :style="{ width: percent * 100 + '%' }"></div>
       <div class="viewed-overlay-bar"></div>
@@ -22,7 +21,7 @@
     <div class="info">
       <h2 class="title">
         <strong>
-          {{ dataMovie?.name ? dataMovie?.name : dataMovie?.title }}
+          {{ item?.name ? item?.name : item?.title }}
           <strong v-if="isEpisodes">
             {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
           </strong>
@@ -30,9 +29,9 @@
       </h2>
 
       <!-- <p class="release-date">
-        Năm:
-        {{ dataMovie?.release_date ? dataMovie?.release_date : dataMovie?.first_air_date }}
-      </p> -->
+          Năm:
+          {{ dataMovie?.release_date ? dataMovie?.release_date : dataMovie?.first_air_date }}
+        </p> -->
       <p v-if="dataMovie?.last_episode_to_air" class="duration-episode">
         Tập mới nhất:
         {{
@@ -114,10 +113,10 @@
                   :to="{
                     name: 'playtv',
                     params: {
-                      id: dataMovie?.id,
-                      name: dataMovie?.name
-                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                      id: item?.id,
+                      name: item?.name
+                        ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                        : item?.title?.replace(/\s/g, '+').toLowerCase(),
                       tap: 'tap-1',
                     },
                   }"
@@ -130,10 +129,10 @@
                   :to="{
                     name: 'play',
                     params: {
-                      id: dataMovie?.id,
-                      name: dataMovie?.name
-                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                      id: item?.id,
+                      name: item?.name
+                        ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                        : item?.title?.replace(/\s/g, '+').toLowerCase(),
                     },
                   }"
                   class="btn-play-now"
@@ -242,11 +241,7 @@ export default {
     const percent = ref(0);
     const isAddToList = ref(false);
 
-    onMounted(() => {});
-
-    onBeforeMount(() => {
-      loading.value = true;
-      percent.value = props.item?.percent;
+    onMounted(() => {
       const ant_btn = document.querySelectorAll('.action .viewmore-btn');
 
       ant_btn?.forEach((btn) => {
@@ -262,6 +257,11 @@ export default {
           disableScroll.off();
         });
       });
+    });
+
+    onBeforeMount(() => {
+      loading.value = true;
+      percent.value = props.item?.percent;
 
       if (props?.type) {
         switch (props?.type) {

@@ -8,7 +8,7 @@ import { useMeta } from 'vue-meta';
 export default {
   setup() {
     useMeta({
-      title: '`Phimhay247 - Pricing',
+      title: 'Phimhay247 - Pricing',
       htmlAttrs: { lang: 'vi', amp: true },
     });
 

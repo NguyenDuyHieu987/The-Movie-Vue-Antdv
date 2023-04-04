@@ -1,21 +1,21 @@
 <template>
-  <div class="movie-item-follow" v-if="dataMovie?.id">
+  <div class="movie-item-follow-wrapper">
     <span class="index-item">{{ index + 1 }} </span>
     <router-link
       :to="{
         name: isEpisodes ? 'infoTV' : 'info',
         params: {
-          id: dataMovie?.id,
-          name: dataMovie?.name
-            ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-            : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+          id: item?.id,
+          name: item?.name
+            ? item?.name?.replace(/\s/g, '+').toLowerCase()
+            : item?.title?.replace(/\s/g, '+').toLowerCase(),
         },
       }"
       class="movie-follow-item"
     >
       <div class="img-box">
         <!-- v-if="!loading" -->
-        <a-image :src="getPoster(dataMovie?.backdrop_path)" :preview="false">
+        <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
         </a-image>
         <div
           v-show="isInHistory"
@@ -28,7 +28,7 @@
       <div class="info">
         <h2 class="title">
           <strong>
-            {{ dataMovie?.name ? dataMovie?.name : dataMovie?.title }}
+            {{ item?.name ? item?.name : item?.title }}
             <strong v-if="isEpisodes">
               {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
             </strong>
@@ -100,10 +100,10 @@
                     :to="{
                       name: 'playtv',
                       params: {
-                        id: dataMovie?.id,
-                        name: dataMovie?.name
-                          ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                          : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                        id: item?.id,
+                        name: item?.name
+                          ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                          : item?.title?.replace(/\s/g, '+').toLowerCase(),
                         tap: 'tap-1',
                       },
                     }"
@@ -116,10 +116,10 @@
                     :to="{
                       name: 'play',
                       params: {
-                        id: dataMovie?.id,
-                        name: dataMovie?.name
-                          ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                          : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                        id: item?.id,
+                        name: item?.name
+                          ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                          : item?.title?.replace(/\s/g, '+').toLowerCase(),
                       },
                     }"
                     class="btn-play-now"
@@ -169,7 +169,7 @@
   </div>
 </template>
 <script>
-import { ref, onBeforeMount, computed, h } from 'vue';
+import { ref, onBeforeMount, computed, h, onMounted } from 'vue';
 // import axios from 'axios';
 import {
   getAllGenresById,
@@ -212,7 +212,7 @@ export default {
     const percent = ref(0);
     const urlShare = computed(() => window.location);
 
-    onBeforeMount(() => {
+    onMounted(() => {
       const ant_btn = document.querySelectorAll('.action .viewmore-btn');
 
       ant_btn?.forEach((btn) => {
@@ -228,7 +228,9 @@ export default {
           disableScroll.off();
         });
       });
+    });
 
+    onBeforeMount(() => {
       loading.value = true;
 
       if (props?.type) {

@@ -12,7 +12,7 @@ import { useMeta } from 'vue-meta';
 export default {
   setup() {
     useMeta({
-      title: '`Phimhay247 - Profile',
+      title: 'Phimhay247 - Profile',
       htmlAttrs: { lang: 'vi', amp: true },
     });
   },
