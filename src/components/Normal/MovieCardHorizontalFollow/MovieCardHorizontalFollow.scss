@@ -32,6 +32,10 @@
   }
 }
 
+.movie-follow .el-skeleton.movie-follow-item {
+  margin-top: 0px !important;
+}
+
 .movie-item-follow-wrapper {
   display: flex;
   flex-direction: row;

@@ -1,28 +1,32 @@
 <template>
-  <router-link
-    :to="{
-      name: isEpisodes ? 'infoTV' : 'info',
-      params: {
-        id: item?.id,
-        name: item?.name
-          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase(),
-      },
-    }"
-    class="movie-card-horizontal-item"
+  <el-skeleton
+    :loading="loading"
+    animated
+    class="movie-card-horizontal-item skeleton"
   >
-    <el-skeleton :loading="loading" animated>
-      <template #template>
-        <div class="img-box">
-          <el-skeleton-item class="ant-image" variant="image" />
-        </div>
-        <div style="margin-top: 7px">
-          <el-skeleton-item variant="text" />
-          <el-skeleton-item variant="text" style="width: 60%" />
-        </div>
-      </template>
+    <template #template>
+      <div class="img-box">
+        <el-skeleton-item class="ant-image" variant="image" />
+      </div>
+      <div style="margin-top: 7px">
+        <el-skeleton-item variant="text" />
+        <el-skeleton-item variant="text" style="width: 60%" />
+      </div>
+    </template>
 
-      <template #default>
+    <template #default>
+      <router-link
+        :to="{
+          name: isEpisodes ? 'infoTV' : 'info',
+          params: {
+            id: item?.id,
+            name: item?.name
+              ? item?.name?.replace(/\s/g, '+').toLowerCase()
+              : item?.title?.replace(/\s/g, '+').toLowerCase(),
+          },
+        }"
+        class="movie-card-horizontal-item"
+      >
         <div class="img-box">
           <a-image
             v-if="!loading"
@@ -209,9 +213,9 @@
             </div>
           </template>
         </a-modal>
-      </template>
-    </el-skeleton>
-  </router-link>
+      </router-link>
+    </template>
+  </el-skeleton>
 </template>
 <script>
 import { ref, onBeforeMount } from 'vue';

@@ -8,9 +8,7 @@
       <a-skeleton-button
         :loading="loading"
         :active="true"
-        :size="size"
         :shape="'default'"
-        :block="block"
         v-for="(item, index) in Array.from(
           { length: dataMovie?.last_episode_to_air?.episode_number },
           (_, i) => i + 1

@@ -31,6 +31,10 @@
   }
 }
 
+.movie-history .el-skeleton.movie-history-item {
+  margin-top: 0px !important;
+}
+
 .movie-history-item {
   position: relative;
   display: flex;

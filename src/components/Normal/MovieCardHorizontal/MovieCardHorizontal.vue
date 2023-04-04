@@ -108,17 +108,18 @@
       <div class="backdrop-box">
         <a-image
           class="ant-image"
+          v-show="!loading"
           :src="getPoster(dataMovie?.backdrop_path)"
           :preview="false"
         >
         </a-image>
 
         <div
-          v-show="isInHistory"
+          v-if="isInHistory"
           class="percent-viewed"
           :style="{ width: percent * 100 + '%' }"
         ></div>
-        <div v-show="isInHistory" class="viewed-overlay-bar"></div>
+        <div v-if="isInHistory" class="viewed-overlay-bar"></div>
       </div>
       <div class="bottom-content">
         <div class="widget">

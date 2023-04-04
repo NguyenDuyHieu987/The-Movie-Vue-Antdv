@@ -64,7 +64,7 @@
                   </div>
                 </router-link>
                 <a-image
-                  v-if="!dataList?.length"
+                  v-if="!dataHistory?.length"
                   :src="getPoster(topicImage)"
                   :preview="false"
                 >

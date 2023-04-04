@@ -86,9 +86,8 @@
       </a-button>
     </div>
 
-    <div>
+    <div style="margin-top: 15px">
       <a-skeleton
-        style="margin-top: 15px"
         :loading="loading"
         :active="true"
         :paragraph="{ rows: 1, width: 360 }"
