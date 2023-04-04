@@ -240,6 +240,20 @@
   }
 }
 
+@media only screen and (max-width: 610px) {
+  .ant-dropdown:has(.dropdown-notification) {
+    width: 400px !important;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .ant-dropdown:has(.dropdown-notification) {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 95% !important;
+  }
+}
+
 .ant-dropdown:has(.dropdown-notification) {
   max-width: 480px;
   max-height: 642px;
