@@ -26,7 +26,6 @@
         <div class="img-box">
           <a-image
             class="ant-image"
-            v-show="!loading"
             :src="getPoster(dataMovie?.backdrop_path)"
             :preview="false"
           >
@@ -34,7 +33,7 @@
 
           <!-- <a-skeleton-image v-else class="ant-image" /> -->
 
-          <div v-show="!loading" class="duration-episode-box">
+          <div class="duration-episode-box">
             <p class="duration-episode">
               {{
                 isEpisodes
@@ -48,7 +47,7 @@
             </p>
           </div>
 
-          <div v-show="!loading" class="release-date-box">
+          <div class="release-date-box">
             <p class="release-date">
               {{
                 item?.release_date
@@ -109,10 +108,8 @@
       <div class="backdrop-box">
         <a-image
           class="ant-image"
-          v-show="!loading"
           :src="getPoster(dataMovie?.backdrop_path)"
           :preview="false"
-          @load="onLoadImg"
         >
         </a-image>
 

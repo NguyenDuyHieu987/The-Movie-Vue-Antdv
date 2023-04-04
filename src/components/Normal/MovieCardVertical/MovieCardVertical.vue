@@ -108,7 +108,6 @@
       <div class="backdrop-box">
         <a-image
           class="ant-image"
-          v-show="!loading"
           :src="getPoster(dataMovie?.backdrop_path)"
           :preview="false"
         >

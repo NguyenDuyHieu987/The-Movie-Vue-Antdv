@@ -75,8 +75,6 @@
             @blur="isOpenAutoComplete = false"
           >
             <template #option="item">
-              <!-- v-for="(item, index) in dataSearch"
-                  :index="index" -->
               <SearchCard :key="item?.id" :item="item" />
             </template>
             <a-input-search
@@ -89,13 +87,11 @@
               :loading="loadingSearch"
               @search="handleSearch"
             >
-              <!-- <template #enterButton>
-                <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-              </template> -->
             </a-input-search>
           </a-auto-complete>
         </template>
       </el-popover>
+
       <a-menu
         theme="dark"
         mode="horizontal"
