@@ -117,5 +117,9 @@
   }
   .rank-data {
     padding-top: 10px;
+
+    &.el-loading-parent--relative {
+      z-index: 1;
+    }
   }
 }

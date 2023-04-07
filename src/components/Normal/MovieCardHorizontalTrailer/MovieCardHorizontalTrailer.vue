@@ -38,11 +38,11 @@
           <!-- <a-skeleton-image v-else class="ant-image" /> -->
 
           <div
-            v-show="isInHistory"
+            v-if="isInHistory"
             class="percent-viewed"
             :style="{ width: percent * 100 + '%' }"
           ></div>
-          <div v-show="isInHistory" class="viewed-overlay-bar"></div>
+          <div v-if="isInHistory" class="viewed-overlay-bar"></div>
 
           <div v-if="!loading" class="duration-episode-box">
             <p class="duration-episode">

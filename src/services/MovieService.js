@@ -9,13 +9,13 @@ const axios = require('axios').default;
 const TMDB_IMAGE_BASE_URL = process.env.VUE_APP_TMDB_IMAGE_BASE_URL;
 // const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
 
-const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
-// const URL_API = 'http://127.0.0.1:5000';
+// const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
+const URL_API = 'http://127.0.0.1:5000';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
 // const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
-// const URL_API_IMAGE = 'http://127.0.0.1:5001';
-const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
+const URL_API_IMAGE = 'http://127.0.0.1:5001';
+// const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
 
 const emailValidation = (email) =>
   axios.get(
@@ -143,13 +143,13 @@ const getMovieByRecommend = async (type, movieId, page) =>
     `https://api.themoviedb.org/3/${type}/${movieId}?api_key=fe1b70d9265fdb22caa86dca918116eb&append_to_response=recommendations&page=${page}`
   );
 
-const getMovieBySimilar = async (type, genres, page) => {
-  const genrnStr = genres.id != '' ? genres.id : '';
+const getSimilar = async (type, movieId) =>
+  await axios.get(`${URL_API}/similar/${type}/${movieId}?api=hieu987`);
 
-  return await axios.get(
-    `${URL_API}/discover/${type}?with_genres=${genrnStr}&page=${page}&api=hieu987`
+const getMyRecommend = async (userId, skip = 1) =>
+  await axios.get(
+    `${URL_API}/recommend/${userId}/getrecommend?skip=${skip}&api=hieu987`
   );
-};
 
 const getList = async (userID, skip = 0) =>
   await axios.get(`${URL_API}/list/${userID}/getlist?skip=${skip}&api=hieu987`);
@@ -467,7 +467,7 @@ export {
   getMoviesByYearBeFore2000,
   getMovieByCredit,
   getTvByCredit,
-  getMovieBySimilar,
+  getSimilar,
   getMovieByRecommend,
   getAllCountry,
   getMovieByCountry,
@@ -504,4 +504,5 @@ export {
   getUserToken,
   getAvatar,
   getRanking,
+  getMyRecommend,
 };

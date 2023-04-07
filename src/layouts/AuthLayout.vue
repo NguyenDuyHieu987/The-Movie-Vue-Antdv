@@ -19,17 +19,17 @@
     </div>
     <div class="image-auth responsive">
       <img
-        v-if="image == 1"
+        v-if="image_mobile == 1"
         src="../assets/images/background_auth_responsive/Background_Auth1.jpg"
         alt=""
       />
       <img
-        v-else-if="image == 2"
+        v-else-if="image_mobile == 2"
         src="../assets/images/background_auth_responsive/Background_Auth2.jpg"
         alt=""
       />
       <img
-        v-else-if="image == 3"
+        v-else-if="image_mobile == 3"
         src="../assets/images/background_auth_responsive/Background_Auth3.jpg"
         alt=""
       />
@@ -45,6 +45,7 @@ export default {
   setup() {
     return {
       image: ref(Math.floor(Math.random() * 3) + 1),
+      image_mobile: ref(Math.floor(Math.random() * 3) + 1),
     };
   },
 };

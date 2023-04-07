@@ -19,12 +19,12 @@
     </div>
 
     <div class="info">
-      <p class="title">
+      <h3 class="title">
         {{ item?.name ? item?.name : item?.title }}
         <span v-if="isEpisodes">
           {{ ' - Phần ' + item?.last_episode_to_air?.season_number }}
         </span>
-      </p>
+      </h3>
       <p class="genres" v-if="item?.genres">
         {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
       </p>
@@ -49,6 +49,11 @@
         Thời lượng:
         {{ item?.runtime ? item?.runtime + ' phút' : '' }}
       </p>
+
+      <p class="views">
+        <!-- Lượt xem: -->
+        {{ item?.views ? ViewFormatter(item?.views) + ' lượt xem' : '' }}
+      </p>
     </div>
   </router-link>
 </template>
@@ -62,6 +67,7 @@ import {
   // getMovieById,
   getLanguage,
 } from '@/services/MovieService';
+import { ViewFormatter } from '@/utils/convertViews';
 
 export default {
   components: {},
@@ -88,6 +94,7 @@ export default {
       getPoster,
       getAllGenresById,
       getLanguage,
+      ViewFormatter,
     };
   },
 };

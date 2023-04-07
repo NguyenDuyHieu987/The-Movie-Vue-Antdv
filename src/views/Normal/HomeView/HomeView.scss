@@ -6,6 +6,49 @@
     align-items: center;
   }
 
+  .recommend-stage {
+    .movie-group.horizontal {
+      // display: flex;
+      // flex-direction: row;
+      grid-auto-flow: column;
+      transition: all 0.3s;
+
+      .loadmore-btn {
+        min-height: 180px;
+        height: 100%;
+        background: none;
+        border: 1px solid #fff;
+
+        &:focus {
+          border: 1px solid #fff;
+        }
+
+        i {
+          margin-right: 3px;
+        }
+      }
+
+      &.viewmore {
+        grid-auto-flow: row;
+      }
+
+      .movie-card-horizontal-item {
+        // grid-row: 1;
+        align-self: center;
+      }
+    }
+
+    .viewmore-group {
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      font-size: 1.7rem;
+    }
+  }
+
   .view-all {
     transition: all 0.25s;
     &:hover {

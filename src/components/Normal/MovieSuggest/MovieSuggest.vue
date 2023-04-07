@@ -1,65 +1,69 @@
 <template>
-  <h2 class="gradient-title-default" v-show="dataSimilar?.length">
-    <strong>Phim tương tự</strong>
-  </h2>
-  <carousel
-    v-if="dataSimilar?.length"
-    class="similar-container"
-    :items="4"
-    :autoplay="true"
-    :dots="false"
-    :autoplayHoverPause="true"
-    :autoplayTimeout="5000"
-    :margin="7"
-    :autoplaySpeed="500"
-    :navText="[btnPrev, btnNext]"
-    :responsive="responsive"
-  >
-    <MovieCardVertical
-      v-for="(item, index) in dataSimilar"
-      :index="index"
-      :key="item.id"
-      :item="item"
-    />
-  </carousel>
+  <div class="similar-stage">
+    <h2 class="gradient-title-default" v-show="dataSimilar?.length">
+      <strong>Phim tương tự</strong>
+    </h2>
+    <carousel
+      v-if="dataSimilar?.length"
+      class="similar-container"
+      :items="4"
+      :autoplay="true"
+      :dots="false"
+      :autoplayHoverPause="true"
+      :autoplayTimeout="5000"
+      :margin="7"
+      :autoplaySpeed="500"
+      :navText="[btnPrev, btnNext]"
+      :responsive="responsive"
+    >
+      <MovieCardVertical
+        v-for="(item, index) in dataSimilar"
+        :index="index"
+        :key="item.id"
+        :item="item"
+      />
+    </carousel>
+  </div>
 
-  <h2 class="gradient-title-default" v-show="dataRecommend?.length">
-    <strong>Có thể bạn quan tâm</strong>
-  </h2>
-  <carousel
-    v-if="dataRecommend?.length"
-    class="recommend-container"
-    :items="4"
-    :autoplay="true"
-    :dots="false"
-    :autoplayHoverPause="true"
-    :autoplayTimeout="5000"
-    :margin="7"
-    :autoplaySpeed="500"
-    :navText="[btnPrev, btnNext]"
-    :responsive="responsive"
-  >
-    <MovieCardVertical
-      v-for="(item, index) in dataRecommend"
-      :item="item"
-      :index="index"
-      :key="item.id"
-      :type="item?.media_type"
-    />
-  </carousel>
+  <div class="recommend-stage">
+    <h2 class="gradient-title-default" v-show="dataRecommend?.length">
+      <strong>Có thể bạn quan tâm</strong>
+    </h2>
+    <carousel
+      v-if="dataRecommend?.length"
+      class="recommend-container"
+      :items="4"
+      :autoplay="true"
+      :dots="false"
+      :autoplayHoverPause="true"
+      :autoplayTimeout="5000"
+      :margin="7"
+      :autoplaySpeed="500"
+      :navText="[btnPrev, btnNext]"
+      :responsive="responsive"
+    >
+      <MovieCardVertical
+        v-for="(item, index) in dataRecommend"
+        :item="item"
+        :index="index"
+        :key="item.id"
+        :type="item?.media_type"
+      />
+    </carousel>
+  </div>
 </template>
 
 <script>
 import axios from 'axios';
 import { ref, onBeforeMount, watch } from 'vue';
 import carousel from 'vue-owl-carousel/src/Carousel';
-import { getMovieBySimilar, getTrending } from '@/services/MovieService';
+import { getSimilar, getTrending } from '@/services/MovieService';
 import MovieCardVertical from '../MovieCardVertical/MovieCardVertical.vue';
 
 export default {
   props: {
-    dataMovie: { type: Object },
-    isEpisodes: { type: Boolean },
+    movieId: { type: Number },
+    type: { type: String },
   },
   components: {
     carousel,
@@ -116,19 +120,15 @@ export default {
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
 
-    watch(props, () => {
-      getMovieBySimilar(
-        props?.isEpisodes ? 'tvall' : 'movieall',
-        props?.dataMovie?.genres[0],
-        1
-      )
-        .then((movieResponed) => {
-          dataSimilar.value = movieResponed?.data?.results;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
-    });
+    watch(props, () => {});
+
+    getSimilar(props?.type, props?.movieId)
+      .then((movieResponed) => {
+        dataSimilar.value = movieResponed?.data?.results;
+      })
+      .catch((e) => {
+        if (axios.isCancel(e)) return;
+      });
 
     onBeforeMount(() => {
       getTrending(Math.floor(Math.random() * 50) + 1)

@@ -399,8 +399,9 @@
         </a-skeleton-button>
         <Interaction v-else :dataMovie="dataMovie" />
 
-        <div style="margin-top: 15px">
+        <div>
           <a-skeleton
+            style="margin-top: 15px"
             :loading="loading"
             :active="true"
             :paragraph="{ rows: 1, width: '100%' }"
@@ -543,7 +544,11 @@
       </a-tab-pane>
     </a-tabs>
 
-    <MovieSuggest :dataMovie="dataMovie" :isEpisodes="isEpisodes" />
+    <MovieSuggest
+      v-if="!checkEmptyDataMovies"
+      :movieId="dataMovie?.id"
+      type="tv"
+    />
   </div>
 </template>
 <script>

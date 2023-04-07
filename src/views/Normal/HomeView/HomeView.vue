@@ -1,213 +1,256 @@
 <template>
   <div class="home-container">
     <SlideTopicHome />
-    <h2 class="gradient-title-default" v-show="nowPlayings?.length">
-      <strong>Phim nổi bật</strong>
-      <router-link
-        :to="{
-          name: 'discover',
-          params: {
-            slug: 'movie',
-            slug2: 'nowplaying',
+    <div class="outstanding-stage">
+      <h2 class="gradient-title-default" v-show="nowPlayings?.length">
+        <strong>Phim nổi bật</strong>
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'movie',
+              slug2: 'nowplaying',
+            },
+          }"
+          style="font-size: 1.8rem"
+        >
+          <strong class="view-all">Xem tất cả</strong>
+        </router-link>
+      </h2>
+      <carousel
+        v-if="nowPlayings?.length"
+        class="carousel-group"
+        :items="4"
+        :autoplay="true"
+        :dots="false"
+        :autoplayHoverPause="true"
+        :autoplayTimeout="5000"
+        :margin="7"
+        :autoplaySpeed="500"
+        :navText="[btnPrev, btnNext]"
+        :responsive="{
+          0: {
+            items: 2,
+          },
+          590: {
+            items: 2,
+          },
+          750: {
+            items: 2,
+          },
+          830: {
+            items: 3,
+          },
+          1300: {
+            items: 4,
+          },
+          1500: {
+            items: 5,
+          },
+          1800: {
+            items: 6,
+          },
+          2050: {
+            items: 7,
+          },
+          2200: {
+            items: 8,
           },
         }"
-        style="font-size: 1.8rem"
       >
-        <strong class="view-all">Xem tất cả</strong>
-      </router-link>
-    </h2>
-    <carousel
-      v-if="nowPlayings?.length"
-      :items="4"
-      :autoplay="true"
-      :dots="false"
-      :autoplayHoverPause="true"
-      :autoplayTimeout="5000"
-      :margin="7"
-      :autoplaySpeed="500"
-      :navText="[btnPrev, btnNext]"
-      :responsive="{
-        0: {
-          items: 2,
-        },
-        590: {
-          items: 2,
-        },
-        750: {
-          items: 2,
-        },
-        830: {
-          items: 3,
-        },
-        1100: {
-          items: 4,
-        },
-        1175: {
-          items: 4,
-        },
-        1300: {
-          items: 4,
-        },
-        1400: {
-          items: 5,
-        },
-        1550: {
-          items: 6,
-        },
-        1700: {
-          items: 6,
-        },
-        1900: {
-          items: 7,
-        },
-        2200: {
-          items: 8,
-        },
-      }"
-    >
-      <MovieCardHorizontal
-        v-for="(item, index) in nowPlayings"
-        :item="item"
-        :index="index"
-        :key="item.id"
-        type="movie"
-      />
-    </carousel>
+        <MovieCardHorizontal
+          v-for="(item, index) in nowPlayings"
+          :item="item"
+          :index="index"
+          :key="item.id"
+          type="movie"
+        />
+      </carousel>
+    </div>
 
-    <h2 class="gradient-title-default" v-show="tvAiringTodays?.length">
-      <strong>Phim bộ mới</strong>
-      <router-link
-        :to="{
-          name: 'discover',
-          params: {
-            slug: 'movie',
-            slug2: 'upcoming',
+    <div class="recommend-stage" v-show="Recommends?.length">
+      <h2 class="gradient-title-default">
+        <strong>Gợi ý cho bạn</strong>
+      </h2>
+
+      <section
+        class="movie-group horizontal"
+        :class="{ viewmore: viewMoreRecommend }"
+      >
+        <MovieCardHorizontal
+          v-for="(item, index) in Recommends"
+          :index="index"
+          :key="item.id"
+          :item="item"
+          type="movie"
+        />
+        <el-button
+          class="loadmore-btn"
+          type="primary"
+          :loading="loadMoreRecommend"
+          @click="handleLoadMoreRecommend"
+        >
+          <template #icon>
+            <i class="fa-light fa-plus"></i>
+          </template>
+          Tải thêm
+        </el-button>
+      </section>
+
+      <div
+        class="viewmore-group"
+        @click="viewMoreRecommend = !viewMoreRecommend"
+      >
+        <el-tooltip
+          :content="!viewMoreRecommend ? 'Hiện thêm' : 'Ẩn bớt'"
+          placement="bottom"
+        >
+          <i v-if="!viewMoreRecommend" class="fa-light fa-chevron-down"></i>
+          <i v-else class="fa-light fa-chevron-up"></i>
+        </el-tooltip>
+      </div>
+    </div>
+
+    <div class="tv-stage" v-show="tvAiringTodays?.length">
+      <h2 class="gradient-title-default">
+        <strong>Phim bộ mới</strong>
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'movie',
+              slug2: 'upcoming',
+            },
+          }"
+          style="font-size: 1.8rem"
+        >
+          <strong class="view-all">Xem tất cả</strong>
+        </router-link>
+      </h2>
+
+      <section class="movie-group vertical">
+        <MovieCardVertical
+          v-for="(item, index) in tvAiringTodays"
+          :index="index"
+          :key="item.id"
+          :item="item"
+          type="tv"
+        />
+      </section>
+    </div>
+
+    <div class="trailer-stage" v-show="upComings?.length">
+      <h2 class="gradient-title-default">
+        <strong>Trailer</strong>
+
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'movie',
+              slug2: 'upcoming',
+            },
+          }"
+          style="font-size: 1.8rem"
+        >
+          <strong class="view-all">Xem tất cả</strong>
+        </router-link>
+      </h2>
+
+      <section class="movie-group horizontal">
+        <MovieCardHorizontalTrailer
+          v-for="(item, index) in upComings"
+          :index="index"
+          :key="item.id"
+          :item="item"
+          type="movie"
+        />
+      </section>
+    </div>
+
+    <div class="theater-stage">
+      <h2 class="gradient-title-default" v-show="topRateds?.length">
+        <strong>Phim chiếu rạp mới</strong>
+        <router-link
+          :to="{
+            name: 'discover',
+            params: {
+              slug: 'movie',
+              slug2: 'toprated',
+            },
+          }"
+          style="font-size: 1.8rem"
+        >
+          <strong class="view-all">Xem tất cả</strong>
+        </router-link>
+      </h2>
+      <carousel
+        v-if="topRateds?.length"
+        :items="4"
+        :autoplay="true"
+        :dots="false"
+        :autoplayHoverPause="true"
+        :autoplayTimeout="5000"
+        :margin="7"
+        :autoplaySpeed="500"
+        :navText="[btnPrev, btnNext]"
+        :responsive="{
+          0: {
+            items: 2,
+          },
+          500: {
+            items: 2,
+          },
+          520: {
+            items: 3,
+          },
+          700: {
+            items: 4,
+          },
+          800: {
+            items: 3,
+          },
+          900: {
+            items: 4,
+          },
+          1000: {
+            items: 5,
+          },
+          1175: {
+            items: 5,
+          },
+          1300: {
+            items: 6,
+          },
+          1400: {
+            items: 6,
+          },
+          1550: {
+            items: 7,
+          },
+          1700: {
+            items: 8,
+          },
+          1900: {
+            items: 9,
+          },
+          2000: {
+            items: 10,
+          },
+          2200: {
+            items: 11,
           },
         }"
-        style="font-size: 1.8rem"
       >
-        <strong class="view-all">Xem tất cả</strong>
-      </router-link>
-    </h2>
-
-    <section class="movie-group vertical" v-show="tvAiringTodays?.length">
-      <MovieCardVertical
-        v-for="(item, index) in tvAiringTodays"
-        :index="index"
-        :key="item.id"
-        :item="item"
-        type="tv"
-      />
-    </section>
-
-    <h2 class="gradient-title-default" v-show="upComings?.length">
-      <strong>Trailer</strong>
-
-      <router-link
-        :to="{
-          name: 'discover',
-          params: {
-            slug: 'movie',
-            slug2: 'upcoming',
-          },
-        }"
-        style="font-size: 1.8rem"
-      >
-        <strong class="view-all">Xem tất cả</strong>
-      </router-link>
-    </h2>
-
-    <section class="movie-group horizontal" v-show="upComings?.length">
-      <MovieCardHorizontalTrailer
-        v-for="(item, index) in upComings"
-        :index="index"
-        :key="item.id"
-        :item="item"
-        type="movie"
-      />
-    </section>
-
-    <h2 class="gradient-title-default" v-show="topRateds?.length">
-      <strong>Phim chiếu rạp mới</strong>
-      <router-link
-        :to="{
-          name: 'discover',
-          params: {
-            slug: 'movie',
-            slug2: 'toprated',
-          },
-        }"
-        style="font-size: 1.8rem"
-      >
-        <strong class="view-all">Xem tất cả</strong>
-      </router-link>
-    </h2>
-    <carousel
-      v-if="topRateds?.length"
-      :items="4"
-      :autoplay="true"
-      :dots="false"
-      :autoplayHoverPause="true"
-      :autoplayTimeout="5000"
-      :margin="7"
-      :autoplaySpeed="500"
-      :navText="[btnPrev, btnNext]"
-      :responsive="{
-        0: {
-          items: 2,
-        },
-        500: {
-          items: 2,
-        },
-        520: {
-          items: 3,
-        },
-        700: {
-          items: 4,
-        },
-        800: {
-          items: 3,
-        },
-        900: {
-          items: 4,
-        },
-        1000: {
-          items: 5,
-        },
-        1175: {
-          items: 5,
-        },
-        1300: {
-          items: 6,
-        },
-        1400: {
-          items: 6,
-        },
-        1550: {
-          items: 7,
-        },
-        1700: {
-          items: 8,
-        },
-        1900: {
-          items: 9,
-        },
-        2000: {
-          items: 10,
-        },
-        2200: {
-          items: 11,
-        },
-      }"
-    >
-      <MovieCardVertical
-        v-for="(item, index) in topRateds"
-        :item="item"
-        :index="index"
-        :key="item.id"
-        type="movie"
-      />
-    </carousel>
+        <MovieCardVertical
+          v-for="(item, index) in topRateds"
+          :item="item"
+          :index="index"
+          :key="item.id"
+          type="movie"
+        />
+      </carousel>
+    </div>
   </div>
 </template>
 
@@ -225,8 +268,10 @@ import {
   getTvAiringToday,
   getTopRated,
   getUpComing,
+  getMyRecommend,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
+import store from '@/store';
 
 export default {
   name: 'home',
@@ -242,6 +287,10 @@ export default {
     const upComings = ref([]);
     const tvAiringTodays = ref([]);
     const topRateds = ref([]);
+    const Recommends = ref([]);
+    const viewMoreRecommend = ref(false);
+    const loadMoreRecommend = ref(false);
+    const skipRecommend = ref(2);
 
     const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
     const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
@@ -257,25 +306,56 @@ export default {
         getUpComing(1),
         getTvAiringToday(1),
         getTopRated(1),
+        getMyRecommend(store.state.userAccount?.id, 1),
       ])
         .then((response) => {
           nowPlayings.value = response[0].data?.results;
           upComings.value = response[1].data?.results;
           tvAiringTodays.value = response[2]?.data.results;
           topRateds.value = response[3].data?.results;
+          Recommends.value = response[4].data?.results;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
         });
     });
 
+    const handleLoadMoreRecommend = () => {
+      loadMoreRecommend.value = true;
+      getMyRecommend(store.state.userAccount?.id, skipRecommend.value)
+        .then((movieResponse) => {
+          if (movieResponse.data?.results?.length > 0) {
+            Recommends.value = Recommends.value.concat(
+              movieResponse.data?.results
+            );
+            skipRecommend.value += 1;
+
+            setTimeout(() => {
+              loadMoreRecommend.value = false;
+            }, 1000);
+          } else {
+            setTimeout(() => {
+              loadMoreRecommend.value = false;
+            }, 1000);
+          }
+        })
+        .catch((e) => {
+          loadMoreRecommend.value = false;
+          if (axios.isCancel(e)) return;
+        });
+    };
+
     return {
       nowPlayings,
       upComings,
       tvAiringTodays,
       topRateds,
+      Recommends,
+      viewMoreRecommend,
+      loadMoreRecommend,
       btnPrev,
       btnNext,
+      handleLoadMoreRecommend,
     };
   },
 };

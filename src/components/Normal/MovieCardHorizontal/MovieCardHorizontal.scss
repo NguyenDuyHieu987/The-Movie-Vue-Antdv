@@ -1,9 +1,48 @@
+@media only screen and (min-width: 1150px) and (max-width: 1300px) {
+  .carousel-group {
+    .movie-card-horizontal-item {
+      .img-box {
+        transition: all 0.3s;
+        height: 170px !important;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1150px) {
+  .carousel-group {
+    .movie-card-horizontal-item {
+      .img-box {
+        transition: all 0.3s;
+        height: 150px !important;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .carousel-group {
+    .movie-card-horizontal-item {
+      .img-box {
+        transition: all 0.3s;
+        height: 130px !important;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 1150px) {
   .movie-card-horizontal-item {
     .img-box {
       transition: all 0.3s;
       height: 130px !important;
     }
+  }
+}
+
+@media only screen and (max-width: 1010px) {
+  .movie-group.horizontal {
+    grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
   }
 }
 
@@ -59,6 +98,7 @@
   .img-box {
     position: relative;
     height: 150px;
+    // min-width: 230px;
     overflow: hidden;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
@@ -72,6 +112,26 @@
         height: 100%;
         object-fit: cover;
       }
+    }
+
+    .percent-viewed {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 4px;
+      width: var(--percent-viewed);
+      background-color: red;
+      z-index: 1;
+    }
+
+    .viewed-overlay-bar {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 4px;
+      width: 100%;
+      z-index: 0;
+      background-color: #57575787;
     }
   }
 
@@ -179,6 +239,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+
             &:hover {
               color: #fff;
               border: 1px solid #fff;

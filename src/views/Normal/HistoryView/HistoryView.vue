@@ -542,29 +542,31 @@ export default {
         isScroll.value = true;
       });
 
-      if (
-        scrollBottom() == 0 &&
-        isScroll.value == true &&
-        total.value > 20 &&
-        dataHistory.value?.length < total.value
-      ) {
-        loadMore.value = true;
-        getHistory(store?.state.userAccount?.id, skip.value)
-          .then((movieRespone) => {
-            if (movieRespone.data?.result?.length > 0) {
-              setTimeout(() => {
-                loadMore.value = false;
-                dataHistory.value = dataHistory.value.concat(
-                  movieRespone.data?.result
-                );
-              }, 2000);
-              skip.value += 1;
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
+      window.onscroll = () => {
+        if (
+          scrollBottom() == 0 &&
+          isScroll.value == true &&
+          total.value > 20 &&
+          dataHistory.value?.length < total.value
+        ) {
+          loadMore.value = true;
+          getHistory(store?.state.userAccount?.id, skip.value)
+            .then((movieRespone) => {
+              if (movieRespone.data?.result?.length > 0) {
+                setTimeout(() => {
+                  loadMore.value = false;
+                  dataHistory.value = dataHistory.value.concat(
+                    movieRespone.data?.result
+                  );
+                }, 2000);
+                skip.value += 1;
+              }
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+        }
+      };
     });
 
     const getDataWhenRemoveHistory = (data) => {

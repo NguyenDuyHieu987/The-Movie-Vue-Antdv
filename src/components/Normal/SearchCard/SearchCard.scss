@@ -21,10 +21,17 @@
   }
   .info {
     font-size: 1.4rem;
-    color: #d0d0d0;
+    color: #fff;
+    width: 100%;
 
-    .duration-episode {
-      // margin-left: 10px;
+    p {
+      color: #d0d0d0;
+    }
+
+    .views {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 5px;
     }
   }
 }

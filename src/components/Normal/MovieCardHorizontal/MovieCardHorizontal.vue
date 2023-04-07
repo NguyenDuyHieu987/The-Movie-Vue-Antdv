@@ -32,6 +32,12 @@
           </a-image>
 
           <!-- <a-skeleton-image v-else class="ant-image" /> -->
+          <div
+            v-if="isInHistory"
+            class="percent-viewed"
+            :style="{ width: percent * 100 + '%' }"
+          ></div>
+          <div v-if="isInHistory" class="viewed-overlay-bar"></div>
 
           <div class="duration-episode-box">
             <p class="duration-episode">
@@ -435,50 +441,7 @@ export default {
         }
       }
 
-      // getTvById(props.item?.id)
-      //   .then((tvResponed) => {
-      //     if (tvResponed?.data?.not_found === true)
-      //       getMovieById(props.item?.id)
-      //         .then((movieResponed) => {
-      //           isEpisodes.value = false;
-      //           dataMovie.value = movieResponed?.data;
-
-      //           setTimeout(() => {
-      //             loading.value = false;
-      //           }, 1000);
-      //         })
-      //         .catch((e) => {
-      //           loading.value = false;
-      //           if (axios.isCancel(e)) return;
-      //         });
-      //     else {
-      //       setTimeout(() => {
-      //         loading.value = false;
-      //       }, 1000);
-      //       isEpisodes.value = true;
-      //       dataMovie.value = tvResponed?.data;
-      //     }
-      //   })
-      //   .catch((e) => {
-      //     loading.value = false;
-      //     if (axios.isCancel(e)) return;
-      //   });
-
       if (store.state.isLogin) {
-        // getList(store.state?.userAccount?.id)
-        //   .then((movieRespone) => {
-        //     dataAddToList.value = movieRespone?.data?.items;
-
-        //     dataAddToList.value?.map((item) => {
-        //       if (item?.id == dataMovie.value?.id) {
-        //         isAddToList.value = true;
-        //       }
-        //     });
-        //   })
-        //   .catch((e) => {
-        //     if (axios.isCancel(e)) return;
-        //   });
-
         getItemList(store.state?.userAccount?.id, props.item?.id)
           .then((movieRespone) => {
             if (movieRespone?.data.success == true) {

@@ -515,6 +515,11 @@ export default {
 
       // var scrollBefore = 0;
       const scrollBottom = require('scroll-bottom');
+
+      window.addEventListener('scroll', () => {
+        isScroll.value = true;
+      });
+
       window.onscroll = () => {
         // console.log('scroll bottom =', scrollBottom());
         // const scrolled = window.scrollY;
@@ -532,10 +537,6 @@ export default {
         // } else {
         //   //ScrollDOWN
         //   scrollBefore = scrolled;
-
-        window.addEventListener('scroll', () => {
-          isScroll.value = true;
-        });
 
         if (
           scrollBottom() == 0 &&

@@ -15,6 +15,8 @@
     padding: 0px 10px;
     padding-bottom: 7px;
     overflow: hidden;
+    max-height: 275px;
+    overflow-y: scroll;
 
     & > li,
     li + li {
