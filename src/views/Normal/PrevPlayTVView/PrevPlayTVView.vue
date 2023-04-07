@@ -1,5 +1,5 @@
 <template>
-  <div class="prev-play-conainer">
+  <div class="prev-playtv-conainer">
     <div class="main-info">
       <div class="backdrop-img">
         <div class="backdrop-wrapper">
@@ -223,8 +223,8 @@
               </span>
               <span v-else class="material-icons-outlined"> playlist_add </span>
 
-              <span v-if="!isAddToList"> Thêm vòa d/sách</span>
-              <span v-else> Xóa khỏi d/sách</span>
+              <span v-if="!isAddToList"> Thêm vòa D/sách</span>
+              <span v-else> Xóa khỏi D/sách</span>
             </div>
           </div>
         </div>
@@ -484,71 +484,76 @@
       <strong>Diễn viên</strong>
     </h3> -->
 
-    <a-tabs v-model:activeKey="activeTabCast" v-show="dataCredit?.cast?.length">
-      <a-tab-pane key="1" tab="Diễn viên">
-        <carousel
-          v-if="dataCredit?.cast?.length"
-          class="cast"
-          :items="4"
-          :autoplay="true"
-          :dots="false"
-          :autoplayHoverPause="true"
-          :autoplayTimeout="5000"
-          :margin="7"
-          :autoplaySpeed="500"
-          :navText="[btnPrev, btnNext]"
-          :responsive="responsiveCarousel"
-        >
-          <CastCard
-            v-for="(item, index) in dataCredit?.cast"
-            :src="
-              getPoster(
-                item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-              )
-            "
-            :item="item"
-            :index="index"
-            :key="item.id"
-            :loading="loading"
-          />
-        </carousel>
-      </a-tab-pane>
-      <a-tab-pane key="2" tab="Đội ngũ" force-render>
-        <carousel
-          v-if="dataCredit?.crew?.length"
-          class="cast"
-          :items="4"
-          :autoplay="true"
-          :loop="true"
-          :dots="false"
-          :autoplayHoverPause="true"
-          :autoplayTimeout="5000"
-          :margin="7"
-          :autoplaySpeed="500"
-          :navText="[btnPrev, btnNext]"
-          :responsive="responsiveCarousel"
-        >
-          <CastCard
-            v-for="(item, index) in dataCredit?.crew"
-            :src="
-              getPoster(
-                item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-              )
-            "
-            :item="item"
-            :index="index"
-            :key="item.id"
-            :loading="loading"
-          />
-        </carousel>
-      </a-tab-pane>
-    </a-tabs>
+    <div class="cast-suggest">
+      <a-tabs
+        v-model:activeKey="activeTabCast"
+        v-show="dataCredit?.cast?.length"
+      >
+        <a-tab-pane key="1" tab="Diễn viên">
+          <carousel
+            v-if="dataCredit?.cast?.length"
+            class="cast"
+            :items="4"
+            :autoplay="true"
+            :dots="false"
+            :autoplayHoverPause="true"
+            :autoplayTimeout="5000"
+            :margin="7"
+            :autoplaySpeed="500"
+            :navText="[btnPrev, btnNext]"
+            :responsive="responsiveCarousel"
+          >
+            <CastCard
+              v-for="(item, index) in dataCredit?.cast"
+              :src="
+                getPoster(
+                  item?.backdrop_path ? item?.backdrop_path : item?.poster_path
+                )
+              "
+              :item="item"
+              :index="index"
+              :key="item.id"
+              :loading="loading"
+            />
+          </carousel>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="Đội ngũ" force-render>
+          <carousel
+            v-if="dataCredit?.crew?.length"
+            class="cast"
+            :items="4"
+            :autoplay="true"
+            :loop="true"
+            :dots="false"
+            :autoplayHoverPause="true"
+            :autoplayTimeout="5000"
+            :margin="7"
+            :autoplaySpeed="500"
+            :navText="[btnPrev, btnNext]"
+            :responsive="responsiveCarousel"
+          >
+            <CastCard
+              v-for="(item, index) in dataCredit?.crew"
+              :src="
+                getPoster(
+                  item?.backdrop_path ? item?.backdrop_path : item?.poster_path
+                )
+              "
+              :item="item"
+              :index="index"
+              :key="item.id"
+              :loading="loading"
+            />
+          </carousel>
+        </a-tab-pane>
+      </a-tabs>
 
-    <MovieSuggest
-      v-if="!checkEmptyDataMovies"
-      :movieId="dataMovie?.id"
-      type="tv"
-    />
+      <MovieSuggest
+        v-if="!checkEmptyDataMovies"
+        :movieId="dataMovie?.id"
+        type="tv"
+      />
+    </div>
   </div>
 </template>
 <script>

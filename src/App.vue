@@ -15,7 +15,7 @@
     </div>
     <component v-else :is="layout">
       <!-- <router-view :key="$route.fullPath" /> -->
-      <router-view />
+      <router-view :key="$route.path" />
 
       <div id="components-back-top-demo-custom">
         <a-back-top class="ant-back-top-inner" :visibilityHeight="600">

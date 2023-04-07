@@ -124,8 +124,11 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 150%;
-      height: 150%;
+      // width: 150%;
+      // height: 150%;
+      // margin-top: calc(var(--header-height) + 150px);
+      height: 110%;
+      width: 110%;
       z-index: 0;
       transform: translateX(-50%) translateY(-50%);
 

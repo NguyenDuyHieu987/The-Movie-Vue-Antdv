@@ -250,8 +250,8 @@
           >
             <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
             <font-awesome-icon v-else icon="fa-solid fa-bookmark" />
-            <span v-if="!isAddToList"> Thêm vòa d/sách</span>
-            <span v-else> Xóa khỏi d/sách</span>
+            <span v-if="!isAddToList"> Thêm vòa D/sách</span>
+            <span v-else> Xóa khỏi D/sách</span>
           </span>
         </div>
 

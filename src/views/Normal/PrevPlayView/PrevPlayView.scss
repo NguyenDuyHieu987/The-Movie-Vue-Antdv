@@ -183,11 +183,13 @@
     }
 
     .backdrop-img {
+      // .backdrop-wrapper {
       &::after,
       &::before,
       .hd-brand {
         display: none !important;
       }
+      // }
     }
 
     .poster-img-mobile {
@@ -212,6 +214,25 @@
       }
     }
   }
+}
+
+@keyframes episode-fade-out {
+  0% {
+    content: '\203A';
+    color: #e80046c5;
+  }
+  50% {
+    content: '\203A \203A';
+    color: #e8004686;
+  }
+  100% {
+    content: '\203A \203A \203A';
+    color: #e800462c;
+  }
+}
+
+.ant-layout.main-content:has(.prev-play-conainer) {
+  overflow: visible;
 }
 
 .prev-play-conainer {
@@ -246,12 +267,51 @@
       }
     }
 
+    &:hover {
+      .poster-img {
+        right: 10px;
+      }
+
+      &::before,
+      &::after {
+        z-index: -1;
+        opacity: 0;
+      }
+    }
+
+    &::before {
+      content: 'Xem phim ngay';
+      position: absolute;
+      z-index: 2;
+      bottom: 22px;
+      right: 10%;
+      color: #e80046;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    &::after {
+      content: '\203A';
+      position: absolute;
+      z-index: 1;
+      bottom: 7px;
+      left: 91%;
+      animation: episode-fade-out 1.2s infinite linear;
+      transition: all 0.2s;
+      font-size: 4rem;
+      font-weight: bold;
+      color: #e80046;
+    }
+
     .overlay-backdrop {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 150%;
-      height: 150%;
+      width: 120%;
+      height: 120%;
+      // margin-top: calc(var(--header-height) + 150px);
+      // height: 100%;
+      // width: 100%;
       z-index: 0;
       transform: translateX(-50%) translateY(-50%);
 
@@ -299,21 +359,6 @@
       font-size: 4rem;
       font-weight: bold;
       color: #e80046;
-    }
-
-    @keyframes episode-fade-out {
-      0% {
-        content: '\203A';
-        color: #e80046c5;
-      }
-      50% {
-        content: '\203A \203A';
-        color: #e8004686;
-      }
-      100% {
-        content: '\203A \203A \203A';
-        color: #e800462c;
-      }
     }
   }
 
@@ -468,6 +513,7 @@
   .info-movie {
     padding: 0px 0px 10px 0px;
     color: #fff;
+    z-index: 1;
 
     h2 {
       color: #fff;
@@ -521,7 +567,9 @@
       }
 
       .btn-add-to-list {
-        background-color: #505050;
+        // background-color: #505050;
+        background-color: #006999;
+
         &.active {
           background-color: #006d4e;
 
@@ -531,7 +579,8 @@
         }
 
         &:hover {
-          background-color: #505050a9;
+          // background-color: #505050a9;
+          background-color: #006999bb;
         }
       }
     }
@@ -555,9 +604,11 @@
   }
 
   .movie-content {
+    position: relative;
     padding: 0px 10px;
     text-align: justify;
     color: #fff;
+    z-index: 1;
 
     p {
     }
@@ -586,9 +637,11 @@
     }
 
     .toggle-content {
+      position: relative;
       cursor: pointer;
       display: inline-block;
       user-select: none;
+      z-index: 1;
 
       strong {
         display: block;
@@ -633,6 +686,10 @@
         );
       }
     }
+  }
+
+  .cast-suggest {
+    overflow: hidden;
   }
 
   .widget-skeleton {

@@ -83,7 +83,7 @@ export default {
   max-width: 2160px;
   margin: 0px auto;
   overflow: hidden;
-  position: relative;
+  // position: relative;
 }
 
 .ant-layout-content.container {

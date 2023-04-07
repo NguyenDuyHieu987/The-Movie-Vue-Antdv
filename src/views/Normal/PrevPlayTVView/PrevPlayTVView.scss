@@ -1,5 +1,5 @@
 @media only screen and (max-width: 2300px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       height: 55vh !important;
     }
@@ -7,7 +7,7 @@
 }
 
 @media only screen and (max-width: 2100px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       height: 50vh !important;
     }
@@ -15,7 +15,7 @@
 }
 
 @media only screen and (max-width: 1900px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       height: 45vh !important;
     }
@@ -28,7 +28,7 @@
   }
 }
 @media only screen and (max-width: 1700px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       height: 500px !important;
     }
@@ -36,7 +36,7 @@
 }
 
 @media only screen and (max-width: 1600px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .trailer-youtube {
       iframe {
         height: 650px !important;
@@ -46,7 +46,7 @@
 }
 
 @media only screen and (max-width: 1400px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       height: 450px !important;
     }
@@ -73,14 +73,14 @@
 }
 
 @media only screen and (max-width: 1260px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
     }
   }
 }
 
 @media only screen and (max-width: 1150px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .main-info {
       flex-direction: column;
 
@@ -108,7 +108,7 @@
 }
 
 @media only screen and (max-width: 920px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       height: 400px !important;
     }
@@ -135,7 +135,7 @@
 }
 
 @media only screen and (max-width: 800px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       &::after {
         bottom: 10px !important;
@@ -145,7 +145,7 @@
 }
 
 @media only screen and (max-width: 700px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       height: 350px !important;
     }
@@ -171,7 +171,7 @@
 }
 
 @media only screen and (max-width: 530px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       height: 300px !important;
     }
@@ -183,11 +183,13 @@
     }
 
     .backdrop-img {
+      // .backdrop-wrapper {
       &::after,
       &::before,
       .hd-brand {
         display: none !important;
       }
+      // }
     }
 
     .poster-img-mobile {
@@ -201,7 +203,7 @@
 }
 
 @media only screen and (max-width: 435px) {
-  .prev-play-conainer {
+  .prev-playtv-conainer {
     .backdrop-img {
       height: 250px !important;
     }
@@ -214,7 +216,26 @@
   }
 }
 
-.prev-play-conainer {
+@keyframes episode-fade-out {
+  0% {
+    content: '\203A';
+    color: #e80046c5;
+  }
+  50% {
+    content: '\203A \203A';
+    color: #e8004686;
+  }
+  100% {
+    content: '\203A \203A \203A';
+    color: #e800462c;
+  }
+}
+
+.ant-layout.main-content:has(.prev-playtv-conainer) {
+  overflow: visible;
+}
+
+.prev-playtv-conainer {
   .main-info {
     display: flex;
     gap: 15px;
@@ -246,30 +267,10 @@
       }
     }
 
-    .overlay-backdrop {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 150%;
-      height: 150%;
-      z-index: 0;
-      transform: translateX(-50%) translateY(-50%);
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.4;
-        filter: blur(150px);
-        // border-radius: 23%;
-      }
-    }
-
     &:hover {
       .poster-img {
         right: 10px;
       }
-
       &::before,
       &::after {
         z-index: -1;
@@ -301,18 +302,25 @@
       color: #e80046;
     }
 
-    @keyframes episode-fade-out {
-      0% {
-        content: '\203A';
-        color: #e80046c5;
-      }
-      50% {
-        content: '\203A \203A';
-        color: #e8004686;
-      }
-      100% {
-        content: '\203A \203A \203A';
-        color: #e800462c;
+    .overlay-backdrop {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120%;
+      height: 120%;
+      // margin-top: calc(var(--header-height) + 150px);
+      // height: 100%;
+      // width: 100%;
+      z-index: 0;
+      transform: translateX(-50%) translateY(-50%);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.4;
+        filter: blur(150px);
+        // border-radius: 23%;
       }
     }
   }
@@ -521,7 +529,9 @@
       }
 
       .btn-add-to-list {
-        background-color: #505050;
+        // background-color: #505050;
+        background-color: #006999;
+
         &.active {
           background-color: #006d4e;
 
@@ -531,7 +541,8 @@
         }
 
         &:hover {
-          background-color: #505050a9;
+          // background-color: #505050a9;
+          background-color: #006999bb;
         }
       }
     }
@@ -555,9 +566,11 @@
   }
 
   .movie-content {
+    position: relative;
     padding: 0px 10px;
     text-align: justify;
     color: #fff;
+    z-index: 1;
 
     p {
     }
@@ -586,9 +599,11 @@
     }
 
     .toggle-content {
+      position: relative;
       cursor: pointer;
       display: inline-block;
       user-select: none;
+      z-index: 1;
 
       strong {
         display: block;
@@ -633,6 +648,10 @@
         );
       }
     }
+  }
+
+  .cast-suggest {
+    overflow: hidden;
   }
 
   .widget-skeleton {

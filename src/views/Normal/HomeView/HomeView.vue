@@ -68,7 +68,11 @@
       </carousel>
     </div>
 
-    <div class="recommend-stage" v-show="Recommends?.length">
+    <div
+      class="recommend-stage"
+      v-if="$store.state?.isLogin"
+      v-show="Recommends?.length"
+    >
       <h2 class="gradient-title-default">
         <strong>Gợi ý cho bạn</strong>
       </h2>
@@ -93,7 +97,7 @@
           <template #icon>
             <i class="fa-light fa-plus"></i>
           </template>
-          Tải thêm
+          {{ loadMoreRecommend ? 'Đang tải...' : 'Tải thêm' }}
         </el-button>
       </section>
 
@@ -271,7 +275,7 @@ import {
   getMyRecommend,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
-import store from '@/store';
+import { useStore } from 'vuex';
 
 export default {
   name: 'home',
@@ -283,6 +287,7 @@ export default {
     MovieCardHorizontalTrailer,
   },
   setup() {
+    const store = useStore();
     const nowPlayings = ref([]);
     const upComings = ref([]);
     const tvAiringTodays = ref([]);
@@ -306,7 +311,9 @@ export default {
         getUpComing(1),
         getTvAiringToday(1),
         getTopRated(1),
-        getMyRecommend(store.state.userAccount?.id, 1),
+        store.state?.isLogin
+          ? getMyRecommend(store.state.userAccount?.id, 1)
+          : null,
       ])
         .then((response) => {
           nowPlayings.value = response[0].data?.results;
@@ -325,18 +332,17 @@ export default {
       getMyRecommend(store.state.userAccount?.id, skipRecommend.value)
         .then((movieResponse) => {
           if (movieResponse.data?.results?.length > 0) {
-            Recommends.value = Recommends.value.concat(
-              movieResponse.data?.results
-            );
-            skipRecommend.value += 1;
-
             setTimeout(() => {
+              Recommends.value = Recommends.value.concat(
+                movieResponse.data?.results
+              );
               loadMoreRecommend.value = false;
             }, 1000);
+            skipRecommend.value += 1;
           } else {
             setTimeout(() => {
               loadMoreRecommend.value = false;
-            }, 1000);
+            }, 700);
           }
         })
         .catch((e) => {
