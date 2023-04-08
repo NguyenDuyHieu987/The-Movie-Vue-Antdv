@@ -589,6 +589,10 @@ export default {
           ),
           okText: 'Có',
           okType: 'primary',
+          okButtonProps: {
+            type: 'primary',
+            danger: true,
+          },
           cancelText: 'Không',
           centered: true,
           onOk() {
