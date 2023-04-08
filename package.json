@@ -34,6 +34,7 @@
     "lodash": "^4.17.21",
     "material-icons": "^1.13.4",
     "md5": "^2.3.0",
+    "moment": "^2.29.4",
     "normalize.css": "^8.0.1",
     "random-token": "^0.0.8",
     "scroll-bottom": "^0.1.0",

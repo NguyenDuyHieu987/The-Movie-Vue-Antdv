@@ -151,7 +151,11 @@
             <UserOutlined />
           </template>
 
-          <a-dropdown :trigger="['click']" class="dropdown-account">
+          <a-dropdown
+            :trigger="['click']"
+            class="dropdown-account"
+            placement="bottomLeft"
+          >
             <a class="ant-dropdown-link" @click.prevent>
               <CaretDownOutlined />
             </a>

@@ -324,11 +324,15 @@
             <strong>Lịch sử xem</strong>
           </h2>
           <section class="movie-history" v-show="dataHistory?.length">
+            <p class="timeline">
+              {{ timeLine }}
+            </p>
             <MovieCardHorizontalHistory
               v-for="(item, index) in dataHistory"
               :index="index"
               :key="item.id"
               :item="item"
+              :prevItem="dataHistory[index - 1]"
               :type="item?.media_type"
               :getDataWhenRemoveHistory="getDataWhenRemoveHistory"
             />

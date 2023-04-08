@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-item-follow-wrapper">
+  <div class="movie-follow-item-wrapper">
     <span class="index-item">{{ index + 1 }} </span>
     <el-skeleton :loading="loading" animated class="movie-follow-item">
       <template #template>

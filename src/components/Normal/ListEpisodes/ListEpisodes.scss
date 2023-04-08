@@ -30,7 +30,10 @@
       float: left;
 
       a {
-        padding: 7px 23px;
+        min-width: 75px;
+        max-width: 75px;
+        text-align: center;
+        padding: 8px 23px;
         color: #fff;
         transition: all 0.5s;
         border-radius: 3px;

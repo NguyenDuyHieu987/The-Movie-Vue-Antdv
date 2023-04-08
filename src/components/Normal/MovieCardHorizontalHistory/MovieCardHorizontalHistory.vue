@@ -1,229 +1,251 @@
 <template>
-  <el-skeleton :loading="loading" animated class="movie-history-item">
-    <template #template>
-      <div class="img-box">
-        <el-skeleton-item class="image-skeleton" variant="image" />
-      </div>
-      <div style="margin-top: 7px" class="info">
-        <el-skeleton-item variant="text" style="width: 40%" />
-        <el-skeleton-item variant="text" style="width: 20%" />
-        <el-skeleton-item variant="text" style="width: 30%" />
-        <div class="overview">
-          <el-skeleton-item variant="text" />
-          <el-skeleton-item variant="text" style="width: 50%" />
-        </div>
-      </div>
-    </template>
-    <template #default>
-      <router-link
-        :to="{
-          name: isEpisodes ? 'infoTV' : 'info',
-          params: {
-            id: item?.id,
-            name: item?.name
-              ? item?.name?.replace(/\s/g, '+').toLowerCase()
-              : item?.title?.replace(/\s/g, '+').toLowerCase(),
-          },
-        }"
-        class="movie-history-item"
-      >
+  <div class="movie-history-item-wrapper">
+    <p class="timeline" v-if="timeLine?.length">
+      <span v-if="timeLine.includes('-')">
+        {{ timeLine.split(' - ')[0] }}
+        <span style="margin: 0px 5px">-</span>
+        {{ timeLine.split(' - ')[1] }}
+      </span>
+      <span v-else>
+        {{ timeLine }}
+      </span>
+    </p>
+    <el-skeleton :loading="loading" animated class="movie-history-item">
+      <template #template>
         <div class="img-box">
-          <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
-          </a-image>
-          <div
-            class="percent-viewed"
-            :style="{ width: percent * 100 + '%' }"
-          ></div>
-          <div class="viewed-overlay-bar"></div>
+          <el-skeleton-item class="image-skeleton" variant="image" />
         </div>
+        <div style="margin-top: 7px" class="info">
+          <el-skeleton-item variant="text" style="width: 40%" />
+          <el-skeleton-item variant="text" style="width: 20%" />
+          <el-skeleton-item variant="text" style="width: 30%" />
+          <div class="overview">
+            <el-skeleton-item variant="text" />
+            <el-skeleton-item variant="text" style="width: 50%" />
+          </div>
+        </div>
+      </template>
+      <template #default>
+        <router-link
+          :to="{
+            name: isEpisodes ? 'infoTV' : 'info',
+            params: {
+              id: item?.id,
+              name: item?.name
+                ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                : item?.title?.replace(/\s/g, '+').toLowerCase(),
+            },
+          }"
+          class="movie-history-item"
+        >
+          <div class="img-box">
+            <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
+            </a-image>
+            <div
+              class="percent-viewed"
+              :style="{ width: percent * 100 + '%' }"
+            ></div>
+            <div class="viewed-overlay-bar"></div>
+          </div>
 
-        <div class="info">
-          <h2 class="title">
-            <strong>
-              {{ item?.name ? item?.name : item?.title }}
-              <strong v-if="isEpisodes">
-                {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
+          <div class="info">
+            <h2 class="title">
+              <strong>
+                {{ item?.name ? item?.name : item?.title }}
+                <strong v-if="isEpisodes">
+                  {{
+                    ' - Phần ' + dataMovie?.last_episode_to_air?.season_number
+                  }}
+                </strong>
               </strong>
-            </strong>
-          </h2>
+            </h2>
 
-          <!-- <p class="release-date">
-          Năm:
-          {{ dataMovie?.release_date ? dataMovie?.release_date : dataMovie?.first_air_date }}
-        </p> -->
-          <p v-if="dataMovie?.last_episode_to_air" class="duration-episode">
-            Tập mới nhất:
-            {{
-              dataMovie?.last_episode_to_air?.episode_number
-                ? 'Tập ' + dataMovie?.last_episode_to_air?.episode_number
-                : ''
-            }}
-          </p>
-
-          <p v-else-if="dataMovie?.runtime" class="duration-episode">
-            Thời lượng:
-            {{ dataMovie?.runtime ? dataMovie?.runtime + ' phút' : '' }}
-          </p>
-
-          <div class="year-views">
-            <p class="year">
-              Năm:
+            <!-- <p class="release-date">
+            Năm:
+            {{ dataMovie?.release_date ? dataMovie?.release_date : dataMovie?.first_air_date }}
+          </p> -->
+            <p v-if="dataMovie?.last_episode_to_air" class="duration-episode">
+              Tập mới nhất:
               {{
-                dataMovie?.release_date
-                  ? dataMovie?.release_date?.slice(0, 4)
-                  : dataMovie?.last_air_date?.slice(0, 4)
-                  ? dataMovie?.last_air_date?.slice(0, 4)
-                  : dataMovie?.first_air_date?.slice(0, 4)
+                dataMovie?.last_episode_to_air?.episode_number
+                  ? 'Tập ' + dataMovie?.last_episode_to_air?.episode_number
+                  : ''
               }}
             </p>
-            •
-            <p class="views">{{ ViewFormatter(dataMovie?.views) }} lượt xem</p>
-          </div>
 
-          <p class="overview">
-            {{ dataMovie?.overview }}
-          </p>
+            <p v-else-if="dataMovie?.runtime" class="duration-episode">
+              Thời lượng:
+              {{ dataMovie?.runtime ? dataMovie?.runtime + ' phút' : '' }}
+            </p>
 
-          <div class="action">
-            <el-tooltip
-              title="Xóa khỏi Lịch sử xem"
-              content="Xóa khỏi Lịch sử xem"
-              effect="dark"
-              placement="bottom"
-            >
-              <el-button
-                circle
-                shape="circle"
-                size="large"
-                class="remove-btn"
-                @click.prevent="handleRemoveFromHistory"
+            <div class="year-views">
+              <p class="year">
+                Năm:
+                {{
+                  dataMovie?.release_date
+                    ? dataMovie?.release_date?.slice(0, 4)
+                    : dataMovie?.last_air_date?.slice(0, 4)
+                    ? dataMovie?.last_air_date?.slice(0, 4)
+                    : dataMovie?.first_air_date?.slice(0, 4)
+                }}
+              </p>
+              •
+              <p class="views">
+                {{ ViewFormatter(dataMovie?.views) }} lượt xem
+              </p>
+            </div>
+
+            <p class="overview">
+              {{ dataMovie?.overview }}
+            </p>
+
+            <div class="action">
+              <el-tooltip
+                title="Xóa khỏi Lịch sử xem"
+                content="Xóa khỏi Lịch sử xem"
+                effect="dark"
+                placement="bottom"
               >
-                <template #icon>
-                  <!-- <Close /> -->
-                  <i class="fa-light fa-xmark"></i>
-                </template>
-              </el-button>
-            </el-tooltip>
+                <el-button
+                  circle
+                  shape="circle"
+                  size="large"
+                  class="remove-btn"
+                  @click.prevent="handleRemoveFromHistory"
+                >
+                  <template #icon>
+                    <!-- <Close /> -->
+                    <i class="fa-light fa-xmark"></i>
+                  </template>
+                </el-button>
+              </el-tooltip>
 
-            <a-dropdown
-              :trigger="['click']"
-              placement="bottomRight"
-              class="dropdown-viewmore"
-            >
-              <el-button
-                circle
-                shape="circle"
-                size="large"
-                class="viewmore-btn"
+              <a-dropdown
+                :trigger="['click']"
+                placement="bottomRight"
+                class="dropdown-viewmore"
               >
-                <template #icon>
-                  <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+                <el-button
+                  circle
+                  shape="circle"
+                  size="large"
+                  class="viewmore-btn"
+                >
+                  <template #icon>
+                    <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+                  </template>
+                </el-button>
+
+                <template #overlay>
+                  <a-menu class="dropdown-item-viewmore">
+                    <div class="main-action">
+                      <a-menu-item key="play">
+                        <template #icon>
+                          <!-- <font-awesome-icon icon="fa-solid fa-play" /> -->
+                          <i class="fa-sharp fa-regular fa-play"></i>
+                          <!-- <i class="fa-sharp fa-solid fa-play"></i> -->
+                        </template>
+
+                        <router-link
+                          v-if="isEpisodes && !loading"
+                          :to="{
+                            name: 'playtv',
+                            params: {
+                              id: item?.id,
+                              name: item?.name
+                                ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                                : item?.title
+                                    ?.replace(/\s/g, '+')
+                                    .toLowerCase(),
+                              tap: 'tap-1',
+                            },
+                          }"
+                          class="btn-play-now"
+                        >
+                          <span> Đến trang xem phim </span>
+                        </router-link>
+                        <router-link
+                          v-else-if="!isEpisodes && !loading"
+                          :to="{
+                            name: 'play',
+                            params: {
+                              id: item?.id,
+                              name: item?.name
+                                ? item?.name?.replace(/\s/g, '+').toLowerCase()
+                                : item?.title
+                                    ?.replace(/\s/g, '+')
+                                    .toLowerCase(),
+                            },
+                          }"
+                          class="btn-play-now"
+                        >
+                          <span>Đến trang xem phim</span>
+                        </router-link>
+                      </a-menu-item>
+                      <a-menu-item key="add-list" @click="handelAddToList">
+                        <template #icon>
+                          <span
+                            v-if="isAddToList"
+                            class="material-icons-outlined"
+                          >
+                            playlist_add_check
+                          </span>
+
+                          <span v-else class="material-icons-outlined">
+                            playlist_add
+                          </span>
+                        </template>
+                        <span v-if="isAddToList">Xóa khỏi Danh sách phát</span>
+
+                        <span v-else>Thêm vào Danh sách phát</span>
+                      </a-menu-item>
+
+                      <a-menu-item key="share">
+                        <template #icon>
+                          <!-- <font-awesome-icon icon="fa-solid fa-share" /> -->
+                          <i class="fa-sharp fa-regular fa-share"></i>
+                        </template>
+                        <span>
+                          <ShareNetwork
+                            network="facebook"
+                            :url="urlShare"
+                            :title="
+                              dataMovie?.name
+                                ? dataMovie?.name
+                                : dataMovie?.title
+                            "
+                            hashtags="phimhay247.site,vite"
+                            style="white-space: nowrap; display: block"
+                          >
+                            Chia sẻ
+                          </ShareNetwork>
+                        </span>
+                      </a-menu-item>
+                    </div>
+
+                    <hr />
+
+                    <div class="danger-zone">
+                      <a-menu-item
+                        key="remove-history"
+                        class="remove-history"
+                        @click="handleRemoveFromHistory"
+                      >
+                        <template #icon>
+                          <font-awesome-icon icon="fa-solid fa-trash-can" />
+                        </template>
+                        <span>Xóa khỏi Lịch sử xem</span>
+                      </a-menu-item>
+                    </div>
+                  </a-menu>
                 </template>
-              </el-button>
-
-              <template #overlay>
-                <a-menu class="dropdown-item-viewmore">
-                  <div class="main-action">
-                    <a-menu-item key="play">
-                      <template #icon>
-                        <!-- <font-awesome-icon icon="fa-solid fa-play" /> -->
-                        <i class="fa-sharp fa-regular fa-play"></i>
-                        <!-- <i class="fa-sharp fa-solid fa-play"></i> -->
-                      </template>
-
-                      <router-link
-                        v-if="isEpisodes && !loading"
-                        :to="{
-                          name: 'playtv',
-                          params: {
-                            id: item?.id,
-                            name: item?.name
-                              ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                              : item?.title?.replace(/\s/g, '+').toLowerCase(),
-                            tap: 'tap-1',
-                          },
-                        }"
-                        class="btn-play-now"
-                      >
-                        <span> Đến trang xem phim </span>
-                      </router-link>
-                      <router-link
-                        v-else-if="!isEpisodes && !loading"
-                        :to="{
-                          name: 'play',
-                          params: {
-                            id: item?.id,
-                            name: item?.name
-                              ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                              : item?.title?.replace(/\s/g, '+').toLowerCase(),
-                          },
-                        }"
-                        class="btn-play-now"
-                      >
-                        <span>Đến trang xem phim</span>
-                      </router-link>
-                    </a-menu-item>
-                    <a-menu-item key="add-list" @click="handelAddToList">
-                      <template #icon>
-                        <span
-                          v-if="isAddToList"
-                          class="material-icons-outlined"
-                        >
-                          playlist_add_check
-                        </span>
-
-                        <span v-else class="material-icons-outlined">
-                          playlist_add
-                        </span>
-                      </template>
-                      <span v-if="isAddToList">Xóa khỏi Danh sách phát</span>
-
-                      <span v-else>Thêm vào Danh sách phát</span>
-                    </a-menu-item>
-
-                    <a-menu-item key="share">
-                      <template #icon>
-                        <!-- <font-awesome-icon icon="fa-solid fa-share" /> -->
-                        <i class="fa-sharp fa-regular fa-share"></i>
-                      </template>
-                      <span>
-                        <ShareNetwork
-                          network="facebook"
-                          :url="urlShare"
-                          :title="
-                            dataMovie?.name ? dataMovie?.name : dataMovie?.title
-                          "
-                          hashtags="phimhay247.site,vite"
-                          style="white-space: nowrap; display: block"
-                        >
-                          Chia sẻ
-                        </ShareNetwork>
-                      </span>
-                    </a-menu-item>
-                  </div>
-
-                  <hr />
-
-                  <div class="danger-zone">
-                    <a-menu-item
-                      key="remove-history"
-                      class="remove-history"
-                      @click="handleRemoveFromHistory"
-                    >
-                      <template #icon>
-                        <font-awesome-icon icon="fa-solid fa-trash-can" />
-                      </template>
-                      <span>Xóa khỏi Lịch sử xem</span>
-                    </a-menu-item>
-                  </div>
-                </a-menu>
-              </template>
-            </a-dropdown>
+              </a-dropdown>
+            </div>
           </div>
-        </div>
-      </router-link>
-    </template>
-  </el-skeleton>
+        </router-link>
+      </template>
+    </el-skeleton>
+  </div>
 </template>
 <script>
 import { ref, onBeforeMount, computed, onMounted } from 'vue';
@@ -247,11 +269,15 @@ import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus';
 import { message } from 'ant-design-vue';
 import { ViewFormatter } from '@/utils/convertViews';
+import _ from 'lodash';
 
 export default {
   // components: { Close },
   props: {
     item: {
+      type: Object,
+    },
+    prevItem: {
       type: Object,
     },
     type: {
@@ -269,6 +295,8 @@ export default {
     const urlShare = computed(() => window.location);
     const percent = ref(0);
     const isAddToList = ref(false);
+    const differenceDate = ref(0);
+    const timeLine = ref('');
 
     onMounted(() => {
       const ant_btn = document.querySelectorAll('.action .viewmore-btn');
@@ -291,6 +319,91 @@ export default {
     onBeforeMount(() => {
       loading.value = true;
       percent.value = props.item?.percent;
+
+      const prev_date_old = new Date(props.prevItem?.created_at);
+      const date_old = new Date(props.item?.created_at);
+      const date_new = new Date();
+      // console.log(date_old.toISOString().slice(0, 10));
+      // console.log(date_new.toISOString());
+      differenceDate.value = date_new.getTime() - date_old.getTime();
+      const totalDays = Math.round(differenceDate.value / (1000 * 3600 * 24));
+      // console.log(totalDays + ' days to world Cup');
+
+      const moment = require('moment');
+      // const date_old1 = moment(date_old).format('DD/MM/YYYY');
+      const date_old1 =
+        _.capitalize(moment(date_old).locale('vi').fromNow()) +
+        ' - ' +
+        moment(date_old).locale('vi').format('LL');
+      // console.log(moment(date_old).locale('vi').format('dddd'));
+      // console.log(moment(date_old).locale('vi').fromNow());
+
+      if (props?.prevItem) {
+        if (
+          prev_date_old.toISOString().slice(0, 10) !=
+          date_old.toISOString().slice(0, 10)
+        ) {
+          switch (totalDays) {
+            case 0:
+              timeLine.value = 'Hôm nay';
+              break;
+            case 1:
+              timeLine.value = 'Hôm qua';
+              break;
+            case 2:
+              timeLine.value = '2 Ngày trước';
+              break;
+            case 3:
+              timeLine.value = '3 Ngày trước';
+              break;
+            case 4:
+              timeLine.value = '4 Ngày trước';
+              break;
+            case 5:
+              timeLine.value = '5 Ngày trước';
+              break;
+            case 6:
+              timeLine.value = '6 Ngày trước';
+              break;
+            case 7:
+              timeLine.value = '6 Ngày trước';
+              break;
+            default:
+              timeLine.value = date_old1;
+              break;
+          }
+        }
+      } else {
+        switch (totalDays) {
+          case 0:
+            timeLine.value = 'Hôm nay';
+            break;
+          case 1:
+            timeLine.value = 'Hôm qua';
+            break;
+          case 2:
+            timeLine.value = '2 Ngày trước';
+            break;
+          case 3:
+            timeLine.value = '3 Ngày trước';
+            break;
+          case 4:
+            timeLine.value = '4 Ngày trước';
+            break;
+          case 5:
+            timeLine.value = '5 Ngày trước';
+            break;
+          case 6:
+            timeLine.value = '6 Ngày trước';
+            break;
+          case 7:
+            timeLine.value = '6 Ngày trước';
+            break;
+          default:
+            timeLine.value = date_old1;
+            break;
+        }
+      }
 
       if (props?.type) {
         switch (props?.type) {
@@ -485,6 +598,8 @@ export default {
       urlShare,
       percent,
       isAddToList,
+      differenceDate,
+      timeLine,
       getPoster,
       getAllGenresById,
       getLanguage,

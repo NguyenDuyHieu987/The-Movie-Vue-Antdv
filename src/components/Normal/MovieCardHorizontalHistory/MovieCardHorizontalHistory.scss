@@ -35,6 +35,12 @@
   margin-top: 0px !important;
 }
 
+.movie-history-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .movie-history-item {
   position: relative;
   display: flex;
