@@ -331,7 +331,7 @@ export default {
 
       const moment = require('moment');
       // const date_old1 = moment(date_old).format('DD/MM/YYYY');
-      const date_old1 =
+      const date_old_moment_format =
         _.capitalize(moment(date_old).locale('vi').fromNow()) +
         ' - ' +
         moment(date_old).locale('vi').format('LL');
@@ -350,26 +350,26 @@ export default {
             case 1:
               timeLine.value = 'Hôm qua';
               break;
-            case 2:
-              timeLine.value = '2 Ngày trước';
-              break;
-            case 3:
-              timeLine.value = '3 Ngày trước';
-              break;
-            case 4:
-              timeLine.value = '4 Ngày trước';
-              break;
-            case 5:
-              timeLine.value = '5 Ngày trước';
-              break;
-            case 6:
-              timeLine.value = '6 Ngày trước';
-              break;
-            case 7:
-              timeLine.value = '6 Ngày trước';
-              break;
+            // case 2:
+            //   timeLine.value = '2 Ngày trước';
+            //   break;
+            // case 3:
+            //   timeLine.value = '3 Ngày trước';
+            //   break;
+            // case 4:
+            //   timeLine.value = '4 Ngày trước';
+            //   break;
+            // case 5:
+            //   timeLine.value = '5 Ngày trước';
+            //   break;
+            // case 6:
+            //   timeLine.value = '6 Ngày trước';
+            //   break;
+            // case 7:
+            //   timeLine.value = '1 Tuần trước';
+            //   break;
             default:
-              timeLine.value = date_old1;
+              timeLine.value = date_old_moment_format;
               break;
           }
         }
@@ -381,26 +381,26 @@ export default {
           case 1:
             timeLine.value = 'Hôm qua';
             break;
-          case 2:
-            timeLine.value = '2 Ngày trước';
-            break;
-          case 3:
-            timeLine.value = '3 Ngày trước';
-            break;
-          case 4:
-            timeLine.value = '4 Ngày trước';
-            break;
-          case 5:
-            timeLine.value = '5 Ngày trước';
-            break;
-          case 6:
-            timeLine.value = '6 Ngày trước';
-            break;
-          case 7:
-            timeLine.value = '6 Ngày trước';
-            break;
+          // case 2:
+          //   timeLine.value = '2 Ngày trước';
+          //   break;
+          // case 3:
+          //   timeLine.value = '3 Ngày trước';
+          //   break;
+          // case 4:
+          //   timeLine.value = '4 Ngày trước';
+          //   break;
+          // case 5:
+          //   timeLine.value = '5 Ngày trước';
+          //   break;
+          // case 6:
+          //   timeLine.value = '6 Ngày trước';
+          //   break;
+          // case 7:
+          //   timeLine.value = '1 Tuần trước';
+          //   break;
           default:
-            timeLine.value = date_old1;
+            timeLine.value = date_old_moment_format;
             break;
         }
       }
