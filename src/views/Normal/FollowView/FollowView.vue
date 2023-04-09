@@ -416,12 +416,14 @@ export default {
       const main_color = `linear-gradient(to bottom, rgba(${color[0]}, ${color[1]}, ${color[2]}, 1), rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.5), rgba(0, 0, 0, 1));`;
 
       // const main_color = `linear-gradient(to bottom, rgba(${color[0]}, ${color[1]}, ${color[2]}, 1) 0%, rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.33) 33%, rgba(0, 0, 0, 1) 100%);`;
+
       const topic_follow_column = document.getElementsByClassName(
         'topic-follow-column'
       )[0];
 
       if (topic_follow_column) {
         topic_follow_column.style = `background-image: ${main_color}`;
+        // topic_follow_column.style.setProperty('--main-color', main_color);
 
         // const search_follow =
         //   topic_follow_column.querySelector('.search-follow');
@@ -489,16 +491,23 @@ export default {
             dataList.value = movieRespone.data?.result?.items;
             total.value = movieRespone.data?.total;
             topicImage.value = dataList.value[0]?.backdrop_path;
+
+            setTimeout(() => {
+              const color = dataList.value[0]?.dominant_backdrop_color;
+              setBackgroundColor(color);
+            });
           }
 
-          getColorImage(topicImage.value)
-            .then((colorResponse) => {
-              const color = colorResponse.data?.color;
-              setBackgroundColor(color);
-            })
-            .catch((e) => {
-              if (axios.isCancel(e)) return;
-            });
+          if (dataList.value?.length == 0) {
+            getColorImage(topicImage.value)
+              .then((colorResponse) => {
+                const color = colorResponse.data?.color;
+                setBackgroundColor(color);
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+          }
 
           setTimeout(() => {
             internalInstance.appContext.config.globalProperties.$Progress.finish();

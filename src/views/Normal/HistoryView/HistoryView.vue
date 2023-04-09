@@ -516,16 +516,22 @@ export default {
             dataHistory.value = movieRespone.data?.result?.items;
             total.value = movieRespone.data?.total;
             topicImage.value = dataHistory.value[0]?.backdrop_path;
-          }
 
-          getColorImage(topicImage.value)
-            .then((colorResponse) => {
-              const color = colorResponse.data?.color;
+            setTimeout(() => {
+              const color = dataHistory.value[0]?.dominant_backdrop_color;
               setBackgroundColor(color);
-            })
-            .catch((e) => {
-              if (axios.isCancel(e)) return;
             });
+          }
+          if (dataHistory.value?.length == 0) {
+            getColorImage(topicImage.value)
+              .then((colorResponse) => {
+                const color = colorResponse.data?.color;
+                setBackgroundColor(color);
+              })
+              .catch((e) => {
+                if (axios.isCancel(e)) return;
+              });
+          }
 
           setTimeout(() => {
             internalInstance.appContext.config.globalProperties.$Progress.finish();
