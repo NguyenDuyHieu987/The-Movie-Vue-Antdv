@@ -534,10 +534,10 @@ export default {
               });
           }
 
-          setTimeout(() => {
-            internalInstance.appContext.config.globalProperties.$Progress.finish();
-          }, 500);
+          // setTimeout(() => {
+          internalInstance.appContext.config.globalProperties.$Progress.finish();
           loading.value = false;
+          // }, 500);
         })
         .catch((e) => {
           loading.value = false;
