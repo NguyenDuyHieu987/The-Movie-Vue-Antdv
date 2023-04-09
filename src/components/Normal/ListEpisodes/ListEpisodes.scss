@@ -6,6 +6,22 @@
   .control-episodes {
     display: flex;
     justify-content: center;
+
+    .el-button {
+      height: 36px;
+      background-color: #006999;
+      color: #fff;
+      min-width: 91px;
+
+      &:hover {
+        background-color: #006999bb;
+      }
+
+      &:disabled {
+        background-color: #313131bb;
+        color: #4e4e4e;
+      }
+    }
   }
 
   .ul-list,

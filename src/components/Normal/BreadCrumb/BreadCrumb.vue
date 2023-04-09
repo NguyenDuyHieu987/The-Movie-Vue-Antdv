@@ -20,9 +20,14 @@
       :key="index"
       style="text-transform: capitalize"
     >
-      <router-link :to="{ path: $route.path }">{{
-        item?.name?.replaceAll('+', ' ')
-      }}</router-link>
+      <router-link
+        v-if="index != path.length - 1"
+        :to="{ path: $route.path }"
+        >{{ item?.name?.replaceAll('+', ' ') }}</router-link
+      >
+      <span v-else>
+        {{ item?.name?.replaceAll('+', ' ') }}
+      </span>
     </a-breadcrumb-item>
   </a-breadcrumb>
 </template>
@@ -48,6 +53,7 @@ export default {
           .replaceAll(route.params?.slug2 ? route.params?.slug2 : '', '')
           .replaceAll(route.params?.id ? route.params?.id : '', '')
           .replaceAll(route.params?.name ? route.params?.name : '', '')
+          .replaceAll(route.params?.tap ? route.params?.tap : '', '')
           .replaceAll('/', '')
       ) {
         case 'follow':
@@ -62,11 +68,17 @@ export default {
         case 'discover':
           breadList.push({ params: 'discover', name: 'Khám phá' });
           break;
-        case 'info':
+        case 'infomovie':
           breadList.push({ params: 'info', name: 'Thông tin' });
           break;
-        case 'play':
+        case 'infotv':
+          breadList.push({ params: 'infoTV', name: 'Thông tin' });
+          break;
+        case 'playmovie':
           breadList.push({ params: 'play', name: 'Xem phim' });
+          break;
+        case 'playtv':
+          breadList.push({ params: 'playTV', name: 'Xem phim' });
           break;
         default:
           break;

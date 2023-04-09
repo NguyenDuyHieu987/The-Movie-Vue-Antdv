@@ -181,7 +181,7 @@
                 <router-link
                   v-if="isEpisodes"
                   :to="{
-                    name: 'playtv',
+                    name: 'playTV',
                     params: {
                       id: dataMovie?.id,
                       name: dataMovie?.name

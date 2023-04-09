@@ -69,7 +69,7 @@
             <router-link
               v-if="!loading"
               :to="{
-                name: 'playtv',
+                name: 'playTV',
                 params: {
                   id: dataMovie?.id,
                   name: dataMovie?.name
@@ -178,7 +178,7 @@
             <router-link
               v-if="!loading"
               :to="{
-                name: 'playtv',
+                name: 'playTV',
                 params: {
                   id: dataMovie?.id,
                   name: dataMovie?.name

@@ -95,7 +95,7 @@
       >
         <router-link
           :to="{
-            name: 'playtv',
+            name: 'playTV',
             params: {
               id: dataMovie?.id,
               name: dataMovie?.name

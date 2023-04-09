@@ -83,7 +83,7 @@
         <router-link
           v-if="item?.episode_number === numberOfEpisodes"
           :to="{
-            name: 'playtv',
+            name: 'playTV',
             params: {
               id: dataMovie?.id,
               name: dataMovie?.name
@@ -98,7 +98,7 @@
         <router-link
           v-else-if="item?.episode_number !== numberOfEpisodes"
           :to="{
-            name: 'playtv',
+            name: 'playTV',
             params: {
               id: dataMovie?.id,
               name: dataMovie?.name

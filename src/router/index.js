@@ -44,7 +44,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "info" */ '../views/Normal/PrevPlayTVView/PrevPlayTVView.vue'
+        /* webpackChunkName: "infoTV" */ '../views/Normal/PrevPlayTVView/PrevPlayTVView.vue'
       ),
   },
   {
@@ -60,13 +60,13 @@ const routes = [
   },
   {
     path: '/play/tv/:id/:name/:tap',
-    name: 'playtv',
+    name: 'playTV',
     meta: {
       layout: 'default',
     },
     component: () =>
       import(
-        /* webpackChunkName: "playtv" */ '../views/Normal/PlayViewTV/PlayViewTV.vue'
+        /* webpackChunkName: "playTV" */ '../views/Normal/PlayViewTV/PlayViewTV.vue'
       ),
   },
   {

@@ -15,7 +15,7 @@
                     dataHistory[0]?.media_type == 'tv' && dataHistory[0]?.id
                   "
                   :to="{
-                    name: 'playtv',
+                    name: 'playTV',
                     params: {
                       id: dataHistory[0]?.id,
                       name: dataHistory[0]?.name
@@ -174,7 +174,7 @@
                     dataHistory[0]?.media_type == 'tv' && dataHistory[0]?.id
                   "
                   :to="{
-                    name: 'playtv',
+                    name: 'playTV',
                     params: {
                       id: dataHistory[0]?.id,
                       name: dataHistory[0]?.name

@@ -1,7 +1,7 @@
-@media only screen and (min-width: 1500px) {
-  .ant-carousel {
-    .slick-prev {
-      top: 44% !important;
+@media only screen and (min-width: 1900px) {
+  .el-carousel {
+    .el-carousel__container {
+      max-height: 1100px;
     }
   }
 }
@@ -12,6 +12,7 @@
       height: 60vh !important;
     }
   }
+
   .ant-carousel {
     .slick-track {
       height: 70vh !important;
@@ -28,6 +29,14 @@
   .ant-carousel {
     .slick-track {
       height: 65vh !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .ant-carousel {
+    .slick-prev {
+      top: 44% !important;
     }
   }
 }
@@ -254,13 +263,17 @@
 
   .overlay-backdrop {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    // top: 50%;
+    // left: 50%;
+    // transform: translateX(-50%) translateY(-50%);
+    // top: 0;
+    left: 0;
+    // transform: translateX(-50%);
     // margin-top: calc(var(--header-height) + 150px);
+    height: calc(100vh - (var(--header-height) + 150px));
+    // margin-left: var(--sider-width);
     width: 100%;
-    height: calc(100% - (var(--header-height) + 150px));
     z-index: 0;
-    transform: translateX(-50%) translateY(-50%);
 
     img {
       width: 100%;
@@ -365,6 +378,10 @@
 
 .el-carousel.topic-home {
   margin-top: -30px;
+
+  .el-carousel__container {
+    position: relative;
+  }
 
   .el-carousel__item {
     border-radius: 5px;

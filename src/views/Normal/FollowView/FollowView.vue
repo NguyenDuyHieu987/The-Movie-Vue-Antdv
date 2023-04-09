@@ -13,7 +13,7 @@
                 <router-link
                   v-if="dataList[0]?.media_type == 'tv' && dataList[0]?.id"
                   :to="{
-                    name: 'playtv',
+                    name: 'playTV',
                     params: {
                       id: dataList[0]?.id,
                       name: dataList[0]?.name
@@ -160,7 +160,7 @@
                 <router-link
                   v-if="dataList[0]?.media_type == 'tv' && dataList[0]?.id"
                   :to="{
-                    name: 'playtv',
+                    name: 'playTV',
                     params: {
                       id: dataList[0]?.id,
                       name: dataList[0]?.name
