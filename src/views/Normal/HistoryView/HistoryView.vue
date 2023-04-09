@@ -522,6 +522,7 @@ export default {
               setBackgroundColor(color);
             });
           }
+
           if (dataHistory.value?.length == 0) {
             getColorImage(topicImage.value)
               .then((colorResponse) => {
