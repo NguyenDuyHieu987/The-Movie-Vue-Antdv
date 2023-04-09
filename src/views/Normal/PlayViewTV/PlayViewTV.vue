@@ -88,9 +88,10 @@
 
     <div style="margin-top: 15px">
       <a-skeleton
+        style="width: 360px"
         :loading="loading"
         :active="true"
-        :paragraph="{ rows: 1, width: 360 }"
+        :paragraph="{ rows: 2, width: '50%' }"
         :title="false"
       >
         <RatingMovie

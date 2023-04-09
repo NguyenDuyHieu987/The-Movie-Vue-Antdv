@@ -399,12 +399,12 @@
         </a-skeleton-button>
         <Interaction v-else :dataMovie="dataMovie" />
 
-        <div>
+        <div style="margin-top: 15px">
           <a-skeleton
-            style="margin-top: 15px"
+            style="width: 100%"
             :loading="loading"
             :active="true"
-            :paragraph="{ rows: 1, width: '100%' }"
+            :paragraph="{ rows: 2, width: '50%' }"
             :title="false"
           >
             <RatingMovie
