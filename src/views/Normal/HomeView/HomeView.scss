@@ -50,9 +50,21 @@
   }
 
   .view-all {
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-image: linear-gradient(
+      to right,
+      var(--sider-header-background-color2),
+      var(--sider-header-background-color3)
+    );
     transition: all 0.25s;
+    background-position: 100% center;
+    background-size: 100% 100%;
+
     &:hover {
-      opacity: 0.85;
+      background-position: 100% center;
+      background-size: 200% 100%;
+      // opacity: 0.85;
     }
   }
 
