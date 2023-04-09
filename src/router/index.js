@@ -152,7 +152,7 @@ const routes = [
       ),
   },
   {
-    path: '/managefilm/movie',
+    path: '/dashboard/managefilm/movie',
     name: 'managemovie',
     meta: {
       layout: 'admin',
@@ -165,7 +165,7 @@ const routes = [
       ),
   },
   {
-    path: '/managefilm/movie/add',
+    path: '/dashboard/managefilm/movie/add',
     name: 'addmovie',
     meta: {
       layout: 'admin',
@@ -178,7 +178,7 @@ const routes = [
       ),
   },
   {
-    path: '/managefilm/movie/:id/edit',
+    path: '/dashboard/managefilm/movie/:id/edit',
     name: 'editmovie',
     meta: {
       layout: 'admin',
@@ -191,7 +191,7 @@ const routes = [
       ),
   },
   {
-    path: '/managefilm/tv',
+    path: '/dashboard/managefilm/tv',
     name: 'managetv',
     meta: {
       layout: 'admin',
@@ -204,7 +204,7 @@ const routes = [
       ),
   },
   {
-    path: '/managefilm/tv/add',
+    path: '/dashboard/managefilm/tv/add',
     name: 'addtv',
     meta: {
       layout: 'admin',
@@ -217,7 +217,7 @@ const routes = [
       ),
   },
   {
-    path: '/managefilm/tv/:id/edit',
+    path: '/dashboard/managefilm/tv/:id/edit',
     name: 'edittv',
     meta: {
       layout: 'admin',

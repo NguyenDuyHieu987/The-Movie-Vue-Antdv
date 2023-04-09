@@ -61,17 +61,29 @@
           </p>
           <p class="budget">
             <strong>Kinh phí: </strong
-            >{{ props.row?.budget.replace(/\B(?=(\d{3})+(?!\d))/g, '.') }}
+            >{{
+              props.row?.budget
+                .toString()
+                ?.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+            }}
           </p>
           <p class="revenue">
             <strong>Doanh thu: </strong
-            >{{ props.row?.revenue.replace(/\B(?=(\d{3})+(?!\d))/g, '.') }}
+            >{{
+              props.row?.revenue
+                .toString()
+                ?.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+            }}
           </p>
           <p class="status">
             <strong>Trạng thái: </strong>{{ props.row?.status }}
           </p>
           <p class="runtime">
             <strong>Thời lượng: </strong>{{ props.row?.runtime + ' Phút' }}
+          </p>
+          <p class="views">
+            <strong>Lượt xem: </strong
+            >{{ ViewFormatter(props.row?.views) + ' lượt xem' }}
           </p>
         </template>
       </el-table-column>
@@ -178,6 +190,7 @@ import { onBeforeMount, ref } from 'vue';
 import { getMovies, getLanguage, getPoster } from '@/services/MovieService';
 import axios from 'axios';
 import { ArrowDown } from '@element-plus/icons-vue';
+import { ViewFormatter } from '@/utils/convertViews';
 
 export default {
   components: {
@@ -195,7 +208,7 @@ export default {
           tableDataMovie.value = movieResponse?.data?.results;
           setTimeout(() => {
             loading.value = false;
-          }, 2000);
+          }, 1000);
         })
         .catch((e) => {
           loading.value = false;
@@ -209,6 +222,7 @@ export default {
       tableDataMovie,
       getLanguage,
       getPoster,
+      ViewFormatter,
     };
   },
 };

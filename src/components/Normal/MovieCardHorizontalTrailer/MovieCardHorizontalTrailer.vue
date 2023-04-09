@@ -121,7 +121,7 @@
           v-model:visible="isOenModalTrailer"
           width="1300px"
           centered
-          @ok="modal2Visible = false"
+          @ok="isOenModalTrailer = false"
           class="modal-trailer"
         >
           <template #title>

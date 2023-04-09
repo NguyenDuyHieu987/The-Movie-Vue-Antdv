@@ -72,6 +72,10 @@
             <strong>Thời lượng trên tập: </strong
             >{{ props.row?.episode_run_time[0] + ' Phút' }}
           </p>
+          <p class="views">
+            <strong>Lượt xem: </strong
+            >{{ ViewFormatter(props.row?.views) + ' lượt xem' }}
+          </p>
           <p class="number_of_episodes" v-if="props.row?.number_of_episodes">
             <strong>Số tập: </strong
             >{{ props.row?.number_of_episodes + ' Tập' }}
@@ -173,6 +177,7 @@ import { onBeforeMount, ref } from 'vue';
 import { getTv, getLanguage, getPoster } from '@/services/MovieService';
 import axios from 'axios';
 import { ArrowDown } from '@element-plus/icons-vue';
+import { ViewFormatter } from '@/utils/convertViews';
 
 export default {
   components: {
@@ -206,6 +211,7 @@ export default {
       tableDataTV,
       getLanguage,
       getPoster,
+      ViewFormatter,
     };
   },
 };

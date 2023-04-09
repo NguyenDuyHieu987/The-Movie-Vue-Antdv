@@ -72,6 +72,7 @@
                   />
                 </el-form-item>
               </el-col>
+
               <el-col :span="10" :xs="{ span: 12 }">
                 <el-form-item label="Doanh thu" prop="revenue">
                   <a-input-number
@@ -88,6 +89,19 @@
                 </el-form-item>
               </el-col>
             </el-row>
+
+            <el-form-item label="Lượt xem" prop="views">
+              <a-input-number
+                v-model:value="ruleForm.views"
+                :min="0"
+                :step="1"
+                :formatter="
+                  (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                "
+                :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+                style="width: 200px"
+              />
+            </el-form-item>
           </el-col>
 
           <el-col :span="12" :xs="{ span: 24 }">
@@ -212,15 +226,19 @@
 import { ArrowLeftOutlined, UploadOutlined } from '@ant-design/icons-vue';
 // import { Plus } from '@element-plus/icons-vue';
 import axios from 'axios';
-import { onBeforeMount, reactive, ref } from 'vue';
+import { onBeforeMount, reactive, ref, h } from 'vue';
 import { ElMessage } from 'element-plus';
 import {
   getAllGenre,
   getAllNational,
   getAllYear,
   getMovieById,
+  editMovieById,
+  addImage,
 } from '@/services/MovieService';
 import { useRoute } from 'vue-router';
+import { notification } from 'ant-design-vue';
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons-vue';
 
 export default {
   components: { ArrowLeftOutlined },
@@ -241,6 +259,7 @@ export default {
       budget: 0,
       revenue: 0,
       runtime: 60,
+      views: 0,
       status: '',
       poster: {},
       backdrop: {},
@@ -270,6 +289,7 @@ export default {
           ruleForm.budget = response.data.budget;
           ruleForm.revenue = response.data.revenue;
           ruleForm.runtime = response.data.runtime;
+          ruleForm.views = response.data.views;
           ruleForm.status = response.data.status;
           ruleForm.poster = response.data.poster;
           ruleForm.backdrop = response.data.backdrop;
@@ -311,14 +331,83 @@ export default {
       }
     };
 
-    const submitForm = () => {
-      console.log(ruleForm);
-    };
     const resetForm = () => {
-      ruleForm.genres = ruleForm.genres.map((genre) => {
-        genres.value.find((item) => item.id == genre.id);
-      });
-      console.log(ruleForm);
+      getMovieById(route.params.id)
+        .then((response) => {
+          ruleForm.title = response.data.title;
+          ruleForm.original_title = response.data.original_title;
+          ruleForm.original_language = response.data.original_language;
+          ruleForm.release_date = response.data.release_date;
+          ruleForm.genres = Array.from(response.data.genres, (item) => item.id);
+          ruleForm.overview = response.data.overview;
+          ruleForm.budget = response.data.budget;
+          ruleForm.revenue = response.data.revenue;
+          ruleForm.runtime = response.data.runtime;
+          ruleForm.views = response.data.views;
+          ruleForm.status = response.data.status;
+          ruleForm.poster = response.data.poster;
+          ruleForm.backdrop = response.data.backdrop;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+    };
+
+    const submitForm = () => {
+      ruleForm.genres = ruleForm.genres.map(
+        (item) =>
+          (item = {
+            id: item,
+            name: genres.value.find((item1) => item == item1.id).name,
+          })
+      );
+
+      editMovieById(route.params.id, ruleForm)
+        .then((response) => {
+          if (response.data?.success == true) {
+            setTimeout(() => {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật phim thành công!`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+            }, 500);
+          } else {
+            notification.open({
+              message: 'Thông báo',
+              description: `Cập nhật phim thất bại!`,
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
+            });
+          }
+        })
+        .catch((e) => {
+          notification.open({
+            message: 'Thông báo',
+            description: `Cập nhật phim thất bại!`,
+            icon: () =>
+              h(CloseCircleFilled, {
+                style: 'color: red',
+              }),
+          });
+          if (axios.isCancel(e)) return;
+        });
+
+      addImage(ruleForm.backdrop)
+        .then(() => {})
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+      addImage(ruleForm.poster)
+        .then(() => {})
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     };
 
     return {

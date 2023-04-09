@@ -227,6 +227,26 @@ const getMovieById = async (movieId, append_to_response = '') =>
     `${URL_API}/movie/detail/${movieId}?append_to_response=${append_to_response}&api=hieu987`
   );
 
+const editMovieById = async (movieId, params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('title', params.title);
+  bodyFormData.append('original_title', params.original_title);
+  bodyFormData.append('original_language', params.original_language);
+  bodyFormData.append('release_date', params.release_date);
+  bodyFormData.append('genres', JSON.stringify(params.genres));
+  bodyFormData.append('overview', params.overview);
+  bodyFormData.append('budget', params.budget);
+  bodyFormData.append('revenue', params.revenue);
+  bodyFormData.append('runtime', params.runtime);
+  bodyFormData.append('views', params.views);
+  bodyFormData.append('status', params.status);
+
+  return await axios.post(
+    `${URL_API}/movie/edit/${movieId}?api=hieu987`,
+    bodyFormData
+  );
+};
+
 const UpdateViewMovie = async (movieId) =>
   await axios.post(`${URL_API}/movie/updateview/${movieId}?api=hieu987`);
 
@@ -305,7 +325,7 @@ const ratingMovie = async (moveid, { value }) => {
   bodyFormData.append('value', value);
 
   return await axios.post(
-    `${URL_API}/movie/rating/${moveid}?api=hieu987`,
+    `${URL_API}/rating/movie/${moveid}?api=hieu987`,
     bodyFormData
   );
 };
@@ -315,7 +335,7 @@ const ratingTV = async (moveid, { value }) => {
   bodyFormData.append('value', value);
 
   return await axios.post(
-    `${URL_API}/tv/rating/${moveid}?api=hieu987`,
+    `${URL_API}/rating/tv/${moveid}?api=hieu987`,
     bodyFormData
   );
 };
@@ -461,6 +481,7 @@ export {
   getLanguage,
   getDaTaSearch,
   getMovieById,
+  editMovieById,
   UpdateViewMovie,
   getMoviesByGenres,
   getMoviesByYear,
