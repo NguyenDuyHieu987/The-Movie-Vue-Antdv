@@ -14,8 +14,9 @@
         status-icon
         :rules="rules"
         label-width="120px"
-        class="edit-movie-form"
+        class="edit-movie-info-form"
       >
+        <h3 class="title">Thông tin phim</h3>
         <el-row :gutter="20">
           <el-col :span="12" :xs="{ span: 24 }">
             <el-row :gutter="20">
@@ -65,7 +66,7 @@
                     :step="100000"
                     :formatter="
                       (value) =>
-                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                     "
                     :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                     style="width: 200px"
@@ -81,7 +82,7 @@
                     :step="100000"
                     :formatter="
                       (value) =>
-                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                     "
                     :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                     style="width: 200px"
@@ -96,7 +97,7 @@
                 :min="0"
                 :step="1"
                 :formatter="
-                  (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                  (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                 "
                 :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                 style="width: 200px"
@@ -181,6 +182,29 @@
             </el-row>
           </el-col>
         </el-row>
+
+        <el-form-item class="footer-form">
+          <el-button @click="resetForm" type="danger" plain> Hủy </el-button>
+          <el-button
+            type="primary"
+            @click="submitForm"
+            :disabled="isDisabledBtnSubmit"
+          >
+            Cập nhật phim
+          </el-button>
+        </el-form-item>
+      </el-form>
+
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleFormImg"
+        label-position="top"
+        status-icon
+        :rules="rules"
+        label-width="120px"
+        class="edit-movie-image-form"
+      >
+        <h3 class="title">Đổi hình ảnh</h3>
         <el-row :gutter="20">
           <el-col :span="12" :xs="{ span: 24 }">
             <el-form-item class="image-form-item" label="Chọn Poster">
@@ -189,12 +213,21 @@
                 list-type="picture"
                 :auto-upload="false"
                 :on-change="handlePosterSuccess"
+                :before-remove="handlePosterRemove"
                 :limit="1"
                 accept="image/jpeg"
               >
                 <el-button :icon="UploadOutlined">Click để chọn ảnh</el-button>
               </el-upload>
             </el-form-item>
+
+            <el-button
+              type="primary"
+              :disabled="ruleFormImg.poster == null"
+              @click="handleChangePoster"
+            >
+              Đổi Poster
+            </el-button>
           </el-col>
           <el-col :span="12" :xs="{ span: 24 }">
             <el-form-item class="image-form-item" label="Chọn Backdrop">
@@ -203,21 +236,23 @@
                 list-type="picture"
                 :auto-upload="false"
                 :on-change="handleBackdropSuccess"
+                :before-remove="handleBackdropRemove"
                 :limit="1"
                 accept="image/jpeg"
               >
                 <el-button :icon="UploadOutlined">Click để chọn ảnh</el-button>
               </el-upload>
             </el-form-item>
+
+            <el-button
+              type="primary"
+              :disabled="ruleFormImg.backdrop == null"
+              @click="handleChangeBackdrop"
+            >
+              Đổi Backdrop
+            </el-button>
           </el-col>
         </el-row>
-
-        <el-form-item class="footer-form">
-          <el-button @click="resetForm" type="danger" plain> Hủy </el-button>
-          <el-button type="primary" @click="submitForm">
-            Cập nhật phim
-          </el-button>
-        </el-form-item>
       </el-form>
     </div>
   </el-page-header>
@@ -226,7 +261,7 @@
 import { ArrowLeftOutlined, UploadOutlined } from '@ant-design/icons-vue';
 // import { Plus } from '@element-plus/icons-vue';
 import axios from 'axios';
-import { onBeforeMount, reactive, ref, h } from 'vue';
+import { onBeforeMount, reactive, ref, h, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import {
   getAllGenre,
@@ -234,7 +269,7 @@ import {
   getAllYear,
   getMovieById,
   editMovieById,
-  addImage,
+  editImage,
 } from '@/services/MovieService';
 import { useRoute } from 'vue-router';
 import { notification } from 'ant-design-vue';
@@ -261,8 +296,29 @@ export default {
       runtime: 60,
       views: 0,
       status: '',
-      poster: {},
-      backdrop: {},
+      poster: null,
+      backdrop: null,
+    });
+    const ruleFormImg = reactive({
+      poster: null,
+      backdrop: null,
+    });
+
+    const isDisabledBtnSubmit = computed(() => {
+      return (
+        ruleForm.title == dataMovie.value.title &&
+        ruleForm.original_title == dataMovie.value.original_title &&
+        ruleForm.original_language == dataMovie.value.original_language &&
+        ruleForm.release_date == dataMovie.value.release_date &&
+        ruleForm.genres.toString() ==
+          Array.from(dataMovie.value.genres, (item) => item.id).toString() &&
+        ruleForm.overview == dataMovie.value.overview &&
+        ruleForm.budget == dataMovie.value.budget &&
+        ruleForm.revenue == dataMovie.value.revenue &&
+        ruleForm.runtime == dataMovie.value.runtime &&
+        ruleForm.views == dataMovie.value.views &&
+        ruleForm.status == dataMovie.value.status
+      );
     });
 
     onBeforeMount(() => {
@@ -280,6 +336,7 @@ export default {
 
       getMovieById(route.params.id)
         .then((response) => {
+          dataMovie.value = response.data;
           ruleForm.title = response.data.title;
           ruleForm.original_title = response.data.original_title;
           ruleForm.original_language = response.data.original_language;
@@ -291,8 +348,6 @@ export default {
           ruleForm.runtime = response.data.runtime;
           ruleForm.views = response.data.views;
           ruleForm.status = response.data.status;
-          ruleForm.poster = response.data.poster;
-          ruleForm.backdrop = response.data.backdrop;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -307,7 +362,7 @@ export default {
         ElMessage.error('Image size can not exceed 2MB!');
         return false;
       }
-      ruleForm.poster = response;
+      ruleFormImg.poster = response;
     };
 
     const handleBackdropSuccess = (response) => {
@@ -318,7 +373,7 @@ export default {
         ElMessage.error('Ảnh không được vượt quá 2MB!');
         return false;
       }
-      ruleForm.backdrop = response;
+      ruleFormImg.backdrop = response;
     };
 
     const handleUploadProgress = (response) => {
@@ -331,30 +386,29 @@ export default {
       }
     };
 
+    const handlePosterRemove = () => {
+      ruleFormImg.poster = null;
+    };
+    const handleBackdropRemove = () => {
+      ruleFormImg.backdrop = null;
+    };
+
     const resetForm = () => {
-      getMovieById(route.params.id)
-        .then((response) => {
-          ruleForm.title = response.data.title;
-          ruleForm.original_title = response.data.original_title;
-          ruleForm.original_language = response.data.original_language;
-          ruleForm.release_date = response.data.release_date;
-          ruleForm.genres = Array.from(response.data.genres, (item) => item.id);
-          ruleForm.overview = response.data.overview;
-          ruleForm.budget = response.data.budget;
-          ruleForm.revenue = response.data.revenue;
-          ruleForm.runtime = response.data.runtime;
-          ruleForm.views = response.data.views;
-          ruleForm.status = response.data.status;
-          ruleForm.poster = response.data.poster;
-          ruleForm.backdrop = response.data.backdrop;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      ruleForm.title = dataMovie.value.title;
+      ruleForm.original_title = dataMovie.value.original_title;
+      ruleForm.original_language = dataMovie.value.original_language;
+      ruleForm.release_date = dataMovie.value.release_date;
+      ruleForm.genres = Array.from(dataMovie.value.genres, (item) => item.id);
+      ruleForm.overview = dataMovie.value.overview;
+      ruleForm.budget = dataMovie.value.budget;
+      ruleForm.revenue = dataMovie.value.revenue;
+      ruleForm.runtime = dataMovie.value.runtime;
+      ruleForm.views = dataMovie.value.views;
+      ruleForm.status = dataMovie.value.status;
     };
 
     const submitForm = () => {
-      ruleForm.genres = ruleForm.genres.map(
+      const genresList = ruleForm.genres.map(
         (item) =>
           (item = {
             id: item,
@@ -362,9 +416,10 @@ export default {
           })
       );
 
-      editMovieById(route.params.id, ruleForm)
+      editMovieById(route.params.id, ruleForm, genresList)
         .then((response) => {
           if (response.data?.success == true) {
+            dataMovie.value = response.data.result;
             setTimeout(() => {
               notification.open({
                 message: 'Thông báo',
@@ -397,17 +452,67 @@ export default {
           });
           if (axios.isCancel(e)) return;
         });
+    };
 
-      addImage(ruleForm.backdrop)
-        .then(() => {})
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
-      addImage(ruleForm.poster)
-        .then(() => {})
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+    const handleChangePoster = () => {
+      if (ruleFormImg.poster != null) {
+        editImage(dataMovie.value.poster_path, ruleFormImg.poster)
+          .then((response) => {
+            console.log(response.data);
+            if (response.data.success == true) {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật Poster thành công!`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+            } else {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật Poster thất bại!`,
+                icon: () =>
+                  h(CloseCircleFilled, {
+                    style: 'color: red',
+                  }),
+              });
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
+    };
+
+    const handleChangeBackdrop = () => {
+      if (ruleFormImg.backdrop != null) {
+        editImage(dataMovie.value.backdrop_path, ruleFormImg.backdrop)
+          .then((response) => {
+            if (response.data.success == true) {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật Backdrop thành công!`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+            } else {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật Backdrop thất bại!`,
+                icon: () =>
+                  h(CloseCircleFilled, {
+                    style: 'color: red',
+                  }),
+              });
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
     };
 
     return {
@@ -415,12 +520,18 @@ export default {
       UploadOutlined,
       ruleFormRef,
       ruleForm,
+      ruleFormImg,
+      isDisabledBtnSubmit,
       genres,
       years,
       countries,
       handlePosterSuccess,
       handleBackdropSuccess,
       handleUploadProgress,
+      handlePosterRemove,
+      handleBackdropRemove,
+      handleChangePoster,
+      handleChangeBackdrop,
       submitForm,
       resetForm,
     };

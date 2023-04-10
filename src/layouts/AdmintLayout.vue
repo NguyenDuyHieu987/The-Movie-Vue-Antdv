@@ -50,10 +50,10 @@ export default {
   margin-left: var(--sider-collapsed-width);
 }
 
-.ant-layout-content {
+.ant-layout-content.container {
   // min-height: calc(100vh - 130px);
   padding: 15px 20px;
-  // background-color: var(--background-content-color);
+  background-color: var(--background-admin-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -63,10 +63,8 @@ export default {
 }
 
 @media only screen and (max-width: 900px) {
-  .ant-layout-content {
-    .container {
-      padding: 15px 15px;
-    }
+  .ant-layout-content.container {
+    padding: 15px 15px;
   }
 }
 </style>

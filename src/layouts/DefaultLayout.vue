@@ -107,9 +107,7 @@ export default {
 
 @media only screen and (max-width: 900px) {
   .ant-layout-content.container {
-    .container {
-      padding: 15px 15px;
-    }
+    padding: 15px 15px;
   }
 }
 </style>

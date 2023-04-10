@@ -65,7 +65,7 @@
                     :step="100000"
                     :formatter="
                       (value) =>
-                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                     "
                     :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                     style="width: 200px"
@@ -80,7 +80,7 @@
                     :step="100000"
                     :formatter="
                       (value) =>
-                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                     "
                     :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                     style="width: 200px"
@@ -175,6 +175,7 @@
                 list-type="picture"
                 :auto-upload="false"
                 :on-change="handlePosterSuccess"
+                :before-remove="handlePosterRemove"
                 :limit="1"
                 accept="image/jpeg"
               >
@@ -189,6 +190,7 @@
                 list-type="picture"
                 :auto-upload="false"
                 :on-change="handleBackdropSuccess"
+                :before-remove="handleBackdropRemove"
                 :limit="1"
                 accept="image/jpeg"
               >
@@ -200,7 +202,13 @@
 
         <el-form-item class="footer-form">
           <el-button @click="resetForm" type="danger" plain> Hủy </el-button>
-          <el-button type="primary" @click="submitForm"> Thêm phim </el-button>
+          <el-button
+            type="primary"
+            @click="submitForm"
+            :disabled="isDisabledBtnSubmit"
+          >
+            Thêm phim
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -211,14 +219,17 @@
 import { ArrowLeftOutlined, UploadOutlined } from '@ant-design/icons-vue';
 // import { Plus } from '@element-plus/icons-vue';
 import axios from 'axios';
-import { onBeforeMount, reactive, ref } from 'vue';
+import { onBeforeMount, reactive, ref, computed, h } from 'vue';
 import { ElMessage } from 'element-plus';
 import {
   getAllGenre,
   getAllNational,
   getAllYear,
   // addImage,
+  addMovie,
 } from '@/services/MovieService';
+import { notification } from 'ant-design-vue';
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons-vue';
 
 export default {
   components: { ArrowLeftOutlined },
@@ -236,12 +247,30 @@ export default {
       overview: '',
       budget: 0,
       revenue: 0,
-      runtime: 60,
+      runtime: 0,
+      views: 0,
       status: '',
-      poster: {},
-      backdrop: {},
+      poster: null,
+      backdrop: null,
     });
-    const dialogVisible = ref(false);
+
+    const isDisabledBtnSubmit = computed(() => {
+      return (
+        ruleForm.title == '' ||
+        ruleForm.original_title == '' ||
+        ruleForm.original_language == '' ||
+        ruleForm.release_date == '' ||
+        ruleForm.genres.length == 0 ||
+        ruleForm.overview == '' ||
+        ruleForm.budget == 0 ||
+        ruleForm.revenue == 0 ||
+        ruleForm.runtime == 0 ||
+        // ruleForm.views == 0 ||
+        ruleForm.status == '' ||
+        ruleForm.poster == null ||
+        ruleForm.backdrop == null
+      );
+    });
 
     onBeforeMount(() => {
       Promise.all([getAllGenre(), getAllYear(), getAllNational()])
@@ -289,24 +318,90 @@ export default {
       }
     };
 
+    const handlePosterRemove = () => {
+      ruleForm.poster = null;
+    };
+    const handleBackdropRemove = () => {
+      ruleForm.backdrop = null;
+    };
+
+    const resetForm = () => {
+      ruleForm.title = '';
+      ruleForm.original_title = '';
+      ruleForm.original_language = '';
+      ruleForm.release_date = '';
+      ruleForm.genres = [];
+      ruleForm.overview = '';
+      ruleForm.budget = 0;
+      ruleForm.revenue = 0;
+      ruleForm.runtime = 0;
+      ruleForm.views = 0;
+      ruleForm.status = '';
+      ruleForm.poster = null;
+      ruleForm.backdrop = null;
+    };
+
     const submitForm = () => {
       console.log(ruleForm);
-    };
-    const resetForm = () => {
-      console.log(ruleForm);
+
+      const genresList = ruleForm.genres.map(
+        (item) =>
+          (item = {
+            id: item,
+            name: genres.value.find((item1) => item == item1.id).name,
+          })
+      );
+
+      addMovie(ruleForm, genresList)
+        .then((response) => {
+          if (response.data?.success == true) {
+            setTimeout(() => {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật phim thành công!`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+            }, 500);
+          } else {
+            notification.open({
+              message: 'Thông báo',
+              description: `Cập nhật phim thất bại!`,
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
+            });
+          }
+        })
+        .catch((e) => {
+          notification.open({
+            message: 'Thông báo',
+            description: `Cập nhật phim thất bại!`,
+            icon: () =>
+              h(CloseCircleFilled, {
+                style: 'color: red',
+              }),
+          });
+          if (axios.isCancel(e)) return;
+        });
     };
 
     return {
       UploadOutlined,
       ruleFormRef,
       ruleForm,
-      dialogVisible,
+      isDisabledBtnSubmit,
       genres,
       years,
       countries,
       handlePosterSuccess,
       handleBackdropSuccess,
       handleUploadProgress,
+      handlePosterRemove,
+      handleBackdropRemove,
       submitForm,
       resetForm,
     };

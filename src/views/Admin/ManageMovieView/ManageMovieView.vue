@@ -4,13 +4,9 @@
       <h2>Quản lý phim: Phim lẻ</h2>
 
       <el-tooltip effect="dark" content="Thêm phim" placement="right">
-        <el-button
-          type="primary"
-          :icon="PlusOutlined"
-          circle
-          size="large"
-          @click="$router.push({ name: 'addmovie' })"
-        />
+        <router-link :to="{ name: 'addmovie' }">
+          <el-button type="primary" :icon="PlusOutlined" circle size="large" />
+        </router-link>
       </el-tooltip>
     </div>
     <MovieTable />

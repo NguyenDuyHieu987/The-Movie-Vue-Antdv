@@ -68,19 +68,23 @@
           <p class="status">
             <strong>Trạng thái: </strong>{{ props.row?.status }}
           </p>
-          <p class="episode_run_time" v-if="props.row?.episode_run_time">
+          <p class="episode_run_time">
             <strong>Thời lượng trên tập: </strong
-            >{{ props.row?.episode_run_time[0] + ' Phút' }}
+            >{{
+              Array.isArray(props.row?.episode_run_time)
+                ? props.row?.episode_run_time[0] + ' Phút' || 0 + ' Phút'
+                : props.row?.episode_run_time + ' Phút'
+            }}
+          </p>
+          <p class="number_of_episodes">
+            <strong>Số tập: </strong
+            >{{ props.row?.number_of_episodes + ' Tập' }}
           </p>
           <p class="views">
             <strong>Lượt xem: </strong
             >{{ ViewFormatter(props.row?.views) + ' lượt xem' }}
           </p>
-          <p class="number_of_episodes" v-if="props.row?.number_of_episodes">
-            <strong>Số tập: </strong
-            >{{ props.row?.number_of_episodes + ' Tập' }}
-          </p>
-          <p class="last_episode_to_air" v-if="props.row?.last_episode_to_air">
+          <p class="last_episode_to_air">
             <strong>Tập mới nhất: </strong
             >{{ 'Tập ' + props.row?.last_episode_to_air?.episode_number }}
           </p>
@@ -140,7 +144,7 @@
                       params: { id: props.row.id },
                     }"
                   >
-                    <el-button link>Sửa phim</el-button>
+                    <el-button link>Cập nhật phim</el-button>
                   </router-link>
                 </el-dropdown-item>
                 <el-dropdown-item>

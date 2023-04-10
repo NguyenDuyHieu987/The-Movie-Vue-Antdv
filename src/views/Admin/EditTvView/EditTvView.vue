@@ -14,8 +14,9 @@
         status-icon
         :rules="rules"
         label-width="120px"
-        class="edit-tv-form"
+        class="edit-tv-info-form"
       >
+        <h3 class="title">Thông tin phim</h3>
         <el-row :gutter="20">
           <el-col :span="12" :xs="{ span: 24 }">
             <el-row :gutter="20">
@@ -80,7 +81,7 @@
 
             <el-row :gutter="20">
               <el-col :span="10" :xs="{ span: 12 }">
-                <el-form-item label="Số lượng tập" prop="budget">
+                <el-form-item label="Số lượng tập" prop="number_of_episodes">
                   <el-input-number
                     v-model="ruleForm.number_of_episodes"
                     :step="1"
@@ -89,17 +90,14 @@
                 </el-form-item>
               </el-col>
               <el-col :span="10" :xs="{ span: 12 }">
-                <el-form-item label="Doanh thu" prop="revenue">
-                  <a-input-number
-                    v-model:value="ruleForm.revenue"
-                    :min="0"
-                    :step="100000"
-                    :formatter="
-                      (value) =>
-                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                    "
-                    :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
-                    style="width: 200px"
+                <el-form-item
+                  label="Thời lượng trên tập (phút)"
+                  prop="episode_run_time"
+                >
+                  <el-input-number
+                    v-model="ruleForm.episode_run_time"
+                    :step="1"
+                    step-strictly
                   />
                 </el-form-item>
               </el-col>
@@ -147,14 +145,17 @@
 
             <el-row :gutter="20">
               <el-col :span="10" :xs="{ span: 12 }">
-                <el-form-item
-                  label="Thời lượng trên tập (phút)"
-                  prop="episode_run_time"
-                >
-                  <el-input-number
-                    v-model="ruleForm.episode_run_time"
+                <el-form-item label="Lượt xem" prop="views">
+                  <a-input-number
+                    v-model:value="ruleForm.views"
+                    :min="0"
                     :step="1"
-                    step-strictly
+                    :formatter="
+                      (value) =>
+                        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                    "
+                    :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+                    style="width: 200px"
                   />
                 </el-form-item>
               </el-col>
@@ -180,6 +181,29 @@
             </el-row>
           </el-col>
         </el-row>
+
+        <el-form-item class="footer-form">
+          <el-button @click="resetForm" type="danger" plain> Hủy </el-button>
+          <el-button
+            type="primary"
+            @click="submitForm"
+            :disabled="isDisabledBtnSubmit"
+          >
+            Cập nhật phim
+          </el-button>
+        </el-form-item>
+      </el-form>
+
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleFormImg"
+        label-position="top"
+        status-icon
+        :rules="rules"
+        label-width="120px"
+        class="edit-tv-image-form"
+      >
+        <h3 class="title">Đổi hình ảnh</h3>
         <el-row :gutter="20">
           <el-col :span="12" :xs="{ span: 24 }">
             <el-form-item class="image-form-item" label="Chọn Poster">
@@ -188,12 +212,21 @@
                 list-type="picture"
                 :auto-upload="false"
                 :on-change="handlePosterSuccess"
+                :before-remove="handlePosterRemove"
                 :limit="1"
                 accept="image/jpeg"
               >
                 <el-button :icon="UploadOutlined">Click để chọn ảnh</el-button>
               </el-upload>
             </el-form-item>
+
+            <el-button
+              type="primary"
+              :disabled="ruleFormImg.poster == null"
+              @click="handleChangePoster"
+            >
+              Đổi Poster
+            </el-button>
           </el-col>
           <el-col :span="12" :xs="{ span: 24 }">
             <el-form-item class="image-form-item" label="Chọn Backdrop">
@@ -202,21 +235,23 @@
                 list-type="picture"
                 :auto-upload="false"
                 :on-change="handleBackdropSuccess"
+                :before-remove="handleBackdropRemove"
                 :limit="1"
                 accept="image/jpeg"
               >
                 <el-button :icon="UploadOutlined">Click để chọn ảnh</el-button>
               </el-upload>
             </el-form-item>
+
+            <el-button
+              type="primary"
+              :disabled="ruleFormImg.backdrop == null"
+              @click="handleChangeBackdrop"
+            >
+              Đổi Backdrop
+            </el-button>
           </el-col>
         </el-row>
-
-        <el-form-item class="footer-form">
-          <el-button @click="resetForm" type="danger" plain> Hủy </el-button>
-          <el-button type="primary" @click="submitForm">
-            Cập nhật phim
-          </el-button>
-        </el-form-item>
       </el-form>
     </div>
   </el-page-header>
@@ -225,15 +260,19 @@
 import { ArrowLeftOutlined, UploadOutlined } from '@ant-design/icons-vue';
 // import { Plus } from '@element-plus/icons-vue';
 import axios from 'axios';
-import { onBeforeMount, reactive, ref } from 'vue';
+import { onBeforeMount, reactive, ref, h, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import {
   getAllGenre,
   getAllNational,
   getAllYear,
   getTvById,
+  editImage,
+  editTvById,
 } from '@/services/MovieService';
 import { useRoute } from 'vue-router';
+import { notification } from 'ant-design-vue';
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons-vue';
 
 export default {
   components: { ArrowLeftOutlined },
@@ -254,9 +293,32 @@ export default {
       overview: '',
       number_of_episodes: 0,
       episode_run_time: 60,
+      views: 0,
       status: '',
-      poster: {},
-      backdrop: {},
+    });
+    const ruleFormImg = reactive({
+      poster: null,
+      backdrop: null,
+    });
+
+    const isDisabledBtnSubmit = computed(() => {
+      return (
+        ruleForm.name == dataMovie.value.name &&
+        ruleForm.original_name == dataMovie.value.original_name &&
+        ruleForm.original_language == dataMovie.value.original_language &&
+        ruleForm.first_air_date == dataMovie.value.first_air_date &&
+        ruleForm.last_air_date == dataMovie.value.last_air_date &&
+        ruleForm.genres.toString() ==
+          Array.from(dataMovie.value.genres, (item) => item.id).toString() &&
+        ruleForm.overview == dataMovie.value.overview &&
+        ruleForm.views == dataMovie.value.views &&
+        ruleForm.number_of_episodes == dataMovie.value.number_of_episodes &&
+        ruleForm.episode_run_time ==
+          (Array.isArray(dataMovie.value.episode_run_time)
+            ? dataMovie.value.episode_run_time[0] || 0
+            : dataMovie.value.episode_run_time) &&
+        ruleForm.status == dataMovie.value.status
+      );
     });
 
     onBeforeMount(() => {
@@ -274,18 +336,22 @@ export default {
 
       getTvById(route.params.id)
         .then((response) => {
+          dataMovie.value = response.data;
           ruleForm.name = response.data.name;
           ruleForm.original_name = response.data.original_name;
           ruleForm.original_language = response.data.original_language;
+          ruleForm.first_air_date = response.data.first_air_date;
           ruleForm.last_air_date = response.data.last_air_date;
-          ruleForm.release_date = response.data.release_date;
           ruleForm.genres = Array.from(response.data.genres, (item) => item.id);
           ruleForm.overview = response.data.overview;
+          ruleForm.views = response.data.views;
           ruleForm.number_of_episodes = response.data.number_of_episodes;
-          ruleForm.episode_run_time = response.data.episode_run_time;
+          ruleForm.episode_run_time = Array.isArray(
+            response.data.episode_run_time
+          )
+            ? response.data.episode_run_time[0] || 0
+            : response.data.episode_run_time;
           ruleForm.status = response.data.status;
-          ruleForm.poster = response.data.poster;
-          ruleForm.backdrop = response.data.backdrop;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;
@@ -300,7 +366,7 @@ export default {
         ElMessage.error('Image size can not exceed 2MB!');
         return false;
       }
-      ruleForm.poster = response;
+      ruleFormImg.poster = response;
     };
 
     const handleBackdropSuccess = (response) => {
@@ -311,7 +377,7 @@ export default {
         ElMessage.error('Ảnh không được vượt quá 2MB!');
         return false;
       }
-      ruleForm.backdrop = response;
+      ruleFormImg.backdrop = response;
     };
 
     const handleUploadProgress = (response) => {
@@ -324,20 +390,142 @@ export default {
       }
     };
 
-    const submitForm = () => {
-      console.log(ruleForm);
+    const handlePosterRemove = () => {
+      ruleFormImg.poster = null;
     };
+    const handleBackdropRemove = () => {
+      ruleFormImg.backdrop = null;
+    };
+
     const resetForm = () => {
-      ruleForm.genres = ruleForm.genres.map((genre) => {
-        genres.value.find((item) => item.id == genre.id);
-      });
-      console.log(ruleForm);
+      ruleForm.name = dataMovie.value.name;
+      ruleForm.original_name = dataMovie.value.original_name;
+      ruleForm.original_language = dataMovie.value.original_language;
+      ruleForm.first_air_date = dataMovie.value.first_air_date;
+      ruleForm.last_air_date = dataMovie.value.last_air_date;
+      ruleForm.genres = Array.from(dataMovie.value.genres, (item) => item.id);
+      ruleForm.overview = dataMovie.value.overview;
+      ruleForm.views = dataMovie.value.views;
+      ruleForm.number_of_episodes = dataMovie.value.number_of_episodes;
+      ruleForm.episode_run_time = dataMovie.value.episode_run_time;
+      ruleForm.status = dataMovie.value.status;
+    };
+
+    const submitForm = () => {
+      const genresList = ruleForm.genres.map(
+        (item) =>
+          (item = {
+            id: item,
+            name: genres.value.find((item1) => item == item1.id).name,
+          })
+      );
+
+      editTvById(route.params.id, ruleForm, genresList)
+        .then((response) => {
+          if (response.data?.success == true) {
+            dataMovie.value = response.data.result;
+
+            setTimeout(() => {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật phim thành công!`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+            }, 500);
+          } else {
+            notification.open({
+              message: 'Thông báo',
+              description: `Cập nhật phim thất bại!`,
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
+            });
+          }
+        })
+        .catch((e) => {
+          notification.open({
+            message: 'Thông báo',
+            description: `Cập nhật phim thất bại!`,
+            icon: () =>
+              h(CloseCircleFilled, {
+                style: 'color: red',
+              }),
+          });
+          if (axios.isCancel(e)) return;
+        });
+    };
+
+    const handleChangePoster = () => {
+      if (ruleFormImg.poster != null) {
+        editImage(dataMovie.value.poster_path, ruleFormImg.poster)
+          .then((response) => {
+            console.log(response.data);
+            if (response.data.success == true) {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật Poster thành công!`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+            } else {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật Poster thất bại!`,
+                icon: () =>
+                  h(CloseCircleFilled, {
+                    style: 'color: red',
+                  }),
+              });
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
+    };
+
+    const handleChangeBackdrop = () => {
+      if (ruleFormImg.backdrop != null) {
+        editImage(dataMovie.value.backdrop_path, ruleFormImg.backdrop)
+          .then((response) => {
+            if (response.data.success == true) {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật Backdrop thành công!`,
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              });
+            } else {
+              notification.open({
+                message: 'Thông báo',
+                description: `Cập nhật Backdrop thất bại!`,
+                icon: () =>
+                  h(CloseCircleFilled, {
+                    style: 'color: red',
+                  }),
+              });
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
     };
 
     return {
       dataMovie,
       UploadOutlined,
+      isDisabledBtnSubmit,
       ruleFormRef,
+      ruleFormImg,
       ruleForm,
       genres,
       years,
@@ -345,6 +533,10 @@ export default {
       handlePosterSuccess,
       handleBackdropSuccess,
       handleUploadProgress,
+      handlePosterRemove,
+      handleBackdropRemove,
+      handleChangePoster,
+      handleChangeBackdrop,
       submitForm,
       resetForm,
     };

@@ -9,13 +9,13 @@ const axios = require('axios').default;
 const TMDB_IMAGE_BASE_URL = process.env.VUE_APP_TMDB_IMAGE_BASE_URL;
 // const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
 
-const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
-// const URL_API = 'http://127.0.0.1:5000';
+// const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
+const URL_API = 'http://127.0.0.1:5000';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
 // const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
-// const URL_API_IMAGE = 'http://127.0.0.1:5001';
-const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
+const URL_API_IMAGE = 'http://127.0.0.1:5001';
+// const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
 
 const emailValidation = (email) =>
   axios.get(
@@ -227,13 +227,32 @@ const getMovieById = async (movieId, append_to_response = '') =>
     `${URL_API}/movie/detail/${movieId}?append_to_response=${append_to_response}&api=hieu987`
   );
 
-const editMovieById = async (movieId, params) => {
+const addMovie = async (params, genresList) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('title', params.title);
+  bodyFormData.append('original_title', params.original_title);
+  bodyFormData.append('original_language', params.original_language);
+  bodyFormData.append('poster_path', '/' + params.poster.raw.name);
+  bodyFormData.append('backdrop_path', '/' + params.backdrop.raw.name);
+  bodyFormData.append('release_date', params.release_date);
+  bodyFormData.append('genres', JSON.stringify(genresList));
+  bodyFormData.append('overview', params.overview);
+  bodyFormData.append('budget', params.budget);
+  bodyFormData.append('revenue', params.revenue);
+  bodyFormData.append('runtime', params.runtime);
+  bodyFormData.append('views', params.views);
+  bodyFormData.append('status', params.status);
+
+  return await axios.post(`${URL_API}/movie/add?api=hieu987`, bodyFormData);
+};
+
+const editMovieById = async (movieId, params, genresList) => {
   const bodyFormData = new FormData();
   bodyFormData.append('title', params.title);
   bodyFormData.append('original_title', params.original_title);
   bodyFormData.append('original_language', params.original_language);
   bodyFormData.append('release_date', params.release_date);
-  bodyFormData.append('genres', JSON.stringify(params.genres));
+  bodyFormData.append('genres', JSON.stringify(genresList));
   bodyFormData.append('overview', params.overview);
   bodyFormData.append('budget', params.budget);
   bodyFormData.append('revenue', params.revenue);
@@ -254,6 +273,45 @@ const getTvById = async (movieid, append_to_response = '') =>
   await axios.get(
     `${URL_API}/tv/detail/${movieid}?append_to_response=${append_to_response}&api=hieu987`
   );
+
+const addTv = async (params, genresList) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('name', params.name);
+  bodyFormData.append('original_name', params.original_name);
+  bodyFormData.append('original_language', params.original_language);
+  bodyFormData.append('poster_path', params.poster_path);
+  bodyFormData.append('backdrop_path', params.backdrop_path);
+  bodyFormData.append('first_air_date', params.first_air_date);
+  bodyFormData.append('last_air_date', params.last_air_date);
+  bodyFormData.append('genres', JSON.stringify(genresList));
+  bodyFormData.append('overview', params.overview);
+  bodyFormData.append('episode_run_time', params.episode_run_time);
+  bodyFormData.append('number_of_episodes', params.number_of_episodes);
+  bodyFormData.append('views', params.views);
+  bodyFormData.append('status', params.status);
+
+  return await axios.post(`${URL_API}/tv/add?api=hieu987`, bodyFormData);
+};
+
+const editTvById = async (movieId, params, genresList) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('name', params.name);
+  bodyFormData.append('original_name', params.original_name);
+  bodyFormData.append('original_language', params.original_language);
+  bodyFormData.append('first_air_date', params.first_air_date);
+  bodyFormData.append('last_air_date', params.last_air_date);
+  bodyFormData.append('genres', JSON.stringify(genresList));
+  bodyFormData.append('overview', params.overview);
+  bodyFormData.append('episode_run_time', params.episode_run_time);
+  bodyFormData.append('number_of_episodes', params.number_of_episodes);
+  bodyFormData.append('views', params.views);
+  bodyFormData.append('status', params.status);
+
+  return await axios.post(
+    `${URL_API}/tv/edit/${movieId}?api=hieu987`,
+    bodyFormData
+  );
+};
 
 const UpdateViewTV = async (movieId) =>
   await axios.post(`${URL_API}/tv/updateview/${movieId}?api=hieu987`);
@@ -454,6 +512,14 @@ const addImage = async (file) => {
   return await axios.post(`${URL_API_IMAGE}/image/add`, bodyFormData);
 };
 
+const editImage = async (oldImage, file) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('old_image', oldImage);
+  bodyFormData.append('new_image', file.raw);
+
+  return await axios.post(`${URL_API_IMAGE}/image/edit`, bodyFormData);
+};
+
 const getAvatar = (path) => {
   return path === null || path === undefined
     ? ''
@@ -465,6 +531,7 @@ export {
   getPoster,
   getColorImage,
   addImage,
+  editImage,
   getIdGenresByName,
   getAllGenresById,
   getGenresNameById,
@@ -481,6 +548,7 @@ export {
   getLanguage,
   getDaTaSearch,
   getMovieById,
+  addMovie,
   editMovieById,
   UpdateViewMovie,
   getMoviesByGenres,
@@ -504,6 +572,8 @@ export {
   FilterDataMovie,
   getTv,
   getTvById,
+  addTv,
+  editTvById,
   UpdateViewTV,
   getMoviesBySeason,
   getAllSortBy,
