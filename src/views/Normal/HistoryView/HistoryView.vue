@@ -29,7 +29,7 @@
                     },
                   }"
                 >
-                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  <a-image :src="getBackdrop(topicImage)" :preview="false">
                   </a-image>
                   <div class="play-now">
                     <span>
@@ -56,7 +56,7 @@
                     },
                   }"
                 >
-                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  <a-image :src="getBackdrop(topicImage)" :preview="false">
                   </a-image>
                   <div class="play-now">
                     <font-awesome-icon icon="fa-solid fa-play" />
@@ -65,12 +65,12 @@
                 </router-link>
                 <a-image
                   v-if="!dataHistory?.length"
-                  :src="getPoster(topicImage)"
+                  :src="getBackdrop(topicImage)"
                   :preview="false"
                 >
                 </a-image>
               </div>
-              <img class="overlay-image" :src="getPoster(topicImage)" />
+              <img class="overlay-image" :src="getBackdrop(topicImage)" />
 
               <div class="info">
                 <h2 class="title">
@@ -188,7 +188,7 @@
                     },
                   }"
                 >
-                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  <a-image :src="getBackdrop(topicImage)" :preview="false">
                   </a-image>
                   <div class="play-now">
                     <span>
@@ -215,7 +215,7 @@
                     },
                   }"
                 >
-                  <a-image :src="getPoster(topicImage)" :preview="false">
+                  <a-image :src="getBackdrop(topicImage)" :preview="false">
                   </a-image>
                   <div class="play-now">
                     <font-awesome-icon icon="fa-solid fa-play" />
@@ -224,12 +224,12 @@
                 </router-link>
                 <a-image
                   v-if="!dataHistory?.length"
-                  :src="getPoster(topicImage)"
+                  :src="getBackdrop(topicImage)"
                   :preview="false"
                 >
                 </a-image>
               </div>
-              <img class="overlay-image" :src="getPoster(topicImage)" />
+              <img class="overlay-image" :src="getBackdrop(topicImage)" />
               <div class="info">
                 <h2 class="title">
                   <strong>Video đã xem</strong>
@@ -392,7 +392,7 @@ import { useRoute } from 'vue-router';
 import axios from 'axios';
 import MovieCardHorizontalHistory from '@/components/Normal/MovieCardHorizontalHistory/MovieCardHorizontalHistory.vue';
 import {
-  getPoster,
+  getBackdrop,
   getColorImage,
   getHistory,
   searchHistory,
@@ -473,7 +473,7 @@ export default {
         ant_input_affix_wrapper.style = `border-bottom: 2px solid rgb(${color[0]}, ${color[1]}, ${color[2]});`;
       }
 
-      // topic_history_column.style = `background: url("${getPoster(
+      // topic_history_column.style = `background: url("${getBackdrop(
       //   dataHistory.value[0]?.backdrop_path
       // )}");`;
 
@@ -680,7 +680,7 @@ export default {
       isLogin,
       dataHistory,
       getData,
-      getPoster,
+      getBackdrop,
       getDataWhenRemoveHistory,
       removeAllHistoryList,
       searchWatchList,

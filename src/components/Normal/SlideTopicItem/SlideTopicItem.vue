@@ -12,7 +12,7 @@
     class="topic-item"
   >
     <el-image
-      :src="getPoster(item?.backdrop_path)"
+      :src="getBackdrop(item?.backdrop_path)"
       :preview="false"
       loading="lazy"
       @load="onLoadImage"
@@ -59,7 +59,7 @@
 <script>
 import { ref } from 'vue';
 // import axios from 'axios';
-import { getAllGenresById, getPoster } from '@/services/MovieService';
+import { getAllGenresById, getBackdrop } from '@/services/MovieService';
 
 export default {
   components: {},
@@ -82,7 +82,7 @@ export default {
     return {
       loading,
       genresName,
-      getPoster,
+      getBackdrop,
       getAllGenresById,
       onLoadImage,
     };

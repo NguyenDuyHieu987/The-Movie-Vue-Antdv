@@ -9,13 +9,13 @@ const axios = require('axios').default;
 const TMDB_IMAGE_BASE_URL = process.env.VUE_APP_TMDB_IMAGE_BASE_URL;
 // const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
 
-// const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
-const URL_API = 'http://127.0.0.1:5000';
+const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
+// const URL_API = 'http://127.0.0.1:5000';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
 // const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
-const URL_API_IMAGE = 'http://127.0.0.1:5001';
-// const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
+// const URL_API_IMAGE = 'http://127.0.0.1:5001';
+const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
 
 const emailValidation = (email) =>
   axios.get(
@@ -229,6 +229,7 @@ const getMovieById = async (movieId, append_to_response = '') =>
 
 const addMovie = async (params, genresList) => {
   const bodyFormData = new FormData();
+  bodyFormData.append('id', params.id);
   bodyFormData.append('title', params.title);
   bodyFormData.append('original_title', params.original_title);
   bodyFormData.append('original_language', params.original_language);
@@ -276,6 +277,7 @@ const getTvById = async (movieid, append_to_response = '') =>
 
 const addTv = async (params, genresList) => {
   const bodyFormData = new FormData();
+  bodyFormData.append('id', params.id);
   bodyFormData.append('name', params.name);
   bodyFormData.append('original_name', params.original_name);
   bodyFormData.append('original_language', params.original_language);
@@ -495,7 +497,13 @@ const getPosterCast = (path) => `${TMDB_IMAGE_BASE_URL}/original${path}`;
 const getPoster = (path) => {
   return path === null || path === undefined
     ? ''
-    : `${URL_API_IMAGE}/image${path}?api=hieu987`;
+    : `${URL_API_IMAGE}/image/poster/${path}?api=hieu987`;
+};
+
+const getBackdrop = (path) => {
+  return path === null || path === undefined
+    ? ''
+    : `${URL_API_IMAGE}/image/backdrop/${path}?api=hieu987`;
 };
 
 const getColorImage = async (path) =>
@@ -505,19 +513,34 @@ const getColorImage = async (path) =>
       : `${URL_API_IMAGE}/imagecolor${path}?api=hieu987`
   );
 
-const addImage = async (file) => {
+const addPoster = async (file) => {
   const bodyFormData = new FormData();
   bodyFormData.append('image', file.raw);
 
-  return await axios.post(`${URL_API_IMAGE}/image/add`, bodyFormData);
+  return await axios.post(`${URL_API_IMAGE}/image/poster/add`, bodyFormData);
 };
 
-const editImage = async (oldImage, file) => {
+const addBackdrop = async (file) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('image', file.raw);
+
+  return await axios.post(`${URL_API_IMAGE}/image/backdrop/add`, bodyFormData);
+};
+
+const editPoster = async (oldImage, file) => {
   const bodyFormData = new FormData();
   bodyFormData.append('old_image', oldImage);
   bodyFormData.append('new_image', file.raw);
 
-  return await axios.post(`${URL_API_IMAGE}/image/edit`, bodyFormData);
+  return await axios.post(`${URL_API_IMAGE}/image/poster/edit`, bodyFormData);
+};
+
+const editBackdrop = async (oldImage, file) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('old_image', oldImage);
+  bodyFormData.append('new_image', file.raw);
+
+  return await axios.post(`${URL_API_IMAGE}/image/backdrop/edit`, bodyFormData);
 };
 
 const getAvatar = (path) => {
@@ -529,9 +552,12 @@ const getAvatar = (path) => {
 export {
   emailValidation,
   getPoster,
+  getBackdrop,
   getColorImage,
-  addImage,
-  editImage,
+  addPoster,
+  addBackdrop,
+  editPoster,
+  editBackdrop,
   getIdGenresByName,
   getAllGenresById,
   getGenresNameById,

@@ -115,7 +115,7 @@
       <div class="backdrop-box">
         <a-image
           class="ant-image"
-          :src="getPoster(dataMovie?.backdrop_path)"
+          :src="getBackdrop(dataMovie?.backdrop_path)"
           :preview="false"
         >
         </a-image>
@@ -297,6 +297,7 @@ import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
+  getBackdrop,
   getTvById,
   getMovieById,
   getLanguage,
@@ -563,6 +564,7 @@ export default {
       urlShare,
       handelAddToList,
       getPoster,
+      getBackdrop,
       getAllGenresById,
       getLanguage,
       ViewFormatter,

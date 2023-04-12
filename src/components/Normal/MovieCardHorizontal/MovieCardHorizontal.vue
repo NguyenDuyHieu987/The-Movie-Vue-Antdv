@@ -26,7 +26,7 @@
         <div class="img-box">
           <a-image
             class="ant-image"
-            :src="getPoster(dataMovie?.backdrop_path)"
+            :src="getBackdrop(dataMovie?.backdrop_path)"
             :preview="false"
           >
           </a-image>
@@ -115,7 +115,7 @@
         <a-image
           class="ant-image"
           v-show="!loading"
-          :src="getPoster(dataMovie?.backdrop_path)"
+          :src="getBackdrop(dataMovie?.backdrop_path)"
           :preview="false"
         >
         </a-image>
@@ -291,7 +291,7 @@ import {
 import axios from 'axios';
 import {
   getAllGenresById,
-  getPoster,
+  getBackdrop,
   getTvById,
   getMovieById,
   getLanguage,
@@ -563,7 +563,7 @@ export default {
       percent,
       urlShare,
       handelAddToList,
-      getPoster,
+      getBackdrop,
       getAllGenresById,
       getLanguage,
       ViewFormatter,

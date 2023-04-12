@@ -46,7 +46,7 @@
                   <el-select
                     v-model="ruleForm.genres"
                     placeholder="Chọn thể loại"
-                    style="width: 500px"
+                    style="width: 450px"
                     multiple
                     :clearable="true"
                   >
@@ -267,7 +267,8 @@ import {
   getAllNational,
   getAllYear,
   getTvById,
-  editImage,
+  editPoster,
+  editBackdrop,
   editTvById,
 } from '@/services/MovieService';
 import { useRoute } from 'vue-router';
@@ -461,7 +462,7 @@ export default {
 
     const handleChangePoster = () => {
       if (ruleFormImg.poster != null) {
-        editImage(dataMovie.value.poster_path, ruleFormImg.poster)
+        editPoster(dataMovie.value.poster_path, ruleFormImg.poster)
           .then((response) => {
             console.log(response.data);
             if (response.data.success == true) {
@@ -492,7 +493,7 @@ export default {
 
     const handleChangeBackdrop = () => {
       if (ruleFormImg.backdrop != null) {
-        editImage(dataMovie.value.backdrop_path, ruleFormImg.backdrop)
+        editBackdrop(dataMovie.value.backdrop_path, ruleFormImg.backdrop)
           .then((response) => {
             if (response.data.success == true) {
               notification.open({

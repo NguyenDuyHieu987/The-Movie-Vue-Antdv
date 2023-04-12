@@ -39,7 +39,7 @@
           class="movie-history-item"
         >
           <div class="img-box">
-            <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
+            <a-image :src="getBackdrop(item?.backdrop_path)" :preview="false">
             </a-image>
             <div
               class="percent-viewed"
@@ -252,7 +252,7 @@ import { ref, onBeforeMount, computed, onMounted } from 'vue';
 // import axios from 'axios';
 import {
   getAllGenresById,
-  getPoster,
+  getBackdrop,
   getLanguage,
   removeItemHistory,
   getMovieById,
@@ -600,7 +600,7 @@ export default {
       isAddToList,
       differenceDate,
       timeLine,
-      getPoster,
+      getBackdrop,
       getAllGenresById,
       getLanguage,
       handleRemoveFromHistory,

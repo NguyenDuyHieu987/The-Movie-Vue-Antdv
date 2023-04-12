@@ -30,7 +30,7 @@
         <div class="img-box">
           <a-image
             v-if="!loading"
-            :src="getPoster(dataMovie?.backdrop_path)"
+            :src="getBackdrop(dataMovie?.backdrop_path)"
             :preview="false"
           >
           </a-image>
@@ -222,7 +222,7 @@ import { ref, onBeforeMount } from 'vue';
 import axios from 'axios';
 import {
   getAllGenresById,
-  getPoster,
+  getBackdrop,
   getTvById,
   getMovieById,
   getLanguage,
@@ -377,7 +377,7 @@ export default {
       isInHistory,
       percent,
       isOenModalTrailer,
-      getPoster,
+      getBackdrop,
       getAllGenresById,
       getLanguage,
       handleClickTrailerIcon,

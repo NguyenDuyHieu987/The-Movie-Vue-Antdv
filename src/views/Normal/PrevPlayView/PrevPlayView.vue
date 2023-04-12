@@ -4,7 +4,7 @@
       <div class="backdrop-img">
         <div class="backdrop-wrapper">
           <el-image
-            :src="getPoster(dataMovie?.backdrop_path)"
+            :src="getBackdrop(dataMovie?.backdrop_path)"
             :preview-src-list="srcBackdropList"
             :preview-teleported="true"
           >
@@ -87,7 +87,7 @@
           </div>
         </div>
         <div class="overlay-backdrop">
-          <img :src="getPoster(dataMovie?.backdrop_path)" />
+          <img :src="getBackdrop(dataMovie?.backdrop_path)" />
         </div>
       </div>
 
@@ -463,11 +463,6 @@
           >
             <CastCard
               v-for="(item, index) in dataCredit?.cast"
-              :src="
-                getPoster(
-                  item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-                )
-              "
               :item="item"
               :index="index"
               :key="item.id"
@@ -492,11 +487,6 @@
           >
             <CastCard
               v-for="(item, index) in dataCredit?.crew"
-              :src="
-                getPoster(
-                  item?.backdrop_path ? item?.backdrop_path : item?.poster_path
-                )
-              "
               :item="item"
               :index="index"
               :key="item.id"
@@ -530,6 +520,7 @@ import axios from 'axios';
 import {
   getAllGenresById,
   getPoster,
+  getBackdrop,
   getMovieById,
   getLanguage,
   addItemList,
@@ -1019,6 +1010,7 @@ export default {
       isAddToList,
       checkEmptyDataMovies,
       getPoster,
+      getBackdrop,
       getAllGenresById,
       getLanguage,
       scrolltoTrailerYoutube,

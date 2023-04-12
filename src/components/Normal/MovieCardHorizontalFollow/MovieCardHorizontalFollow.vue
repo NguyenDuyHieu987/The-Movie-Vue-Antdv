@@ -33,7 +33,7 @@
         >
           <div class="img-box">
             <!-- v-if="!loading" -->
-            <a-image :src="getPoster(item?.backdrop_path)" :preview="false">
+            <a-image :src="getBackdrop(item?.backdrop_path)" :preview="false">
             </a-image>
             <div
               v-show="isInHistory"
@@ -208,7 +208,7 @@ import { ref, onBeforeMount, computed, h, onMounted } from 'vue';
 // import axios from 'axios';
 import {
   getAllGenresById,
-  getPoster,
+  getBackdrop,
   getLanguage,
   removeItemList,
   getMovieById,
@@ -444,7 +444,7 @@ export default {
       isInHistory,
       percent,
       urlShare,
-      getPoster,
+      getBackdrop,
       getAllGenresById,
       getLanguage,
       handleRemoveFromList,

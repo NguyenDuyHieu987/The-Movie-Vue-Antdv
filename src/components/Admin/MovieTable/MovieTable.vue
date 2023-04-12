@@ -115,7 +115,7 @@
             <div class="image-container">
               <el-image
                 class="backdrop"
-                :src="getPoster(props.row.backdrop_path)"
+                :src="getBackdrop(props.row.backdrop_path)"
                 :preview="false"
                 loading="lazy"
               >
@@ -187,7 +187,12 @@
 
 <script>
 import { onBeforeMount, ref } from 'vue';
-import { getMovies, getLanguage, getPoster } from '@/services/MovieService';
+import {
+  getMovies,
+  getLanguage,
+  getPoster,
+  getBackdrop,
+} from '@/services/MovieService';
 import axios from 'axios';
 import { ArrowDown } from '@element-plus/icons-vue';
 import { ViewFormatter } from '@/utils/convertViews';
@@ -222,6 +227,7 @@ export default {
       tableDataMovie,
       getLanguage,
       getPoster,
+      getBackdrop,
       ViewFormatter,
     };
   },
