@@ -135,7 +135,12 @@
           </template>
         </el-table-column>
       </el-table-column>
-      <el-table-column fixed="right" label="Thao tác" align="center">
+      <el-table-column
+        fixed="right"
+        label="Thao tác"
+        align="center"
+        :width="170"
+      >
         <template #default="props">
           <el-dropdown trigger="click">
             <el-button type="primary">

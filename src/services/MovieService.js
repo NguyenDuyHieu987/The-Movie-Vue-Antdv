@@ -9,13 +9,13 @@ const axios = require('axios').default;
 const TMDB_IMAGE_BASE_URL = process.env.VUE_APP_TMDB_IMAGE_BASE_URL;
 // const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
 
-const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
-// const URL_API = 'http://127.0.0.1:5000';
+// const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
+const URL_API = 'http://127.0.0.1:5000';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
 // const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
-// const URL_API_IMAGE = 'http://127.0.0.1:5001';
-const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
+const URL_API_IMAGE = 'http://127.0.0.1:5001';
+// const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
 
 const emailValidation = (email) =>
   axios.get(
@@ -281,8 +281,8 @@ const addTv = async (params, genresList) => {
   bodyFormData.append('name', params.name);
   bodyFormData.append('original_name', params.original_name);
   bodyFormData.append('original_language', params.original_language);
-  bodyFormData.append('poster_path', params.poster_path);
-  bodyFormData.append('backdrop_path', params.backdrop_path);
+  bodyFormData.append('poster_path', '/' + params.poster.raw.name);
+  bodyFormData.append('backdrop_path', '/' + params.backdrop.raw.name);
   bodyFormData.append('first_air_date', params.first_air_date);
   bodyFormData.append('last_air_date', params.last_air_date);
   bodyFormData.append('genres', JSON.stringify(genresList));

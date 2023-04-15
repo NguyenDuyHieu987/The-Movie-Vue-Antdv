@@ -28,12 +28,11 @@
                 Tạo Id
               </el-button>
             </el-form-item>
-
             <el-row :gutter="20">
               <el-col :span="10" :xs="{ span: 12 }">
-                <el-form-item label="Tên phim" prop="title">
+                <el-form-item label="Tên phim" prop="name">
                   <el-input
-                    v-model="ruleForm.title"
+                    v-model="ruleForm.name"
                     type="text"
                     autocomplete="off"
                     placeholder="Tên phim"
@@ -41,9 +40,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="10" :xs="{ span: 12 }">
-                <el-form-item label="Tên phim gốc" prop="original_title">
+                <el-form-item label="Tên phim gốc" prop="original_name">
                   <el-input
-                    v-model="ruleForm.original_title"
+                    v-model="ruleForm.original_name"
                     type="text"
                     autocomplete="off"
                     placeholder="Tên phim gốc"
@@ -52,68 +51,24 @@
               </el-col>
             </el-row>
 
-            <el-form-item label="Thể loại" prop="genres">
-              <el-select
-                v-model="ruleForm.genres"
-                placeholder="Chọn thể loại"
-                style="width: 450px"
-                multiple
-                :clearable="true"
-              >
-                <el-option
-                  v-for="(item, index) in genres"
-                  :index="index"
-                  :key="item?.id"
-                  :value="item.id"
-                  :label="item?.name_vietsub"
-                />
-              </el-select>
-            </el-form-item>
             <el-row :gutter="20">
               <el-col :span="10" :xs="{ span: 12 }">
-                <el-form-item label="Kinh phí" prop="budget">
-                  <a-input-number
-                    v-model:value="ruleForm.budget"
-                    :min="0"
-                    :step="100000"
-                    :formatter="
-                      (value) =>
-                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                    "
-                    :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
-                    style="width: 200px"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="10" :xs="{ span: 12 }">
-                <el-form-item label="Doanh thu" prop="revenue">
-                  <a-input-number
-                    v-model:value="ruleForm.revenue"
-                    :min="0"
-                    :step="100000"
-                    :formatter="
-                      (value) =>
-                        `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                    "
-                    :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
-                    style="width: 200px"
-                  />
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-col>
-
-          <el-col :span="12" :xs="{ span: 24 }">
-            <el-row :gutter="20">
-              <el-col :span="10" :xs="{ span: 12 }">
-                <el-form-item label="Ngày phát hình" prop="release_date">
-                  <el-date-picker
-                    v-model="ruleForm.release_date"
-                    type="date"
-                    placeholder="Chọn ngày"
-                    format="YYYY-MM-DD"
-                    value-format="YYYY-MM-DD"
-                  />
+                <el-form-item label="Thể loại" prop="genres">
+                  <el-select
+                    v-model="ruleForm.genres"
+                    placeholder="Chọn thể loại"
+                    style="width: 450px"
+                    multiple
+                    :clearable="true"
+                  >
+                    <el-option
+                      v-for="(item, index) in genres"
+                      :index="index"
+                      :key="item?.id"
+                      :value="item.id"
+                      :label="item?.name_vietsub"
+                    />
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="10" :xs="{ span: 12 }">
@@ -135,6 +90,57 @@
               </el-col>
             </el-row>
 
+            <el-row :gutter="20">
+              <el-col :span="10" :xs="{ span: 12 }">
+                <el-form-item label="Số lượng tập" prop="number_of_episodes">
+                  <el-input-number
+                    v-model="ruleForm.number_of_episodes"
+                    :step="1"
+                    step-strictly
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :xs="{ span: 12 }">
+                <el-form-item
+                  label="Thời lượng trên tập (phút)"
+                  prop="episode_run_time"
+                >
+                  <el-input-number
+                    v-model="ruleForm.episode_run_time"
+                    :step="1"
+                    step-strictly
+                  />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-col>
+
+          <el-col :span="12" :xs="{ span: 24 }">
+            <el-row :gutter="20">
+              <el-col :span="10" :xs="{ span: 12 }">
+                <el-form-item label="Ngày phát hình" prop="first_air_date">
+                  <el-date-picker
+                    v-model="ruleForm.first_air_date"
+                    type="date"
+                    placeholder="Chọn ngày"
+                    format="YYYY-MM-DD"
+                    value-format="YYYY-MM-DD"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :xs="{ span: 12 }">
+                <el-form-item label="Ngày ra tập mới nhất" prop="last_air_date">
+                  <el-date-picker
+                    v-model="ruleForm.last_air_date"
+                    type="date"
+                    placeholder="Chọn ngày"
+                    format="YYYY-MM-DD"
+                    value-format="YYYY-MM-DD"
+                  />
+                </el-form-item>
+              </el-col>
+            </el-row>
+
             <el-row>
               <el-col :span="24" :lg="{ span: 15 }">
                 <el-form-item label="Nội dung" prop="overview">
@@ -149,15 +155,6 @@
             </el-row>
 
             <el-row :gutter="20">
-              <el-col :span="10" :xs="{ span: 12 }">
-                <el-form-item label="Thời lượng (phút)" prop="runtime">
-                  <el-input-number
-                    v-model="ruleForm.runtime"
-                    :step="1"
-                    step-strictly
-                  />
-                </el-form-item>
-              </el-col>
               <el-col :span="10" :xs="{ span: 12 }">
                 <el-form-item label="Trạng thái" prop="status">
                   <el-select
@@ -212,7 +209,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-form-item class="footer-form">
           <el-button @click="resetForm" type="danger" plain> Hủy </el-button>
           <el-button
@@ -240,7 +236,7 @@ import {
   getAllYear,
   addPoster,
   addBackdrop,
-  addMovie,
+  addTv,
 } from '@/services/MovieService';
 import { notification } from 'ant-design-vue';
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons-vue';
@@ -260,15 +256,15 @@ export default {
     const ruleForm = reactive({
       // id: customId({ name: '01234', email: '56789', randomLength: 2 }),
       id: nanoid(),
-      title: '',
-      original_title: '',
+      name: '',
+      original_name: '',
       original_language: '',
-      release_date: '',
+      first_air_date: '',
+      last_air_date: '',
       genres: [],
       overview: '',
-      budget: 0,
-      revenue: 0,
-      runtime: 0,
+      number_of_episodes: 0,
+      episode_run_time: 0,
       views: 0,
       status: '',
       poster: null,
@@ -277,15 +273,15 @@ export default {
 
     const isDisabledBtnSubmit = computed(() => {
       return (
-        ruleForm.title == '' ||
-        ruleForm.original_title == '' ||
+        ruleForm.name == '' ||
+        ruleForm.original_name == '' ||
         ruleForm.original_language == '' ||
-        ruleForm.release_date == '' ||
+        ruleForm.first_air_date == '' ||
+        ruleForm.last_air_date == '' ||
         ruleForm.genres.length == 0 ||
         ruleForm.overview == '' ||
-        ruleForm.budget == 0 ||
-        ruleForm.revenue == 0 ||
-        ruleForm.runtime == 0 ||
+        ruleForm.number_of_episodes == 0 ||
+        ruleForm.episode_run_time == 0 ||
         // ruleForm.views == 0 ||
         ruleForm.status == '' ||
         ruleForm.poster == null ||
@@ -371,19 +367,96 @@ export default {
           })
       );
 
-      addMovie(ruleForm, genresList)
+      addTv(ruleForm, genresList)
         .then((response) => {
           if (response.data?.success == true) {
-            setTimeout(() => {
-              notification.open({
-                message: 'Thông báo',
-                description: `Thêm phim thành công!`,
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: green',
-                  }),
-              });
-            }, 500);
+            notification.open({
+              message: 'Thông báo',
+              description: `Thêm phim thành công!`,
+              icon: () =>
+                h(CheckCircleFilled, {
+                  style: 'color: green',
+                }),
+            });
+
+            if (ruleForm.poster != null) {
+              addPoster(ruleForm.poster)
+                .then((response) => {
+                  console.log(response.data);
+                  if (response.data.success == true) {
+                    notification.open({
+                      message: 'Thông báo',
+                      description: `Thêm Poster thành công!`,
+                      icon: () =>
+                        h(CheckCircleFilled, {
+                          style: 'color: green',
+                        }),
+                    });
+                  } else {
+                    if (response.data?.already == true) {
+                      notification.open({
+                        message: 'Thông báo',
+                        description: `Tên Poster đã tồn tại!`,
+                        icon: () =>
+                          h(CloseCircleFilled, {
+                            style: 'color: red',
+                          }),
+                      });
+                    } else {
+                      notification.open({
+                        message: 'Thông báo',
+                        description: `Thêm Poster thất bại!`,
+                        icon: () =>
+                          h(CloseCircleFilled, {
+                            style: 'color: red',
+                          }),
+                      });
+                    }
+                  }
+                })
+                .catch((e) => {
+                  if (axios.isCancel(e)) return;
+                });
+            }
+
+            if (ruleForm.backdrop != null) {
+              addBackdrop(ruleForm.backdrop)
+                .then((response) => {
+                  if (response.data.success == true) {
+                    notification.open({
+                      message: 'Thông báo',
+                      description: `Thêm Backdrop thành công!`,
+                      icon: () =>
+                        h(CheckCircleFilled, {
+                          style: 'color: green',
+                        }),
+                    });
+                  } else {
+                    if (response.data?.already == true) {
+                      notification.open({
+                        message: 'Thông báo',
+                        description: `Tên Backdrop đã tồn tại!`,
+                        icon: () =>
+                          h(CloseCircleFilled, {
+                            style: 'color: red',
+                          }),
+                      });
+                    } else {
+                      notification.open({
+                        message: 'Thông báo',
+                        description: `Thêm Backdrop thất bại!`,
+                        icon: () =>
+                          h(CloseCircleFilled, {
+                            style: 'color: red',
+                          }),
+                      });
+                    }
+                  }
+                })
+                .catch((e) => {
+                  if (axios.isCancel(e)) return;
+                });
+            }
           } else {
             if (response.data?.already == true) {
               notification.open({
@@ -417,85 +490,6 @@ export default {
           });
           if (axios.isCancel(e)) return;
         });
-
-      if (ruleForm.poster != null) {
-        addPoster(ruleForm.poster)
-          .then((response) => {
-            console.log(response.data);
-            if (response.data.success == true) {
-              notification.open({
-                message: 'Thông báo',
-                description: `Thêm Poster thành công!`,
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: green',
-                  }),
-              });
-            } else {
-              if (response.data?.already == true) {
-                notification.open({
-                  message: 'Thông báo',
-                  description: `Tên Poster đã tồn tại!`,
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
-              } else {
-                notification.open({
-                  message: 'Thông báo',
-                  description: `Thêm Poster thất bại!`,
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
-              }
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
-
-      if (ruleForm.backdrop != null) {
-        addBackdrop(ruleForm.backdrop)
-          .then((response) => {
-            if (response.data.success == true) {
-              notification.open({
-                message: 'Thông báo',
-                description: `Thêm Backdrop thành công!`,
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: green',
-                  }),
-              });
-            } else {
-              if (response.data?.already == true) {
-                notification.open({
-                  message: 'Thông báo',
-                  description: `Tên Backdrop đã tồn tại!`,
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
-              } else {
-                notification.open({
-                  message: 'Thông báo',
-                  description: `Thêm Backdrop thất bại!`,
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
-              }
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
     };
 
     return {

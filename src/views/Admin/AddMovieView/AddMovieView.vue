@@ -374,16 +374,93 @@ export default {
       addMovie(ruleForm, genresList)
         .then((response) => {
           if (response.data?.success == true) {
-            setTimeout(() => {
-              notification.open({
-                message: 'Thông báo',
-                description: `Thêm phim thành công!`,
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: green',
-                  }),
-              });
-            }, 500);
+            notification.open({
+              message: 'Thông báo',
+              description: `Thêm phim thành công!`,
+              icon: () =>
+                h(CheckCircleFilled, {
+                  style: 'color: green',
+                }),
+            });
+
+            if (ruleForm.poster != null) {
+              addPoster(ruleForm.poster)
+                .then((response) => {
+                  console.log(response.data);
+                  if (response.data.success == true) {
+                    notification.open({
+                      message: 'Thông báo',
+                      description: `Thêm Poster thành công!`,
+                      icon: () =>
+                        h(CheckCircleFilled, {
+                          style: 'color: green',
+                        }),
+                    });
+                  } else {
+                    if (response.data?.already == true) {
+                      notification.open({
+                        message: 'Thông báo',
+                        description: `Tên Poster đã tồn tại!`,
+                        icon: () =>
+                          h(CloseCircleFilled, {
+                            style: 'color: red',
+                          }),
+                      });
+                    } else {
+                      notification.open({
+                        message: 'Thông báo',
+                        description: `Thêm Poster thất bại!`,
+                        icon: () =>
+                          h(CloseCircleFilled, {
+                            style: 'color: red',
+                          }),
+                      });
+                    }
+                  }
+                })
+                .catch((e) => {
+                  if (axios.isCancel(e)) return;
+                });
+            }
+
+            if (ruleForm.backdrop != null) {
+              addBackdrop(ruleForm.backdrop)
+                .then((response) => {
+                  if (response.data.success == true) {
+                    notification.open({
+                      message: 'Thông báo',
+                      description: `Thêm Backdrop thành công!`,
+                      icon: () =>
+                        h(CheckCircleFilled, {
+                          style: 'color: green',
+                        }),
+                    });
+                  } else {
+                    if (response.data?.already == true) {
+                      notification.open({
+                        message: 'Thông báo',
+                        description: `Tên Backdrop đã tồn tại!`,
+                        icon: () =>
+                          h(CloseCircleFilled, {
+                            style: 'color: red',
+                          }),
+                      });
+                    } else {
+                      notification.open({
+                        message: 'Thông báo',
+                        description: `Thêm Backdrop thất bại!`,
+                        icon: () =>
+                          h(CloseCircleFilled, {
+                            style: 'color: red',
+                          }),
+                      });
+                    }
+                  }
+                })
+                .catch((e) => {
+                  if (axios.isCancel(e)) return;
+                });
+            }
           } else {
             if (response.data?.already == true) {
               notification.open({
@@ -417,85 +494,6 @@ export default {
           });
           if (axios.isCancel(e)) return;
         });
-
-      if (ruleForm.poster != null) {
-        addPoster(ruleForm.poster)
-          .then((response) => {
-            console.log(response.data);
-            if (response.data.success == true) {
-              notification.open({
-                message: 'Thông báo',
-                description: `Thêm Poster thành công!`,
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: green',
-                  }),
-              });
-            } else {
-              if (response.data?.already == true) {
-                notification.open({
-                  message: 'Thông báo',
-                  description: `Tên Poster đã tồn tại!`,
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
-              } else {
-                notification.open({
-                  message: 'Thông báo',
-                  description: `Thêm Poster thất bại!`,
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
-              }
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
-
-      if (ruleForm.backdrop != null) {
-        addBackdrop(ruleForm.backdrop)
-          .then((response) => {
-            if (response.data.success == true) {
-              notification.open({
-                message: 'Thông báo',
-                description: `Thêm Backdrop thành công!`,
-                icon: () =>
-                  h(CheckCircleFilled, {
-                    style: 'color: green',
-                  }),
-              });
-            } else {
-              if (response.data?.already == true) {
-                notification.open({
-                  message: 'Thông báo',
-                  description: `Tên Backdrop đã tồn tại!`,
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
-              } else {
-                notification.open({
-                  message: 'Thông báo',
-                  description: `Thêm Backdrop thất bại!`,
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
-              }
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
     };
 
     return {

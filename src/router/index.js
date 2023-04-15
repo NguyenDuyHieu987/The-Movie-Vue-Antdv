@@ -163,6 +163,7 @@ const routes = [
       import(
         /* webpackChunkName: "addmovie" */ '../views/Admin/ManageMovieView/ManageMovieView.vue'
       ),
+    children: [],
   },
   {
     path: '/dashboard/managefilm/movie/add',
