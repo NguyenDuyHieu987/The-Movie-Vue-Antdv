@@ -31,7 +31,7 @@
         <!-- v-for="(item, index) in dataSearch"
         :index="index" 
         -->
-        <SearchCard :key="item?.id" :item="item" />
+        <SearchCard :key="item?.id" :item="item" :type="item.media_type" />
       </template>
 
       <a-input-search
@@ -75,7 +75,11 @@
             @blur="isOpenAutoComplete = false"
           >
             <template #option="item">
-              <SearchCard :key="item?.id" :item="item" />
+              <SearchCard
+                :key="item?.id"
+                :item="item"
+                :type="item.media_type"
+              />
             </template>
             <a-input-search
               class="center-search-header-responsive"

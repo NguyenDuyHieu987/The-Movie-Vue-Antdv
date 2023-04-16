@@ -86,7 +86,7 @@
           :index="index"
           :key="item.id"
           :item="item"
-          type="movie"
+          :type="item.media_type"
         />
         <el-button
           class="loadmore-btn"

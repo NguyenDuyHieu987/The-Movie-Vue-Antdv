@@ -64,7 +64,7 @@
       class="ul-list"
       v-loading="loading"
       element-loading-text="Đang tải tập..."
-      element-loading-background="rgba(0, 0, 0, 0.7)"
+      element-loading-background="rgba(0, 0, 0, 0.6)"
     >
       <a-skeleton-button
         :active="true"

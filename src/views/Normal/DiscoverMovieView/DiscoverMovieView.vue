@@ -47,13 +47,14 @@
         :key="item.id"
         :item="item"
         :type="
-          isFilter
-            ? undefined
-            : $route.params.slug == 'movie' && $route.params.slug2 != 'all'
-            ? 'movie'
-            : $route.params.slug == 'tv' && $route.params.slug2 != 'all'
-            ? 'tv'
-            : undefined
+          item.media_type
+          // isFilter
+          //   ? undefined
+          //   : $route.params.slug == 'movie' && $route.params.slug2 != 'all'
+          //   ? 'movie'
+          //   : $route.params.slug == 'tv' && $route.params.slug2 != 'all'
+          //   ? 'tv'
+          //   : undefined
         "
       />
     </section>

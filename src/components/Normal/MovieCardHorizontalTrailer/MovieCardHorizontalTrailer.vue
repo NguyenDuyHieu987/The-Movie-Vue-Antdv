@@ -131,7 +131,7 @@
             height="650px"
             width="100%"
             :src="
-              dataMovie?.videos?.results?.length !== 0
+              dataMovie?.videos?.results?.length != 0
                 ? `https://www.youtube.com/embed/${
                     dataMovie?.videos?.results[
                       Math.floor(

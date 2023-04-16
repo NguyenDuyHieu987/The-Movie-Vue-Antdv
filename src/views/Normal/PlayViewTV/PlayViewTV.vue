@@ -27,7 +27,7 @@
       </div>
 
       <div class="overlay-backdrop">
-        <img :src="getPoster(dataMovie?.backdrop_path)" />
+        <img :src="getBackdrop(dataMovie?.backdrop_path)" />
       </div>
     </div>
 
@@ -175,7 +175,7 @@ import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
 import axios from 'axios';
 import {
   getAllGenresById,
-  getPoster,
+  getBackdrop,
   getTvById,
   // getList,
   getItemList,
@@ -549,7 +549,7 @@ export default {
       urlCodeMovie,
       checkEmptyDataMovies,
       isAddToList,
-      getPoster,
+      getBackdrop,
       getAllGenresById,
       getUrlCodeMovie,
       handelAddToList,
