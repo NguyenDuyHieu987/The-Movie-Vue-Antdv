@@ -140,7 +140,7 @@
       width: calc(100% + 40px);
       padding: 20px 20px;
       height: auto;
-      overflow: hidden;
+      // overflow: hidden;
       z-index: 1;
       // background-image: linear-gradient(
       //   to bottom,
@@ -451,7 +451,7 @@
     border-top-left-radius: 13px;
     padding: 22px 24px;
     position: fixed;
-    overflow: hidden;
+    // overflow: hidden;
     // background-image: linear-gradient(
     //   to bottom,
     //   rgb(53, 74, 136) 0%,
