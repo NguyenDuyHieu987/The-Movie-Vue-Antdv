@@ -123,7 +123,7 @@ import { defineComponent, reactive, computed, h, ref } from 'vue';
 import {
   UserOutlined,
   LockOutlined,
-  // CheckCircleFilled,
+  CheckCircleFilled,
   CloseCircleFilled,
   // FacebookFilled,
 } from '@ant-design/icons-vue';
@@ -131,10 +131,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import md5 from 'md5';
-import {
-  signIn,
-  //  loginFacebook
-} from '@/services/MovieService';
+import { signIn, loginFacebook } from '@/services/MovieService';
 import { setWithExpiry } from '@/utils/LocalStorage';
 // import { googleAuthCodeLogin } from 'vue3-google-login';
 import { ElNotification } from 'element-plus';
@@ -344,64 +341,66 @@ export default defineComponent({
 
     const getUserData = (result) => {
       console.log(result);
-      result.FB.api(
-        '/me',
-        'GET',
-        { fields: 'id,name,picture' },
-        (userInformation) => {
-          console.log(userInformation);
 
-          // this.personalID = userInformation.id;
-          // this.email = userInformation.email;
-          // this.name = userInformation.name;
-        }
-      );
-      // loginFacebook({
-      //   id: result.response.userID,
-      //   full_name: '',
-      //   user_token: result.response.accessToken,
-      //   avatar: `${Math.floor(Math.random() * 10) + 1}`,
-      // })
-      //   .then((response) => {
-      //     if (response.data.isSignUp == true) {
-      //       ElNotification.success({
-      //         title: 'Thành công!',
-      //         message: 'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
-      //         icon: () =>
-      //           h(CheckCircleFilled, {
-      //             style: 'color: green',
-      //           }),
-      //       });
-      //       setWithExpiry('userAccount', response?.data?.result, 30);
+      if (result.response.status == 'connected') {
+        result.FB.api(
+          '/me',
+          'GET',
+          { fields: 'id,name,picture,email' },
+          (userInformation) => {
+            console.log(userInformation);
 
-      //       setTimeout(() => {
-      //         // loadingLogin.value = false;
-      //         router.push({ path: '/' });
-      //       }, 1000);
-      //     } else if (response.data.isLogin == true) {
-      //       setWithExpiry('userAccount', response?.data?.result, 30);
+            loginFacebook({
+              id: result.response.userID,
+              full_name: userInformation.name,
+              email: userInformation?.email ? userInformation?.email : '',
+              user_token: result.response.accessToken,
+              avatar: userInformation.picture.data.url,
+            })
+              .then((response) => {
+                if (response.data.isSignUp == true) {
+                  ElNotification.success({
+                    title: 'Thành công!',
+                    message:
+                      'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
+                    icon: () =>
+                      h(CheckCircleFilled, {
+                        style: 'color: green',
+                      }),
+                  });
+                  setWithExpiry('userAccount', response?.data?.result, 30);
 
-      //       setTimeout(() => {
-      //         // loadingLogin.value = false;
-      //         router.push({ path: '/' });
-      //       }, 1000);
-      //     }
-      //   })
-      //   .catch((e) => {
-      //     setTimeout(() => {
-      //       // loadingLogin.value = false;
+                  setTimeout(() => {
+                    // loadingLogin.value = false;
+                    router.push({ path: '/' });
+                  }, 1000);
+                } else if (response.data.isLogin == true) {
+                  setWithExpiry('userAccount', response?.data?.result, 30);
 
-      //       ElNotification.error({
-      //         title: 'Failed!',
-      //         message: 'Some thing went wrong.',
-      //         icon: () =>
-      //           h(CloseCircleFilled, {
-      //             style: 'color: red',
-      //           }),
-      //       });
-      //     }, 1000);
-      //     if (axios.isCancel(e)) return;
-      //   });
+                  setTimeout(() => {
+                    // loadingLogin.value = false;
+                    router.push({ path: '/' });
+                  }, 1000);
+                }
+              })
+              .catch((e) => {
+                setTimeout(() => {
+                  // loadingLogin.value = false;
+
+                  ElNotification.error({
+                    title: 'Failed!',
+                    message: 'Some thing went wrong.',
+                    icon: () =>
+                      h(CloseCircleFilled, {
+                        style: 'color: red',
+                      }),
+                  });
+                }, 1000);
+                if (axios.isCancel(e)) return;
+              });
+          }
+        );
+      }
     };
 
     return {
