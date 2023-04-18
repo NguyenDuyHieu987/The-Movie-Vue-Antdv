@@ -351,7 +351,7 @@ export default defineComponent({
             console.log(userInformation);
 
             loginFacebook({
-              id: result.response.userID,
+              id: result.response.authResponse.userID,
               full_name: userInformation.name,
               email: userInformation?.email ? userInformation?.email : '',
               user_token: result.response.accessToken,
