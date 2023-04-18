@@ -9,13 +9,13 @@ const axios = require('axios').default;
 const TMDB_IMAGE_BASE_URL = process.env.VUE_APP_TMDB_IMAGE_BASE_URL;
 // const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
 
-// const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
-const URL_API = 'http://127.0.0.1:5000';
+const URL_API = process.env.VUE_APP_API_CONTENT_SERVICE_URL;
+// const URL_API = 'http://127.0.0.1:5000';
 // const URL_API = 'https://the-movie-flask-api-ccntent.onrender.com';
 
 // const URL_API_IMAGE = process.env.VUE_APP_API_IMAGE_SERVICE_URL;
-const URL_API_IMAGE = 'http://127.0.0.1:5001';
-// const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
+// const URL_API_IMAGE = 'http://127.0.0.1:5001';
+const URL_API_IMAGE = 'https://the-movie-flask-api-image-gitlab.onrender.com';
 
 const emailValidation = (email) =>
   axios.get(
@@ -29,6 +29,18 @@ const signIn = async (params) => {
   bodyFormData.append('user_token', params.user_token);
 
   return await axios.post(`${URL_API}/auth/login?api=hieu987`, bodyFormData);
+};
+
+const loginFacebook = async (params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('id', params.id);
+  bodyFormData.append('full_name', params.full_name);
+  bodyFormData.append('user_token', params.user_token);
+
+  return await axios.post(
+    `${URL_API}/auth/loginfacebook?api=hieu987`,
+    bodyFormData
+  );
 };
 
 const getUserToken = async (params) => {
@@ -618,6 +630,7 @@ export {
   ratingTV,
   signUp,
   signIn,
+  loginFacebook,
   getUserToken,
   getAvatar,
   getRanking,
