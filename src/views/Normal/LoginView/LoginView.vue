@@ -97,7 +97,6 @@
           @login="getUserData"
           @logout="onLogout"
           @get-initial-status="getUserData"
-          :sdkLoaded="sdkLoaded"
         >
           Đăng nhập bằng Facebook
         </facebook-login>
@@ -348,7 +347,7 @@ export default defineComponent({
       result.FB.api(
         '/me',
         'GET',
-        { fields: 'id,name,email' },
+        { fields: 'id,name,avatar' },
         (userInformation) => {
           console.log(userInformation);
 
@@ -405,9 +404,6 @@ export default defineComponent({
       //   });
     };
 
-    const sdkLoaded = (response) => {
-      console.log(response);
-    };
     return {
       formState,
       disabled,
@@ -418,7 +414,6 @@ export default defineComponent({
       handleLoginFacebook,
       handleGoogleFacebook,
       getUserData,
-      sdkLoaded,
     };
   },
 });
