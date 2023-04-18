@@ -91,6 +91,16 @@
           <span>Đăng nhập bằng Facebook</span>
         </a-button>
 
+        <facebook-login
+          class="button"
+          appId="820070179113499"
+          @login="getUserData"
+          @logout="onLogout"
+          @get-initial-status="getUserData"
+        >
+          Đăng nhập bằng Facebook
+        </facebook-login>
+
         <GoogleLogin
           :callback="handleGoogleFacebook"
           prompt
@@ -126,11 +136,13 @@ import { setWithExpiry } from '@/utils/LocalStorage';
 import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
 import { useMeta } from 'vue-meta';
+import facebookLogin from 'facebook-login-vuejs/src/facebook-login.vue';
 
 export default defineComponent({
   components: {
     UserOutlined,
     LockOutlined,
+    facebookLogin,
   },
   setup() {
     const loadingLogin = ref(false);
@@ -325,6 +337,9 @@ export default defineComponent({
       console.log('Handle the response', response);
     };
 
+    const getUserData = (response) => {
+      console.log(response);
+    };
     return {
       formState,
       disabled,
@@ -334,6 +349,7 @@ export default defineComponent({
       handleSubmit,
       handleLoginFacebook,
       handleGoogleFacebook,
+      getUserData,
     };
   },
 });
