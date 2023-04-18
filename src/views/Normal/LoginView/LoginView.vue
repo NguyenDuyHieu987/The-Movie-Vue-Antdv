@@ -347,7 +347,7 @@ export default defineComponent({
       result.FB.api(
         '/me',
         'GET',
-        { fields: 'id,name,avatar' },
+        { fields: 'id,name,picture' },
         (userInformation) => {
           console.log(userInformation);
 
