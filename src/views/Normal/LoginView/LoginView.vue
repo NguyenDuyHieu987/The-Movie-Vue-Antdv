@@ -342,7 +342,7 @@ export default defineComponent({
     const getUserData = (result) => {
       console.log(result);
 
-      if (result.response.status == 'connected') {
+      if (result.status == 'connected') {
         result.FB.api(
           '/me',
           'GET',
