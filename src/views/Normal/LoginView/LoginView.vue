@@ -368,17 +368,21 @@ export default defineComponent({
                         style: 'color: green',
                       }),
                   });
+
+                  setWithExpiry('userAccount', response?.data?.result, 30);
+
+                  // setTimeout(() => {
+                  // loadingLogin.value = false;
+                  router.push({ path: '/' });
+                  // }, 1000);
+                } else if (response.data.isLogin == true) {
+                  setWithExpiry('userAccount', response?.data?.result, 30);
+
+                  // setTimeout(() => {
+                  // loadingLogin.value = false;
+                  router.push({ path: '/' });
+                  // }, 1000);
                 }
-                // else if (response.data.isLogin == true) {
-
-                // }
-
-                setWithExpiry('userAccount', response?.data?.result, 30);
-
-                // setTimeout(() => {
-                // loadingLogin.value = false;
-                router.push({ path: '/' });
-                // }, 1000);
               })
               .catch((e) => {
                 setTimeout(() => {
