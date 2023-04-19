@@ -342,7 +342,7 @@ export default defineComponent({
     const getUserData = (result) => {
       console.log(result);
 
-      if (result.status == 'connected') {
+      if (result.response.status == 'connected') {
         result.FB.api(
           '/me',
           'GET',
@@ -354,7 +354,7 @@ export default defineComponent({
               id: result.response.authResponse.userID,
               full_name: userInformation.name,
               email: userInformation?.email ? userInformation?.email : '',
-              user_token: result.response.accessToken,
+              user_token: result.response.authResponse.accessToken,
               avatar: userInformation.picture.data.url,
             })
               .then((response) => {
