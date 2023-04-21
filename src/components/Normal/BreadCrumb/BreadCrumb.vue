@@ -56,15 +56,6 @@ export default {
           .replaceAll(route.params?.tap ? route.params?.tap : '', '')
           .replaceAll('/', '')
       ) {
-        case 'follow':
-          breadList.push({ params: 'follow', name: 'Theo dõi' });
-          break;
-        case 'history':
-          breadList.push({ params: 'history', name: 'Lịch sử xem' });
-          break;
-        case 'ranking':
-          breadList.push({ params: 'ranking', name: 'Xếp hạng' });
-          break;
         case 'discover':
           breadList.push({ params: 'discover', name: 'Khám phá' });
           break;
@@ -79,6 +70,18 @@ export default {
           break;
         case 'playtv':
           breadList.push({ params: 'playTV', name: 'Xem phim' });
+          break;
+        case 'follow':
+          breadList.push({ params: 'follow', name: 'Theo dõi' });
+          break;
+        case 'history':
+          breadList.push({ params: 'history', name: 'Lịch sử xem' });
+          break;
+        case 'ranking':
+          breadList.push({ params: 'ranking', name: 'Xếp hạng' });
+          break;
+        case 'pricing':
+          breadList.push({ params: 'pricing', name: 'Pricing' });
           break;
         default:
           break;

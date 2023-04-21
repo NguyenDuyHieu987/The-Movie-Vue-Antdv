@@ -142,8 +142,8 @@
                     <p>Thông báo cá nhân</p>
                     <p>2</p>
                   </template>
-                  <a-menu-item key="3">Option 1</a-menu-item>
-                  <a-menu-item key="4">Option 2</a-menu-item>
+                  <a-menu-item key="1">Message 1</a-menu-item>
+                  <a-menu-item key="2">Message 2</a-menu-item>
                 </a-menu-item-group>
               </a-menu>
             </template>

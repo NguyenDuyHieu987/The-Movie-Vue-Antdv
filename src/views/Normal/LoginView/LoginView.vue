@@ -358,6 +358,8 @@ export default defineComponent({
               avatar: userInformation.picture.data.url,
             })
               .then((response) => {
+                console.log(response.data);
+
                 if (response.data.isSignUp == true) {
                   ElNotification.success({
                     title: 'Thành công!',

@@ -300,6 +300,11 @@
           <h2 class="gradient-title-default">
             <strong>Danh sách phát</strong>
           </h2>
+          <!-- <VueDataLoading
+            :listens="['pull-down', 'infinite-scroll']"
+            @infinite-scroll="onLoadMore"
+            @pull-down="onLoadMore"
+          > -->
           <section class="movie-follow" v-show="dataList?.length">
             <MovieCardHorizontalFollow
               v-for="(item, index) in dataList"
@@ -310,6 +315,8 @@
               :getDataWhenRemoveList="getDataWhenRemoveList"
             />
           </section>
+          <!-- </VueDataLoading> -->
+
           <div class="skeleton-loadmore" v-if="loadMore">
             <el-skeleton
               :loading="true"
@@ -384,11 +391,13 @@ import disableScroll from 'disable-scroll';
 import { ElMessage } from 'element-plus';
 import { message, Modal } from 'ant-design-vue';
 import _ from 'lodash';
+// import VueDataLoading from 'vue-data-loading/src/index';
 
 export default {
   components: {
     MovieCardHorizontalFollow,
     //  InfoCircleOutlined
+    // VueDataLoading,
   },
   setup() {
     const route = useRoute();
@@ -664,6 +673,24 @@ export default {
       // }
     };
 
+    const onLoadMore = () => {
+      alert('g');
+      loadMore.value = true;
+      getList(store?.state.userAccount?.id, skip.value)
+        .then((movieRespone) => {
+          if (movieRespone.data?.result?.length > 0) {
+            setTimeout(() => {
+              loadMore.value = false;
+              dataList.value = dataList.value.concat(movieRespone.data?.result);
+            }, 2000);
+            skip.value += 1;
+          }
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+    };
+
     return {
       valueInput,
       loading,
@@ -678,6 +705,7 @@ export default {
       getDataWhenRemoveList,
       removeAllFollowList,
       searchFollow,
+      onLoadMore,
     };
   },
   // beforeRouteEnter() {
