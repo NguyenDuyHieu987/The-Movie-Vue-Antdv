@@ -331,14 +331,14 @@ export default defineComponent({
 
                   setTimeout(() => {
                     router.push({ path: '/' });
-                  });
+                  }, 300);
                 } else if (response.data.isLogin == true) {
                   store.state.userAccount = response?.data?.result;
                   setWithExpiry('userAccount', response?.data?.result, 30);
 
                   setTimeout(() => {
                     router.push({ path: '/' });
-                  });
+                  }, 300);
                 }
               })
               .catch((e) => {
