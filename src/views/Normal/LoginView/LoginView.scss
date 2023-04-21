@@ -148,12 +148,13 @@
       .facebook-login {
         flex-grow: 1;
 
-        .fa-facebook-f {
-          color: #1890ff;
-        }
-
+        button,
         span {
           width: 100%;
+        }
+
+        .fa-facebook-f {
+          color: #1890ff;
         }
       }
 

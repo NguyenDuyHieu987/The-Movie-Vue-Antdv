@@ -92,16 +92,12 @@
         </a-button>
 
         <facebook-login
-          class="button"
+          class="facebook-login"
+          loginLabel="Đăng nhập bằng Facebook"
           appId="820070179113499"
           version="v15.0"
-          :loginOptions="{
-            returnScopes: true,
-          }"
           @login="FacebookLogin"
-          @sdkLoaded="sdkLoaded"
         >
-          Đăng nhập bằng Facebook
         </facebook-login>
 
         <GoogleLogin
@@ -358,10 +354,6 @@ export default defineComponent({
       }
     };
 
-    const sdkLoaded = (payload) => {
-      console.log(payload);
-    };
-
     const handleFacebookLogin = async () => {
       const { authResponse } = await new Promise(window.FB.login);
       console.log(authResponse);
@@ -383,7 +375,6 @@ export default defineComponent({
       handleGoogleLogin,
       handleGoogleLogin1,
       FacebookLogin,
-      sdkLoaded,
     };
   },
 });
