@@ -33,7 +33,11 @@
           >
             <img
               class="avatar"
-              src="@/assets/images/account_avatar/account4.jpg"
+              :src="
+                typeof +$store.state?.userAccount?.avatar == 'number'
+                  ? `/images/account_avatar/account${$store.state?.userAccount?.avatar}.jpg`
+                  : $store.state?.userAccount?.avatar
+              "
             />
           </div>
 

@@ -21,7 +21,7 @@
 
     <div class="topic-item-info">
       <div class="topic-item-info-head">
-        <img class="pngegg" src="@/assets/images/pngegg.png" />
+        <img class="pngegg" src="/images/pngegg.png" />
         <p>
           <span class="release-date">
             {{

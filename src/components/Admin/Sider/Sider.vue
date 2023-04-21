@@ -29,7 +29,7 @@
           <img
             v-else
             class="avatar"
-            src="@/assets/images/account_avatar/account4.jpg"
+            src="/images/account_avatar/account4.jpg"
           />
         </div>
 

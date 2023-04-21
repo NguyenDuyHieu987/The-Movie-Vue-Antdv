@@ -8,7 +8,7 @@
     <vue-progress-bar />
     <div v-if="loading" class="loading-page">
       <div class="loading-page-container">
-        <img src="@/assets/images/logo.png" alt="" />
+        <img src="/images/logo.png" alt="" />
         <h3>Đang tải bảng điều khiển...</h3>
         <spring-spinner :animation-duration="3000" :size="30" color="#e82b00" />
       </div>

@@ -26,8 +26,15 @@
             size="large"
             shape="circle"
           />
-          <img v-else class="avatar" :src="$store.state?.userAccount?.avatar" />
-          <!--  :src="@/assets/images/account_avatar/account4.jpg" -->
+          <img
+            v-else
+            class="avatar"
+            :src="
+              typeof +$store.state?.userAccount?.avatar == 'number'
+                ? `/images/account_avatar/account${$store.state?.userAccount?.avatar}.jpg`
+                : $store.state?.userAccount?.avatar
+            "
+          />
         </div>
 
         <a-skeleton

@@ -3,7 +3,7 @@
     <div class="footer-container">
       <div class="logo">
         <router-link :to="{ name: 'home' }">
-          <img src="@/assets/images/film-reel.png" style="height: 50px" />
+          <img src="/images/film-reel.png" style="height: 50px" />
           <h1>Phimhay247</h1>
         </router-link>
       </div>

@@ -2,35 +2,13 @@
   <div class="auth-container">
     <div class="image-auth">
       <img
-        v-if="image == 1"
-        src="../assets/images/background_auth/Background_Auth1.jpg"
-        alt=""
-      />
-      <img
-        v-else-if="image == 2"
-        src="../assets/images/background_auth/Background_Auth2.jpg"
-        alt=""
-      />
-      <img
-        v-else-if="image == 3"
-        src="../assets/images/background_auth/Background_Auth3.jpg"
+        :src="`/images/background_auth/Background_Auth${image}.jpg`"
         alt=""
       />
     </div>
     <div class="image-auth responsive">
       <img
-        v-if="image_mobile == 1"
-        src="../assets/images/background_auth_responsive/Background_Auth1.jpg"
-        alt=""
-      />
-      <img
-        v-else-if="image_mobile == 2"
-        src="../assets/images/background_auth_responsive/Background_Auth2.jpg"
-        alt=""
-      />
-      <img
-        v-else-if="image_mobile == 3"
-        src="../assets/images/background_auth_responsive/Background_Auth3.jpg"
+        :src="`/images/background_auth_responsive/Background_Auth${image_mobile}.jpg`"
         alt=""
       />
     </div>
