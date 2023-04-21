@@ -94,17 +94,20 @@
         <facebook-login
           class="button"
           appId="820070179113499"
-          @login="getUserData"
-          @get-initial-status="getUserData"
+          @login="FacebookLogin"
+          @get-initial-status="FacebookLogin"
         >
           Đăng nhập bằng Facebook
         </facebook-login>
 
         <GoogleLogin
-          :callback="handleGoogleLogin"
+          :onSuccess="handleGoogleLogin"
           prompt
           class="google-login"
         />
+        <a-button class="google-login" @click="handleGoogleLogin1" size="large">
+          <span>Đăng nhập bằng Google</span>
+        </a-button>
         <!-- @click="handleGoogleLogin" -->
       </div>
 
@@ -287,16 +290,7 @@ export default defineComponent({
         });
     };
 
-    const handleFacebookLogin = async () => {
-      const { authResponse } = await new Promise(window.FB.login);
-      console.log(authResponse);
-    };
-
-    const handleGoogleLogin = (response) => {
-      console.log('Handle the response', response);
-    };
-
-    const getUserData = (result) => {
+    const FacebookLogin = (result) => {
       console.log(result);
 
       if (result.response.status == 'connected') {
@@ -360,6 +354,16 @@ export default defineComponent({
       }
     };
 
+    const handleFacebookLogin = async () => {
+      const { authResponse } = await new Promise(window.FB.login);
+      console.log(authResponse);
+    };
+
+    const handleGoogleLogin = (response) => {
+      console.log('Handle the response', response);
+    };
+    const handleGoogleLogin1 = async () => {};
+
     return {
       formState,
       disabled,
@@ -369,7 +373,8 @@ export default defineComponent({
       handleSubmit,
       handleFacebookLogin,
       handleGoogleLogin,
-      getUserData,
+      handleGoogleLogin1,
+      FacebookLogin,
     };
   },
 });
