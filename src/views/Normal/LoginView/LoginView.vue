@@ -94,13 +94,9 @@
         <facebook-login
           class="button"
           appId="820070179113499"
-          version="v16.0"
-          :loginOptions="{
-            scope: 'id,name,picture,email',
-          }"
+          version="v15.0"
           @login="FacebookLogin"
-          @get-initial-status="FacebookLogin"
-          @sdkLoaded="FacebookLogin"
+          @sdkLoaded="sdkLoaded"
         >
           Đăng nhập bằng Facebook
         </facebook-login>
@@ -359,6 +355,10 @@ export default defineComponent({
       }
     };
 
+    const sdkLoaded = (payload) => {
+      console.log(payload);
+    };
+
     const handleFacebookLogin = async () => {
       const { authResponse } = await new Promise(window.FB.login);
       console.log(authResponse);
@@ -380,6 +380,7 @@ export default defineComponent({
       handleGoogleLogin,
       handleGoogleLogin1,
       FacebookLogin,
+      sdkLoaded,
     };
   },
 });
