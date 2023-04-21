@@ -34,6 +34,7 @@ const signIn = async (params) => {
 const loginFacebook = async (params) => {
   const bodyFormData = new FormData();
   bodyFormData.append('id', params.id);
+  bodyFormData.append('username', params.full_name);
   bodyFormData.append('full_name', params.full_name);
   bodyFormData.append('user_token', params.user_token);
   bodyFormData.append('email', params.email);
