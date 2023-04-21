@@ -94,8 +94,13 @@
         <facebook-login
           class="button"
           appId="820070179113499"
+          version="v16.0"
+          :loginOptions="{
+            scope: 'id,name,picture,email',
+          }"
           @login="FacebookLogin"
           @get-initial-status="FacebookLogin"
+          @sdkLoaded="FacebookLogin"
         >
           Đăng nhập bằng Facebook
         </facebook-login>
