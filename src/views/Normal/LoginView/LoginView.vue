@@ -95,6 +95,9 @@
           class="button"
           appId="820070179113499"
           version="v15.0"
+          :loginOptions="{
+            returnScopes: true,
+          }"
           @login="FacebookLogin"
           @sdkLoaded="sdkLoaded"
         >
