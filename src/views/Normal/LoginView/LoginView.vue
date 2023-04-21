@@ -327,11 +327,12 @@ export default defineComponent({
                         style: 'color: green',
                       }),
                   });
-
+                  store.state.userAccount = response?.data?.result;
                   setWithExpiry('userAccount', response?.data?.result, 30);
 
                   router.push({ path: '/' });
                 } else if (response.data.isLogin == true) {
+                  store.state.userAccount = response?.data?.result;
                   setWithExpiry('userAccount', response?.data?.result, 30);
 
                   router.push({ path: '/' });
