@@ -26,11 +26,8 @@
             size="large"
             shape="circle"
           />
-          <img
-            v-else
-            class="avatar"
-            src="@/assets/images/account_avatar/account4.jpg"
-          />
+          <img v-else class="avatar" :src="$store.state?.userAccount?.avatar" />
+          <!--  :src="@/assets/images/account_avatar/account4.jpg" -->
         </div>
 
         <a-skeleton

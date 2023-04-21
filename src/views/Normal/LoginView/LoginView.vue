@@ -84,7 +84,7 @@
       <div class="social-login">
         <a-button
           class="facebook-login"
-          @click="handleLoginFacebook"
+          @click="handleFacebookLogin"
           size="large"
         >
           <font-awesome-icon icon="fa-brands fa-facebook-f" />
@@ -95,18 +95,17 @@
           class="button"
           appId="820070179113499"
           @login="getUserData"
-          @logout="onLogout"
           @get-initial-status="getUserData"
         >
           Đăng nhập bằng Facebook
         </facebook-login>
 
         <GoogleLogin
-          :callback="handleGoogleFacebook"
+          :callback="handleGoogleLogin"
           prompt
           class="google-login"
         />
-        <!-- @click="handleGoogleFacebook" -->
+        <!-- @click="handleGoogleLogin" -->
       </div>
 
       <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
@@ -206,14 +205,6 @@ export default defineComponent({
           if (response.data?.success === false) {
             setTimeout(() => {
               loadingLogin.value = false;
-              // notification.open({
-              //   message: 'Lỗi!',
-              //   description: 'Tài khoản không tồi tại.',
-              //   icon: () =>
-              //     h(CloseCircleFilled, {
-              //       style: 'color: red',
-              //     }),
-              // });
 
               ElNotification.error({
                 title: 'Lỗi!',
@@ -234,31 +225,16 @@ export default defineComponent({
                 store.state.userAccount = response?.data?.result;
                 store.state.isLogin = true;
 
-                // window.localStorage.setItem(
-                //   'isLogin',
-                //   JSON.stringify({ value: true })
-                // );
-
                 window.localStorage.setItem(
                   'userAccount',
                   JSON.stringify({ value: response?.data?.result })
                 );
-
-                // window.localStorage.setItem(
-                //   'userToken',
-                //   JSON.stringify({ value: response?.data?.result?.user_token })
-                // );
               } else {
                 store.state.userAccount = response?.data?.result;
                 store.state.isLogin = true;
 
                 // setWithExpiry('isLogin', true, 30);
                 setWithExpiry('userAccount', response?.data?.result, 30);
-                // setWithExpiry(
-                //   'userToken',
-                //   response?.data?.result?.user_token,
-                //   30
-                // );
               }
 
               if (response?.data?.result?.role == 'admin') {
@@ -281,14 +257,7 @@ export default defineComponent({
             } else {
               setTimeout(() => {
                 loadingLogin.value = false;
-                // notification.open({
-                //   message: 'Lỗi!',
-                //   description: 'Sai tài khoản hoặc mật khẩu.',
-                //   icon: () =>
-                //     h(CloseCircleFilled, {
-                //       style: 'color: red',
-                //     }),
-                // });
+
                 ElNotification.error({
                   title: 'Lỗi!',
                   message: 'Sai tài khoản hoặc mật khẩu.',
@@ -304,14 +273,6 @@ export default defineComponent({
         .catch((e) => {
           setTimeout(() => {
             loadingLogin.value = false;
-            // notification.open({
-            //   message: 'Failed!',
-            //   description: 'Some thing went wrong.',
-            //   icon: () =>
-            //     h(CloseCircleFilled, {
-            //       style: 'color: red',
-            //     }),
-            // });
 
             ElNotification.error({
               title: 'Failed!',
@@ -326,16 +287,12 @@ export default defineComponent({
         });
     };
 
-    const handleLoginFacebook = async () => {
+    const handleFacebookLogin = async () => {
       const { authResponse } = await new Promise(window.FB.login);
       console.log(authResponse);
     };
 
-    const handleGoogleFacebook = (response) => {
-      // googleAuthCodeLogin().then((response) => {
-      //   console.log('Handle the response', response);
-      // });
-
+    const handleGoogleLogin = (response) => {
       console.log('Handle the response', response);
     };
 
@@ -364,7 +321,7 @@ export default defineComponent({
                   ElNotification.success({
                     title: 'Thành công!',
                     message:
-                      'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
+                      'Bạn đã đăng nhập bằng Facebook thành công tại Phimhay247.',
                     icon: () =>
                       h(CheckCircleFilled, {
                         style: 'color: green',
@@ -373,23 +330,15 @@ export default defineComponent({
 
                   setWithExpiry('userAccount', response?.data?.result, 30);
 
-                  // setTimeout(() => {
-                  // loadingLogin.value = false;
                   router.push({ path: '/' });
-                  // }, 1000);
                 } else if (response.data.isLogin == true) {
                   setWithExpiry('userAccount', response?.data?.result, 30);
 
-                  // setTimeout(() => {
-                  // loadingLogin.value = false;
                   router.push({ path: '/' });
-                  // }, 1000);
                 }
               })
               .catch((e) => {
                 setTimeout(() => {
-                  // loadingLogin.value = false;
-
                   ElNotification.error({
                     title: 'Failed!',
                     message: 'Some thing went wrong.',
@@ -413,8 +362,8 @@ export default defineComponent({
       onFinish,
       onFinishFailed,
       handleSubmit,
-      handleLoginFacebook,
-      handleGoogleFacebook,
+      handleFacebookLogin,
+      handleGoogleLogin,
       getUserData,
     };
   },
