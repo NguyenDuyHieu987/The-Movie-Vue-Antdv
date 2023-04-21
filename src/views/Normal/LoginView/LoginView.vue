@@ -330,12 +330,16 @@ export default defineComponent({
                   store.state.userAccount = response?.data?.result;
                   setWithExpiry('userAccount', response?.data?.result, 30);
 
-                  router.push({ path: '/' });
+                  setTimeout(() => {
+                    router.push({ path: '/' });
+                  });
                 } else if (response.data.isLogin == true) {
                   store.state.userAccount = response?.data?.result;
                   setWithExpiry('userAccount', response?.data?.result, 30);
 
-                  router.push({ path: '/' });
+                  setTimeout(() => {
+                    router.push({ path: '/' });
+                  });
                 }
               })
               .catch((e) => {

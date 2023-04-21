@@ -30,7 +30,7 @@
             v-else
             class="avatar"
             :src="
-              typeof +$store.state?.userAccount?.avatar == 'number'
+              !isNaN(+$store.state?.userAccount?.avatar)
                 ? `/images/account_avatar/account${$store.state?.userAccount?.avatar}.jpg`
                 : $store.state?.userAccount?.avatar
             "
