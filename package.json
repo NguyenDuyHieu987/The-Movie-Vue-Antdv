@@ -45,6 +45,7 @@
     "v3-infinite-loading": "^1.2.2",
     "vue": "^3.2.13",
     "vue-data-loading": "^0.2.4",
+    "vue-google-oauth2": "^1.5.10",
     "vue-google-signin-button-directive": "^1.0.3",
     "vue-lazyload": "^3.0.0-rc.2",
     "vue-meta": "^3.0.0-alpha.10",
@@ -53,6 +54,7 @@
     "vue-router": "^4.0.3",
     "vue-social-sharing": "^4.0.0-alpha4",
     "vue-spinner": "^1.0.4",
+    "vue3-google-auth": "^0.0.2",
     "vue3-google-login": "^2.0.14",
     "vue3-google-oauth2": "^1.0.7",
     "vuex": "^4.0.2"

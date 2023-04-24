@@ -13,6 +13,7 @@ import VueLazyload from 'vue-lazyload';
 // import { initFacebookSdk } from './utils/facebook-login-vue';
 import vue3GoogleLogin from 'vue3-google-login';
 import GAuth from 'vue3-google-oauth2';
+import gAuth from 'vue3-google-auth';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import vi from 'element-plus/dist/locale/vi.mjs';
@@ -89,6 +90,13 @@ const gAuthOptions = {
   fetch_basic_profile: true,
 };
 
+const $gAuth = gAuth.createGAuth({
+  clientId:
+    '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
+  scope: 'profile email',
+  prompt: 'select_account',
+});
+
 const progressBarOptions = {
   color: '#e82b00',
   failedColor: 'red',
@@ -117,6 +125,7 @@ app
   })
   .use(vue3GoogleLogin, gAuthOptions)
   .use(GAuth, gAuthOptions)
+  .use($gAuth, gAuthOptions)
   .use(VueProgressBar, progressBarOptions)
   .use(createMetaManager())
   .component('font-awesome-icon', FontAwesomeIcon);

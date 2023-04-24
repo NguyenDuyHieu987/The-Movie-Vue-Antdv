@@ -105,10 +105,10 @@
           prompt
           class="google-login"
         />
+
         <a-button class="google-login" @click="handleGoogleLogin1" size="large">
           <span>Đăng nhập bằng Google</span>
         </a-button>
-        <!-- @click="handleGoogleLogin" -->
       </div>
 
       <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
@@ -140,6 +140,7 @@ import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
 import { useMeta } from 'vue-meta';
 import facebookLogin from 'facebook-login-vuejs/src/facebook-login.vue';
+import gAuth from 'vue3-google-auth';
 
 export default defineComponent({
   components: {
@@ -156,6 +157,7 @@ export default defineComponent({
       password: '',
       remember: false,
     });
+    const $gAuth = gAuth.useGAuth();
 
     const reset = () => {
       formState.username = '';
@@ -362,7 +364,11 @@ export default defineComponent({
     const handleGoogleLogin = (response) => {
       console.log('Handle the response', response);
     };
-    const handleGoogleLogin1 = async () => {};
+    const handleGoogleLogin1 = async () => {
+      const googleUser = await $gAuth.signIn();
+      console.log(googleUser.getId());
+      console.log(googleUser.getBasicProfile());
+    };
 
     return {
       formState,
