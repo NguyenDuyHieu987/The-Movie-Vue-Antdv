@@ -1,6 +1,6 @@
 <template>
   <div class="movie-follow-item-wrapper">
-    <span class="index-item">{{ index + 1 }} </span>
+    <p class="index-item">{{ index + 1 }}</p>
     <el-skeleton :loading="loading" animated class="movie-follow-item">
       <template #template>
         <div class="item-skeleton">
