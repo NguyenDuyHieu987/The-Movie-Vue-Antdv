@@ -1,12 +1,4 @@
 {
-  "name": "the-movie-vue-antdv",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
   "dependencies": {
     "@aacassandra/vue3-progressbar": "^1.0.3",
     "@babel/preset-env": "^7.20.2",
@@ -24,6 +16,7 @@
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-env": "^1.7.0",
     "colour-extractor": "^0.2.1",
+    "crypto-js": "^4.1.1",
     "custom-id": "^1.2.0",
     "disable-scroll": "^0.6.0",
     "dominant-color": "^0.0.1",
@@ -75,8 +68,5 @@
     "prerender-spa-plugin": "^3.4.0",
     "prettier": "^2.4.1",
     "sass-loader": "^13.2.0"
-  },
-  "browser": {
-    "crypto": false
   }
 }

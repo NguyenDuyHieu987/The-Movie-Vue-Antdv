@@ -1,6 +1,6 @@
 // import { BehaviorSubject } from 'rxjs';
 import axios from 'axios';
-
+import { hmacSHA256, Base64 } from 'crypto-js';
 // const accountSubject = new BehaviorSubject(null);
 
 export const accountService = {
@@ -20,11 +20,9 @@ function generateJwtToken(data) {
   };
   const encodedPlayload = btoa(JSON.stringify(tokenPayload));
 
-  const crypto = require('crypto');
-  const hmac = crypto.createHash('sha256', 'mysecret');
-
-  const payload = hmac.update(`${encodedHeaders}.${encodedPlayload}`);
-  const signature = payload.digest('hex');
+  const signature = Base64.stringify(
+    hmacSHA256(`${encodedHeaders}.${encodedPlayload}`, 'mysecret')
+  );
 
   const encodedSignature = btoa(signature);
 
