@@ -86,6 +86,7 @@
           class="facebook-login"
           @click="handleFacebookLogin"
           size="large"
+          :loading="loadingFacebookLogin"
         >
           <font-awesome-icon icon="fa-brands fa-facebook-f" />
           <span>Đăng nhập bằng Facebook</span>
@@ -135,6 +136,7 @@ export default defineComponent({
   },
   setup() {
     const loadingLogin = ref(false);
+    const loadingFacebookLogin = ref(false);
     const router = useRouter();
     const store = useStore();
     const formState = reactive({
@@ -285,6 +287,8 @@ export default defineComponent({
         authResponse.accessToken
       );
 
+      loadingFacebookLogin.value = true;
+
       loginFacebook({
         id: profileUser.id,
         full_name: profileUser.name,
@@ -307,18 +311,22 @@ export default defineComponent({
             setWithExpiry('userAccount', response?.data?.result, 30);
 
             setTimeout(() => {
+              loadingFacebookLogin.value = false;
               router.push({ path: '/' });
-            }, 300);
+            }, 1000);
           } else if (response.data.isLogin == true) {
             store.state.userAccount = response?.data?.result;
             setWithExpiry('userAccount', response?.data?.result, 30);
 
             setTimeout(() => {
+              loadingFacebookLogin.value = false;
               router.push({ path: '/' });
-            }, 300);
+            }, 1000);
           }
         })
         .catch((e) => {
+          loadingFacebookLogin.value = false;
+
           setTimeout(() => {
             ElNotification.error({
               title: 'Failed!',
@@ -341,6 +349,7 @@ export default defineComponent({
       formState,
       disabled,
       loadingLogin,
+      loadingFacebookLogin,
       onFinish,
       onFinishFailed,
       handleSubmit,
