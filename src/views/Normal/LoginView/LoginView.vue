@@ -83,19 +83,24 @@
 
       <div class="social-login">
         <a-button
-          class="facebook-login"
+          class="facebook-login-btn"
           @click="handleFacebookLogin"
           size="large"
           :loading="loadingFacebookLogin"
         >
-          <font-awesome-icon icon="fa-brands fa-facebook-f" />
+          <!-- <el-icon class="el-icon--right">
+            <font-awesome-icon icon="fa-brands fa-facebook-f" />
+          </el-icon> -->
+          <template #icon>
+            <font-awesome-icon icon="fa-brands fa-facebook-f" />
+          </template>
           <span>Đăng nhập bằng Facebook</span>
         </a-button>
 
         <GoogleLogin
           :callback="handleGoogleLogin"
           prompt
-          class="google-login"
+          class="google-login-btn"
         />
       </div>
 

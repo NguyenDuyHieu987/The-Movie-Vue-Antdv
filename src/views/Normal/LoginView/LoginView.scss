@@ -145,20 +145,26 @@
       flex-direction: column;
       gap: 10px;
 
-      .facebook-login {
+      .facebook-login-btn {
         flex-grow: 1;
 
-        button,
+        .el-icon {
+          margin-left: 0px;
+        }
+
         span {
+          font-size: 1.6rem;
           width: 100%;
+          margin-left: 0px;
         }
 
         .fa-facebook-f {
+          font-size: 1.8rem;
           color: #1890ff;
         }
       }
 
-      .google-login span {
+      .google-login-btn span {
         font-size: 1.6rem;
       }
     }
