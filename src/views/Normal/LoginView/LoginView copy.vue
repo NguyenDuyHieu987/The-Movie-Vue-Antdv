@@ -91,6 +91,15 @@
           <span>Đăng nhập bằng Facebook</span>
         </a-button>
 
+        <facebook-login
+          class="facebook-login"
+          loginLabel="Đăng nhập bằng Facebook"
+          appId="820070179113499"
+          version="v15.0"
+          @login="FacebookLogin"
+        >
+        </facebook-login>
+
         <GoogleLogin
           :callback="handleGoogleLogin"
           prompt
@@ -126,12 +135,14 @@ import { setWithExpiry } from '@/utils/LocalStorage';
 import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
 import { useMeta } from 'vue-meta';
+import facebookLogin from 'facebook-login-vuejs/src/facebook-login.vue';
 import { accountService } from '@/utils/accountService';
 
 export default defineComponent({
   components: {
     UserOutlined,
     LockOutlined,
+    facebookLogin,
   },
   setup() {
     const loadingLogin = ref(false);
@@ -276,8 +287,73 @@ export default defineComponent({
         });
     };
 
+    const FacebookLogin = (result) => {
+      console.log(result);
+
+      if (result.response.status == 'connected') {
+        result.FB.api(
+          '/me',
+          'GET',
+          { fields: 'id,name,picture,email' },
+          (userInformation) => {
+            console.log(userInformation);
+
+            loginFacebook({
+              id: result.response.authResponse.userID,
+              full_name: userInformation.name,
+              email: userInformation?.email ? userInformation?.email : '',
+              user_token: result.response.authResponse.accessToken,
+              avatar: userInformation.picture.data.url,
+            })
+              .then((response) => {
+                console.log(response.data);
+
+                if (response.data.isSignUp == true) {
+                  ElNotification.success({
+                    title: 'Thành công!',
+                    message:
+                      'Bạn đã đăng nhập bằng Facebook thành công tại Phimhay247.',
+                    icon: () =>
+                      h(CheckCircleFilled, {
+                        style: 'color: green',
+                      }),
+                  });
+                  store.state.userAccount = response?.data?.result;
+                  setWithExpiry('userAccount', response?.data?.result, 30);
+
+                  setTimeout(() => {
+                    router.push({ path: '/' });
+                  }, 300);
+                } else if (response.data.isLogin == true) {
+                  store.state.userAccount = response?.data?.result;
+                  setWithExpiry('userAccount', response?.data?.result, 30);
+
+                  setTimeout(() => {
+                    router.push({ path: '/' });
+                  }, 300);
+                }
+              })
+              .catch((e) => {
+                setTimeout(() => {
+                  ElNotification.error({
+                    title: 'Failed!',
+                    message: 'Some thing went wrong.',
+                    icon: () =>
+                      h(CloseCircleFilled, {
+                        style: 'color: red',
+                      }),
+                  });
+                }, 1000);
+                if (axios.isCancel(e)) return;
+              });
+          }
+        );
+      }
+    };
+
     const handleFacebookLogin = async () => {
       const { authResponse } = await new Promise(window.FB.login);
+      console.log(authResponse);
 
       if (!authResponse) return;
 
@@ -285,52 +361,7 @@ export default defineComponent({
         authResponse.accessToken
       );
 
-      loginFacebook({
-        id: profileUser.id,
-        full_name: profileUser.name,
-        email: profileUser?.email ? profileUser?.email : '',
-        user_token: authResponse.accessToken,
-        avatar: profileUser.picture.data.url,
-      })
-        .then((response) => {
-          if (response.data.isSignUp == true) {
-            ElNotification.success({
-              title: 'Thành công!',
-              message:
-                'Bạn đã đăng nhập bằng Facebook thành công tại Phimhay247.',
-              icon: () =>
-                h(CheckCircleFilled, {
-                  style: 'color: green',
-                }),
-            });
-            store.state.userAccount = response?.data?.result;
-            setWithExpiry('userAccount', response?.data?.result, 30);
-
-            setTimeout(() => {
-              router.push({ path: '/' });
-            }, 300);
-          } else if (response.data.isLogin == true) {
-            store.state.userAccount = response?.data?.result;
-            setWithExpiry('userAccount', response?.data?.result, 30);
-
-            setTimeout(() => {
-              router.push({ path: '/' });
-            }, 300);
-          }
-        })
-        .catch((e) => {
-          setTimeout(() => {
-            ElNotification.error({
-              title: 'Failed!',
-              message: 'Some thing went wrong.',
-              icon: () =>
-                h(CloseCircleFilled, {
-                  style: 'color: red',
-                }),
-            });
-          }, 1000);
-          if (axios.isCancel(e)) return;
-        });
+      console.log(profileUser);
     };
 
     const handleGoogleLogin = (response) => {
@@ -346,6 +377,7 @@ export default defineComponent({
       handleSubmit,
       handleFacebookLogin,
       handleGoogleLogin,
+      FacebookLogin,
     };
   },
 });
