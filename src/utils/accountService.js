@@ -26,7 +26,7 @@ function generateJwtToken(data) {
     hmacSHA256(`${encodedHeaders}.${encodedPlayload}`, 'mysecret')
   );
 
-  const encodedSignature = btoa(signature);
+  const encodedSignature = signature;
 
   const jwt = `${encodedHeaders}.${encodedPlayload}.${encodedSignature}`;
 
