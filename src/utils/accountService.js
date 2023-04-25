@@ -19,7 +19,7 @@ function generateJwtToken(data) {
 async function authenticate(accessToken) {
   return await axios
     .get(
-      `https://graph.facebook.com/v15.0/me?access_token=${accessToken}&?fields=id,name,picture,email`
+      `https://graph.facebook.com/v15.0/me?access_token=${accessToken}&fields=id,name,picture,email`
     )
     .then((response) => {
       const { data } = response;
