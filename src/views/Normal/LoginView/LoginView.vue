@@ -136,6 +136,7 @@ import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
 import { useMeta } from 'vue-meta';
 import facebookLogin from 'facebook-login-vuejs/src/facebook-login.vue';
+import { accountService } from '@/utils/accountService';
 
 export default defineComponent({
   components: {
@@ -352,7 +353,13 @@ export default defineComponent({
 
     const handleFacebookLogin = async () => {
       const { authResponse } = await new Promise(window.FB.login);
-      console.log(authResponse);
+      if (!authResponse) return;
+
+      const profileUser = await accountService.apiAuthenticate(
+        authResponse.accessToken
+      );
+
+      console.log(profileUser);
     };
 
     const handleGoogleLogin = (response) => {

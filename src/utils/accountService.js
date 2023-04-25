@@ -7,12 +7,15 @@ export const accountService = {
   apiAuthenticate,
 };
 
-export const apiAuthenticate = async (accessToken) => {
+const apiAuthenticate = async (accessToken) => {
   // authenticate with the api using a facebook access token,
   // on success the api returns an account object with a JWT auth token
-  const response = await axios.post(`http://localhost:8080/authenticate`, {
-    accessToken,
-  });
+  const response = await axios.post(
+    `http://localhost:8080/accounts/authenticate`,
+    {
+      accessToken,
+    }
+  );
   const account = response.data;
   accountSubject.next(account);
   startAuthenticateTimer();
