@@ -18,9 +18,7 @@ function generateJwtToken(data) {
 
 async function authenticate(accessToken) {
   return await axios
-    .get(
-      `https://graph.facebook.com/v15.0/me?access_token=${accessToken}&fields=id,name,picture,email`
-    )
+    .get(`https://graph.facebook.com/v15.0/me?access_token=${accessToken}`)
     .then((response) => {
       const { data } = response;
       // if (data.error) return { error: 401, data: data.error.message };
