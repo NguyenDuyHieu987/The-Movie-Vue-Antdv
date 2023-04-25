@@ -1,4 +1,4 @@
-import { accountService } from './accountService';
+// import { accountService } from './accountService';
 
 export function initFacebookSdk() {
   return new Promise((resolve) => {
@@ -11,17 +11,19 @@ export function initFacebookSdk() {
         xfbml: true,
         version: 'v15.0',
       });
+      resolve();
 
       // auto authenticate with the api if already logged in with facebook
-      FB.getLoginStatus(({ authResponse }) => {
-        if (authResponse) {
-          accountService
-            .apiAuthenticate(authResponse.accessToken)
-            .then(resolve);
-        } else {
-          resolve();
-        }
-      });
+
+      // FB.getLoginStatus(({ authResponse }) => {
+      //   if (authResponse) {
+      //     accountService
+      //       .apiAuthenticate(authResponse.accessToken)
+      //       .then(resolve);
+      //   } else {
+      //     resolve();
+      //   }
+      // });
     };
 
     // load facebook sdk script
