@@ -10,7 +10,7 @@ export const accountService = {
   apiAuthenticate,
 };
 
-function generateJwtToken(data) {
+async function generateJwtToken(data) {
   const header = {
     alg: 'HS256',
     typ: 'JWT',
@@ -33,7 +33,7 @@ function generateJwtToken(data) {
 
   const secret = new TextEncoder().encode('hieusen123');
 
-  const jwt = new jose.SignJWT({ id: data.id })
+  const jwt = await new jose.SignJWT({ id: data.id })
     .setProtectedHeader(header)
     .setExpirationTime('2h')
     .sign(secret);
@@ -46,13 +46,13 @@ async function authenticateFacebook(accessToken) {
     .get(
       `https://graph.facebook.com/v15.0/me?access_token=${accessToken}&fields=id,name,email,picture`
     )
-    .then((response) => {
+    .then(async (response) => {
       const { data } = response;
       // if (data.error) return { error: 401, data: data.error.message };
 
       return {
         ...data,
-        token: generateJwtToken(data),
+        token: await generateJwtToken(data),
       };
     });
 }
