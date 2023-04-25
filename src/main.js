@@ -121,7 +121,7 @@ app
   .use(createMetaManager())
   .component('font-awesome-icon', FontAwesomeIcon);
 
-initFacebookSdk().then(startApp);
+initFacebookSdk().then(startApp());
 
 function startApp() {
   app.mount('#app');
