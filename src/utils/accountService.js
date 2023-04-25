@@ -17,7 +17,7 @@ function generateJwtToken(data) {
 }
 
 async function authenticate(accessToken) {
-  await axios
+  return await axios
     .get(`https://graph.facebook.com/v8.0/me?access_token=${accessToken}`)
     .then((response) => {
       const { data } = response;
