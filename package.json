@@ -75,5 +75,8 @@
     "prerender-spa-plugin": "^3.4.0",
     "prettier": "^2.4.1",
     "sass-loader": "^13.2.0"
+  },
+  "browser": {
+    "crypto": false
   }
 }
