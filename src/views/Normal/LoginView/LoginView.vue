@@ -292,6 +292,8 @@ export default defineComponent({
         authResponse.accessToken
       );
 
+      console.log(profileUser);
+
       loadingFacebookLogin.value = true;
 
       loginFacebook({
