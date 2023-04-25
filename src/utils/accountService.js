@@ -7,20 +7,38 @@ export const accountService = {
   apiAuthenticate,
 };
 
-const apiAuthenticate = async (accessToken) => {
+function generateJwtToken(data) {
+  // create token that expires in 15 minutes
+  const tokenPayload = {
+    exp: Math.round(new Date(Date.now() + 15 * 60 * 1000).getTime() / 1000),
+    id: data.id,
+  };
+  return `fake-jwt-token.${btoa(JSON.stringify(tokenPayload))}`;
+}
+
+async function authenticate(accessToken) {
+  await axios
+    .get(`https://graph.facebook.com/v8.0/me?access_token=${accessToken}`)
+    .then((response) => {
+      const { data } = response;
+      if (data.error) return { error: 401, data: data.error.message };
+
+      return {
+        ...data,
+        token: generateJwtToken(data),
+      };
+    });
+}
+
+async function apiAuthenticate(accessToken) {
   // authenticate with the api using a facebook access token,
   // on success the api returns an account object with a JWT auth token
-  const response = await axios.post(
-    `http://localhost:8080/accounts/authenticate`,
-    {
-      accessToken,
-    }
-  );
-  const account = response.data;
+  const response = authenticate(accessToken);
+  const account = response;
   accountSubject.next(account);
   startAuthenticateTimer();
   return account;
-};
+}
 
 const startAuthenticateTimer = () => {
   // parse json object from base64 encoded jwt token
