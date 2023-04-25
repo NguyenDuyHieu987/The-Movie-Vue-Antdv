@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import VueSocialSharing from 'vue-social-sharing';
 import VueLazyload from 'vue-lazyload';
-// import { initFacebookSdk } from './utils/facebook-login-vue';
+import { initFacebookSdk } from './utils/facebook-login-vue';
 import vue3GoogleLogin from 'vue3-google-login';
 import GAuth from 'vue3-google-oauth2';
 import ElementPlus from 'element-plus';
@@ -121,8 +121,8 @@ app
   .use(createMetaManager())
   .component('font-awesome-icon', FontAwesomeIcon);
 
-// initFacebookSdk().then(startApp);
+initFacebookSdk().then(startApp);
 
-// function startApp() {
-app.mount('#app');
-// }
+function startApp() {
+  app.mount('#app');
+}

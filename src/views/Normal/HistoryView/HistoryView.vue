@@ -555,7 +555,7 @@ export default {
 
       window.onscroll = () => {
         if (
-          scrollBottom() == 0 &&
+          Math.floor(scrollBottom()) == 0 &&
           isScroll.value == true &&
           total.value > 20 &&
           dataHistory.value?.length < total.value

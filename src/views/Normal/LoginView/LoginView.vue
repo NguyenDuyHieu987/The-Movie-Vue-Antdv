@@ -105,10 +105,6 @@
           prompt
           class="google-login"
         />
-
-        <a-button class="google-login" @click="handleGoogleLogin1" size="large">
-          <span>Đăng nhập bằng Google</span>
-        </a-button>
       </div>
 
       <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
@@ -363,8 +359,6 @@ export default defineComponent({
       console.log('Handle the response', response);
     };
 
-    const handleGoogleLogin1 = async () => {};
-
     return {
       formState,
       disabled,
@@ -374,7 +368,6 @@ export default defineComponent({
       handleSubmit,
       handleFacebookLogin,
       handleGoogleLogin,
-      handleGoogleLogin1,
       FacebookLogin,
     };
   },

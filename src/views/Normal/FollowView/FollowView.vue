@@ -556,8 +556,10 @@ export default {
         //   //ScrollDOWN
         //   scrollBefore = scrolled;
 
+        // console.log(Math.floor(scrollBottom()));
+
         if (
-          scrollBottom() == 0 &&
+          Math.floor(scrollBottom()) == 0 &&
           isScroll.value == true &&
           total.value > 20 &&
           dataList.value?.length < total.value

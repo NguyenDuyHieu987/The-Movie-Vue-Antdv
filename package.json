@@ -41,6 +41,7 @@
     "nanoid": "^4.0.2",
     "normalize.css": "^8.0.1",
     "random-token": "^0.0.8",
+    "rxjs": "^7.8.0",
     "scroll-bottom": "^0.1.0",
     "uuid": "^9.0.0",
     "v3-infinite-loading": "^1.2.2",

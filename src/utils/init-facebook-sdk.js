@@ -1,3 +1,5 @@
+import { accountService } from './accountService';
+
 export function initFacebookSdk() {
   return new Promise((resolve) => {
     // wait for facebook sdk to initialize before starting the vue app
@@ -13,10 +15,9 @@ export function initFacebookSdk() {
       // auto authenticate with the api if already logged in with facebook
       FB.getLoginStatus(({ authResponse }) => {
         if (authResponse) {
-          //   accountService
-          //     .apiAuthenticate(authResponse.accessToken)
-          //     .then(resolve);
-          alert('hiếu');
+          accountService
+            .apiAuthenticate(authResponse.accessToken)
+            .then(resolve);
         } else {
           resolve();
         }
