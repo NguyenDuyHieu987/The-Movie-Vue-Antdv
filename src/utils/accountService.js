@@ -8,12 +8,29 @@ export const accountService = {
 };
 
 function generateJwtToken(data) {
-  // create token that expires in 15 minutes
+  const header = {
+    alg: 'HS256',
+    typ: 'JWT',
+  };
+  const encodedHeaders = btoa(JSON.stringify(header));
+
   const tokenPayload = {
     exp: Math.round(new Date(Date.now() + 15 * 60 * 1000).getTime() / 1000),
     id: data.id,
   };
-  return `fake-jwt-token.${btoa(JSON.stringify(tokenPayload))}`;
+  const encodedPlayload = btoa(JSON.stringify(tokenPayload));
+
+  const crypto = require('crypto');
+  const hmac = crypto.createHash('sha256', 'mysecret');
+
+  const payload = hmac.update(`${encodedHeaders}.${encodedPlayload}`);
+  const signature = payload.digest('hex');
+
+  const encodedSignature = btoa(signature);
+
+  const jwt = `${encodedHeaders}.${encodedPlayload}.${encodedSignature}`;
+
+  return jwt;
 }
 
 async function authenticateFacebook(accessToken) {
