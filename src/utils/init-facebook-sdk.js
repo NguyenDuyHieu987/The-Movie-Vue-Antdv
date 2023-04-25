@@ -9,7 +9,7 @@ export function initFacebookSdk() {
         appId: 820070179113499,
         cookie: true,
         xfbml: true,
-        version: 'v8.0',
+        version: 'v15.0',
       });
 
       // auto authenticate with the api if already logged in with facebook

@@ -18,7 +18,7 @@ function generateJwtToken(data) {
 
 async function authenticate(accessToken) {
   return await axios
-    .get(`https://graph.facebook.com/v8.0/me?access_token=${accessToken}`)
+    .get(`https://graph.facebook.com/v15.0/me?access_token=${accessToken}`)
     .then((response) => {
       const { data } = response;
       // if (data.error) return { error: 401, data: data.error.message };
@@ -30,10 +30,10 @@ async function authenticate(accessToken) {
     });
 }
 
-function apiAuthenticate(accessToken) {
+async function apiAuthenticate(accessToken) {
   // authenticate with the api using a facebook access token,
   // on success the api returns an account object with a JWT auth token
-  const response = authenticate(accessToken);
+  const response = await authenticate(accessToken);
   const account = response;
   accountSubject.next(account);
   // startAuthenticateTimer();
