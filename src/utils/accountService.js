@@ -1,6 +1,7 @@
 // import { BehaviorSubject } from 'rxjs';
 import axios from 'axios';
-import { hmacSHA256, Base64 } from 'crypto-js';
+import hmacSHA256 from 'crypto-js/hmac-sha256';
+import Base64 from 'crypto-js/enc-base64';
 
 // const accountSubject = new BehaviorSubject(null);
 
