@@ -10,7 +10,7 @@ export const accountService = {
   apiAuthenticate,
 };
 
-async function generateJwtToken(data) {
+function generateJwtToken(data) {
   const header = {
     alg: 'HS256',
     typ: 'JWT',
@@ -33,7 +33,7 @@ async function generateJwtToken(data) {
 
   const secret = new TextEncoder().encode('hieusen123');
 
-  const jwt = await new jose.SignJWT({ id: data.id })
+  const jwt = new jose.SignJWT({ id: data.id })
     .setProtectedHeader(header)
     .setExpirationTime('2h')
     .sign(secret);
