@@ -30,7 +30,7 @@ async function authenticate(accessToken) {
     });
 }
 
-async function apiAuthenticate(accessToken) {
+function apiAuthenticate(accessToken) {
   // authenticate with the api using a facebook access token,
   // on success the api returns an account object with a JWT auth token
   const response = authenticate(accessToken);
