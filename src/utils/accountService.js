@@ -36,17 +36,17 @@ async function apiAuthenticate(accessToken) {
   const response = authenticate(accessToken);
   const account = response;
   accountSubject.next(account);
-  startAuthenticateTimer();
+  // startAuthenticateTimer();
   return account;
 }
 
-const startAuthenticateTimer = () => {
-  // parse json object from base64 encoded jwt token
-  const jwtToken = JSON.parse(atob(accountSubject.value.token.split('.')[1]));
+// const startAuthenticateTimer = () => {
+//   // parse json object from base64 encoded jwt token
+//   const jwtToken = JSON.parse(atob(accountSubject.value.token.split('.')[1]));
 
-  // set a timeout to re-authenticate with the api one minute before the token expires
-  const expires = new Date(jwtToken.exp * 1000);
-  const timeout = expires.getTime() - Date.now() - 60 * 1000;
-  const { accessToken } = window.FB.getAuthResponse();
-  setTimeout(() => apiAuthenticate(accessToken), timeout);
-};
+//   // set a timeout to re-authenticate with the api one minute before the token expires
+//   const expires = new Date(jwtToken.exp * 1000);
+//   const timeout = expires.getTime() - Date.now() - 60 * 1000;
+//   const { accessToken } = window.FB.getAuthResponse();
+//   setTimeout(() => apiAuthenticate(accessToken), timeout);
+// };
