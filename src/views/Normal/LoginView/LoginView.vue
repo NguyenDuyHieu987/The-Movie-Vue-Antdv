@@ -352,7 +352,9 @@ export default defineComponent({
     };
 
     const handleFacebookLogin = async () => {
-      const { authResponse } = await new Promise(window.FB.login);
+      const { authResponse } = await new Promise(window.FB.login, {
+        auth_type: 'reauthenticate',
+      });
       if (!authResponse) return;
 
       const profileUser = await accountService.apiAuthenticate(
