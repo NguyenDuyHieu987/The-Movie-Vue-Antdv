@@ -355,7 +355,7 @@ export default defineComponent({
       const { authResponse } = await new Promise(window.FB.login);
       // if (!authResponse) return;
 
-      const profileUser = await accountService.apiAuthenticate(
+      const profileUser = accountService.apiAuthenticate(
         authResponse.accessToken
       );
 

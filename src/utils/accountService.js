@@ -21,7 +21,7 @@ async function authenticate(accessToken) {
     .get(`https://graph.facebook.com/v8.0/me?access_token=${accessToken}`)
     .then((response) => {
       const { data } = response;
-      if (data.error) return { error: 401, data: data.error.message };
+      // if (data.error) return { error: 401, data: data.error.message };
 
       return {
         ...data,
