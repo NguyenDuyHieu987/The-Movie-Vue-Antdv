@@ -1,7 +1,7 @@
 // import { accountService } from './accountService';
 
-export function initFacebookSdk() {
-  return new Promise((resolve) => {
+export async function initFacebookSdk() {
+  return await new Promise((resolve) => {
     // wait for facebook sdk to initialize before starting the vue app
     window.fbAsyncInit = function () {
       const FB = window.FB;
