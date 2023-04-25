@@ -11,7 +11,6 @@ function generateJwtToken(data) {
   // create token that expires in 15 minutes
   const tokenPayload = {
     exp: Math.round(new Date(Date.now() + 15 * 60 * 1000).getTime() / 1000),
-    name: data.name,
     id: data.id,
   };
   return `fake-jwt-token.${btoa(JSON.stringify(tokenPayload))}`;
