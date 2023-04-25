@@ -1,7 +1,7 @@
-import { BehaviorSubject } from 'rxjs';
+// import { BehaviorSubject } from 'rxjs';
 import axios from 'axios';
 
-const accountSubject = new BehaviorSubject(null);
+// const accountSubject = new BehaviorSubject(null);
 
 export const accountService = {
   apiAuthenticate,
@@ -17,25 +17,24 @@ function generateJwtToken(data) {
 }
 
 async function authenticate(accessToken) {
-  return await axios
-    .get(`https://graph.facebook.com/v15.0/me?access_token=${accessToken}`)
-    .then((response) => {
-      const { data } = response;
-      // if (data.error) return { error: 401, data: data.error.message };
-
-      return {
-        ...data,
-        token: generateJwtToken(data),
-      };
-    });
+  return await axios.get(
+    `https://graph.facebook.com/v15.0/me?access_token=${accessToken}`
+  );
 }
 
-async function apiAuthenticate(accessToken) {
+function apiAuthenticate(accessToken) {
   // authenticate with the api using a facebook access token,
   // on success the api returns an account object with a JWT auth token
-  const response = await authenticate(accessToken);
-  const account = response;
-  accountSubject.next(account);
+  const account = authenticate(accessToken).then((response) => {
+    const { data } = response;
+    // if (data.error) return { error: 401, data: data.error.message };
+
+    return {
+      ...data,
+      token: generateJwtToken(data),
+    };
+  });
+  // accountSubject.next(account);
   // startAuthenticateTimer();
   return account;
 }
