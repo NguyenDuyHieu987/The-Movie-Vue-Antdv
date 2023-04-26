@@ -275,7 +275,26 @@
     <a-menu-item key="follow">
       <template #icon>
         <!-- <font-awesome-icon icon="fa-solid fa-bookmark" /> -->
-        <span class="material-symbols-outlined"> playlist_play </span>
+        <!-- <span class="material-icons-outlined"> playlist_play </span> -->
+        <svg
+          class="material-icons-outlined playlist"
+          xmlns="http://www.w3.org/2000/svg"
+          enable-background="new 0 0 24 24"
+          height="24px"
+          viewBox="0 0 24 24"
+          width="24px"
+          fill="#000000"
+        >
+          <g><rect fill="none" height="24" width="24" /></g>
+          <g>
+            <g>
+              <rect height="2" width="11" x="3" y="10" />
+              <rect height="2" width="11" x="3" y="6" />
+              <rect height="2" width="7" x="3" y="14" />
+              <polygon points="16,13 16,21 22,17" />
+            </g>
+          </g>
+        </svg>
       </template>
       <router-link :to="{ name: 'follow' }"> <span>Theo dõi</span></router-link>
     </a-menu-item>
@@ -359,20 +378,34 @@ export default {
     const countries = ref([]);
 
     onBeforeMount(() => {
-      Promise.all([getAllGenre(), getAllYear(), getAllNational()])
-        .then((res) => {
-          genres.value = res[0].data;
-          years.value = res[1].data.sort(function (a, b) {
-            return +b.name.slice(-4) - +a.name.slice(-4);
-          });
-          countries.value = res[2].data;
+      if (
+        store.state.allGenres?.length > 0 &&
+        store.state.allCountries?.length > 0 &&
+        store.state.allYears?.length > 0
+      ) {
+        // alert('g');
+        genres.value = store.state.allGenres;
+        countries.value = store.state.allCountries;
+        years.value = store.state.allYears;
+      } else {
+        Promise.all([getAllGenre(), getAllYear(), getAllNational()])
+          .then((response) => {
+            genres.value = response[0].data;
+            years.value = response[1].data.sort(function (a, b) {
+              return +b.name.slice(-4) - +a.name.slice(-4);
+            });
+            countries.value = response[2].data;
 
-          store.state.allGenres = res[0].data;
-          store.state.allCountries = res[2].data;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+            store.state.allGenres = response[0].data;
+            store.state.allYears = response[1].data.sort(function (a, b) {
+              return +b.name.slice(-4) - +a.name.slice(-4);
+            });
+            store.state.allCountries = response[2].data;
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
     });
 
     watch(route, () => {

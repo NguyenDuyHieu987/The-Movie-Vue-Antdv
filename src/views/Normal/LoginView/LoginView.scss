@@ -28,7 +28,7 @@
 
   .login-form-container {
     position: relative;
-    margin: 30px auto;
+    margin: 20px auto;
     background-color: transparent;
     display: flex;
     align-items: center;
@@ -192,8 +192,9 @@
           }
         }
       }
+
       .bottom-form {
-        margin-top: 20px;
+        margin: 20px 0px;
         display: flex;
         flex-direction: column;
         gap: 15px;

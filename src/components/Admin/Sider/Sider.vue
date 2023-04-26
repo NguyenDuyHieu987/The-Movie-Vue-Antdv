@@ -4,9 +4,9 @@
     width="var(--sider-width)"
     collapsedWidth="var(--sider-collapsed-width)"
     style=""
-    class="sider-bar"
+    class="sider-bar-admin"
   >
-    <a-layout-header class="ant-list-header">
+    <a-layout-header class="sider-header">
       <div style="display: flex; justify-content: center; align-items: center">
         <!-- <a-skeleton
           :paragraph="{ rows: 1 }"
@@ -121,4 +121,4 @@ export default {
 };
 </script>
 
-<!-- <style lang="scss" src="./Sider.scss"></style> -->
+<style lang="scss" src="./Sider.scss"></style>

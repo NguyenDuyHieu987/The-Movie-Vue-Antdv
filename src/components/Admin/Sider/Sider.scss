@@ -28,7 +28,7 @@
     img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
     }
   }
 
@@ -78,7 +78,7 @@
   }
 }
 
-.ant-list-header {
+.ant-layout-header.sider-header {
   position: sticky;
   top: 0;
   z-index: 2;

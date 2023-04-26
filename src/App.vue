@@ -6,14 +6,23 @@
       }}</template>
     </metainfo>
     <vue-progress-bar />
-    <div v-if="loading" class="loading-page">
+
+    <div v-if="loadingDashBoard" class="loading-page">
       <div class="loading-page-container">
         <img src="/images/logo.png" alt="" />
         <h3>Đang tải bảng điều khiển...</h3>
         <spring-spinner :animation-duration="3000" :size="30" color="#e82b00" />
       </div>
     </div>
-    <component v-else :is="layout">
+
+    <div v-else-if="loadingHomePage" class="loading-page">
+      <div class="loading-page-container">
+        <img src="/images/logo.png" alt="" />
+        <div class="logo"><h2>Phimhay247</h2></div>
+      </div>
+    </div>
+
+    <component v-else :is="$route.meta.layout.component">
       <!-- <router-view :key="$route.fullPath" /> -->
       <router-view :key="$route.path" />
 
@@ -45,7 +54,10 @@ export default {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const loading = ref(false);
+    const loadingDashBoard = ref(false);
+    const loadingHomePage = ref(false);
+
+    const layout = computed(() => (route.meta.layout || 'loading') + '-layout');
 
     onBeforeMount(() => {
       // const remember = getWithExpiry('remember');
@@ -112,9 +124,9 @@ export default {
           } else {
             if (to.matched.some((record) => record.meta.requiresAdmin)) {
               if (to.matched.some((record) => record.name == 'dashboard')) {
-                loading.value = true;
+                loadingDashBoard.value = true;
                 setTimeout(() => {
-                  loading.value = false;
+                  loadingDashBoard.value = false;
                 }, 1000);
               }
               getUserToken({
@@ -135,14 +147,35 @@ export default {
             }
           }
         } else {
-          next();
+          if (to.matched.some((record) => record.name == 'home')) {
+            if (store.state.loadingHomePage == true) {
+              next();
+            } else {
+              new Promise((resolve) => {
+                loadingHomePage.value = true;
+
+                resolve(
+                  store.dispatch('getDataHomePage'),
+                  store.dispatch('getDataMisc')
+                );
+              }).then(() => {
+                setTimeout(() => {
+                  loadingHomePage.value = false;
+                  next();
+                }, 2000);
+              });
+            }
+          } else {
+            next();
+          }
         }
       });
     });
 
     return {
-      layout: computed(() => (route.meta.layout || 'default') + '-layout'),
-      loading,
+      layout,
+      loadingDashBoard,
+      loadingHomePage,
     };
   },
 };

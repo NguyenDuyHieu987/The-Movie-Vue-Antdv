@@ -7,7 +7,7 @@ export function registerGlobalComponent(app) {
   );
   app.component(
     'admin-layout',
-    defineAsyncComponent(() => import('../layouts/AdmintLayout.vue'))
+    defineAsyncComponent(() => import('../layouts/AdminLayout.vue'))
   );
   app.component(
     'auth-layout',

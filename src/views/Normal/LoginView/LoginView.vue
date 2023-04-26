@@ -84,6 +84,11 @@
           >
         </a-form-item>
 
+        <div class="bottom-form">
+          <p>Hoặc</p>
+          <router-link :to="{ name: 'signup' }">Dăng ký ngay!</router-link>
+        </div>
+
         <div class="social-login">
           <el-button
             class="facebook-login-btn"
@@ -120,11 +125,6 @@
             prompt
             class="google-login-btn"
           />
-        </div>
-
-        <div class="bottom-form">
-          <p>Hoặc</p>
-          <router-link :to="{ name: 'signup' }">Dăng ký ngay!</router-link>
         </div>
       </a-form>
     </div>

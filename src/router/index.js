@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 // import { getWithExpiry } from '@/untils/LocalStorage';
+import DefaultLayout from '@/layouts/DefaultLayout.vue';
+import AdminLayout from '@/layouts/AdminLayout.vue';
+import AuthLayout from '@/layouts/AuthLayout.vue';
 
 const routes = [
   // =============Normal==============
@@ -7,7 +10,8 @@ const routes = [
     path: '/',
     name: 'home',
     meta: {
-      layout: 'default',
+      // layout: "default",
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -18,7 +22,7 @@ const routes = [
     path: '/discover/:slug/:slug2',
     name: 'discover',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -29,7 +33,7 @@ const routes = [
     path: '/info/movie/:id/:name',
     name: 'info',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -40,7 +44,7 @@ const routes = [
     path: '/info/tv/:id/:name',
     name: 'infoTV',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -51,7 +55,7 @@ const routes = [
     path: '/play/movie/:id/:name',
     name: 'play',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -62,7 +66,7 @@ const routes = [
     path: '/play/tv/:id/:name/:tap',
     name: 'playTV',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -73,7 +77,7 @@ const routes = [
     path: '/follow',
     name: 'follow',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
       requiresAuth: true,
     },
     component: () =>
@@ -85,7 +89,7 @@ const routes = [
     path: '/history',
     name: 'history',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
       requiresAuth: true,
     },
     component: () =>
@@ -97,7 +101,7 @@ const routes = [
     path: '/ranking',
     name: 'ranking',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -108,7 +112,7 @@ const routes = [
     path: '/profile',
     name: 'profile',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -119,7 +123,7 @@ const routes = [
     path: '/pricing',
     name: 'pricing',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -130,7 +134,7 @@ const routes = [
     path: '/billing',
     name: 'billing',
     meta: {
-      layout: 'default',
+      layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
       import(
@@ -142,7 +146,7 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     meta: {
-      layout: 'admin',
+      layout: { name: 'admin', component: AdminLayout },
       requiresAdmin: true,
       requiresAuth: true,
     },
@@ -155,7 +159,7 @@ const routes = [
     path: '/dashboard/managefilm/movie',
     name: 'managemovie',
     meta: {
-      layout: 'admin',
+      layout: { name: 'admin', component: AdminLayout },
       requiresAdmin: true,
       requiresAuth: true,
     },
@@ -169,7 +173,7 @@ const routes = [
     path: '/dashboard/managefilm/movie/add',
     name: 'addmovie',
     meta: {
-      layout: 'admin',
+      layout: { name: 'admin', component: AdminLayout },
       requiresAdmin: true,
       requiresAuth: true,
     },
@@ -182,7 +186,7 @@ const routes = [
     path: '/dashboard/managefilm/movie/:id/edit',
     name: 'editmovie',
     meta: {
-      layout: 'admin',
+      layout: { name: 'admin', component: AdminLayout },
       requiresAdmin: true,
       requiresAuth: true,
     },
@@ -195,7 +199,7 @@ const routes = [
     path: '/dashboard/managefilm/tv',
     name: 'managetv',
     meta: {
-      layout: 'admin',
+      layout: { name: 'admin', component: AdminLayout },
       requiresAdmin: true,
       requiresAuth: true,
     },
@@ -208,7 +212,7 @@ const routes = [
     path: '/dashboard/managefilm/tv/add',
     name: 'addtv',
     meta: {
-      layout: 'admin',
+      layout: { name: 'admin', component: AdminLayout },
       requiresAdmin: true,
       requiresAuth: true,
     },
@@ -221,7 +225,7 @@ const routes = [
     path: '/dashboard/managefilm/tv/:id/edit',
     name: 'edittv',
     meta: {
-      layout: 'admin',
+      layout: { name: 'admin', component: AdminLayout },
       requiresAdmin: true,
       requiresAuth: true,
     },
@@ -235,7 +239,7 @@ const routes = [
     path: '/login',
     name: 'login',
     meta: {
-      layout: 'auth',
+      layout: { name: 'auth', component: AuthLayout },
     },
     component: () =>
       import(
@@ -246,7 +250,7 @@ const routes = [
     path: '/signup',
     name: 'signup',
     meta: {
-      layout: 'auth',
+      layout: { name: 'auth', component: AuthLayout },
     },
     component: () =>
       import(
@@ -257,6 +261,9 @@ const routes = [
     // path: "*",
     path: '/404',
     name: '404',
+    meta: {
+      layout: { name: 'default', component: DefaultLayout },
+    },
     component: () =>
       import(
         /* webpackChunkName: "NotFound" */ '../views/Normal/Error404View/Error404View.vue'

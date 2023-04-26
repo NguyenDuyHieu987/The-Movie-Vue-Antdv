@@ -6,7 +6,7 @@
     style=""
     class="sider-bar"
   >
-    <a-layout-header class="ant-list-header">
+    <a-layout-header class="sider-header">
       <div style="display: flex; justify-content: center; align-items: center">
         <!-- <a-skeleton
           :paragraph="{ rows: 1 }"

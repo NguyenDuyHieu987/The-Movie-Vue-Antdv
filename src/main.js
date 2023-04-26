@@ -18,7 +18,7 @@ import 'element-plus/dist/index.css';
 import vi from 'element-plus/dist/locale/vi.mjs';
 import VueProgressBar from '@aacassandra/vue3-progressbar';
 import { createMetaManager } from 'vue-meta';
-// import 'material-icons/iconfont/material-icons.css';
+import 'material-icons/iconfont/material-icons.css';
 
 import {
   faVideoCamera,

@@ -71,7 +71,7 @@
     <div
       class="recommend-stage"
       v-if="$store.state?.isLogin"
-      v-show="Recommends?.length"
+      v-show="recommends?.length"
     >
       <h2 class="gradient-title-default">
         <strong>Gợi ý cho bạn</strong>
@@ -82,7 +82,7 @@
         :class="{ viewmore: viewMoreRecommend }"
       >
         <MovieCardHorizontal
-          v-for="(item, index) in Recommends"
+          v-for="(item, index) in recommends"
           :index="index"
           :key="item.id"
           :item="item"
@@ -292,7 +292,7 @@ export default {
     const upComings = ref([]);
     const tvAiringTodays = ref([]);
     const topRateds = ref([]);
-    const Recommends = ref([]);
+    const recommends = ref([]);
     const viewMoreRecommend = ref(false);
     const loadMoreRecommend = ref(false);
     const skipRecommend = ref(2);
@@ -306,25 +306,40 @@ export default {
     });
 
     onBeforeMount(() => {
-      Promise.all([
-        getNowPlaying(1),
-        getUpComing(1),
-        getTvAiringToday(1),
-        getTopRated(1),
-        store.state?.isLogin
-          ? getMyRecommend(store.state.userAccount?.id, 1)
-          : null,
-      ])
-        .then((response) => {
-          nowPlayings.value = response[0].data?.results;
-          upComings.value = response[1].data?.results;
-          tvAiringTodays.value = response[2]?.data.results;
-          topRateds.value = response[3].data?.results;
-          Recommends.value = response[4].data?.results;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      if (
+        store.state?.nowPlayings?.length > 0 &&
+        store.state?.upComings?.length > 0 &&
+        store.state?.tvAiringTodays?.length > 0 &&
+        store.state?.topRateds?.length > 0 &&
+        store.state?.recommends?.length > 0
+      ) {
+        // alert('h');
+        nowPlayings.value = store.state?.nowPlayings;
+        upComings.value = store.state?.upComings;
+        tvAiringTodays.value = store.state?.tvAiringTodays;
+        topRateds.value = store.state?.topRateds;
+        recommends.value = store.state?.recommends;
+      } else {
+        Promise.all([
+          getNowPlaying(1),
+          getUpComing(1),
+          getTvAiringToday(1),
+          getTopRated(1),
+          store.state?.isLogin
+            ? getMyRecommend(store.state.userAccount?.id, 1)
+            : null,
+        ])
+          .then((response) => {
+            nowPlayings.value = response[0].data?.results;
+            upComings.value = response[1].data?.results;
+            tvAiringTodays.value = response[2]?.data.results;
+            topRateds.value = response[3].data?.results;
+            recommends.value = response[4].data?.results;
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
     });
 
     const handleLoadMoreRecommend = () => {
@@ -333,7 +348,7 @@ export default {
         .then((movieResponse) => {
           if (movieResponse.data?.results?.length > 0) {
             setTimeout(() => {
-              Recommends.value = Recommends.value.concat(
+              recommends.value = recommends.value.concat(
                 movieResponse.data?.results
               );
               loadMoreRecommend.value = false;
@@ -356,7 +371,7 @@ export default {
       upComings,
       tvAiringTodays,
       topRateds,
-      Recommends,
+      recommends,
       viewMoreRecommend,
       loadMoreRecommend,
       btnPrev,
