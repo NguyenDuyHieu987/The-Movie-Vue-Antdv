@@ -318,7 +318,7 @@ export default defineComponent({
         avatar: profileUser.picture.data.url,
       })
         .then((response) => {
-          console.log(response.data?.result);
+          // console.log(response.data?.result);
 
           if (response.data.isSignUp == true) {
             new Promise((resolve) =>
@@ -372,7 +372,7 @@ export default defineComponent({
       console.log('Handle the response', response);
 
       axios
-        .get(`https://people.googleapis.com/v1/people/me`, {
+        .get(`https://www.googleapis.com/oauth2/v3/userinfo`, {
           headers: {
             Authorization: `Bearer ${response?.credential}`,
             Accept: 'application/json',
