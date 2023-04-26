@@ -290,7 +290,7 @@ export default defineComponent({
         authResponse.accessToken
       );
 
-      console.log(profileUser);
+      // console.log(profileUser);
 
       loadingFacebookLogin.value = true;
 
@@ -302,6 +302,8 @@ export default defineComponent({
         avatar: profileUser.picture.data.url,
       })
         .then((response) => {
+          console.log(response.data?.result);
+
           if (response.data.isSignUp == true) {
             ElNotification.success({
               title: 'Thành công!',
@@ -318,7 +320,7 @@ export default defineComponent({
             setTimeout(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
-            }, 1000);
+            });
           } else if (response.data.isLogin == true) {
             store.state.userAccount = response?.data?.result;
             setWithExpiry('userAccount', response?.data?.result, 30);
@@ -326,7 +328,7 @@ export default defineComponent({
             setTimeout(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
-            }, 1000);
+            });
           }
         })
         .catch((e) => {
