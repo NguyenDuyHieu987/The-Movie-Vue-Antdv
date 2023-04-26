@@ -107,7 +107,7 @@
 
           <el-button
             class="google-login-btn"
-            @click="handleGoogleLogin"
+            @click="handleGoogleLogin1"
             size="large"
             :loading="loadingGoogleLogin"
           >
@@ -381,6 +381,18 @@ export default defineComponent({
           console.log(userInfo.data);
         });
     };
+    const handleGoogleLogin1 = () => {
+      window.google.accounts.id.initialize({
+        client_id:
+          '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
+        callback: handleCredentialResponse,
+      });
+      window.google.accounts.id.prompt();
+
+      function handleCredentialResponse(response) {
+        console.log(response);
+      }
+    };
 
     return {
       formState,
@@ -393,6 +405,7 @@ export default defineComponent({
       handleSubmit,
       handleFacebookLogin,
       handleGoogleLogin,
+      handleGoogleLogin1,
     };
   },
 });
