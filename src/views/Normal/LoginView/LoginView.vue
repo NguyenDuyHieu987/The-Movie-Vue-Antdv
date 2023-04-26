@@ -281,18 +281,16 @@ export default defineComponent({
           }
         })
         .catch((e) => {
-          setTimeout(() => {
-            loadingLogin.value = false;
+          loadingLogin.value = false;
 
-            ElNotification.error({
-              title: 'Failed!',
-              message: 'Some thing went wrong.',
-              icon: () =>
-                h(CloseCircleFilled, {
-                  style: 'color: red',
-                }),
-            });
-          }, 1000);
+          ElNotification.error({
+            title: 'Failed!',
+            message: 'Some thing went wrong.',
+            icon: () =>
+              h(CloseCircleFilled, {
+                style: 'color: red',
+              }),
+          });
           if (axios.isCancel(e)) return;
         });
     };
@@ -321,27 +319,38 @@ export default defineComponent({
           console.log(response.data?.result);
 
           if (response.data.isSignUp == true) {
-            ElNotification.success({
-              title: 'Thành công!',
-              message:
-                'Bạn đã đăng nhập bằng Facebook thành công tại Phimhay247.',
-              icon: () =>
-                h(CheckCircleFilled, {
-                  style: 'color: green',
-                }),
+            new Promise((resolve) =>
+              setTimeout(() => {
+                ElNotification.success({
+                  title: 'Thành công!',
+                  message:
+                    'Bạn đã đăng nhập bằng Facebook thành công tại Phimhay247.',
+                  icon: () =>
+                    h(CheckCircleFilled, {
+                      style: 'color: green',
+                    }),
+                });
+                store.state.userAccount = response?.data?.result;
+                setWithExpiry('userAccount', response?.data?.result, 30);
+                resolve();
+              }, 1000)
+            ).then(() => {
+              loadingFacebookLogin.value = false;
+              router.push({ path: '/' });
             });
-            store.state.userAccount = response?.data?.result;
-            setWithExpiry('userAccount', response?.data?.result, 30);
 
             setTimeout(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
             });
           } else if (response.data.isLogin == true) {
-            store.state.userAccount = response?.data?.result;
-            setWithExpiry('userAccount', response?.data?.result, 30);
-
-            setTimeout(() => {
+            new Promise((resolve) =>
+              setTimeout(() => {
+                store.state.userAccount = response?.data?.result;
+                setWithExpiry('userAccount', response?.data?.result, 30);
+                resolve();
+              }, 1000)
+            ).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
             });
@@ -350,16 +359,14 @@ export default defineComponent({
         .catch((e) => {
           loadingFacebookLogin.value = false;
 
-          setTimeout(() => {
-            ElNotification.error({
-              title: 'Failed!',
-              message: 'Some thing went wrong.',
-              icon: () =>
-                h(CloseCircleFilled, {
-                  style: 'color: red',
-                }),
-            });
-          }, 1000);
+          ElNotification.error({
+            title: 'Failed!',
+            message: 'Some thing went wrong.',
+            icon: () =>
+              h(CloseCircleFilled, {
+                style: 'color: red',
+              }),
+          });
           if (axios.isCancel(e)) return;
         });
     };
