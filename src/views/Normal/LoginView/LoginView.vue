@@ -372,7 +372,7 @@ export default defineComponent({
       console.log('Handle the response', response);
 
       axios
-        .get(`https://www.googleapis.com/oauth2/v3/userinfo`, {
+        .get(`https://people.googleapis.com/v1/people/me`, {
           headers: {
             Authorization: `Bearer ${response?.credential}`,
             Accept: 'application/json',
