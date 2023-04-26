@@ -52,12 +52,11 @@
     0 9px 28px 8px #00000077;
   z-index: 11;
   max-height: 95vh;
-  overflow-y: scroll;
+  // overflow-y: scroll;
   // border: 0.5px solid #919191;
   background-color: #0000002d;
   width: 550px;
   min-height: 700px;
-
   overflow: hidden;
 
   &::-webkit-scrollbar-thumb,

@@ -145,10 +145,15 @@
       flex-direction: column;
       gap: 10px;
 
+      .el-button {
+        padding: 13px 17px;
+      }
+
       .facebook-login-btn {
         flex-grow: 1;
 
         .el-icon {
+          font-size: 1.8rem;
           margin-left: 0px;
         }
 
@@ -156,16 +161,34 @@
           font-size: 1.6rem;
           width: 100%;
           margin-left: 0px;
+          color: #3c4043;
         }
 
         .fa-facebook-f {
-          font-size: 1.8rem;
           color: #1890ff;
         }
       }
 
-      .google-login-btn span {
-        font-size: 1.6rem;
+      .google-login-btn {
+        margin-left: 0px;
+        flex-grow: 1;
+
+        .el-icon {
+          font-size: 1.8rem;
+          margin-left: 0px;
+        }
+
+        img {
+          height: 100%;
+          width: 100%;
+        }
+
+        span {
+          font-size: 1.6rem;
+          width: 100%;
+          margin-left: 0px;
+          color: #3c4043;
+        }
       }
     }
 

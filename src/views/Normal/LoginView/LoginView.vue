@@ -82,20 +82,35 @@
       </a-form-item>
 
       <div class="social-login">
-        <a-button
+        <el-button
           class="facebook-login-btn"
           @click="handleFacebookLogin"
           size="large"
           :loading="loadingFacebookLogin"
         >
-          <!-- <el-icon class="el-icon--right">
+          <el-icon class="el-icon--right">
             <font-awesome-icon icon="fa-brands fa-facebook-f" />
-          </el-icon> -->
-          <template #icon>
+          </el-icon>
+          <!-- <template #icon>
             <font-awesome-icon icon="fa-brands fa-facebook-f" />
-          </template>
+          </template> -->
           <span>Đăng nhập bằng Facebook</span>
-        </a-button>
+        </el-button>
+
+        <el-button
+          class="google-login-btn"
+          @click="handleGoogleLogin"
+          size="large"
+          :loading="loadingGoogleLogin"
+        >
+          <!-- <template #icon>
+            <img src="/images/socials/icons8-google-48.png" alt="" />
+          </template> -->
+          <el-icon class="el-icon--right">
+            <img src="/images/socials/icons8-google-48.png" alt="" />
+          </el-icon>
+          <span>Đăng nhập bằng Google</span>
+        </el-button>
 
         <GoogleLogin
           :callback="handleGoogleLogin"
@@ -142,6 +157,7 @@ export default defineComponent({
   setup() {
     const loadingLogin = ref(false);
     const loadingFacebookLogin = ref(false);
+    const loadingGoogleLogin = ref(false);
     const router = useRouter();
     const store = useStore();
     const formState = reactive({
@@ -357,6 +373,7 @@ export default defineComponent({
       disabled,
       loadingLogin,
       loadingFacebookLogin,
+      loadingGoogleLogin,
       onFinish,
       onFinishFailed,
       handleSubmit,
