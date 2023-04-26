@@ -1,132 +1,139 @@
 <template>
-  <div class="signup-form-container">
-    <a-form
-      :model="formState"
-      :rules="rules"
-      name="normal_signup"
-      class="signup-form"
-      @finish="onFinish"
-      @finishFailed="onFinishFailed"
-    >
-      <h1 class="title-signup">
-        <strong> Đăng ký </strong>
-      </h1>
-
-      <a-form-item
-        label="Họ và Tên"
-        name="fullname"
-        :rules="[
-          {
-            required: true,
-            message: 'Please input your full name!',
-            trigger: ['change', 'blur'],
-          },
-        ]"
+  <div class="signup-container">
+    <div class="signup-form-container">
+      <a-form
+        :model="formState"
+        :rules="rules"
+        name="normal_signup"
+        class="signup-form"
+        @finish="onFinish"
+        @finishFailed="onFinishFailed"
       >
-        <a-input v-model:value="formState.fullname" placeholder="Họ và Tên...">
-          <template #prefix>
-            <UserOutlined class="site-form-item-icon" />
-          </template>
-        </a-input>
-      </a-form-item>
+        <h1 class="title-signup">
+          <strong> Đăng ký </strong>
+        </h1>
 
-      <a-form-item
-        label="Tài khoản"
-        name="username"
-        :rules="[
-          {
-            required: true,
-            message: 'Please input username!',
-            trigger: ['change', 'blur'],
-          },
-        ]"
-      >
-        <a-input
-          v-model:value="formState.username"
-          ref="usernameRef"
-          placeholder="Username..."
+        <a-form-item
+          label="Họ và Tên"
+          name="fullname"
+          :rules="[
+            {
+              required: true,
+              message: 'Please input your full name!',
+              trigger: ['change', 'blur'],
+            },
+          ]"
         >
-          <template #prefix>
-            <UserOutlined class="site-form-item-icon" />
-          </template>
-        </a-input>
-      </a-form-item>
+          <a-input
+            v-model:value="formState.fullname"
+            placeholder="Họ và Tên..."
+          >
+            <template #prefix>
+              <UserOutlined class="site-form-item-icon" />
+            </template>
+          </a-input>
+        </a-form-item>
 
-      <a-form-item
-        label="Email"
-        name="email"
-        :rules="[
-          {
-            required: true,
-            message: 'Please input correct format email!',
-            pattern: new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
-            trigger: ['change', 'blur'],
-          },
-        ]"
-      >
-        <a-input v-model:value="formState.email" placeholder="Email...">
-          <template #prefix>
-            <font-awesome-icon icon="fa-solid fa-at" />
-          </template>
-        </a-input>
-      </a-form-item>
-
-      <a-form-item
-        label="Mật khẩu"
-        name="password"
-        :rules="[
-          {
-            required: true,
-            message: 'Please input password!',
-            trigger: ['change', 'blur'],
-          },
-        ]"
-        has-feedback
-      >
-        <a-input-password
-          v-model:value="formState.password"
-          placeholder="Mật khẩu..."
+        <a-form-item
+          label="Tài khoản"
+          name="username"
+          :rules="[
+            {
+              required: true,
+              message: 'Please input username!',
+              trigger: ['change', 'blur'],
+            },
+          ]"
         >
-          <template #prefix>
-            <LockOutlined class="site-form-item-icon" />
-          </template>
-        </a-input-password>
-      </a-form-item>
+          <a-input
+            v-model:value="formState.username"
+            ref="usernameRef"
+            placeholder="Username..."
+          >
+            <template #prefix>
+              <UserOutlined class="site-form-item-icon" />
+            </template>
+          </a-input>
+        </a-form-item>
 
-      <a-form-item label="Nhập lại mật khẩu" name="checkPass" has-feedback>
-        <a-input-password
-          v-model:value="formState.checkPass"
-          placeholder="Xác nhận mật khẩu..."
+        <a-form-item
+          label="Email"
+          name="email"
+          :rules="[
+            {
+              required: true,
+              message: 'Please input correct format email!',
+              pattern: new RegExp(
+                /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+              ),
+              trigger: ['change', 'blur'],
+            },
+          ]"
         >
-          <template #prefix>
-            <LockOutlined class="site-form-item-icon" />
-          </template>
-        </a-input-password>
-      </a-form-item>
+          <a-input v-model:value="formState.email" placeholder="Email...">
+            <template #prefix>
+              <font-awesome-icon icon="fa-solid fa-at" />
+            </template>
+          </a-input>
+        </a-form-item>
 
-      <a-form-item>
-        <a-button
-          :disabled="disabled"
-          type="primary"
-          html-type="submit"
-          class="signup-form-button"
-          size="large"
-          @click="handleSubmit"
-          style="background: transparent"
-          :loading="loadingSignUp"
+        <a-form-item
+          label="Mật khẩu"
+          name="password"
+          :rules="[
+            {
+              required: true,
+              message: 'Please input password!',
+              trigger: ['change', 'blur'],
+            },
+          ]"
+          has-feedback
         >
-          Đăng ký
-        </a-button>
-      </a-form-item>
+          <a-input-password
+            v-model:value="formState.password"
+            placeholder="Mật khẩu..."
+          >
+            <template #prefix>
+              <LockOutlined class="site-form-item-icon" />
+            </template>
+          </a-input-password>
+        </a-form-item>
 
-      <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
-        Hoặc
-      </p>
+        <a-form-item label="Nhập lại mật khẩu" name="checkPass" has-feedback>
+          <a-input-password
+            v-model:value="formState.checkPass"
+            placeholder="Xác nhận mật khẩu..."
+          >
+            <template #prefix>
+              <LockOutlined class="site-form-item-icon" />
+            </template>
+          </a-input-password>
+        </a-form-item>
 
-      <div style="display: flex; justify-content: center">
-        <router-link :to="{ name: 'login' }">Đăng nhập ngay!</router-link>
-      </div>
-    </a-form>
+        <a-form-item>
+          <a-button
+            :disabled="disabled"
+            type="primary"
+            html-type="submit"
+            class="signup-form-button"
+            size="large"
+            @click="handleSubmit"
+            style="background: transparent"
+            :loading="loadingSignUp"
+          >
+            Đăng ký
+          </a-button>
+        </a-form-item>
+
+        <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
+          Hoặc
+        </p>
+
+        <div style="display: flex; justify-content: center">
+          <router-link :to="{ name: 'login' }">Đăng nhập ngay!</router-link>
+        </div>
+      </a-form>
+    </div>
   </div>
 </template>
 <script>

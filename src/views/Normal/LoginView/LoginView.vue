@@ -1,131 +1,133 @@
 <template>
-  <div class="login-form-container">
-    <a-form
-      :model="formState"
-      name="normal_login"
-      class="login-form"
-      @finish="onFinish"
-      @finishFailed="onFinishFailed"
-    >
-      <h1 class="title-login">
-        <strong>Đăng nhập </strong>
-      </h1>
-
-      <a-form-item
-        label="Email"
-        name="username"
-        :rules="[
-          {
-            required: true,
-            message: 'Please input correct format email!',
-            pattern: new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
-            trigger: ['change', 'blur'],
-          },
-        ]"
+  <div class="login-container">
+    <div class="login-form-container">
+      <a-form
+        :model="formState"
+        name="normal_login"
+        class="login-form"
+        @finish="onFinish"
+        @finishFailed="onFinishFailed"
       >
-        <a-input v-model:value="formState.username" placeholder="Email...">
-          <template #prefix>
-            <UserOutlined class="site-form-item-icon" />
-          </template>
-        </a-input>
-      </a-form-item>
+        <h1 class="title-login">
+          <strong>Đăng nhập </strong>
+        </h1>
 
-      <a-form-item
-        label="Mật khẩu"
-        name="password"
-        :rules="[
-          {
-            required: true,
-            message: 'Please input your password!',
-            trigger: ['change', 'blur'],
-          },
-        ]"
-      >
-        <a-input-password
-          v-model:value="formState.password"
-          placeholder="Mật khẩu..."
+        <a-form-item
+          label="Email"
+          name="username"
+          :rules="[
+            {
+              required: true,
+              message: 'Please input correct format email!',
+              pattern: new RegExp(
+                /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+              ),
+              trigger: ['change', 'blur'],
+            },
+          ]"
         >
-          <template #prefix>
-            <LockOutlined class="site-form-item-icon" />
-          </template>
-        </a-input-password>
-      </a-form-item>
+          <a-input v-model:value="formState.username" placeholder="Email...">
+            <template #prefix>
+              <UserOutlined class="site-form-item-icon" />
+            </template>
+          </a-input>
+        </a-form-item>
 
-      <a-form-item>
-        <a-form-item name="remember" no-style>
-          <a-checkbox
-            v-model:checked="formState.remember"
-            style="user-select: none"
-            >Tự động đăng nhập</a-checkbox
+        <a-form-item
+          label="Mật khẩu"
+          name="password"
+          :rules="[
+            {
+              required: true,
+              message: 'Please input your password!',
+              trigger: ['change', 'blur'],
+            },
+          ]"
+        >
+          <a-input-password
+            v-model:value="formState.password"
+            placeholder="Mật khẩu..."
+          >
+            <template #prefix>
+              <LockOutlined class="site-form-item-icon" />
+            </template>
+          </a-input-password>
+        </a-form-item>
+
+        <a-form-item>
+          <a-form-item name="remember" no-style>
+            <a-checkbox
+              v-model:checked="formState.remember"
+              style="user-select: none"
+              >Tự động đăng nhập</a-checkbox
+            >
+          </a-form-item>
+          <a class="login-form-forgot" href="">Quên mật khẩu?</a>
+        </a-form-item>
+
+        <a-form-item>
+          <a-button
+            :disabled="disabled"
+            type="primary"
+            html-type="submit"
+            class="login-form-button"
+            size="large"
+            @click="handleSubmit"
+            :loading="loadingLogin"
+            style="background: transparent"
+          >
+            Đăng nhập
+          </a-button>
+
+          <router-link class="play-now" :to="{ path: '/' }"
+            >Xem phim ngay</router-link
           >
         </a-form-item>
-        <a class="login-form-forgot" href="">Quên mật khẩu?</a>
-      </a-form-item>
 
-      <a-form-item>
-        <a-button
-          :disabled="disabled"
-          type="primary"
-          html-type="submit"
-          class="login-form-button"
-          size="large"
-          @click="handleSubmit"
-          :loading="loadingLogin"
-          style="background: transparent"
-        >
-          Đăng nhập
-        </a-button>
+        <div class="social-login">
+          <el-button
+            class="facebook-login-btn"
+            @click="handleFacebookLogin"
+            size="large"
+            :loading="loadingFacebookLogin"
+          >
+            <el-icon class="el-icon--right">
+              <font-awesome-icon icon="fa-brands fa-facebook-f" />
+            </el-icon>
+            <!-- <template #icon>
+                <font-awesome-icon icon="fa-brands fa-facebook-f" />
+              </template> -->
+            <span>Đăng nhập bằng Facebook</span>
+          </el-button>
 
-        <router-link class="play-now" :to="{ path: '/' }"
-          >Xem phim ngay</router-link
-        >
-      </a-form-item>
+          <el-button
+            class="google-login-btn"
+            @click="handleGoogleLogin"
+            size="large"
+            :loading="loadingGoogleLogin"
+          >
+            <!-- <template #icon>
+                <img src="/images/socials/icons8-google-48.png" alt="" />
+              </template> -->
+            <el-icon class="el-icon--right">
+              <img src="/images/socials/icons8-google-48.png" alt="" />
+            </el-icon>
+            <span>Đăng nhập bằng Google</span>
+          </el-button>
 
-      <div class="social-login">
-        <el-button
-          class="facebook-login-btn"
-          @click="handleFacebookLogin"
-          size="large"
-          :loading="loadingFacebookLogin"
-        >
-          <el-icon class="el-icon--right">
-            <font-awesome-icon icon="fa-brands fa-facebook-f" />
-          </el-icon>
-          <!-- <template #icon>
-            <font-awesome-icon icon="fa-brands fa-facebook-f" />
-          </template> -->
-          <span>Đăng nhập bằng Facebook</span>
-        </el-button>
+          <GoogleLogin
+            :callback="handleGoogleLogin"
+            prompt
+            class="google-login-btn"
+          />
+        </div>
 
-        <el-button
-          class="google-login-btn"
-          @click="handleGoogleLogin"
-          size="large"
-          :loading="loadingGoogleLogin"
-        >
-          <!-- <template #icon>
-            <img src="/images/socials/icons8-google-48.png" alt="" />
-          </template> -->
-          <el-icon class="el-icon--right">
-            <img src="/images/socials/icons8-google-48.png" alt="" />
-          </el-icon>
-          <span>Đăng nhập bằng Google</span>
-        </el-button>
-
-        <GoogleLogin
-          :callback="handleGoogleLogin"
-          prompt
-          class="google-login-btn"
-        />
-      </div>
-
-      <p style="text-align: center; margin: 20px 0px 15px 0px; color: #fff">
-        Hoặc
-      </p>
-      <div style="display: flex; justify-content: center">
-        <router-link :to="{ name: 'signup' }">Dăng ký ngay!</router-link>
-      </div>
-    </a-form>
+        <div class="bottom-form">
+          <p>Hoặc</p>
+          <router-link :to="{ name: 'signup' }">Dăng ký ngay!</router-link>
+        </div>
+      </a-form>
+    </div>
   </div>
 </template>
 <script>
