@@ -372,7 +372,7 @@ export default defineComponent({
       console.log('Handle the response', response);
 
       axios
-        .get(`https://www.googleapis.com/oauth2/v3/userinfo?alt=json`, {
+        .get(`https://www.googleapis.com/oauth2/v3/userinfo`, {
           headers: {
             Authorization: `Bearer ${response?.credential}`,
           },
@@ -381,6 +381,7 @@ export default defineComponent({
           console.log(userInfo.data);
         });
     };
+
     const handleGoogleLogin1 = () => {
       window.google.accounts.id.initialize({
         client_id:
