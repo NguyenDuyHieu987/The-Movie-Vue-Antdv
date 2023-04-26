@@ -370,6 +370,16 @@ export default defineComponent({
 
     const handleGoogleLogin = (response) => {
       console.log('Handle the response', response);
+
+      axios
+        .get(`https://www.googleapis.com/oauth2/v3/userinfo?alt=json`, {
+          headers: {
+            Authorization: `Bearer ${response?.credential}`,
+          },
+        })
+        .then((userInfo) => {
+          console.log(userInfo.data);
+        });
     };
 
     return {
