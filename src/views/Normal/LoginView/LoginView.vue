@@ -340,11 +340,6 @@ export default defineComponent({
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
             });
-
-            setTimeout(() => {
-              loadingFacebookLogin.value = false;
-              router.push({ path: '/' });
-            });
           } else if (response.data.isLogin == true) {
             new Promise((resolve) =>
               setTimeout(() => {
