@@ -2,7 +2,7 @@
 import axios from 'axios';
 // import hmacSHA256 from 'crypto-js/hmac-sha256';
 // import Base64 from 'crypto-js/enc-base64';
-import * as jose from 'jose';
+// import * as jose from 'jose';
 
 // const accountSubject = new BehaviorSubject(null);
 
@@ -10,36 +10,36 @@ export const accountService = {
   apiAuthenticate,
 };
 
-async function generateJwtToken(data) {
-  const header = {
-    alg: 'HS256',
-    typ: 'JWT',
-  };
-  // const encodedHeaders = btoa(JSON.stringify(header));
+// async function generateJwtToken(data) {
+//   const header = {
+//     alg: 'HS256',
+//     typ: 'JWT',
+//   };
+//   // const encodedHeaders = btoa(JSON.stringify(header));
 
-  // const tokenPayload = {
-  //   exp: Math.round(new Date(Date.now() + 15 * 60 * 1000).getTime() / 1000),
-  //   id: data.id,
-  // };
-  // const encodedPlayload = btoa(JSON.stringify(tokenPayload));
+//   // const tokenPayload = {
+//   //   exp: Math.round(new Date(Date.now() + 15 * 60 * 1000).getTime() / 1000),
+//   //   id: data.id,
+//   // };
+//   // const encodedPlayload = btoa(JSON.stringify(tokenPayload));
 
-  // const signature = Base64.stringify(
-  //   hmacSHA256(`${encodedHeaders}.${encodedPlayload}`, 'mysecret')
-  // );
+//   // const signature = Base64.stringify(
+//   //   hmacSHA256(`${encodedHeaders}.${encodedPlayload}`, 'mysecret')
+//   // );
 
-  // const encodedSignature = signature;
+//   // const encodedSignature = signature;
 
-  // const jwt = `${encodedHeaders}.${encodedPlayload}.${encodedSignature}`;
+//   // const jwt = `${encodedHeaders}.${encodedPlayload}.${encodedSignature}`;
 
-  const secret = new TextEncoder().encode('hieusen123');
+//   const secret = new TextEncoder().encode('hieusen123');
 
-  const jwt = await new jose.SignJWT({ id: data.id })
-    .setProtectedHeader(header)
-    .setExpirationTime('2h')
-    .sign(secret);
+//   const jwt = await new jose.SignJWT({ id: data.id })
+//     .setProtectedHeader(header)
+//     .setExpirationTime('2h')
+//     .sign(secret);
 
-  return jwt;
-}
+//   return jwt;
+// }
 
 async function authenticateFacebook(accessToken) {
   return await axios
@@ -52,7 +52,7 @@ async function authenticateFacebook(accessToken) {
 
       return {
         ...data,
-        token: await generateJwtToken(data),
+        // token: await generateJwtToken(data),
       };
     });
 }

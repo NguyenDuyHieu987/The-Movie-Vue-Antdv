@@ -267,7 +267,7 @@ export default defineComponent({
                   router.push({ path: '/login' });
                 }, 1000);
                 reset();
-              } else {
+              } else if (response.data?.isEmailExist == true) {
                 setTimeout(() => {
                   loadingSignUp.value = false;
                   // notification.open({

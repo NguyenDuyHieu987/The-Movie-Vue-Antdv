@@ -198,7 +198,7 @@ export default defineComponent({
         user_token: randomToken(40),
       })
         .then((response) => {
-          if (response.data?.success === false) {
+          if (response.data?.isNotExist == true) {
             setTimeout(() => {
               loadingLogin.value = false;
 
@@ -211,59 +211,57 @@ export default defineComponent({
                   }),
               });
             }, 1000);
-          } else {
-            if (response.data?.isLogin === true) {
+          } else if (response.data?.isLogin == true) {
+            store.state.userAccount = response?.data?.result;
+
+            // window.localStorage.setItem('remember', formState.remember);
+
+            if (formState.remember) {
               store.state.userAccount = response?.data?.result;
+              store.state.isLogin = true;
 
-              // window.localStorage.setItem('remember', formState.remember);
-
-              if (formState.remember) {
-                store.state.userAccount = response?.data?.result;
-                store.state.isLogin = true;
-
-                window.localStorage.setItem(
-                  'userAccount',
-                  JSON.stringify({ value: response?.data?.result })
-                );
-              } else {
-                store.state.userAccount = response?.data?.result;
-                store.state.isLogin = true;
-
-                // setWithExpiry('isLogin', true, 30);
-                setWithExpiry('userAccount', response?.data?.result, 30);
-              }
-
-              if (response?.data?.result?.role == 'admin') {
-                store.state.role = response?.data?.result?.role;
-
-                setTimeout(() => {
-                  loadingLogin.value = false;
-                  router.push({ path: '/dashboard' });
-                }, 1000);
-              } else {
-                store.state.role = response?.data?.result?.role;
-
-                setTimeout(() => {
-                  loadingLogin.value = false;
-                  router.push({ path: '/' });
-                }, 1000);
-              }
-
-              reset();
+              window.localStorage.setItem(
+                'userAccount',
+                JSON.stringify({ value: response?.data?.result })
+              );
             } else {
+              store.state.userAccount = response?.data?.result;
+              store.state.isLogin = true;
+
+              // setWithExpiry('isLogin', true, 30);
+              setWithExpiry('userAccount', response?.data?.result, 30);
+            }
+
+            if (response?.data?.result?.role == 'admin') {
+              store.state.role = response?.data?.result?.role;
+
               setTimeout(() => {
                 loadingLogin.value = false;
+                router.push({ path: '/dashboard' });
+              }, 1000);
+            } else if (response?.data?.result?.role == 'normal') {
+              store.state.role = response?.data?.result?.role;
 
-                ElNotification.error({
-                  title: 'Lỗi!',
-                  message: 'Sai tài khoản hoặc mật khẩu.',
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
+              setTimeout(() => {
+                loadingLogin.value = false;
+                router.push({ path: '/' });
               }, 1000);
             }
+
+            reset();
+          } else if (response.data?.isWrongPassword == true) {
+            setTimeout(() => {
+              loadingLogin.value = false;
+
+              ElNotification.error({
+                title: 'Lỗi!',
+                message: 'Sai tài khoản hoặc mật khẩu.',
+                icon: () =>
+                  h(CloseCircleFilled, {
+                    style: 'color: red',
+                  }),
+              });
+            }, 1000);
           }
         })
         .catch((e) => {

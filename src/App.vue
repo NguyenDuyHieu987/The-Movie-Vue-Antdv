@@ -56,6 +56,7 @@ export default {
         // if (remember) {
         getUserToken({ user_token: getWithExpiry('userAccount')?.user_token })
           .then((accountResponse) => {
+            console.log(accountResponse.data?.result);
             if (accountResponse.data?.isLogin == true) {
               store.state.userAccount = accountResponse.data?.result;
               store.state.role = accountResponse?.data?.result?.role;

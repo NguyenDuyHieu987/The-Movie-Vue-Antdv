@@ -26,7 +26,7 @@ const signIn = async (params) => {
   const bodyFormData = new FormData();
   bodyFormData.append('email', params.email);
   bodyFormData.append('password', params.password);
-  bodyFormData.append('user_token', params.user_token);
+  // bodyFormData.append('user_token', params.user_token);
 
   return await axios.post(`${URL_API}/auth/login?api=hieu987`, bodyFormData);
 };
@@ -36,7 +36,7 @@ const loginFacebook = async (params) => {
   bodyFormData.append('id', params.id);
   bodyFormData.append('username', params.full_name);
   bodyFormData.append('full_name', params.full_name);
-  bodyFormData.append('user_token', params.user_token);
+  // bodyFormData.append('user_token', params.user_token);
   bodyFormData.append('email', params.email);
   bodyFormData.append('avatar', params.avatar);
 
@@ -64,7 +64,7 @@ const signUp = async (params) => {
   bodyFormData.append('password', params.password);
   bodyFormData.append('full_name', params.full_name);
   bodyFormData.append('avatar', params.avatar);
-  bodyFormData.append('user_token', params.user_token);
+  // bodyFormData.append('user_token', params.user_token);
 
   return await axios.post(`${URL_API}/auth/signup?api=hieu987`, bodyFormData);
 };
