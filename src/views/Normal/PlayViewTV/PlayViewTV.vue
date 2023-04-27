@@ -78,8 +78,50 @@
         @click="handelAddToList"
       >
         <template #icon>
-          <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
-          <PlusOutlined v-else />
+          <!-- <font-awesome-icon v-if="isAddToList" icon="fa-solid fa-check" />
+          <PlusOutlined v-else /> -->
+          <svg
+            v-if="isAddToList"
+            class="material-icons-outlined"
+            xmlns="http://www.w3.org/2000/svg"
+            enable-background="new 0 0 24 24"
+            height="24px"
+            viewBox="0 0 24 24"
+            width="24px"
+            fill="#000000"
+          >
+            <g><rect fill="none" height="24" width="24" /></g>
+            <g>
+              <g>
+                <rect height="2" width="11" x="3" y="10" />
+                <rect height="2" width="11" x="3" y="6" />
+                <rect height="2" width="7" x="3" y="14" />
+                <polygon
+                  points="20.59,11.93 16.34,16.17 14.22,14.05 12.81,15.46 16.34,19 22,13.34"
+                />
+              </g>
+            </g>
+          </svg>
+          <svg
+            v-else
+            class="material-icons-outlined"
+            xmlns="http://www.w3.org/2000/svg"
+            enable-background="new 0 0 24 24"
+            height="24px"
+            viewBox="0 0 24 24"
+            width="24px"
+            fill="#000000"
+          >
+            <g><rect fill="none" height="24" width="24" /></g>
+            <g>
+              <g>
+                <rect height="2" width="11" x="3" y="10" />
+                <rect height="2" width="11" x="3" y="6" />
+                <rect height="2" width="7" x="3" y="14" />
+                <polygon points="16,13 16,21 22,17" />
+              </g>
+            </g>
+          </svg>
         </template>
         <span v-if="!isAddToList"> Thêm vòa danh sách</span>
         <span v-else style="margin-left: 8px"> Xóa khỏi danh sách</span>
@@ -190,7 +232,10 @@ import RatingMovie from '@/components/Normal/RatingMovie/RatingMovie.vue';
 import MovieSuggest from '@/components/Normal/MovieSuggest/MovieSuggest.vue';
 import ListEpisodes from '@/components/Normal/ListEpisodes/ListEpisodes.vue';
 import { useMeta } from 'vue-meta';
-import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue';
+import {
+  //  PlusOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus';
 import {
@@ -206,7 +251,7 @@ export default {
     RatingMovie,
     MovieSuggest,
     ListEpisodes,
-    PlusOutlined,
+    // PlusOutlined,
   },
   setup() {
     const route = useRoute();

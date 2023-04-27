@@ -284,6 +284,16 @@ export default defineComponent({
                   }),
               });
             }, 1000);
+          } else if (response.data.isLogin == false) {
+            loadingLogin.value = false;
+            ElNotification.error({
+              title: 'Failed!',
+              message: 'Some thing went wrong.',
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
+            });
           }
         })
         .catch((e) => {
@@ -322,7 +332,7 @@ export default defineComponent({
         avatar: profileUser.picture.data.url,
       })
         .then((response) => {
-          // console.log(response.data?.result);
+          console.log(response.data?.result);
 
           if (response.data.isSignUp == true) {
             new Promise((resolve) =>
@@ -363,6 +373,16 @@ export default defineComponent({
             ).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
+            });
+          } else if (response.data.isLogin == false) {
+            loadingFacebookLogin.value = false;
+            ElNotification.error({
+              title: 'Failed!',
+              message: 'Some thing went wrong.',
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
             });
           }
         })
