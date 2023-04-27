@@ -346,12 +346,13 @@ export default defineComponent({
                       style: 'color: green',
                     }),
                 });
-                store.state.userAccount = response?.data?.result;
                 setWithExpiry(
                   'userAccount',
                   { user_token: response?.data?.result?.user_token },
                   30
                 );
+                store.state.userAccount = response?.data?.result;
+
                 resolve();
               }, 1000)
             ).then(() => {
@@ -361,12 +362,12 @@ export default defineComponent({
           } else if (response.data.isLogin == true) {
             new Promise((resolve) =>
               setTimeout(() => {
-                store.state.userAccount = response?.data?.result;
                 setWithExpiry(
                   'userAccount',
                   { user_token: response?.data?.result?.user_token },
                   30
                 );
+                store.state.userAccount = response?.data?.result;
 
                 resolve();
               }, 1000)
