@@ -247,7 +247,11 @@ export default defineComponent({
               store.state.isLogin = true;
 
               // setWithExpiry('isLogin', true, 30);
-              setWithExpiry('userAccount', response?.data?.result, 30);
+              setWithExpiry(
+                'userAccount',
+                { user_token: response?.data?.result?.user_token },
+                30
+              );
             }
 
             if (response?.data?.result?.role == 'admin') {
@@ -333,7 +337,11 @@ export default defineComponent({
                     }),
                 });
                 store.state.userAccount = response?.data?.result;
-                setWithExpiry('userAccount', response?.data?.result, 30);
+                setWithExpiry(
+                  'userAccount',
+                  { user_token: response?.data?.result?.user_token },
+                  30
+                );
                 resolve();
               }, 1000)
             ).then(() => {
@@ -344,7 +352,12 @@ export default defineComponent({
             new Promise((resolve) =>
               setTimeout(() => {
                 store.state.userAccount = response?.data?.result;
-                setWithExpiry('userAccount', response?.data?.result, 30);
+                setWithExpiry(
+                  'userAccount',
+                  { user_token: response?.data?.result?.user_token },
+                  30
+                );
+
                 resolve();
               }, 1000)
             ).then(() => {
