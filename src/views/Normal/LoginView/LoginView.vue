@@ -346,29 +346,30 @@ export default defineComponent({
                       style: 'color: green',
                     }),
                 });
-              }, 1000);
 
-              store.state.userAccount = response?.data?.result;
-              setWithExpiry(
-                'userAccount',
-                { user_token: response?.data?.result?.user_token },
-                30
-              );
-              resolve();
+                store.state.userAccount = response?.data?.result;
+                setWithExpiry(
+                  'userAccount',
+                  { user_token: response?.data?.result?.user_token },
+                  30
+                );
+                resolve();
+              }, 1000);
             }).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
             });
           } else if (response.data.isLogin == true) {
             new Promise((resolve) => {
-              setWithExpiry(
-                'userAccount',
-                { user_token: response?.data?.result?.user_token },
-                30
-              );
-              store.state.userAccount = response?.data?.result;
-
-              resolve();
+              setTimeout(() => {
+                store.state.userAccount = response?.data?.result;
+                setWithExpiry(
+                  'userAccount',
+                  { user_token: response?.data?.result?.user_token },
+                  30
+                );
+                resolve();
+              }, 1000);
             }).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
