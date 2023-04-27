@@ -140,7 +140,9 @@
   .right-header {
     .ant-menu {
       .ant-menu-item:hover {
-        background-color: var(--hover-regular-color) !important;
+        // background-color: var(--hover-regular-color) !important;
+        background-color: none !important;
+        background: none !important;
       }
     }
 

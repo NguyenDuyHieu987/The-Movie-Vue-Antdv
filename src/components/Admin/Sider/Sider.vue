@@ -4,7 +4,7 @@
     width="var(--sider-width)"
     collapsedWidth="var(--sider-collapsed-width)"
     style=""
-    class="sider-bar-admin"
+    class="sider-bar"
   >
     <a-layout-header class="sider-header">
       <div style="display: flex; justify-content: center; align-items: center">

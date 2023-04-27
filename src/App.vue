@@ -206,7 +206,7 @@ export default {
   .loading-page-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 
     img {
       width: 64px;
