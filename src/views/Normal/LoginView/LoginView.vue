@@ -335,7 +335,7 @@ export default defineComponent({
           console.log(response.data?.result);
 
           if (response.data.isSignUp == true) {
-            new Promise((resolve) =>
+            new Promise((resolve) => {
               setTimeout(() => {
                 ElNotification.success({
                   title: 'Thành công!',
@@ -346,32 +346,30 @@ export default defineComponent({
                       style: 'color: green',
                     }),
                 });
-                setWithExpiry(
-                  'userAccount',
-                  { user_token: response?.data?.result?.user_token },
-                  30
-                );
-                store.state.userAccount = response?.data?.result;
+              }, 1000);
 
-                resolve();
-              }, 1000)
-            ).then(() => {
+              store.state.userAccount = response?.data?.result;
+              setWithExpiry(
+                'userAccount',
+                { user_token: response?.data?.result?.user_token },
+                30
+              );
+              resolve();
+            }).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
             });
           } else if (response.data.isLogin == true) {
-            new Promise((resolve) =>
-              setTimeout(() => {
-                setWithExpiry(
-                  'userAccount',
-                  { user_token: response?.data?.result?.user_token },
-                  30
-                );
-                store.state.userAccount = response?.data?.result;
+            new Promise((resolve) => {
+              setWithExpiry(
+                'userAccount',
+                { user_token: response?.data?.result?.user_token },
+                30
+              );
+              store.state.userAccount = response?.data?.result;
 
-                resolve();
-              }, 1000)
-            ).then(() => {
+              resolve();
+            }).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
             });
