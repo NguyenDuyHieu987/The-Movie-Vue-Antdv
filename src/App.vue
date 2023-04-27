@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <component v-else :is="$route.meta.layout.component">
+    <component v-else :is="$route.meta.layout?.component">
       <!-- <router-view :key="$route.fullPath" /> -->
       <router-view :key="$route.path" />
 
