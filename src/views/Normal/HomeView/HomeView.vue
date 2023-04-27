@@ -310,8 +310,8 @@ export default {
         store.state?.nowPlayings?.length > 0 &&
         store.state?.upComings?.length > 0 &&
         store.state?.tvAiringTodays?.length > 0 &&
-        store.state?.topRateds?.length > 0 &&
-        store.state?.recommends?.length > 0
+        store.state?.topRateds?.length > 0
+        // store.state?.recommends?.length > 0
       ) {
         // alert('h');
         nowPlayings.value = store.state?.nowPlayings;
