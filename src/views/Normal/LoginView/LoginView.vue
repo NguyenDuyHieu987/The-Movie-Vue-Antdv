@@ -240,7 +240,9 @@ export default defineComponent({
 
               window.localStorage.setItem(
                 'userAccount',
-                JSON.stringify({ value: response?.data?.result })
+                JSON.stringify({
+                  value: { user_token: response.headers.get('Authorization') },
+                })
               );
             } else {
               store.state.userAccount = response?.data?.result;
@@ -249,7 +251,7 @@ export default defineComponent({
               // setWithExpiry('isLogin', true, 30);
               setWithExpiry(
                 'userAccount',
-                { user_token: response?.data?.result?.user_token },
+                { user_token: response.headers.get('Authorization') },
                 30
               );
             }
@@ -350,7 +352,7 @@ export default defineComponent({
                 store.state.userAccount = response?.data?.result;
                 setWithExpiry(
                   'userAccount',
-                  { user_token: response?.data?.result?.user_token },
+                  { user_token: response.headers.get('Authorization') },
                   30
                 );
                 resolve();
@@ -365,7 +367,7 @@ export default defineComponent({
                 store.state.userAccount = response?.data?.result;
                 setWithExpiry(
                   'userAccount',
-                  { user_token: response?.data?.result?.user_token },
+                  { user_token: response.headers.get('Authorization') },
                   30
                 );
                 resolve();
