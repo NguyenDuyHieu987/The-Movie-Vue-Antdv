@@ -335,15 +335,10 @@ export default defineComponent({
       })
         .then((response) => {
           // console.log(response.data?.result);
-          store.state.userAccount = response?.data?.result;
-          setWithExpiry(
-            'userAccount',
-            { user_token: response.headers.get('Authorization') },
-            30
-          );
+
           if (response.data.isSignUp == true) {
             new Promise((resolve) => {
-              setTimeout(() => {
+              resolve(
                 ElNotification.success({
                   title: 'Thành công!',
                   message:
@@ -352,19 +347,29 @@ export default defineComponent({
                     h(CheckCircleFilled, {
                       style: 'color: green',
                     }),
-                });
+                }),
 
-                resolve();
-              }, 1000);
+                (store.state.userAccount = response?.data?.result),
+                setWithExpiry(
+                  'userAccount',
+                  { user_token: response.headers.get('Authorization') },
+                  30
+                )
+              );
             }).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
             });
           } else if (response.data.isLogin == true) {
             new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-              }, 1000);
+              resolve(
+                (store.state.userAccount = response?.data?.result),
+                setWithExpiry(
+                  'userAccount',
+                  { user_token: response.headers.get('Authorization') },
+                  30
+                )
+              );
             }).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
