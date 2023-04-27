@@ -334,8 +334,13 @@ export default defineComponent({
         avatar: profileUser.picture.data.url,
       })
         .then((response) => {
-          console.log(response.data?.result);
-
+          // console.log(response.data?.result);
+          store.state.userAccount = response?.data?.result;
+          setWithExpiry(
+            'userAccount',
+            { user_token: response.headers.get('Authorization') },
+            30
+          );
           if (response.data.isSignUp == true) {
             new Promise((resolve) => {
               setTimeout(() => {
@@ -349,12 +354,6 @@ export default defineComponent({
                     }),
                 });
 
-                store.state.userAccount = response?.data?.result;
-                setWithExpiry(
-                  'userAccount',
-                  { user_token: response.headers.get('Authorization') },
-                  30
-                );
                 resolve();
               }, 1000);
             }).then(() => {
@@ -364,12 +363,6 @@ export default defineComponent({
           } else if (response.data.isLogin == true) {
             new Promise((resolve) => {
               setTimeout(() => {
-                store.state.userAccount = response?.data?.result;
-                setWithExpiry(
-                  'userAccount',
-                  { user_token: response.headers.get('Authorization') },
-                  30
-                );
                 resolve();
               }, 1000);
             }).then(() => {
