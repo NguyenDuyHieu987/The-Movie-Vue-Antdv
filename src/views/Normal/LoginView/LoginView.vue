@@ -339,38 +339,35 @@ export default defineComponent({
 
           if (response.data.isSignUp == true) {
             new Promise((resolve) => {
-              resolve(
-                ElNotification.success({
-                  title: 'Thành công!',
-                  message:
-                    'Bạn đã đăng nhập bằng Facebook thành công tại Phimhay247.',
-                  icon: () =>
-                    h(CheckCircleFilled, {
-                      style: 'color: green',
-                    }),
-                }),
-
+              ElNotification.success({
+                title: 'Thành công!',
+                message:
+                  'Bạn đã đăng nhập bằng Facebook thành công tại Phimhay247.',
+                icon: () =>
+                  h(CheckCircleFilled, {
+                    style: 'color: green',
+                  }),
+              }),
                 (store.state.userAccount = response?.data?.result),
                 setWithExpiry(
                   'userAccount',
                   { user_token: response.headers.get('Authorization') },
                   30
-                )
-              );
+                );
+              resolve();
             }).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
             });
           } else if (response.data.isLogin == true) {
             new Promise((resolve) => {
-              resolve(
-                (store.state.userAccount = response?.data?.result),
+              (store.state.userAccount = response?.data?.result),
                 setWithExpiry(
                   'userAccount',
                   { user_token: response.headers.get('Authorization') },
                   30
-                )
-              );
+                );
+              resolve();
             }).then(() => {
               loadingFacebookLogin.value = false;
               router.push({ path: '/' });
