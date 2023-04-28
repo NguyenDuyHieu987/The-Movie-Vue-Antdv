@@ -50,6 +50,19 @@ const loginFacebook = async (params) => {
   );
 };
 
+const loginGoogle = async (params) => {
+  const bodyFormData = new FormData();
+  const headers = { Authorization: `Bearer ${params.accessToken}` };
+
+  return await axios.post(
+    `${URL_API}/auth/logingoogle?api=hieu987`,
+    bodyFormData,
+    {
+      headers: headers,
+    }
+  );
+};
+
 const getUserToken = async (params) => {
   const bodyFormData = new FormData();
   // bodyFormData.append('user_token', params.user_token);
@@ -642,6 +655,7 @@ export {
   signUp,
   signIn,
   loginFacebook,
+  loginGoogle,
   getUserToken,
   getAvatar,
   getRanking,

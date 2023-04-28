@@ -121,7 +121,7 @@
             <span>Đăng nhập bằng Google</span>
           </el-button>
 
-          <el-button
+          <!-- <el-button
             class="google-login-btn"
             id="google-login-btn1"
             size="large"
@@ -131,13 +131,13 @@
               <img src="/images/socials/icons8-google-48.png" alt="" />
             </el-icon>
             <span>Đăng nhập bằng Google</span>
-          </el-button>
+          </el-button> -->
 
-          <GoogleLogin
+          <!-- <GoogleLogin
             :callback="handleGoogleLogin"
             prompt
             class="google-login-btn"
-          />
+          /> -->
         </div>
       </a-form>
     </div>
@@ -156,7 +156,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import md5 from 'md5';
-import { signIn, loginFacebook } from '@/services/MovieService';
+import { signIn, loginFacebook, loginGoogle } from '@/services/MovieService';
 import { setWithExpiry } from '@/utils/LocalStorage';
 // import { googleAuthCodeLogin } from 'vue3-google-login';
 import { ElNotification } from 'element-plus';
@@ -429,33 +429,32 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      const gapi = window.gapi;
-      let auth2;
-      gapi.load('client:auth2', function () {
-        // Retrieve the singleton for the GoogleAuth library and set up the client.
-        auth2 = gapi.auth2.init({
-          client_id:
-            '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
-          // cookiepolicy: 'single_host_origin',
-          scope: 'profile email',
-        });
-        attachSignin(document.getElementById('google-login-btn'));
-      });
+      // const gapi = window.gapi;
+      // let auth2;
+      // gapi.load('auth2', function () {
+      //   auth2 = gapi.auth2.init({
+      //     client_id:
+      //       '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
+      //     // cookiepolicy: 'single_host_origin',
+      //     scope: 'profile email',
+      //   });
+      //   attachSignin(document.getElementById('google-login-btn'));
+      // });
 
-      function attachSignin(element) {
-        auth2.attachClickHandler(
-          element,
-          {},
-          function (googleUser) {
-            console.log(googleUser.getBasicProfile());
-          },
-          function (error) {
-            console.log(
-              'error google login: ' + JSON.stringify(error, undefined, 2)
-            );
-          }
-        );
-      }
+      // function attachSignin(element) {
+      //   auth2.attachClickHandler(
+      //     element,
+      //     {},
+      //     function (googleUser) {
+      //       console.log(googleUser.getBasicProfile());
+      //     },
+      //     function (error) {
+      //       console.log(
+      //         'error google login: ' + JSON.stringify(error, undefined, 2)
+      //       );
+      //     }
+      //   );
+      // }
 
       const google = window.google;
       google.accounts.id.initialize({
@@ -463,6 +462,7 @@ export default defineComponent({
           '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
         callback: handleGoogleLogin1,
       });
+
       google.accounts.id.renderButton(
         document.getElementById('google-login-btn1'),
         {
@@ -474,17 +474,93 @@ export default defineComponent({
       tokenClient.value = google.accounts.oauth2.initTokenClient({
         client_id:
           '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
-        scope: 'profile email',
-        callback: (token) => {
-          console.log(token);
+        scope: 'https://www.googleapis.com/auth/userinfo.profile',
+        callback: (authResponse) => {
+          if (authResponse && authResponse?.access_token) {
+            loadingGoogleLogin.value = true;
+
+            loginGoogle({
+              accessToken: authResponse.access_token,
+            })
+              .then((response) => {
+                if (response.data.isSignUp == true) {
+                  new Promise((resolve) => {
+                    ElNotification.success({
+                      title: 'Thành công!',
+                      message:
+                        'Bạn đã đăng nhập bằng Facebook thành công tại Phimhay247.',
+                      icon: () =>
+                        h(CheckCircleFilled, {
+                          style: 'color: green',
+                        }),
+                    }),
+                      (store.state.userAccount = response?.data?.result),
+                      setWithExpiry(
+                        'userAccount',
+                        { user_token: response.headers.get('Authorization') },
+                        30
+                      );
+                    resolve();
+                  }).then(() => {
+                    loadingGoogleLogin.value = false;
+                    router.push({ path: '/' });
+                  });
+                } else if (response.data.isLogin == true) {
+                  new Promise((resolve) => {
+                    (store.state.userAccount = response?.data?.result),
+                      setWithExpiry(
+                        'userAccount',
+                        { user_token: response.headers.get('Authorization') },
+                        30
+                      );
+                    resolve();
+                  }).then(() => {
+                    loadingGoogleLogin.value = false;
+                    router.push({ path: '/' });
+                  });
+                } else if (response.data.isLogin == false) {
+                  loadingGoogleLogin.value = false;
+                  ElNotification.error({
+                    title: 'Failed!',
+                    message: 'Some thing went wrong.',
+                    icon: () =>
+                      h(CloseCircleFilled, {
+                        style: 'color: red',
+                      }),
+                  });
+                }
+              })
+              .catch((e) => {
+                loadingGoogleLogin.value = false;
+
+                ElNotification.error({
+                  title: 'Failed!',
+                  message: 'Some thing went wrong.',
+                  icon: () =>
+                    h(CloseCircleFilled, {
+                      style: 'color: red',
+                    }),
+                });
+                if (axios.isCancel(e)) return;
+              });
+
+            // axios
+            //   .get('https://www.googleapis.com/oauth2/v3/userinfo', {
+            //     headers: {
+            //       Authorization: `Bearer ${authResponse.access_token}`,
+            //     },
+            //   })
+            //   .then((userAccount) => {
+            //     console.log(userAccount.data);
+            //   });
+          }
         },
       });
 
       google.accounts.id.prompt();
     });
 
-    const handleGoogleLogin1 = (response) => {
-      console.log(response);
+    const handleGoogleLogin1 = () => {
       tokenClient.value.requestAccessToken();
     };
 
