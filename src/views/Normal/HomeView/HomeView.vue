@@ -122,8 +122,8 @@
           :to="{
             name: 'discover',
             params: {
-              slug: 'movie',
-              slug2: 'upcoming',
+              slug: 'tv',
+              slug2: 'airingtoday',
             },
           }"
           style="font-size: 1.8rem"
