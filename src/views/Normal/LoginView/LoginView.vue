@@ -447,14 +447,12 @@ export default defineComponent({
           element,
           {},
           function (googleUser) {
-            document.getElementById('name').innerText =
-              'Signed in: ' + googleUser.getBasicProfile().getName();
+            console.log(googleUser.getBasicProfile());
           },
           function (error) {
             console.log(
               'error google login: ' + JSON.stringify(error, undefined, 2)
             );
-            // alert(JSON.stringify(error, undefined, 2));
           }
         );
       }
