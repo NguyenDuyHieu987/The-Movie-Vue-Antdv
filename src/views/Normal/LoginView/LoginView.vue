@@ -110,9 +110,8 @@
             id="google-login-btn"
             size="large"
             :loading="loadingGoogleLogin"
+            @click="handleGoogleLogin1"
           >
-            <!-- @click="handleGoogleLogin1" -->
-
             <!-- <template #icon>
                 <img src="/images/socials/icons8-google-48.png" alt="" />
               </template> -->
@@ -181,6 +180,7 @@ export default defineComponent({
       password: '',
       remember: false,
     });
+    const tokenClient = ref({});
 
     const reset = () => {
       formState.username = '';
@@ -436,7 +436,7 @@ export default defineComponent({
         auth2 = gapi.auth2.init({
           client_id:
             '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
-          cookiepolicy: 'single_host_origin',
+          // cookiepolicy: 'single_host_origin',
           scope: 'profile email',
         });
         attachSignin(document.getElementById('google-login-btn'));
@@ -470,11 +470,22 @@ export default defineComponent({
           size: 'large',
         }
       );
+
+      tokenClient.value = google.accounts.oauth2.initTokenClient({
+        client_id:
+          '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
+        scope: 'profile email',
+        callback: (token) => {
+          console.log(token);
+        },
+      });
+
       google.accounts.id.prompt();
     });
 
     const handleGoogleLogin1 = (response) => {
       console.log(response);
+      tokenClient.value.requestAccessToken();
     };
 
     return {
