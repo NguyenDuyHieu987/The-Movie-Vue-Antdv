@@ -44,19 +44,19 @@
           :title="false"
         >
           <h4 style="color: #fff" v-if="!$store.state.collapsed">
-            {{ $store.state.userAccount?.username }}
+            {{ $store.state?.userAccount?.username }}
           </h4>
 
           <a-tooltip
             v-else
-            :title="$store.state.userAccount?.username"
+            :title="$store.state?.userAccount?.username"
             placement="rightTop"
           >
             <!-- <div class="user-name-container" shape="circle"> -->
             <a-avatar class="user-name-container">
               <h4 style="color: #fff">
                 {{
-                  $store.state.userAccount?.username?.slice(0, 2).toUpperCase()
+                  $store.state?.userAccount?.username?.slice(0, 2).toUpperCase()
                 }}
               </h4>
             </a-avatar>
@@ -117,7 +117,8 @@ export default {
     // DoubleLeftOutlined,
     // DoubleRightOutlined,
   },
-  data() {
+
+  setup() {
     return {
       selectedKeys1: ref(['2']),
       selectedKeys2: ref(['1']),
