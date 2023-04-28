@@ -431,7 +431,7 @@ export default defineComponent({
     onMounted(() => {
       const gapi = window.gapi;
       let auth2;
-      gapi.load('auth2', function () {
+      gapi.load('client:auth2', function () {
         // Retrieve the singleton for the GoogleAuth library and set up the client.
         auth2 = gapi.auth2.init({
           client_id:
