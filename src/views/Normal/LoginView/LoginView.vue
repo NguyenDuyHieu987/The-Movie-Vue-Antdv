@@ -122,6 +122,18 @@
             <span>Đăng nhập bằng Google</span>
           </el-button>
 
+          <el-button
+            class="google-login-btn"
+            id="google-login-btn1"
+            size="large"
+            :loading="loadingGoogleLogin"
+          >
+            <el-icon class="el-icon--right">
+              <img src="/images/socials/icons8-google-48.png" alt="" />
+            </el-icon>
+            <span>Đăng nhập bằng Google</span>
+          </el-button>
+
           <GoogleLogin
             :callback="handleGoogleLogin"
             prompt
@@ -439,26 +451,28 @@ export default defineComponent({
               'Signed in: ' + googleUser.getBasicProfile().getName();
           },
           function (error) {
-            console.log('error google login: ' + error);
+            console.log(
+              'error google login: ' + JSON.stringify(error, undefined, 2)
+            );
             // alert(JSON.stringify(error, undefined, 2));
           }
         );
       }
 
-      // const google = window.gapi;
-      // google.accounts.id.initialize({
-      //   client_id:
-      //     '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
-      //   callback: handleGoogleLogin1,
-      // });
-      // google.accounts.id.renderButton(
-      //   document.getElementById('google-login-btn'),
-      //   {
-      //     theme: 'outline',
-      //     size: 'large',
-      //   }
-      // );
-      // google.accounts.id.prompt();
+      const google = window.gapi;
+      google.accounts.id.initialize({
+        client_id:
+          '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
+        callback: handleGoogleLogin1,
+      });
+      google.accounts.id.renderButton(
+        document.getElementById('google-login-btn1'),
+        {
+          theme: 'outline',
+          size: 'large',
+        }
+      );
+      google.accounts.id.prompt();
     });
 
     const handleGoogleLogin1 = (response) => {
