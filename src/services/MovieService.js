@@ -44,7 +44,9 @@ const loginFacebook = async (params) => {
   return await axios.post(
     `${URL_API}/auth/loginfacebook?api=hieu987`,
     bodyFormData,
-    headers
+    {
+      headers: headers,
+    }
   );
 };
 
