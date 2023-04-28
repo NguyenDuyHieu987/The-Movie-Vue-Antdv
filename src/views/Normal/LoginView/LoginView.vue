@@ -361,13 +361,13 @@ export default defineComponent({
                   h(CheckCircleFilled, {
                     style: 'color: green',
                   }),
-              }),
-                (store.state.userAccount = response?.data?.result),
-                setWithExpiry(
-                  'userAccount',
-                  { user_token: response.headers.get('Authorization') },
-                  30
-                );
+              });
+              store.state.userAccount = response?.data?.result;
+              setWithExpiry(
+                'userAccount',
+                { user_token: response.headers.get('Authorization') },
+                30
+              );
               resolve();
             }).then(() => {
               loadingFacebookLogin.value = false;
@@ -375,12 +375,12 @@ export default defineComponent({
             });
           } else if (response.data.isLogin == true) {
             new Promise((resolve) => {
-              (store.state.userAccount = response?.data?.result),
-                setWithExpiry(
-                  'userAccount',
-                  { user_token: response.headers.get('Authorization') },
-                  30
-                );
+              store.state.userAccount = response?.data?.result;
+              setWithExpiry(
+                'userAccount',
+                { user_token: response.headers.get('Authorization') },
+                30
+              );
               resolve();
             }).then(() => {
               loadingFacebookLogin.value = false;
@@ -488,18 +488,19 @@ export default defineComponent({
                     ElNotification.success({
                       title: 'Thành công!',
                       message:
-                        'Bạn đã đăng nhập bằng Facebook thành công tại Phimhay247.',
+                        'Bạn đã đăng nhập bằng Google thành công tại Phimhay247.',
                       icon: () =>
                         h(CheckCircleFilled, {
                           style: 'color: green',
                         }),
-                    }),
-                      (store.state.userAccount = response?.data?.result),
-                      setWithExpiry(
-                        'userAccount',
-                        { user_token: response.headers.get('Authorization') },
-                        30
-                      );
+                    });
+
+                    store.state.userAccount = response?.data?.result;
+                    setWithExpiry(
+                      'userAccount',
+                      { user_token: response.headers.get('Authorization') },
+                      30
+                    );
                     resolve();
                   }).then(() => {
                     loadingGoogleLogin.value = false;
@@ -507,12 +508,13 @@ export default defineComponent({
                   });
                 } else if (response.data.isLogin == true) {
                   new Promise((resolve) => {
-                    (store.state.userAccount = response?.data?.result),
-                      setWithExpiry(
-                        'userAccount',
-                        { user_token: response.headers.get('Authorization') },
-                        30
-                      );
+                    store.state.userAccount = response?.data?.result;
+
+                    setWithExpiry(
+                      'userAccount',
+                      { user_token: response.headers.get('Authorization') },
+                      30
+                    );
                     resolve();
                   }).then(() => {
                     loadingGoogleLogin.value = false;
