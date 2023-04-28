@@ -459,7 +459,7 @@ export default defineComponent({
         );
       }
 
-      const google = window.gapi;
+      const google = window.google;
       google.accounts.id.initialize({
         client_id:
           '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
