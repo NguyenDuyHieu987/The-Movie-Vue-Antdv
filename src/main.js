@@ -12,7 +12,6 @@ import VueSocialSharing from 'vue-social-sharing';
 import VueLazyload from 'vue-lazyload';
 import { initFacebookSdk } from './utils/init-facebook-sdk';
 import vue3GoogleLogin from 'vue3-google-login';
-import GAuth from 'vue3-google-oauth2';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import vi from 'element-plus/dist/locale/vi.mjs';
@@ -116,7 +115,6 @@ app
     locale: vi,
   })
   .use(vue3GoogleLogin, gAuthOptions)
-  .use(GAuth, gAuthOptions)
   .use(VueProgressBar, progressBarOptions)
   .use(createMetaManager())
   .component('font-awesome-icon', FontAwesomeIcon);

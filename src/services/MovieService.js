@@ -39,10 +39,12 @@ const loginFacebook = async (params) => {
   // bodyFormData.append('user_token', params.user_token);
   bodyFormData.append('email', params.email);
   bodyFormData.append('avatar', params.avatar);
+  const headers = { Authorization: `Bearer ${params.accessToken}` };
 
   return await axios.post(
     `${URL_API}/auth/loginfacebook?api=hieu987`,
-    bodyFormData
+    bodyFormData,
+    headers
   );
 };
 

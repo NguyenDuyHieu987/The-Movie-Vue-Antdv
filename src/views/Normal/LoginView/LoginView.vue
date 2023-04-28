@@ -332,6 +332,7 @@ export default defineComponent({
         email: profileUser?.email ? profileUser?.email : '',
         user_token: authResponse.accessToken,
         avatar: profileUser.picture.data.url,
+        accessToken: authResponse.accessToken,
       })
         .then((response) => {
           // console.log(response.data?.result);
@@ -416,17 +417,11 @@ export default defineComponent({
         });
     };
 
-    const handleGoogleLogin1 = () => {
-      window.google.accounts.id.initialize({
-        client_id:
-          '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
-        callback: handleCredentialResponse,
-      });
-      window.google.accounts.id.prompt();
+    const handleGoogleLogin1 = (googleUser) => {
+      console.log(googleUser);
 
-      function handleCredentialResponse(response) {
-        console.log(response);
-      }
+      // This only gets the user information: id, name, imageUrl and email
+      console.log(googleUser.getBasicProfile());
     };
 
     return {
