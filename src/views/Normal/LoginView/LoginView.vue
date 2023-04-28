@@ -107,10 +107,12 @@
 
           <el-button
             class="google-login-btn"
-            @click="handleGoogleLogin1"
+            id="google-login-btn"
             size="large"
             :loading="loadingGoogleLogin"
           >
+            <!-- @click="handleGoogleLogin1" -->
+
             <!-- <template #icon>
                 <img src="/images/socials/icons8-google-48.png" alt="" />
               </template> -->
@@ -131,7 +133,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, reactive, computed, h, ref } from 'vue';
+import { defineComponent, reactive, computed, h, ref, onMounted } from 'vue';
 import {
   UserOutlined,
   LockOutlined,
@@ -414,11 +416,53 @@ export default defineComponent({
         });
     };
 
-    const handleGoogleLogin1 = (googleUser) => {
-      console.log(googleUser);
+    onMounted(() => {
+      const gapi = window.gapi;
+      let auth2;
+      gapi.load('auth2', function () {
+        // Retrieve the singleton for the GoogleAuth library and set up the client.
+        auth2 = gapi.auth2.init({
+          client_id:
+            '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
+          cookiepolicy: 'single_host_origin',
+          scope: 'profile email',
+        });
+        attachSignin(document.getElementById('google-login-btn'));
+      });
 
-      // This only gets the user information: id, name, imageUrl and email
-      console.log(googleUser.getBasicProfile());
+      function attachSignin(element) {
+        auth2.attachClickHandler(
+          element,
+          {},
+          function (googleUser) {
+            document.getElementById('name').innerText =
+              'Signed in: ' + googleUser.getBasicProfile().getName();
+          },
+          function (error) {
+            console.log('error google login: ' + error);
+            // alert(JSON.stringify(error, undefined, 2));
+          }
+        );
+      }
+
+      // const google = window.gapi;
+      // google.accounts.id.initialize({
+      //   client_id:
+      //     '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
+      //   callback: handleGoogleLogin1,
+      // });
+      // google.accounts.id.renderButton(
+      //   document.getElementById('google-login-btn'),
+      //   {
+      //     theme: 'outline',
+      //     size: 'large',
+      //   }
+      // );
+      // google.accounts.id.prompt();
+    });
+
+    const handleGoogleLogin1 = (response) => {
+      console.log(response);
     };
 
     return {

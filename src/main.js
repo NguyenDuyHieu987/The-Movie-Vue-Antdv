@@ -81,6 +81,7 @@ library.add(
 );
 
 const gAuthOptions = {
+  apiKey: 'AIzaSyAxB7HQK6kM_q9G51BH-V73mfT08wOn0a4',
   clientId:
     '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
   scope: 'profile email',
