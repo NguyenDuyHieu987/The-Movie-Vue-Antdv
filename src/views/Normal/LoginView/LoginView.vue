@@ -474,7 +474,8 @@ export default defineComponent({
       tokenClient.value = google.accounts.oauth2.initTokenClient({
         client_id:
           '973707203186-4f3sedatri213ib2f5j01ts0qj9c3fk0.apps.googleusercontent.com',
-        scope: 'https://www.googleapis.com/auth/userinfo.profile',
+        scope:
+          'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
         callback: (authResponse) => {
           if (authResponse && authResponse?.access_token) {
             loadingGoogleLogin.value = true;
