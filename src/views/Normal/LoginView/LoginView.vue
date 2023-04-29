@@ -18,7 +18,8 @@
           :rules="[
             {
               required: true,
-              message: 'Please input correct format email!',
+              message:
+                'Vui lòng nhập đúng định dạng email (vd: ...@gmail.com)!',
               pattern: new RegExp(
                 /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
               ),
@@ -39,7 +40,7 @@
           :rules="[
             {
               required: true,
-              message: 'Please input your password!',
+              message: 'Vui lòng nhập mật khẩu!',
               trigger: ['change', 'blur'],
             },
           ]"
@@ -85,7 +86,7 @@
         </a-form-item>
 
         <div class="bottom-form">
-          <p>Hoặc</p>
+          <p style="color: #fff">Hoặc</p>
           <router-link :to="{ name: 'signup' }">Dăng ký ngay!</router-link>
         </div>
 
@@ -155,7 +156,7 @@ import {
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import axios from 'axios';
-import md5 from 'md5';
+// import md5 from 'md5';
 import { signIn, loginFacebook, loginGoogle } from '@/services/MovieService';
 import { setWithExpiry } from '@/utils/LocalStorage';
 // import { googleAuthCodeLogin } from 'vue3-google-login';
@@ -163,6 +164,7 @@ import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
 import { useMeta } from 'vue-meta';
 import { accountService } from '@/utils/accountService';
+import { encryptPassword } from '@/utils/encrypt';
 
 export default defineComponent({
   components: {
@@ -226,7 +228,8 @@ export default defineComponent({
 
       signIn({
         email: formState.username,
-        password: md5(formState.password),
+        password: encryptPassword(formState.password),
+        // password: md5(formState.password),
         user_token: randomToken(40),
       })
         .then((response) => {
@@ -413,21 +416,20 @@ export default defineComponent({
 
     const handleGoogleLogin = (response) => {
       console.log('Handle the response', response);
-
-      axios
-        .get(`https://www.googleapis.com/oauth2/v3/userinfo`, {
-          headers: {
-            Authorization: `Bearer ${response?.credential}`,
-            Accept: 'application/json',
-          },
-        })
-        .then((userInfo) => {
-          console.log(userInfo.data);
-        });
+      // axios
+      //   .get(`https://www.googleapis.com/oauth2/v3/userinfo`, {
+      //     headers: {
+      //       Authorization: `Bearer ${response?.credential}`,
+      //       Accept: 'application/json',
+      //     },
+      //   })
+      //   .then((userInfo) => {
+      //     console.log(userInfo.data);
+      //   });
     };
 
     onMounted(() => {
-      console.log(store.state.userAccount);
+      // console.log(store.state.userAccount);
 
       // const gapi = window.gapi;
       // let auth2;

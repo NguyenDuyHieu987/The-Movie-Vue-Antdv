@@ -19,8 +19,12 @@
           :rules="[
             {
               required: true,
-              message: 'Please input your full name!',
+              message: 'Vui lòng nhập đầy đủ họ tên của bạn!',
               trigger: ['change', 'blur'],
+            },
+            {
+              message: 'Họ và tên phải có ít nhất 6 ký tụ!',
+              min: 6,
             },
           ]"
         >
@@ -40,8 +44,12 @@
           :rules="[
             {
               required: true,
-              message: 'Please input username!',
+              message: 'Vui lòng nhập username!',
               trigger: ['change', 'blur'],
+            },
+            {
+              message: 'Username phải có ít nhất 6 ký tụ!',
+              min: 6,
             },
           ]"
         >
@@ -62,7 +70,8 @@
           :rules="[
             {
               required: true,
-              message: 'Please input correct format email!',
+              message:
+                'Vui lòng nhập đúng định dạng email (vd: ...@gmail.com)!',
               pattern: new RegExp(
                 /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
               ),
@@ -83,8 +92,12 @@
           :rules="[
             {
               required: true,
-              message: 'Please input password!',
+              message: 'Vui lòng nhập mật khẩu!',
               trigger: ['change', 'blur'],
+            },
+            {
+              message: 'Mật khẩu phải có ít nhất 6 ký tụ!',
+              min: 6,
             },
           ]"
           has-feedback
@@ -145,12 +158,16 @@ import {
   CloseCircleFilled,
 } from '@ant-design/icons-vue';
 import axios from 'axios';
-import { signUp, emailValidation } from '@/services/MovieService';
-import md5 from 'md5';
+import {
+  signUp,
+  //  emailValidation
+} from '@/services/MovieService';
+// import md5 from 'md5';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
 import { useMeta } from 'vue-meta';
+import { encryptPassword } from '@/utils/encrypt';
 
 export default defineComponent({
   components: {
@@ -202,7 +219,7 @@ export default defineComponent({
 
     const checkConfirmPassword = async (_rule, value) => {
       if (value !== formState.password) {
-        return Promise.reject("Two inputs don't match!");
+        return Promise.reject('Mật khẩu không khớp!');
       } else {
         return Promise.resolve();
       }
@@ -212,7 +229,7 @@ export default defineComponent({
       checkPass: [
         {
           required: true,
-          message: 'Please input password again!',
+          message: 'Vui lòng nhập lại mật khẩu!',
           trigger: ['change', 'blur'],
         },
         {
@@ -234,113 +251,141 @@ export default defineComponent({
       'abcdefghijklmnopqrstuvwxzyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     );
 
+    // const aesjs = require('aes-js');
+    // const pbkdf2 = require('pbkdf2');
+
+    // var textBytes = aesjs.utils.utf8.toBytes('123');
+    // var aesCtr = new aesjs.ModeOfOperation.ctr(
+    //   pbkdf2.pbkdf2Sync('123', 'salt', 1, 256 / 8, 'sha512'),
+    //   new aesjs.Counter(24)
+    // );
+    // var encryptedBytes = aesCtr.encrypt(textBytes);
+    // var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+    // console.log(encryptedHex);
+    // console.log(pbkdf2.pbkdf2Sync('123', 'salt', 1, 256 / 8, 'sha512'));
+
     const handleSubmit = () => {
       loadingSignUp.value = true;
 
-      emailValidation(formState.email).then((response) => {
-        if (response.data.is_smtp_valid.value == true) {
-          signUp({
-            id: Date.now(),
-            username: formState.username,
-            email: formState.email,
-            password: md5(formState.password),
-            full_name: formState.fullname,
-            avatar: `${Math.floor(Math.random() * 10) + 1}`,
-            user_token: randomToken(40),
-          })
-            .then((response) => {
-              if (response?.data?.isSignUp === true) {
-                setTimeout(() => {
-                  loadingSignUp.value = false;
-                  // notification.open({
-                  //   message: 'Thành công!',
-                  //   description:
-                  //     'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
-                  //   icon: () =>
-                  //     h(CheckCircleFilled, {
-                  //       style: 'color: green',
-                  //     }),
-                  // });
+      // emailValidation(formState.email).then((response) => {
+      //   if (response.data.is_smtp_valid.value == true) {
+      signUp({
+        id: Date.now(),
+        username: formState.username,
+        email: formState.email,
+        // password: md5(formState.password),
+        password: encryptPassword(formState.password),
+        full_name: formState.fullname,
+        avatar: `${Math.floor(Math.random() * 10) + 1}`,
+        user_token: randomToken(40),
+      })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data?.isInValidEmail == true) {
+            loadingSignUp.value = false;
 
-                  ElNotification.success({
-                    title: 'Thành công!',
-                    message:
-                      'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
-                    icon: () =>
-                      h(CheckCircleFilled, {
-                        style: 'color: green',
-                      }),
-                  });
-                  router.push({ path: '/login' });
-                }, 1000);
-                reset();
-              } else if (response.data?.isEmailExist == true) {
-                setTimeout(() => {
-                  loadingSignUp.value = false;
-                  // notification.open({
-                  //   message: 'Lỗi!',
-                  //   description: 'Email đã được đăng ký.',
-                  //   icon: () =>
-                  //     h(CheckCircleFilled, {
-                  //       style: 'color: red',
-                  //     }),
-                  // });
-
-                  ElNotification.error({
-                    title: 'Lỗi!',
-                    message: 'Email đã được đăng ký.',
-                    icon: () =>
-                      h(CloseCircleFilled, {
-                        style: 'color: red',
-                      }),
-                  });
-                }, 1000);
-              }
-            })
-            .catch((e) => {
-              setTimeout(() => {
-                loadingSignUp.value = false;
-                // notification.open({
-                //   message: 'Failed!',
-                //   description: 'Some thing went wrong.',
-                //   icon: () =>
-                //     h(CloseCircleFilled, {
-                //       style: 'color: red',
-                //     }),
-                // });
-
-                ElNotification.error({
-                  title: 'Failed!',
-                  message: 'Some thing went wrong.',
-                  icon: () =>
-                    h(CloseCircleFilled, {
-                      style: 'color: red',
-                    }),
-                });
-              }, 1000);
-              if (axios.isCancel(e)) return;
+            ElNotification.error({
+              title: 'Lỗi!',
+              message: 'Email không tồn tại.',
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
             });
-        } else {
-          loadingSignUp.value = false;
-          // notification.open({
-          //   message: 'Lỗi!',
-          //   description: 'Email không tồn tại.',
-          //   icon: () =>
-          //     h(CloseCircleFilled, {
-          //       style: 'color: red',
-          //     }),
-          // });
+          } else if (response?.data?.isSignUp === true) {
+            // setTimeout(() => {
+            loadingSignUp.value = false;
+            // notification.open({
+            //   message: 'Thành công!',
+            //   description:
+            //     'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
+            //   icon: () =>
+            //     h(CheckCircleFilled, {
+            //       style: 'color: green',
+            //     }),
+            // });
 
-          ElNotification.error({
-            title: 'Lỗi!',
-            message: 'Email không tồn tại.',
-            icon: () =>
-              h(CloseCircleFilled, {
-                style: 'color: red',
-              }),
-          });
-        }
-      });
+            ElNotification.success({
+              title: 'Thành công!',
+              message: 'Bạn đã đăng ký thành công tài khoản tại Phimhay247.',
+              icon: () =>
+                h(CheckCircleFilled, {
+                  style: 'color: green',
+                }),
+            });
+            router.push({ path: '/login' });
+            // }, 1000);
+            reset();
+          } else if (response.data?.isEmailExist == true) {
+            // setTimeout(() => {
+            loadingSignUp.value = false;
+            // notification.open({
+            //   message: 'Lỗi!',
+            //   description: 'Email đã được đăng ký.',
+            //   icon: () =>
+            //     h(CheckCircleFilled, {
+            //       style: 'color: red',
+            //     }),
+            // });
+
+            ElNotification.error({
+              title: 'Lỗi!',
+              message: 'Email đã được đăng ký.',
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
+            });
+            // }, 1000);
+          } else {
+            loadingSignUp.value = false;
+
+            ElNotification.error({
+              title: 'Failed!',
+              message: 'Some thing went wrong.',
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
+            });
+          }
+        })
+        .catch((e) => {
+          setTimeout(() => {
+            loadingSignUp.value = false;
+            // notification.open({
+            //   message: 'Failed!',
+            //   description: 'Some thing went wrong.',
+            //   icon: () =>
+            //     h(CloseCircleFilled, {
+            //       style: 'color: red',
+            //     }),
+            // });
+
+            ElNotification.error({
+              title: 'Failed!',
+              message: 'Some thing went wrong.',
+              icon: () =>
+                h(CloseCircleFilled, {
+                  style: 'color: red',
+                }),
+            });
+          }, 1000);
+          if (axios.isCancel(e)) return;
+        });
+      //   } else {
+      //     loadingSignUp.value = false;
+
+      //     ElNotification.error({
+      //       title: 'Lỗi!',
+      //       message: 'Email không tồn tại.',
+      //       icon: () =>
+      //         h(CloseCircleFilled, {
+      //           style: 'color: red',
+      //         }),
+      //     });
+      //   }
+      // });
     };
 
     return {
