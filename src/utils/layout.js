@@ -6,10 +6,6 @@ export function registerGlobalComponent(app) {
     defineAsyncComponent(() => import('../layouts/DefaultLayout.vue'))
   );
   app.component(
-    'admin-layout',
-    defineAsyncComponent(() => import('../layouts/AdminLayout.vue'))
-  );
-  app.component(
     'auth-layout',
     defineAsyncComponent(() => import('../layouts/AuthLayout.vue'))
   );

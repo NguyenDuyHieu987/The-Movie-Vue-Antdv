@@ -1,11 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 // import { getWithExpiry } from '@/untils/LocalStorage';
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 
 const routes = [
-  // =============Normal==============
+  // =============Default==============
   {
     path: '/',
     name: 'home',
@@ -14,9 +13,7 @@ const routes = [
       layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
-      import(
-        /* webpackChunkName: "home" */ '../views/Normal/HomeView/HomeView.vue'
-      ),
+      import(/* webpackChunkName: "home" */ '../views/HomeView/HomeView.vue'),
   },
   {
     path: '/discover/:slug/:slug2',
@@ -26,7 +23,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "discover" */ '../views/Normal/DiscoverMovieView/DiscoverMovieView.vue'
+        /* webpackChunkName: "discover" */ '../views/DiscoverMovieView/DiscoverMovieView.vue'
       ),
   },
   {
@@ -37,7 +34,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "info" */ '../views/Normal/PrevPlayView/PrevPlayView.vue'
+        /* webpackChunkName: "info" */ '../views/PrevPlayView/PrevPlayView.vue'
       ),
   },
   {
@@ -48,7 +45,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "infoTV" */ '../views/Normal/PrevPlayTVView/PrevPlayTVView.vue'
+        /* webpackChunkName: "infoTV" */ '../views/PrevPlayTVView/PrevPlayTVView.vue'
       ),
   },
   {
@@ -58,9 +55,7 @@ const routes = [
       layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
-      import(
-        /* webpackChunkName: "play" */ '../views/Normal/PlayView/PlayView.vue'
-      ),
+      import(/* webpackChunkName: "play" */ '../views/PlayView/PlayView.vue'),
   },
   {
     path: '/play/tv/:id/:name/:tap',
@@ -70,7 +65,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "playTV" */ '../views/Normal/PlayViewTV/PlayViewTV.vue'
+        /* webpackChunkName: "playTV" */ '../views/PlayViewTV/PlayViewTV.vue'
       ),
   },
   {
@@ -82,7 +77,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "follow" */ '../views/Normal/FollowView/FollowView.vue'
+        /* webpackChunkName: "follow" */ '../views/FollowView/FollowView.vue'
       ),
   },
   {
@@ -94,7 +89,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "history" */ '../views/Normal/HistoryView/HistoryView.vue'
+        /* webpackChunkName: "history" */ '../views/HistoryView/HistoryView.vue'
       ),
   },
   {
@@ -105,7 +100,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "ranking" */ '../views/Normal/RankingView/RankingView.vue'
+        /* webpackChunkName: "ranking" */ '../views/RankingView/RankingView.vue'
       ),
   },
   {
@@ -116,7 +111,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "profile" */ '../views/Normal/ProfileView/ProfileView.vue'
+        /* webpackChunkName: "profile" */ '../views/ProfileView/ProfileView.vue'
       ),
   },
   {
@@ -126,9 +121,7 @@ const routes = [
       layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
-      import(
-        /* webpackChunkName: "pricing" */ '../views/Normal/Pricing/Pricing.vue'
-      ),
+      import(/* webpackChunkName: "pricing" */ '../views/Pricing/Pricing.vue'),
   },
   {
     path: '/billing',
@@ -137,102 +130,7 @@ const routes = [
       layout: { name: 'default', component: DefaultLayout },
     },
     component: () =>
-      import(
-        /* webpackChunkName: "billing" */ '../views/Normal/Billing/Billing.vue'
-      ),
-  },
-  // =============Admin==============
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    meta: {
-      layout: { name: 'admin', component: AdminLayout },
-      requiresAdmin: true,
-      requiresAuth: true,
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "dashboard" */ '../views/Admin/DashBoard/DashBoardView.vue'
-      ),
-  },
-  {
-    path: '/dashboard/managefilm/movie',
-    name: 'managemovie',
-    meta: {
-      layout: { name: 'admin', component: AdminLayout },
-      requiresAdmin: true,
-      requiresAuth: true,
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "addmovie" */ '../views/Admin/ManageMovieView/ManageMovieView.vue'
-      ),
-    children: [],
-  },
-  {
-    path: '/dashboard/managefilm/movie/add',
-    name: 'addmovie',
-    meta: {
-      layout: { name: 'admin', component: AdminLayout },
-      requiresAdmin: true,
-      requiresAuth: true,
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "addmovie" */ '../views/Admin/AddMovieView/AddMovieView.vue'
-      ),
-  },
-  {
-    path: '/dashboard/managefilm/movie/:id/edit',
-    name: 'editmovie',
-    meta: {
-      layout: { name: 'admin', component: AdminLayout },
-      requiresAdmin: true,
-      requiresAuth: true,
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "editmovie" */ '../views/Admin/EditMovieView/EditMovieView.vue'
-      ),
-  },
-  {
-    path: '/dashboard/managefilm/tv',
-    name: 'managetv',
-    meta: {
-      layout: { name: 'admin', component: AdminLayout },
-      requiresAdmin: true,
-      requiresAuth: true,
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "addmovie" */ '../views/Admin/ManageTVView/ManageTVView.vue'
-      ),
-  },
-  {
-    path: '/dashboard/managefilm/tv/add',
-    name: 'addtv',
-    meta: {
-      layout: { name: 'admin', component: AdminLayout },
-      requiresAdmin: true,
-      requiresAuth: true,
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "addmovie" */ '../views/Admin/AddTvView/AddTvView.vue'
-      ),
-  },
-  {
-    path: '/dashboard/managefilm/tv/:id/edit',
-    name: 'edittv',
-    meta: {
-      layout: { name: 'admin', component: AdminLayout },
-      requiresAdmin: true,
-      requiresAuth: true,
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "editmovie" */ '../views/Admin/EditTvView/EditTvView.vue'
-      ),
+      import(/* webpackChunkName: "billing" */ '../views/Billing/Billing.vue'),
   },
   // =============Auth==============
   {
@@ -243,7 +141,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "login" */ '../views/Normal/LoginView/LoginView.vue'
+        /* webpackChunkName: "login" */ '../views/LoginView/LoginView.vue'
       ),
   },
   {
@@ -254,7 +152,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "signup" */ '../views/Normal/SignupView/SignupView.vue'
+        /* webpackChunkName: "signup" */ '../views/SignupView/SignupView.vue'
       ),
   },
   {
@@ -266,7 +164,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "NotFound" */ '../views/Normal/Error404View/Error404View.vue'
+        /* webpackChunkName: "NotFound" */ '../views/Error404View/Error404View.vue'
       ),
   },
   {

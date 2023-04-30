@@ -7,15 +7,7 @@
     </metainfo>
     <vue-progress-bar />
 
-    <div v-if="loadingDashBoard" class="loading-page">
-      <div class="loading-page-container">
-        <img src="/images/logo.png" alt="" />
-        <h3>Đang tải bảng điều khiển...</h3>
-        <spring-spinner :animation-duration="3000" :size="30" color="#e82b00" />
-      </div>
-    </div>
-
-    <div v-else-if="loadingHomePage" class="loading-page">
+    <div v-if="loadingHomePage" class="loading-page">
       <div class="loading-page-container">
         <img src="/images/logo.png" alt="" />
         <div class="logo"><h2>Phimhay247</h2></div>
@@ -54,7 +46,6 @@ export default {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const loadingDashBoard = ref(false);
     const loadingHomePage = ref(false);
 
     const layout = computed(() => (route.meta.layout || 'loading') + '-layout');
@@ -121,30 +112,6 @@ export default {
                 onCancel() {},
               });
             }
-          } else {
-            if (to.matched.some((record) => record.meta.requiresAdmin)) {
-              if (to.matched.some((record) => record.name == 'dashboard')) {
-                loadingDashBoard.value = true;
-                setTimeout(() => {
-                  loadingDashBoard.value = false;
-                }, 1000);
-              }
-              getUserToken({
-                user_token: getWithExpiry('userAccount')?.user_token,
-              })
-                .then((accountResponse) => {
-                  if (accountResponse.data.result.role == 'admin') {
-                    next();
-                  } else {
-                    next({ path: '/404' });
-                  }
-                })
-                .catch((e) => {
-                  if (axios.isCancel(e)) return;
-                });
-            } else {
-              next();
-            }
           }
         } else {
           if (to.matched.some((record) => record.name == 'home')) {
@@ -174,7 +141,6 @@ export default {
 
     return {
       layout,
-      loadingDashBoard,
       loadingHomePage,
     };
   },

@@ -30,12 +30,12 @@
 
 <script>
 import { ref } from 'vue';
-import Header from '@/components/Normal/Header/Header.vue';
-import Drawer from '@/components/Normal/Drawer/Drawer.vue';
-import Sider from '@/components/Normal/Sider/Sider.vue';
+import Header from '@/components/Header/Header.vue';
+import Drawer from '@/components/Drawer/Drawer.vue';
+import Sider from '@/components/Sider/Sider.vue';
 // import Content from '@/components/Content.vue';
-import Footer from '@/components/Normal/Footer/Footer.vue';
-import BreadCrumb from '@/components/Normal/BreadCrumb/BreadCrumb.vue';
+import Footer from '@/components/Footer/Footer.vue';
+import BreadCrumb from '@/components/BreadCrumb/BreadCrumb.vue';
 
 export default {
   components: {
