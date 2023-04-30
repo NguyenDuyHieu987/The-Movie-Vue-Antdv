@@ -178,9 +178,12 @@
                   key="dashboard"
                   v-if="$store.state?.isLogin && $store.state?.role == 'admin'"
                 >
-                  <router-link :to="{ path: '/dashboard' }"
+                  <!-- <router-link :to="{ path: '/dashboard' }"
                     >Bảng điều khiển
-                  </router-link>
+                  </router-link> -->
+                  <a href="https://dashboard.phimhay247.site/" target="_blank">
+                    Bảng điều khiển
+                  </a>
                 </a-menu-item>
                 <a-menu-item key="pricing" v-if="$store.state?.isLogin">
                   <router-link :to="{ path: '/billing' }">Billing</router-link>
