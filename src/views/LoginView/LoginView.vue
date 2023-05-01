@@ -3,7 +3,7 @@
     <div class="login-form-container">
       <a-form
         :model="formState"
-        name="normal_login"
+        name="login-form"
         class="login-form"
         @finish="onFinish"
         @finishFailed="onFinishFailed"
@@ -233,20 +233,7 @@ export default defineComponent({
         user_token: randomToken(40),
       })
         .then((response) => {
-          if (response.data?.isNotExist == true) {
-            setTimeout(() => {
-              loadingLogin.value = false;
-
-              ElNotification.error({
-                title: 'Lỗi!',
-                message: 'Tài khoản không tồi tại.',
-                icon: () =>
-                  h(CloseCircleFilled, {
-                    style: 'color: red',
-                  }),
-              });
-            }, 1000);
-          } else if (response.data?.isLogin == true) {
+          if (response.data?.isLogin == true) {
             store.state.userAccount = response?.data?.result;
 
             // window.localStorage.setItem('remember', formState.remember);
@@ -290,6 +277,19 @@ export default defineComponent({
             // }
 
             reset();
+          } else if (response.data?.isNotExist == true) {
+            setTimeout(() => {
+              loadingLogin.value = false;
+
+              ElNotification.error({
+                title: 'Lỗi!',
+                message: 'Tài khoản không tồi tại.',
+                icon: () =>
+                  h(CloseCircleFilled, {
+                    style: 'color: red',
+                  }),
+              });
+            }, 1000);
           } else if (response.data?.isWrongPassword == true) {
             setTimeout(() => {
               loadingLogin.value = false;

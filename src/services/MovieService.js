@@ -78,7 +78,7 @@ const getUserToken = async (params) => {
   );
 };
 
-const signUp = async (params) => {
+const verifyEmail = async (params) => {
   const bodyFormData = new FormData();
   bodyFormData.append('id', params.id);
   bodyFormData.append('username', params.username);
@@ -88,7 +88,35 @@ const signUp = async (params) => {
   bodyFormData.append('avatar', params.avatar);
   // bodyFormData.append('user_token', params.user_token);
 
-  return await axios.post(`${URL_API}/auth/signup?api=hieu987`, bodyFormData);
+  return await axios.post(
+    `${URL_API}/auth/verify/email?api=hieu987`,
+    bodyFormData
+  );
+};
+
+// const signUp = async (params) => {
+//   const bodyFormData = new FormData();
+//   bodyFormData.append('id', params.id);
+//   bodyFormData.append('username', params.username);
+//   bodyFormData.append('email', params.email);
+//   bodyFormData.append('password', params.password);
+//   bodyFormData.append('full_name', params.full_name);
+//   bodyFormData.append('avatar', params.avatar);
+//   // bodyFormData.append('user_token', params.user_token);
+
+//   return await axios.post(`${URL_API}/auth/signup?api=hieu987`, bodyFormData);
+// };
+
+const signUp = async (params) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('otp', params.otp);
+
+  // bodyFormData.append('user_token', params.user_token);
+  const headers = { Authorization: `Bearer ${params.user_token}` };
+
+  return await axios.post(`${URL_API}/auth/signup?api=hieu987`, bodyFormData, {
+    headers: headers,
+  });
 };
 
 const getTrending = async (page) =>
@@ -536,6 +564,7 @@ export {
   ratingMovie,
   ratingTV,
   signUp,
+  verifyEmail,
   signIn,
   loginFacebook,
   loginGoogle,
