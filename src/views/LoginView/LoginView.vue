@@ -101,8 +101,8 @@
               <font-awesome-icon icon="fa-brands fa-facebook-f" />
             </el-icon>
             <!-- <template #icon>
-                <font-awesome-icon icon="fa-brands fa-facebook-f" />
-              </template> -->
+                  <font-awesome-icon icon="fa-brands fa-facebook-f" />
+                </template> -->
             <span>Đăng nhập bằng Facebook</span>
           </el-button>
 
@@ -114,8 +114,8 @@
             @click="handleGoogleLogin1"
           >
             <!-- <template #icon>
-                <img src="/images/socials/icons8-google-48.png" alt="" />
-              </template> -->
+                  <img src="/images/socials/icons8-google-48.png" alt="" />
+                </template> -->
             <el-icon class="el-icon--right">
               <img src="/images/socials/icons8-google-48.png" alt="" />
             </el-icon>
@@ -123,22 +123,22 @@
           </el-button>
 
           <!-- <el-button
-            class="google-login-btn"
-            id="google-login-btn1"
-            size="large"
-            :loading="loadingGoogleLogin"
-          >
-            <el-icon class="el-icon--right">
-              <img src="/images/socials/icons8-google-48.png" alt="" />
-            </el-icon>
-            <span>Đăng nhập bằng Google</span>
-          </el-button> -->
+              class="google-login-btn"
+              id="google-login-btn1"
+              size="large"
+              :loading="loadingGoogleLogin"
+            >
+              <el-icon class="el-icon--right">
+                <img src="/images/socials/icons8-google-48.png" alt="" />
+              </el-icon>
+              <span>Đăng nhập bằng Google</span>
+            </el-button> -->
 
           <!-- <GoogleLogin
-            :callback="handleGoogleLogin"
-            prompt
-            class="google-login-btn"
-          /> -->
+              :callback="handleGoogleLogin"
+              prompt
+              class="google-login-btn"
+            /> -->
         </div>
       </a-form>
     </div>
@@ -242,11 +242,17 @@ export default defineComponent({
               store.state.userAccount = response?.data?.result;
               store.state.isLogin = true;
 
-              window.localStorage.setItem(
+              // window.localStorage.setItem(
+              //   'userAccount',
+              //   JSON.stringify({
+              //     value: { user_token: response.headers.get('Authorization') },
+              //   })
+              // );
+
+              setWithExpiry(
                 'userAccount',
-                JSON.stringify({
-                  value: { user_token: response.headers.get('Authorization') },
-                })
+                { user_token: response.headers.get('Authorization') },
+                30
               );
             } else {
               store.state.userAccount = response?.data?.result;

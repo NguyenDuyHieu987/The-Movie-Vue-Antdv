@@ -40,11 +40,12 @@
 .signup-container {
   max-height: 100vh;
   width: 100vw;
-  // overflow-y: scroll;
+  overflow-y: scroll;
+  padding: 20px 0px;
 
   .verify-form-container {
     position: relative;
-    margin: 20px auto;
+    margin: auto auto;
     background-color: transparent;
     align-items: center;
     justify-content: center;
@@ -154,7 +155,7 @@
 
   .signup-form-container {
     position: relative;
-    margin: 20px auto;
+    margin: auto auto;
     background-color: transparent;
     align-items: center;
     justify-content: center;
