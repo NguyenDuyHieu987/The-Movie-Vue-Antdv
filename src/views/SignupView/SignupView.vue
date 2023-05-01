@@ -358,6 +358,8 @@ export default defineComponent({
       formState.password = '';
       formState.checkPass = '';
       formState.email = '';
+      formStateVerify.email = '';
+      formStateVerify.otp = '';
     };
 
     useMeta({
