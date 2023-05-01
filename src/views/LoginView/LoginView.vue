@@ -565,7 +565,7 @@ export default defineComponent({
         },
       });
 
-      google.accounts.id.prompt();
+      // google.accounts.id.prompt();
     });
 
     const handleGoogleLogin1 = () => {
