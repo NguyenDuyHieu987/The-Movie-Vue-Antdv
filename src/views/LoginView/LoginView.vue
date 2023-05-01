@@ -234,14 +234,13 @@ export default defineComponent({
       })
         .then((response) => {
           if (response.data?.isLogin == true) {
+            store.state.isLogin = true;
             store.state.userAccount = response?.data?.result;
+            store.state.role = response?.data?.result?.role;
 
             // window.localStorage.setItem('remember', formState.remember);
 
             if (formState.remember) {
-              store.state.userAccount = response?.data?.result;
-              store.state.isLogin = true;
-
               // window.localStorage.setItem(
               //   'userAccount',
               //   JSON.stringify({
@@ -255,9 +254,6 @@ export default defineComponent({
                 30
               );
             } else {
-              store.state.userAccount = response?.data?.result;
-              store.state.isLogin = true;
-
               // setWithExpiry('isLogin', true, 30);
               setWithExpiry(
                 'userAccount',
@@ -265,16 +261,6 @@ export default defineComponent({
                 30
               );
             }
-
-            // if (response?.data?.result?.role == 'admin') {
-            //   store.state.role = response?.data?.result?.role;
-
-            //   setTimeout(() => {
-            //     loadingLogin.value = false;
-            //     router.push({ path: '/dashboard' });
-            //   }, 1000);
-            // } else if (response?.data?.result?.role == 'normal') {
-            store.state.role = response?.data?.result?.role;
 
             setTimeout(() => {
               loadingLogin.value = false;
