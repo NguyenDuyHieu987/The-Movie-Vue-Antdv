@@ -18,7 +18,7 @@ const store = createStore({
       collapsed: false,
       openDrawer: false,
       modalVisible: false,
-      isLogin: getWithExpiry('userAccount') || false,
+      isLogin: getWithExpiry('userAccount') ? true : false,
       breadCrumbValue: '',
       role: 'normal',
       loadingHomePage: false,

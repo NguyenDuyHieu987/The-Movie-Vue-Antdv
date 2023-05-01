@@ -61,6 +61,7 @@ export default {
           .then((accountResponse) => {
             // console.log(accountResponse.data?.result);
             if (accountResponse.data?.isLogin == true) {
+              store.state.isLogin = true;
               store.state.userAccount = accountResponse.data?.result;
               store.state.role = accountResponse?.data?.result?.role;
             } else {
@@ -91,52 +92,54 @@ export default {
         // }
         // console.log(router);
       }
+    });
 
-      router.beforeResolve((to, from, next) => {
-        if (to.matched.some((record) => record.meta.requiresAuth)) {
-          if (!store.state.isLogin) {
-            if (to.matched.some((record) => record.meta.requiresAdmin)) {
-              next({ path: '/404' });
-            } else {
-              Modal.confirm({
-                title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
-                icon: createVNode(QuestionCircleOutlined),
-                content: createVNode('h3', {}, 'Đăng nhập ngay?'),
-                okText: 'Có',
-                okType: 'primary',
-                cancelText: 'Không',
-                centered: true,
-                onOk() {
-                  next({ path: '/login' });
-                },
-                onCancel() {},
-              });
-            }
+    router.beforeResolve((to, from, next) => {
+      if (to.matched.some((record) => record.meta.requiresAuth)) {
+        if (!store.state.isLogin) {
+          if (to.matched.some((record) => record.meta.requiresAdmin)) {
+            next({ path: '/404' });
+          } else {
+            Modal.confirm({
+              title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
+              icon: createVNode(QuestionCircleOutlined),
+              content: createVNode('h3', {}, 'Đăng nhập ngay?'),
+              okText: 'Có',
+              okType: 'primary',
+              cancelText: 'Không',
+              centered: true,
+              onOk() {
+                next({ path: '/login' });
+              },
+              onCancel() {},
+            });
           }
         } else {
-          if (to.matched.some((record) => record.name == 'home')) {
-            if (store.state.loadingHomePage == true) {
-              next();
-            } else {
-              new Promise((resolve) => {
-                loadingHomePage.value = true;
-
-                resolve(
-                  store.dispatch('getDataHomePage'),
-                  store.dispatch('getDataMisc')
-                );
-              }).then(() => {
-                setTimeout(() => {
-                  loadingHomePage.value = false;
-                  next();
-                }, 2000);
-              });
-            }
-          } else {
-            next();
-          }
+          next();
         }
-      });
+      } else {
+        if (to.matched.some((record) => record.name == 'home')) {
+          if (store.state.loadingHomePage == true) {
+            next();
+          } else {
+            new Promise((resolve) => {
+              loadingHomePage.value = true;
+
+              resolve(
+                store.dispatch('getDataHomePage'),
+                store.dispatch('getDataMisc')
+              );
+            }).then(() => {
+              setTimeout(() => {
+                loadingHomePage.value = false;
+                next();
+              }, 2000);
+            });
+          }
+        } else {
+          next();
+        }
+      }
     });
 
     return {
