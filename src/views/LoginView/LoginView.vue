@@ -219,9 +219,9 @@ export default defineComponent({
     //   return rand() + rand() + rand() + rand(); // to make it longer
     // };
 
-    const randomToken = require('random-token').create(
-      'abcdefghijklmnopqrstuvwxzyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    );
+    // const randomToken = require('random-token').create(
+    //   'abcdefghijklmnopqrstuvwxzyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    // );
 
     const handleSubmit = () => {
       loadingLogin.value = true;
@@ -230,7 +230,7 @@ export default defineComponent({
         email: formState.username,
         password: encryptPassword(formState.password),
         // password: md5(formState.password),
-        user_token: randomToken(40),
+        // user_token: randomToken(40),
       })
         .then((response) => {
           if (response.data?.isLogin == true) {
