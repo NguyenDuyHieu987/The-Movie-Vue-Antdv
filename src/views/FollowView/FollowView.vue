@@ -347,16 +347,7 @@
       </a-layout>
     </div>
 
-    <a-result v-else title="Bạn cần đăng nhập để sử dụng chức năng này">
-      <template #extra>
-        <a-button
-          key="console"
-          size="large"
-          @click="$router.push({ path: '/login' })"
-          >Đăng nhập ngay
-        </a-button>
-      </template>
-    </a-result>
+    <RequireAuth v-else />
   </div>
 </template>
 
@@ -374,6 +365,7 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import MovieCardHorizontalFollow from '@/components/MovieCardHorizontalFollow/MovieCardHorizontalFollow.vue';
+import RequireAuth from '@/components/RequireAuth/RequireAuth.vue';
 import {
   getList,
   getBackdrop,
@@ -398,6 +390,7 @@ export default {
     MovieCardHorizontalFollow,
     //  InfoCircleOutlined
     // VueDataLoading,
+    RequireAuth,
   },
   setup() {
     const route = useRoute();
