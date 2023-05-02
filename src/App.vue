@@ -28,7 +28,13 @@
 </template>
 
 <script>
-import { computed, onBeforeMount, h, createVNode, ref } from 'vue';
+import {
+  computed,
+  onBeforeMount,
+  h,
+  // createVNode,
+  ref,
+} from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
@@ -36,8 +42,8 @@ import { CloseCircleFilled } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
 import { getUserToken } from '@/services/MovieService';
 import { getWithExpiry } from '@/utils/LocalStorage';
-import { Modal } from 'ant-design-vue';
-import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+// import { Modal } from 'ant-design-vue';
+// import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { SpringSpinner } from 'epic-spinners';
 
 export default {
@@ -95,29 +101,31 @@ export default {
     });
 
     router.beforeResolve((to, from, next) => {
-      if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (!store.state.isLogin) {
-          if (to.matched.some((record) => record.meta.requiresAdmin)) {
-            next({ path: '/404' });
-          } else {
-            Modal.confirm({
-              title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
-              icon: createVNode(QuestionCircleOutlined),
-              content: createVNode('h3', {}, 'Đăng nhập ngay?'),
-              okText: 'Có',
-              okType: 'primary',
-              cancelText: 'Không',
-              centered: true,
-              onOk() {
-                next({ path: '/login' });
-              },
-              onCancel() {},
-            });
-          }
-        } else {
-          next();
-        }
-      } else {
+      // if (to.matched.some((record) => record.meta.requiresAuth)) {
+      //   if (!store.state.isLogin) {
+      //     if (to.matched.some((record) => record.meta.requiresAdmin)) {
+      //       next({ path: '/404' });
+      //     } else {
+      //       Modal.confirm({
+      //         title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
+      //         icon: createVNode(QuestionCircleOutlined),
+      //         content: createVNode('h3', {}, 'Đăng nhập ngay?'),
+      //         okText: 'Có',
+      //         okType: 'primary',
+      //         cancelText: 'Không',
+      //         centered: true,
+      //         onOk() {
+      //           next({ path: '/login' });
+      //         },
+      //         onCancel() {},
+      //       });
+      //     }
+      //   } else {
+      //     next();
+      //   }
+      // } else
+
+      if (to.matched.some((record) => !record.meta.requiresAuth)) {
         if (to.matched.some((record) => record.name == 'home')) {
           if (store.state.loadingHomePage == true) {
             next();

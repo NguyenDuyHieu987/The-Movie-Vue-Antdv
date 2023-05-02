@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 // import { getWithExpiry } from '@/untils/LocalStorage';
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
+import requireAuth from '@/middleware/requireAuth';
+// import store from '@/store';
 
 const routes = [
   // =============Default==============
@@ -79,6 +81,9 @@ const routes = [
       import(
         /* webpackChunkName: "follow" */ '../views/FollowView/FollowView.vue'
       ),
+    beforeEnter: (to, from, next) => {
+      requireAuth(to, from, next);
+    },
   },
   {
     path: '/history',
@@ -91,6 +96,9 @@ const routes = [
       import(
         /* webpackChunkName: "history" */ '../views/HistoryView/HistoryView.vue'
       ),
+    beforeEnter: (to, from, next) => {
+      requireAuth(to, from, next);
+    },
   },
   {
     path: '/ranking',
@@ -179,15 +187,23 @@ const router = createRouter({
 });
 
 // router.beforeEach((to, from, next) => {
-//   if (to.matched.some((record) => record.meta.requiresAdmin)) {
-//     if (getWithExpiry('userAccount') != null) {
-//       if (getWithExpiry('userAccount')?.role == 'admin') {
-//         next();
-//       } else {
-//         next({ path: '/404' });
-//       }
+//   if (to.matched.some((record) => record.name == 'home')) {
+//     if (store.state.loadingHomePage == true) {
+//       next();
 //     } else {
-//       next({ path: '/404' });
+//       new Promise((resolve) => {
+//         // loadingHomePage.value = true;
+
+//         resolve(
+//           store.dispatch('getDataHomePage'),
+//           store.dispatch('getDataMisc')
+//         );
+//       }).then(() => {
+//         setTimeout(() => {
+//           // loadingHomePage.value = false;
+//           next();
+//         }, 2000);
+//       });
 //     }
 //   } else {
 //     next();

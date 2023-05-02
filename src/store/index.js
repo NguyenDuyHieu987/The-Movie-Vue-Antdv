@@ -80,11 +80,13 @@ const store = createStore({
           commit('setUpComing', response[1].data?.results);
           commit('setTvAiringToday', response[2].data?.results);
           commit('setTopRated', response[3].data?.results);
-          commit('setRecommend', response[4].data?.results);
+          if (state?.isLogin) {
+            commit('setRecommend', response[4].data?.results);
+          }
           state.loadingHomePage = true;
         })
         .catch((e) => {
-          state.loadingHomePage = false;
+          // state.loadingHomePage = false;
           if (axios.isCancel(e)) return;
         });
     },
@@ -102,10 +104,10 @@ const store = createStore({
             })
           );
           commit('setCountries', response[2].data);
-          state.loadingMisc = false;
+          state.loadingMisc = true;
         })
         .catch((e) => {
-          state.loadingMisc = false;
+          // state.loadingMisc = false;
           if (axios.isCancel(e)) return;
         });
     },
