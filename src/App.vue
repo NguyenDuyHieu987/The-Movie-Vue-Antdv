@@ -125,28 +125,26 @@ export default {
       //   }
       // } else
 
-      if (to.matched.some((record) => !record.meta.requiresAuth)) {
-        if (to.matched.some((record) => record.name == 'home')) {
-          if (store.state.loadingHomePage == true) {
-            next();
-          } else {
-            new Promise((resolve) => {
-              loadingHomePage.value = true;
-
-              resolve(
-                store.dispatch('getDataHomePage'),
-                store.dispatch('getDataMisc')
-              );
-            }).then(() => {
-              setTimeout(() => {
-                loadingHomePage.value = false;
-                next();
-              }, 2000);
-            });
-          }
-        } else {
+      if (to.matched.some((record) => record.name == 'home')) {
+        if (store.state.loadingHomePage == true) {
           next();
+        } else {
+          new Promise((resolve) => {
+            loadingHomePage.value = true;
+
+            resolve(
+              store.dispatch('getDataHomePage'),
+              store.dispatch('getDataMisc')
+            );
+          }).then(() => {
+            setTimeout(() => {
+              loadingHomePage.value = false;
+              next();
+            }, 2000);
+          });
         }
+      } else {
+        next();
       }
     });
 

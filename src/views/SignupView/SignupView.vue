@@ -265,11 +265,11 @@ import {
   //  emailValidation
 } from '@/services/MovieService';
 // import md5 from 'md5';
+import { encryptPassword } from '@/utils/encrypt';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
 import { useMeta } from 'vue-meta';
-import { encryptPassword } from '@/utils/encrypt';
 
 export default defineComponent({
   components: {

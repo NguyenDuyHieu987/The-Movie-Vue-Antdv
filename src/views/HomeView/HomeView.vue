@@ -334,7 +334,9 @@ export default {
             upComings.value = response[1].data?.results;
             tvAiringTodays.value = response[2]?.data.results;
             topRateds.value = response[3].data?.results;
-            recommends.value = response[4].data?.results;
+            if (store.state?.isLogin) {
+              recommends.value = response[4].data?.results;
+            }
           })
           .catch((e) => {
             if (axios.isCancel(e)) return;
