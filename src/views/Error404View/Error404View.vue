@@ -1,9 +1,6 @@
 <template>
-  <a-result
-    status="500"
-    title="404 Not Found"
-    sub-title="Ops!, Không thể tìm thấy trang này."
-  >
+  <a-result status="500" title="404 Not Found">
+    <template #subTitle> <h3>Ops!, Không thể tìm thấy trang này.</h3></template>
     <template #extra>
       <a-button size="large" @click="$router.push({ path: '/' })"
         >Quay về trang chủ

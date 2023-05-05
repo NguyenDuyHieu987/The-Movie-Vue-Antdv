@@ -1,21 +1,4 @@
 <template>
-  <!-- <a-drawer
-    placement="left"
-    :visible="$store.state.openDrawer"
-    @close="onClose"
-    :width="250"
-    :closable="true"
-  >
-    <template #extra>
-      <div class="logo">
-        <router-link :to="{ path: '/' }">
-          <h1>Phimhay247</h1>
-        </router-link>
-      </div>
-    </template>
-    <TheMenu />
-  </a-drawer> -->
-
   <el-drawer
     v-if="openDrawer"
     v-model="$store.state.openDrawer"
