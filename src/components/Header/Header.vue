@@ -181,9 +181,12 @@
                   <!-- <router-link :to="{ path: '/dashboard' }"
                     >Bảng điều khiển
                   </router-link> -->
-                  <a href="https://dashboard.phimhay247.site/" target="_blank">
+                  <router-link
+                    to="https://dashboard.phimhay247.site/"
+                    target="_blank"
+                  >
                     Bảng điều khiển
-                  </a>
+                  </router-link>
                 </a-menu-item>
                 <a-menu-item key="pricing" v-if="$store.state?.isLogin">
                   <router-link :to="{ path: '/billing' }">Billing</router-link>

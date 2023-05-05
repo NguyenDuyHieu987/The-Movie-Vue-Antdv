@@ -8,26 +8,11 @@
   >
     <a-layout-header class="sider-header">
       <div style="display: flex; justify-content: center; align-items: center">
-        <!-- <a-skeleton
-          :paragraph="{ rows: 1 }"
-          :active="true"
-          :title="false"
-          :loading="$store.state.userAccount?.username == undefined"
-        > -->
-
         <div
           class="user-image-container"
           v-if="!$store.state.collapsed && $store.state.isLogin"
         >
-          <a-skeleton-avatar
-            v-if="!$store.state?.isLogin"
-            :loading="$store.state?.isLogin"
-            :active="true"
-            size="large"
-            shape="circle"
-          />
           <img
-            v-else
             class="avatar"
             :src="
               !isNaN(+$store.state?.userAccount?.avatar)
@@ -37,12 +22,7 @@
           />
         </div>
 
-        <a-skeleton
-          :loading="!$store.state?.isLogin"
-          :active="true"
-          :paragraph="{ rows: 1 }"
-          :title="false"
-        >
+        <div v-if="$store.state.isLogin">
           <h4 style="color: #fff" v-if="!$store.state.collapsed">
             {{ $store.state?.userAccount?.username }}
           </h4>
@@ -62,7 +42,7 @@
             </a-avatar>
             <!-- </div> -->
           </a-tooltip>
-        </a-skeleton>
+        </div>
 
         <!-- </a-skeleton> -->
       </div>
