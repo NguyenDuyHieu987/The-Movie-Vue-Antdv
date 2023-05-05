@@ -123,18 +123,14 @@ export default {
 
     watch(props, () => {});
 
-    getSimilar(props?.type, props?.movieId)
-      .then((movieResponed) => {
-        dataSimilar.value = movieResponed?.data?.results;
-      })
-      .catch((e) => {
-        if (axios.isCancel(e)) return;
-      });
-
     onBeforeMount(() => {
-      getTrending(Math.floor(Math.random() * 50) + 1)
-        .then((movieResponed) => {
-          dataRecommend.value = movieResponed?.data?.results;
+      Promise.all([
+        getSimilar(props?.type, props?.movieId),
+        getTrending(Math.floor(Math.random() * 50) + 1),
+      ])
+        .then((response) => {
+          dataSimilar.value = response[0]?.data?.results;
+          dataRecommend.value = response[1]?.data?.results;
         })
         .catch((e) => {
           if (axios.isCancel(e)) return;

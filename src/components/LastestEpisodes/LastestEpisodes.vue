@@ -117,7 +117,7 @@
 
 <script>
 import { onBeforeMount, ref } from 'vue';
-import { getMoviesBySeason } from '@/services/MovieService';
+import { getSeasonTV } from '@/services/MovieService';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
@@ -135,7 +135,7 @@ export default {
 
     onBeforeMount(() => {
       loadingLastestEpisodes.value = true;
-      getMoviesBySeason(
+      getSeasonTV(
         route.params?.id,
         props.dataMovie?.last_episode_to_air?.season_number
       )

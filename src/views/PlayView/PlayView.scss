@@ -160,6 +160,10 @@
       border: none;
       height: 34px;
 
+      .material-icons-outlined {
+        margin-right: 3px;
+      }
+
       &:hover {
         background-color: #006999bb;
       }

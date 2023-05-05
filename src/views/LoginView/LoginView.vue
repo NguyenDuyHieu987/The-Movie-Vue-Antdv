@@ -163,7 +163,7 @@ import { setWithExpiry } from '@/utils/LocalStorage';
 import { ElNotification } from 'element-plus';
 // import { notification } from 'ant-design-vue';
 import { useMeta } from 'vue-meta';
-import { accountService } from '@/utils/accountService';
+// import { accountService } from '@/utils/accountService';
 import { encryptPassword } from '@/utils/encrypt';
 
 export default defineComponent({
@@ -230,7 +230,6 @@ export default defineComponent({
         email: formState.username,
         password: encryptPassword(formState.password),
         // password: md5(formState.password),
-        // user_token: randomToken(40),
       })
         .then((response) => {
           if (response.data?.isLogin == true) {
@@ -327,20 +326,15 @@ export default defineComponent({
 
       if (!authResponse) return;
 
-      const profileUser = await accountService.apiAuthenticate(
-        authResponse.accessToken
-      );
+      // const profileUser = await accountService.apiAuthenticate(
+      //   authResponse.accessToken
+      // );
 
       // console.log(profileUser);
 
       loadingFacebookLogin.value = true;
 
       loginFacebook({
-        id: profileUser.id,
-        full_name: profileUser.name,
-        email: profileUser?.email ? profileUser?.email : '',
-        user_token: authResponse.accessToken,
-        avatar: profileUser.picture.data.url,
         accessToken: authResponse.accessToken,
       })
         .then((response) => {

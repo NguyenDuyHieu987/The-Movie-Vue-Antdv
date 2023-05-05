@@ -34,12 +34,7 @@ const signIn = async (params) => {
 
 const loginFacebook = async (params) => {
   const bodyFormData = new FormData();
-  // bodyFormData.append('id', params.id);
-  // bodyFormData.append('username', params.full_name);
-  // bodyFormData.append('full_name', params.full_name);
-  // // bodyFormData.append('user_token', params.user_token);
-  // bodyFormData.append('email', params.email);
-  // bodyFormData.append('avatar', params.avatar);
+
   const headers = { Authorization: `Bearer ${params.accessToken}` };
 
   return await axios.post(
@@ -303,7 +298,7 @@ const getTvById = async (movieid, append_to_response = '') =>
 const UpdateViewTV = async (movieId) =>
   await axios.post(`${URL_API}/tv/updateview/${movieId}?api=hieu987`);
 
-const getMoviesBySeason = async (movieid, season) =>
+const getSeasonTV = async (movieid, season) =>
   await axios.get(`${URL_API}/tv/${movieid}/season/${season}?api=hieu987`);
 
 const addItemList = async (userID, params) => {
@@ -548,7 +543,7 @@ export {
   getTv,
   getTvById,
   UpdateViewTV,
-  getMoviesBySeason,
+  getSeasonTV,
   getAllSortBy,
   getAllGenre,
   getAllNational,

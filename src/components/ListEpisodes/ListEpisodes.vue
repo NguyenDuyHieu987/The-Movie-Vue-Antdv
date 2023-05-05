@@ -123,7 +123,7 @@
 <script>
 import { onBeforeMount, ref, watch, computed } from 'vue';
 import axios from 'axios';
-import { getMoviesBySeason } from '@/services/MovieService';
+import { getSeasonTV } from '@/services/MovieService';
 import { useRoute, useRouter } from 'vue-router';
 
 export default {
@@ -154,7 +154,7 @@ export default {
     onBeforeMount(() => {
       loading.value = true;
 
-      getMoviesBySeason(route.params?.id, selectedSeason.value)
+      getSeasonTV(route.params?.id, selectedSeason.value)
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
           emitUrlCode(dataSeason.value);
@@ -177,7 +177,7 @@ export default {
       loading.value = true;
       router.push({ params: { tap: 'tap-1' } });
 
-      getMoviesBySeason(route.params?.id, selectedSeason.value)
+      getSeasonTV(route.params?.id, selectedSeason.value)
         .then((episodesRespones) => {
           dataSeason.value = episodesRespones?.data;
 
