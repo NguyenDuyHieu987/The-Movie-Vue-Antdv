@@ -222,6 +222,7 @@
     border: none;
     padding: 10px 20px;
     font-size: 1.45rem;
+    max-height: 42px;
 
     &.remove-history {
       color: #b90016;
@@ -241,13 +242,13 @@
       margin-right: 19.5px;
     }
 
-    .icones.play {
+    svg.icones.play {
       margin-left: -7px;
       margin-right: 13px;
       width: 2.6rem;
     }
 
-    .icones.share {
+    svg.icones.share {
       margin-right: 16px;
       width: 1.8rem;
     }
