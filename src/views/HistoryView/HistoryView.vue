@@ -151,14 +151,7 @@
                   @change="searchWatchList"
                 >
                   <template #prefix>
-                    <!-- <el-tooltip
-                      title="Tìm kiếm"
-                      content="Tìm kiếm"
-                      effect="dark"
-                      placement="top"
-                    > -->
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                    <!-- </el-tooltip> -->
                   </template>
                 </a-input>
               </div>
@@ -290,14 +283,7 @@
                   @change="searchWatchList"
                 >
                   <template #prefix>
-                    <!-- <el-tooltip
-                      title="Tìm kiếm"
-                      content="Tìm kiếm"
-                      effect="dark"
-                      placement="top"
-                    > -->
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                    <!-- </el-tooltip> -->
                   </template>
                 </a-input>
 

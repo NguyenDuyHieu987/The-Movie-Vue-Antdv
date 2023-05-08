@@ -130,7 +130,7 @@
       <div class="bottom-content">
         <div class="widget">
           <div class="left">
-            <el-tooltip content="Xem ngay" placement="top">
+            <el-tooltip :teleported="false" content="Xem ngay" placement="top">
               <router-link
                 v-if="isEpisodes"
                 :to="{
@@ -191,6 +191,7 @@
             </el-tooltip>
 
             <el-tooltip
+              :teleported="false"
               :content="
                 !isAddToList ? 'Thêm vào danh sách' : 'Xóa khỏi danh sách'
               "
@@ -211,7 +212,7 @@
               </a-button>
             </el-tooltip>
 
-            <el-tooltip content="Chia sẻ" placement="top">
+            <el-tooltip :teleported="false" content="Chia sẻ" placement="top">
               <ShareNetwork
                 network="facebook"
                 :url="urlShare"
@@ -229,7 +230,11 @@
           </div>
 
           <div class="right">
-            <el-tooltip content="Chi tiết phim" placement="top">
+            <el-tooltip
+              :teleported="false"
+              content="Chi tiết phim"
+              placement="top"
+            >
               <router-link
                 :to="{
                   name: isEpisodes ? 'infoTV' : 'info',

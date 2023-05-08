@@ -44,7 +44,12 @@
         @search="handleSearch"
       >
         <template #enterButton>
-          <el-tooltip title="Tìm kiếm" content="Tìm kiếm" effect="dark">
+          <el-tooltip
+            :teleported="false"
+            title="Tìm kiếm"
+            content="Tìm kiếm"
+            effect="dark"
+          >
             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
           </el-tooltip>
         </template>
@@ -52,7 +57,7 @@
     </a-auto-complete>
 
     <div class="right-header">
-      <el-popover trigger="click" placement="bottom" class="popover-search">
+      <!-- <el-popover trigger="click" placement="bottom" class="popover-search">
         <template #reference>
           <a-button type="primary" shape="circle" size="large">
             <template #icon><SearchOutlined /></template>
@@ -94,7 +99,7 @@
             </a-input-search>
           </a-auto-complete>
         </template>
-      </el-popover>
+      </el-popover> -->
 
       <a-menu
         theme="dark"
@@ -241,7 +246,7 @@ import {
   UserOutlined,
   CaretDownOutlined,
   MenuOutlined,
-  SearchOutlined,
+  // SearchOutlined,
 } from '@ant-design/icons-vue';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
@@ -256,7 +261,7 @@ export default {
     UserOutlined,
     CaretDownOutlined,
     MenuOutlined,
-    SearchOutlined,
+    // SearchOutlined,
     SearchCard,
     Close,
   },

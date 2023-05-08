@@ -106,6 +106,7 @@
         @click="viewMoreRecommend = !viewMoreRecommend"
       >
         <el-tooltip
+          :teleported="false"
           :content="!viewMoreRecommend ? 'Hiện thêm' : 'Ẩn bớt'"
           placement="bottom"
         >
