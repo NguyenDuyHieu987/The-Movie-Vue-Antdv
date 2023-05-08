@@ -241,6 +241,10 @@
             align-items: center;
             justify-content: center;
 
+            svg.icones.play {
+              width: 3rem;
+            }
+
             &:hover {
               color: #fff;
               border: 1px solid #fff;

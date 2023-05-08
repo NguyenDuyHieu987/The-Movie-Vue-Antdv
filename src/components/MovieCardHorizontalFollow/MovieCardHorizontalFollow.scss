@@ -224,9 +224,21 @@
       margin-right: 19.5px;
     }
 
+    .icones.play {
+      margin-left: -7px;
+      margin-right: 13px;
+      width: 2.6rem;
+    }
+
+    .icones.share {
+      margin-right: 16px;
+      width: 1.8rem;
+    }
+
     svg,
     i {
       margin-right: 18px;
+      margin-left: -2px;
       width: 15px;
       font-size: 1.5rem;
     }
@@ -249,9 +261,6 @@
 
   .ant-dropdown-menu-item:not(.material-icons-outlined) {
     svg {
-      margin-left: -2px;
-      width: 15px;
-      font-size: 1.5rem;
     }
   }
 }

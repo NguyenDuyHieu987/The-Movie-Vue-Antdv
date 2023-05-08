@@ -147,7 +147,16 @@
               >
                 <a-button shape="circle" size="large">
                   <template #icon>
-                    <font-awesome-icon icon="fa-solid fa-play" />
+                    <!-- <font-awesome-icon icon="fa-solid fa-play" /> -->
+                    <svg
+                      class="icones play"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                    >
+                      <path fill="#fff" d="M8 5v14l11-7z" />
+                    </svg>
                   </template>
                 </a-button>
               </router-link>
@@ -166,7 +175,16 @@
               >
                 <a-button shape="circle" size="large">
                   <template #icon>
-                    <font-awesome-icon icon="fa-solid fa-play" />
+                    <!-- <font-awesome-icon icon="fa-solid fa-play" /> -->
+                    <svg
+                      class="icones play"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                    >
+                      <path fill="#fff" d="M8 5v14l11-7z" />
+                    </svg>
                   </template>
                 </a-button>
               </router-link>
@@ -221,8 +239,8 @@
               >
                 <a-button shape="circle" size="large">
                   <template #icon>
-                    <!-- <InfoOutlined /> -->
-                    <i class="fa-sharp fa-solid fa-info"></i>
+                    <InfoOutlined />
+                    <!-- <i class="fa-sharp fa-solid fa-info"></i> -->
                   </template>
                 </a-button>
               </router-link>
@@ -285,7 +303,7 @@
 import { ref, onBeforeMount, createVNode, onMounted, computed } from 'vue';
 import {
   PlusOutlined,
-  // InfoOutlined,
+  InfoOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons-vue';
 import axios from 'axios';
@@ -314,7 +332,7 @@ import { ViewFormatter } from '@/utils/convertViews';
 export default {
   components: {
     PlusOutlined,
-    //  InfoOutlined
+    InfoOutlined,
   },
   props: {
     item: {
