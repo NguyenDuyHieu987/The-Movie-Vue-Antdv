@@ -41,7 +41,7 @@
 
     <div class="overlay-backdrop">
       <!-- <img :src="getPoster('/vgLBiFtDCf33W5adaXnSkCtSwgl.jpg')" /> -->
-      <img :src="getPoster(trendings[0]?.backdrop_path)" />
+      <img :src="getBackdrop(trendings[0]?.backdrop_path)" />
     </div>
 
     <el-carousel
@@ -69,7 +69,7 @@
 import { onBeforeMount, ref, onMounted } from 'vue';
 import axios from 'axios';
 import SlideTopicItem from '../SlideTopicItem/SlideTopicItem.vue';
-import { getTrending, getPoster } from '@/services/MovieService';
+import { getTrending, getBackdrop } from '@/services/MovieService';
 
 export default {
   components: { SlideTopicItem },
@@ -214,7 +214,7 @@ export default {
     return {
       trendings,
       topicHome,
-      getPoster,
+      getBackdrop,
       handleSwitchCarouel,
       handleSwitchCarouelResponsive,
     };
