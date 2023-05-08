@@ -24,7 +24,7 @@ const store = createStore({
       loadingHomePage: false,
       loadingMisc: false,
       loadingDashBoard: false,
-      userAccount: getWithExpiry('userAccount') || {},
+      userAccount: {},
       allGenres: [],
       allCountries: [],
       allYears: [],

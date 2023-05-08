@@ -5,7 +5,6 @@
       <Sider />
       <Drawer />
 
-      <!-- :id="[$route.path == '/follow' ? 'topic-follow-column-teleport' : '']" -->
       <a-layout
         v-show="$route.path == '/follow'"
         id="topic-follow-column-teleport"
@@ -20,6 +19,7 @@
         </a-layout-content>
         <Footer />
       </a-layout>
+
       <a-layout
         v-show="$route.path == '/history'"
         id="topic-history-column-teleport"
