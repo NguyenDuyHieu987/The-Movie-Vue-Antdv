@@ -15,7 +15,6 @@
       :src="getBackdrop(item?.backdrop_path)"
       :preview="false"
       loading="lazy"
-      @load="onLoadImage"
     >
     </el-image>
 
