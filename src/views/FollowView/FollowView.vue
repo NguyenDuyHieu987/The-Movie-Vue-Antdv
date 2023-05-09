@@ -23,8 +23,12 @@
                     },
                   }"
                 >
-                  <a-image :src="getBackdrop(topicImage)" :preview="false">
-                  </a-image>
+                  <img
+                    class="ant-image"
+                    v-lazy="getBackdrop(topicImage)"
+                    :preview="false"
+                  />
+
                   <div class="play-now">
                     <span>
                       <font-awesome-icon icon="fa-solid fa-play" />
@@ -46,21 +50,25 @@
                     },
                   }"
                 >
-                  <a-image :src="getBackdrop(topicImage)" :preview="false">
-                  </a-image>
+                  <img
+                    class="ant-image"
+                    v-lazy="getBackdrop(topicImage)"
+                    :preview="false"
+                  />
+
                   <div class="play-now">
                     <font-awesome-icon icon="fa-solid fa-play" />
                     <span>PHÁT NGAY</span>
                   </div>
                 </router-link>
-                <a-image
+                <img
+                  class="ant-image"
                   v-if="!dataList?.length"
-                  :src="getBackdrop(topicImage)"
+                  v-lazy="getBackdrop(topicImage)"
                   :preview="false"
-                >
-                </a-image>
+                />
               </div>
-              <img class="overlay-image" :src="getBackdrop(topicImage)" />
+              <img class="overlay-image" v-lazy="getBackdrop(topicImage)" />
 
               <div class="info">
                 <h2 class="title">
@@ -163,8 +171,12 @@
                     },
                   }"
                 >
-                  <a-image :src="getBackdrop(topicImage)" :preview="false">
-                  </a-image>
+                  <img
+                    class="ant-image"
+                    v-lazy="getBackdrop(topicImage)"
+                    :preview="false"
+                  />
+
                   <div class="play-now">
                     <span>
                       <font-awesome-icon icon="fa-solid fa-play" />
@@ -186,21 +198,25 @@
                     },
                   }"
                 >
-                  <a-image :src="getBackdrop(topicImage)" :preview="false">
-                  </a-image>
+                  <img
+                    class="ant-image"
+                    v-lazy="getBackdrop(topicImage)"
+                    :preview="false"
+                  />
+
                   <div class="play-now">
                     <font-awesome-icon icon="fa-solid fa-play" />
                     <span>PHÁT NGAY</span>
                   </div>
                 </router-link>
-                <a-image
+                <img
+                  class="ant-image"
                   v-if="!dataList?.length"
-                  :src="getBackdrop(topicImage)"
+                  v-lazy="getBackdrop(topicImage)"
                   :preview="false"
-                >
-                </a-image>
+                />
               </div>
-              <img class="overlay-image" :src="getBackdrop(topicImage)" />
+              <img class="overlay-image" v-lazy="getBackdrop(topicImage)" />
               <div class="info">
                 <h2 class="title">
                   <strong>Video đã thêm vào danh sách phát</strong>
