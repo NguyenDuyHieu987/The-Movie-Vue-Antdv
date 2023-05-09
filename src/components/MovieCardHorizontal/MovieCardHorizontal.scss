@@ -102,6 +102,7 @@
     overflow: hidden;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
+    transition: all 0.3s;
 
     .ant-image {
       width: 100%;
@@ -111,8 +112,8 @@
 
       img {
         height: 100%;
-        transition: all 0.3s;
         object-fit: cover;
+        transition: all 0.3s;
       }
     }
 
@@ -149,9 +150,14 @@
   }
 
   &:hover {
-    img {
-      transform: scale(1.05);
-      opacity: 0.7;
+    .img-box {
+      border-top-right-radius: 0px;
+      border-top-left-radius: 0px;
+
+      img {
+        transform: scale(1.05);
+        opacity: 0.7;
+      }
     }
 
     .duration-episode-box {
@@ -243,8 +249,8 @@
             align-items: center;
             justify-content: center;
 
-            svg.icones.play {
-              width: 3rem;
+            svg.icon {
+              font-size: 2.8rem;
             }
 
             &:hover {
