@@ -58,6 +58,10 @@
   // max-width: 850px;
 
   &:hover {
+    .img-box {
+      border-radius: 0px;
+    }
+
     .info {
       color: #fff;
     }
@@ -82,10 +86,12 @@
     min-height: 141px;
     overflow: hidden;
     border-radius: 7px;
+    transition: all 0.3s;
 
     .ant-image {
       width: 100%;
       height: 100%;
+      object-fit: cover;
 
       img {
         width: 100%;
@@ -225,14 +231,16 @@
       margin-right: 19.5px;
     }
 
-    svg.icones.play {
+    svg.icon.play {
       margin-left: -7px;
       margin-right: 13px;
+      font-size: 2.6rem;
       width: 2.6rem;
     }
 
-    svg.icones.share {
+    svg.icon.share {
       margin-right: 16px;
+      font-size: 1.8rem;
       width: 1.8rem;
     }
 
