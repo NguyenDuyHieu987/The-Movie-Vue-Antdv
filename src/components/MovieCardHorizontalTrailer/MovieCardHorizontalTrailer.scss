@@ -8,13 +8,13 @@
 }
 
 @media only screen and (max-width: 1010px) {
-  .movie-group.horizontal {
-    grid-template-columns: repeat(auto-fit, minmax(170px, auto)) !important;
+  .movie-group.horizontal.trailer {
+    grid-template-columns: repeat(auto-fit, minmax(180px, auto)) !important;
   }
 }
 
 @media only screen and (max-width: 435px) {
-  .movie-group.horizontal {
+  .movie-group.horizontal.trailer {
     grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
   }
 

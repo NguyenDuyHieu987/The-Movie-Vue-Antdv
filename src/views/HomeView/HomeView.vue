@@ -162,7 +162,7 @@
         </router-link>
       </h2>
 
-      <section class="movie-group horizontal">
+      <section class="movie-group horizontal trailer">
         <MovieCardHorizontalTrailer
           v-for="(item, index) in upComings"
           :index="index"
