@@ -1,5 +1,5 @@
 @media only screen and (max-width: 1150px) {
-  .movie-card-horizontal-item-trailer {
+  .movie-card-horizontal-item {
     .img-box {
       transition: all 0.3s;
       height: 130px !important;
@@ -18,18 +18,18 @@
     grid-template-columns: repeat(auto-fit, minmax(150px, auto)) !important;
   }
 
-  .movie-card-horizontal-item-trailer {
+  .movie-card-horizontal-item {
     .img-box {
       height: 110px !important;
     }
   }
 }
 
-.movie-card-horizontal-item-trailer.skeleton {
+.movie-card-horizontal-item.skeleton {
   cursor: auto;
 }
 
-.movie-card-horizontal-item-trailer {
+.movie-card-horizontal-item {
   color: #fff;
   cursor: pointer;
   position: relative;
