@@ -12,14 +12,12 @@
     <template #default>
       <div class="cast-item">
         <div class="cast-img-box">
-          <el-image
+          <!-- <el-image
             class="ant-image"
             :src="getPosterCast(item?.profile_path)"
-            v-lazy="getPosterCast(item?.profile_path)"
             :preview="false"
             loading="lazy"
           >
-            <!-- v-if="!loading" -->
             <template #error>
               <div
                 class="el-image error"
@@ -46,9 +44,14 @@
                 Đang tải<span class="dot">...</span>
               </div>
             </template>
-          </el-image>
+          </el-image> -->
 
-          <!-- <a-skeleton-image v-else class="ant-image" /> -->
+          <img
+            class="ant-image"
+            v-lazy="getPosterCast(item?.profile_path)"
+            :preview="false"
+            loading="lazy"
+          />
         </div>
 
         <div class="info">
