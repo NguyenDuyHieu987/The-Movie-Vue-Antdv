@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <SlideTopicHome />
+    <SlideTopicHome :trendings="trendings" />
     <div class="outstanding-stage">
       <h2 class="gradient-title-default" v-show="nowPlayings?.length">
         <strong>Phim nổi bật</strong>
@@ -274,6 +274,7 @@ import {
   getTopRated,
   getUpComing,
   getMyRecommend,
+  getTrending,
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
 import { useStore } from 'vuex';
@@ -289,6 +290,7 @@ export default {
   },
   setup() {
     const store = useStore();
+    const trendings = ref([]);
     const nowPlayings = ref([]);
     const upComings = ref([]);
     const tvAiringTodays = ref([]);
@@ -308,6 +310,7 @@ export default {
 
     onBeforeMount(() => {
       if (
+        store.state?.trendings?.length > 0 &&
         store.state?.nowPlayings?.length > 0 &&
         store.state?.upComings?.length > 0 &&
         store.state?.tvAiringTodays?.length > 0 &&
@@ -315,6 +318,7 @@ export default {
         // store.state?.recommends?.length > 0
       ) {
         // alert('h');
+        trendings.value = store.state?.trendings;
         nowPlayings.value = store.state?.nowPlayings;
         upComings.value = store.state?.upComings;
         tvAiringTodays.value = store.state?.tvAiringTodays;
@@ -322,6 +326,7 @@ export default {
         recommends.value = store.state?.recommends;
       } else {
         Promise.all([
+          getTrending(1),
           getNowPlaying(1),
           getUpComing(1),
           getTvAiringToday(1),
@@ -331,12 +336,13 @@ export default {
             : null,
         ])
           .then((response) => {
-            nowPlayings.value = response[0].data?.results;
-            upComings.value = response[1].data?.results;
-            tvAiringTodays.value = response[2]?.data.results;
-            topRateds.value = response[3].data?.results;
+            trendings.value = response[0].data?.results;
+            nowPlayings.value = response[1].data?.results;
+            upComings.value = response[2].data?.results;
+            tvAiringTodays.value = response[3]?.data.results;
+            topRateds.value = response[4].data?.results;
             if (store.state?.isLogin) {
-              recommends.value = response[4].data?.results;
+              recommends.value = response[5].data?.results;
             }
           })
           .catch((e) => {
@@ -370,6 +376,7 @@ export default {
     };
 
     return {
+      trendings,
       nowPlayings,
       upComings,
       tvAiringTodays,

@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import { getWithExpiry } from '@/utils/LocalStorage';
 import axios from 'axios';
 import {
+  getTrending,
   getNowPlaying,
   getTvAiringToday,
   getTopRated,
@@ -28,6 +29,7 @@ const store = createStore({
       allGenres: [],
       allCountries: [],
       allYears: [],
+      trendings: [],
       nowPlayings: [],
       upComings: [],
       tvAiringTodays: [],
@@ -36,6 +38,9 @@ const store = createStore({
     };
   },
   mutations: {
+    setTrending(state, data) {
+      state.trendings = data;
+    },
     setNowPlaying(state, data) {
       state.nowPlayings = data;
     },
@@ -69,6 +74,7 @@ const store = createStore({
   actions: {
     async getDataHomePage({ commit, state }) {
       await Promise.all([
+        getTrending(1),
         getNowPlaying(1),
         getUpComing(1),
         getTvAiringToday(1),
@@ -76,12 +82,13 @@ const store = createStore({
         state?.isLogin ? getMyRecommend(state.userAccount?.id, 1) : null,
       ])
         .then((response) => {
-          commit('setNowPlaying', response[0].data?.results);
-          commit('setUpComing', response[1].data?.results);
-          commit('setTvAiringToday', response[2].data?.results);
-          commit('setTopRated', response[3].data?.results);
+          commit('setTrending', response[0].data?.results);
+          commit('setNowPlaying', response[1].data?.results);
+          commit('setUpComing', response[2].data?.results);
+          commit('setTvAiringToday', response[3].data?.results);
+          commit('setTopRated', response[4].data?.results);
           if (state?.isLogin) {
-            commit('setRecommend', response[4].data?.results);
+            commit('setRecommend', response[5].data?.results);
           }
           state.loadingHomePage = true;
         })

@@ -28,12 +28,12 @@
         class="movie-card-horizontal-item"
       >
         <div class="img-box">
-          <a-image
+          <img
+            class="ant-image"
             v-if="!loading"
-            :src="getBackdrop(dataMovie?.backdrop_path)"
+            v-lazy="getBackdrop(dataMovie?.backdrop_path)"
             :preview="false"
-          >
-          </a-image>
+          />
 
           <!-- <a-skeleton-image v-else class="ant-image" /> -->
 

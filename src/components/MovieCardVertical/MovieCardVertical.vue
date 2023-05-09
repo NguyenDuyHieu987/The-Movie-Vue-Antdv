@@ -24,13 +24,12 @@
 
       <template #default>
         <div class="img-box">
-          <a-image
+          <img
+            class="ant-image"
             v-if="!loading"
-            class="movie-card-img"
-            :src="getPoster(dataMovie?.poster_path)"
+            v-lazy="getPoster(dataMovie?.poster_path)"
             :preview="false"
-          >
-          </a-image>
+          />
 
           <!-- <a-skeleton-image v-else class="ant-image" /> -->
 
@@ -113,12 +112,11 @@
 
     <div class="detail-flow" v-if="!loading">
       <div class="backdrop-box">
-        <a-image
+        <img
           class="ant-image"
-          :src="getBackdrop(dataMovie?.backdrop_path)"
+          v-lazy="getBackdrop(dataMovie?.backdrop_path)"
           :preview="false"
-        >
-        </a-image>
+        />
         <div
           v-if="isInHistory"
           class="percent-viewed"

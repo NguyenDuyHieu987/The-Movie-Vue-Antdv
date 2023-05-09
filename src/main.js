@@ -43,6 +43,7 @@ import {
   faEllipsisV,
   faTrashCan,
   faBell,
+  faListUl,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube, faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import {
@@ -58,6 +59,7 @@ library.add(
   faCalendarDays,
   faBookmark,
   faList,
+  faListUl,
   faChevronLeft,
   faChevronRight,
   faChevronUp,

@@ -39,8 +39,12 @@
           class="movie-history-item"
         >
           <div class="img-box">
-            <a-image :src="getBackdrop(item?.backdrop_path)" :preview="false">
-            </a-image>
+            <img
+              class="ant-image"
+              v-lazy="getBackdrop(item?.backdrop_path)"
+              :preview="false"
+            />
+
             <div
               class="percent-viewed"
               :style="{ width: percent * 100 + '%' }"

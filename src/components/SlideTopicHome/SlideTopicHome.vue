@@ -67,39 +67,34 @@
 </template>
 <script>
 import { onBeforeMount, ref, onMounted } from 'vue';
-import axios from 'axios';
+// import axios from 'axios';
 import SlideTopicItem from '../SlideTopicItem/SlideTopicItem.vue';
-import { getTrending, getBackdrop } from '@/services/MovieService';
+import {
+  //  getTrending,
+  getBackdrop,
+} from '@/services/MovieService';
 
 export default {
   components: { SlideTopicItem },
+  props: {
+    trendings: {
+      type: Array,
+    },
+  },
   setup() {
-    const trendings = ref([]);
+    // const trendings = ref([]);
     const topicHome = ref();
 
-    onMounted(() => {
-      // const el_carousel_btn = document.querySelectorAll('.el-carousel__arrow');
-      // const overlay_backdrop =
-      //   document.getElementsByClassName('overlay-backdrop')[0];
-      // const img_overlay_backdrop = overlay_backdrop.querySelector('img');
-      // el_carousel_btn?.forEach((btn) => {
-      //   btn.addEventListener('click', () => {
-      //     const img_silde_topic_item_active = document.querySelector(
-      //       '.el-carousel__item.is-active .el-image img'
-      //     );
-      //     img_overlay_backdrop.src = img_silde_topic_item_active.src;
-      //   });
-      // });
-    });
+    onMounted(() => {});
 
     onBeforeMount(() => {
-      getTrending(1)
-        .then((response) => {
-          trendings.value = response.data?.results;
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      // getTrending(1)
+      //   .then((response) => {
+      //     trendings.value = response.data?.results;
+      //   })
+      //   .catch((e) => {
+      //     if (axios.isCancel(e)) return;
+      //   });
     });
 
     const handleSwitchCarouel = (e) => {
@@ -212,7 +207,7 @@ export default {
       }
     };
     return {
-      trendings,
+      // trendings,
       topicHome,
       getBackdrop,
       handleSwitchCarouel,

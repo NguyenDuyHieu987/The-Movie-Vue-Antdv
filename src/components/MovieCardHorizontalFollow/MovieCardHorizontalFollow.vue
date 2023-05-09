@@ -33,8 +33,11 @@
         >
           <div class="img-box">
             <!-- v-if="!loading" -->
-            <a-image :src="getBackdrop(item?.backdrop_path)" :preview="false">
-            </a-image>
+            <img
+              class="ant-image"
+              v-lazy="getBackdrop(item?.backdrop_path)"
+              :preview="false"
+            />
             <div
               v-show="isInHistory"
               class="percent-viewed"

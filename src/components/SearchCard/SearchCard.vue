@@ -13,7 +13,11 @@
   >
     <div class="img-box">
       <!-- v-if="!loading" -->
-      <a-image :src="getPoster(item?.poster_path)" :preview="false"> </a-image>
+      <img
+        class="ant-image"
+        v-lazy="getPoster(item?.poster_path)"
+        :preview="false"
+      />
 
       <!-- <a-skeleton-image v-else class="ant-image" /> -->
     </div>

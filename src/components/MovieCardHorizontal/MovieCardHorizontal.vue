@@ -24,12 +24,11 @@
 
       <template #default>
         <div class="img-box">
-          <a-image
+          <img
             class="ant-image"
-            :src="getBackdrop(dataMovie?.backdrop_path)"
+            v-lazy="getBackdrop(dataMovie?.backdrop_path)"
             :preview="false"
-          >
-          </a-image>
+          />
 
           <!-- <a-skeleton-image v-else class="ant-image" /> -->
           <div
@@ -112,13 +111,12 @@
     </el-skeleton>
     <div class="detail-flow" v-if="!loading">
       <div class="backdrop-box">
-        <a-image
+        <img
           class="ant-image"
           v-show="!loading"
-          :src="getBackdrop(dataMovie?.backdrop_path)"
+          v-lazy="getBackdrop(dataMovie?.backdrop_path)"
           :preview="false"
-        >
-        </a-image>
+        />
 
         <div
           v-if="isInHistory"
