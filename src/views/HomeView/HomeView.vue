@@ -63,10 +63,10 @@
       </h2>
 
       <section
-        class="movie-group horizontal"
+        class="movie-group vertical"
         :class="{ viewmore: viewMoreRecommend }"
       >
-        <MovieCardHorizontal
+        <MovieCardVertical
           v-for="(item, index) in recommends"
           :index="index"
           :key="item.id"

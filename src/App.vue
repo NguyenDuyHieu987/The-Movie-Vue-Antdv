@@ -7,14 +7,14 @@
     </metainfo>
     <vue-progress-bar />
 
-    <!-- <div v-if="loadingHomePage" class="loading-page">
+    <div v-if="loadingHomePage" class="loading-page">
       <div class="loading-page-container">
         <img src="/images/logo.png" alt="" />
         <div class="logo"><h2>Phimhay247</h2></div>
       </div>
-    </div> -->
+    </div>
 
-    <component :is="$route.meta.layout?.component">
+    <component v-else :is="$route.meta.layout?.component">
       <!-- <router-view :key="$route.fullPath" /> -->
       <router-view :key="$route.path" />
 
@@ -126,24 +126,23 @@ export default {
       // } else
 
       if (to.matched.some((record) => record.name == 'home')) {
-        // if (store.state.loadingHomePage == true) {
-        //   next();
-        // } else {
-        //   new Promise((resolve) => {
-        //     loadingHomePage.value = true;
+        if (store.state.loadingHomePage == true) {
+          next();
+        } else {
+          new Promise((resolve) => {
+            store.state.loadingHomePage = true;
+            loadingHomePage.value = true;
 
-        //     resolve(
-        //       store.dispatch('getDataHomePage'),
-        //       store.dispatch('getDataMisc')
-        //     );
-        //   }).then(() => {
-        //     setTimeout(() => {
-        //       loadingHomePage.value = false;
-        //       next();
-        //     }, 2000);
-        //   });
-        // }
-        next();
+            resolve();
+            // store.dispatch('getDataHomePage'),
+            // store.dispatch('getDataMisc')
+          }).then(() => {
+            setTimeout(() => {
+              loadingHomePage.value = false;
+              next();
+            }, 2000);
+          });
+        }
       } else {
         next();
       }
