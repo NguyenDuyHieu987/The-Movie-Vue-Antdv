@@ -71,19 +71,11 @@ export default {
     const genresName = ref([]);
     const loading = ref(false);
 
-    const onLoadImage = () => {
-      loading.value = true;
-      setTimeout(() => {
-        loading.value = false;
-      }, 2000);
-    };
-
     return {
       loading,
       genresName,
       getBackdrop,
       getAllGenresById,
-      onLoadImage,
     };
   },
 };
