@@ -30,48 +30,7 @@
         :margin="7"
         :autoplaySpeed="500"
         :nav="false"
-        :responsive="{
-          0: {
-            items: 2,
-            slideBy: 2,
-          },
-          590: {
-            items: 2,
-            slideBy: 2,
-          },
-          750: {
-            items: 3,
-            slideBy: 3,
-          },
-          800: {
-            items: 2,
-            slideBy: 2,
-          },
-          900: {
-            items: 3,
-            slideBy: 3,
-          },
-          1150: {
-            items: 4,
-            slideBy: 4,
-          },
-          1500: {
-            items: 5,
-            slideBy: 5,
-          },
-          1800: {
-            items: 6,
-            slideBy: 6,
-          },
-          2050: {
-            items: 7,
-            slideBy: 7,
-          },
-          2200: {
-            items: 8,
-            slideBy: 8,
-          },
-        }"
+        :responsive="responsiveHorizoltal"
       >
         <MovieCardHorizontal
           v-for="(item, index) in nowPlayings"
@@ -159,7 +118,7 @@
         </router-link>
       </h2>
 
-      <section class="movie-group vertical">
+      <!-- <section class="movie-group vertical">
         <MovieCardVertical
           v-for="(item, index) in tvAiringTodays"
           :index="index"
@@ -167,7 +126,40 @@
           :item="item"
           type="tv"
         />
-      </section>
+      </section> -->
+
+      <carousel
+        v-if="tvAiringTodays?.length"
+        class="carousel-group"
+        :items="4"
+        :autoplay="true"
+        :dots="false"
+        :autoplayHoverPause="true"
+        :autoplayTimeout="10000"
+        :margin="7"
+        :autoplaySpeed="500"
+        :nav="false"
+        :responsive="responsiveVertical"
+      >
+        <MovieCardVertical
+          v-for="(item, index) in tvAiringTodays"
+          :index="index"
+          :key="item.id"
+          :item="item"
+          type="tv"
+        />
+
+        <template #prev>
+          <div class="owl-prev">
+            <font-awesome-icon icon="fa-solid fa-chevron-left" />
+          </div>
+        </template>
+        <template #next>
+          <div class="owl-next">
+            <font-awesome-icon icon="fa-solid fa-chevron-right" />
+          </div>
+        </template>
+      </carousel>
     </div>
 
     <div class="trailer-stage" v-show="upComings?.length">
@@ -226,68 +218,7 @@
         :margin="7"
         :autoplaySpeed="500"
         :nav="false"
-        :responsive="{
-          0: {
-            items: 2,
-            slideBy: 2,
-          },
-          500: {
-            items: 2,
-            slideBy: 2,
-          },
-          520: {
-            items: 3,
-            slideBy: 3,
-          },
-          700: {
-            items: 4,
-            slideBy: 4,
-          },
-          800: {
-            items: 3,
-            slideBy: 3,
-          },
-          900: {
-            items: 4,
-            slideBy: 4,
-          },
-          1000: {
-            items: 4,
-            slideBy: 4,
-          },
-          1150: {
-            items: 5,
-            slideBy: 5,
-          },
-          1300: {
-            items: 6,
-            slideBy: 6,
-          },
-          1400: {
-            items: 6,
-            slideBy: 6,
-          },
-          1550: {
-            items: 7,
-            slideBy: 7,
-          },
-          1700: {
-            items: 8,
-            slideBy: 8,
-          },
-          1900: {
-            items: 9,
-            slideBy: 9,
-          },
-          2000: {
-            items: 10,
-            slideBy: 10,
-          },
-          2200: {
-            items: 11,
-            slideBy: 11,
-          },
-        }"
+        :responsive="responsiveVertical"
       >
         <MovieCardVertical
           v-for="(item, index) in topRateds"
@@ -353,8 +284,111 @@ export default {
     const loadMoreRecommend = ref(false);
     const skipRecommend = ref(2);
 
-    const btnPrev = ref('<i class="fa-solid fa-chevron-left "></i>');
-    const btnNext = ref('<i class="fa-solid fa-chevron-right "></i>');
+    const responsiveHorizoltal = ref({
+      0: {
+        items: 2,
+        slideBy: 2,
+      },
+      590: {
+        items: 2,
+        slideBy: 2,
+      },
+      750: {
+        items: 3,
+        slideBy: 3,
+      },
+      800: {
+        items: 2,
+        slideBy: 2,
+      },
+      900: {
+        items: 3,
+        slideBy: 3,
+      },
+      1150: {
+        items: 4,
+        slideBy: 4,
+      },
+      1500: {
+        items: 5,
+        slideBy: 5,
+      },
+      1800: {
+        items: 6,
+        slideBy: 6,
+      },
+      2050: {
+        items: 7,
+        slideBy: 7,
+      },
+      2200: {
+        items: 8,
+        slideBy: 8,
+      },
+    });
+
+    const responsiveVertical = ref({
+      0: {
+        items: 2,
+        slideBy: 2,
+      },
+      500: {
+        items: 2,
+        slideBy: 2,
+      },
+      520: {
+        items: 3,
+        slideBy: 3,
+      },
+      700: {
+        items: 4,
+        slideBy: 4,
+      },
+      800: {
+        items: 3,
+        slideBy: 3,
+      },
+      900: {
+        items: 4,
+        slideBy: 4,
+      },
+      1000: {
+        items: 4,
+        slideBy: 4,
+      },
+      1150: {
+        items: 5,
+        slideBy: 5,
+      },
+      1300: {
+        items: 6,
+        slideBy: 6,
+      },
+      1400: {
+        items: 6,
+        slideBy: 6,
+      },
+      1550: {
+        items: 7,
+        slideBy: 7,
+      },
+      1700: {
+        items: 8,
+        slideBy: 8,
+      },
+      1900: {
+        items: 9,
+        slideBy: 9,
+      },
+      2000: {
+        items: 10,
+        slideBy: 10,
+      },
+      2200: {
+        items: 11,
+        slideBy: 11,
+      },
+    });
 
     useMeta({
       title: 'Phimhay247',
@@ -389,11 +423,11 @@ export default {
             : null,
         ])
           .then((response) => {
-            trendings.value = response[0].data?.results;
-            nowPlayings.value = response[1].data?.results;
+            trendings.value = response[0].data?.results.slice(0, 11);
+            nowPlayings.value = response[1].data?.results.slice(0, 10);
             upComings.value = response[2].data?.results.slice(0, 10);
             tvAiringTodays.value = response[3]?.data.results.slice(0, 10);
-            topRateds.value = response[4].data?.results;
+            topRateds.value = response[4].data?.results.slice(0, 10);
             if (store.state?.isLogin) {
               recommends.value = response[5].data?.results;
             }
@@ -437,8 +471,8 @@ export default {
       recommends,
       viewMoreRecommend,
       loadMoreRecommend,
-      btnPrev,
-      btnNext,
+      responsiveHorizoltal,
+      responsiveVertical,
       handleLoadMoreRecommend,
     };
   },

@@ -248,7 +248,7 @@ import {
   MenuOutlined,
   // SearchOutlined,
 } from '@ant-design/icons-vue';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { getDaTaSearch } from '@/services/MovieService';
 import SearchCard from '../SearchCard/SearchCard.vue';
@@ -325,6 +325,17 @@ export default {
         window.localStorage.removeItem('isLogin');
       }
     };
+
+    onMounted(() => {
+      const header = document.querySelector('.ant-layout-header.header');
+      window.onscroll = () => {
+        if (window.scrollY >= 65) {
+          header.style.backgroundColor = '#000';
+        } else {
+          header.style.backgroundColor = 'transparent';
+        }
+      };
+    });
 
     return {
       dataSearch,

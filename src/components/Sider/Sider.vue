@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 // import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons-vue';
 import TheMenu from '../TheMenu/TheMenu.vue';
 
@@ -99,6 +99,20 @@ export default {
   },
 
   setup() {
+    onMounted(() => {
+      const menu = document.querySelector(
+        '.sider-bar .ant-layout-sider-children'
+      );
+      const sider_header = document.querySelector('.sider-header');
+
+      menu.addEventListener('scroll', (e) => {
+        if (e.target.scrollTop > 0) {
+          sider_header.style.backgroundColor = '#000';
+        } else {
+          sider_header.style.backgroundColor = 'transparent';
+        }
+      });
+    });
     return {
       selectedKeys1: ref(['2']),
       selectedKeys2: ref(['1']),

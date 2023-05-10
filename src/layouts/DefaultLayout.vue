@@ -61,6 +61,10 @@ export default {
   }
 }
 
+.app-wrapper {
+  overflow: hidden;
+}
+
 .ant-layout {
   background-color: var(--background-content-color);
   // background-color: transparent;
@@ -72,7 +76,7 @@ export default {
   min-height: calc(100vh - var(--header-height));
   margin-top: var(--header-height);
   // transition: all 0.2s;
-  overflow: hidden;
+  // overflow: hidden;
 
   &.expand {
     margin-left: var(--sider-collapsed-width);
@@ -80,12 +84,12 @@ export default {
 }
 
 .ant-layout.main-content {
+  // position: relative;
   width: 100%;
   // height: 100%;
   max-width: 2160px;
   margin: 0px auto;
-  overflow: hidden;
-  // position: relative;
+  // overflow: hidden;
 }
 
 .ant-layout-content.container {

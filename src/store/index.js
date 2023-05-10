@@ -82,11 +82,11 @@ const store = createStore({
         state?.isLogin ? getMyRecommend(state.userAccount?.id, 1) : null,
       ])
         .then((response) => {
-          commit('setTrending', response[0].data?.results);
-          commit('setNowPlaying', response[1].data?.results);
-          commit('setUpComing', response[2].data?.results);
-          commit('setTvAiringToday', response[3].data?.results);
-          commit('setTopRated', response[4].data?.results);
+          commit('setTrending', response[0].data?.results.slice(0, 11));
+          commit('setNowPlaying', response[1].data?.results.slice(0, 10));
+          commit('setUpComing', response[2].data?.results.slice(0, 10));
+          commit('setTvAiringToday', response[3].data?.results.slice(0, 10));
+          commit('setTopRated', response[4].data?.results.slice(0, 10));
           if (state?.isLogin) {
             commit('setRecommend', response[5].data?.results);
           }
