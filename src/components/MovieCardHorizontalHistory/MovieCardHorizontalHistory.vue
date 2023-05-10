@@ -41,7 +41,7 @@
           <div class="img-box">
             <img
               class="ant-image"
-              v-lazy="getBackdrop(item?.backdrop_path)"
+              v-lazy="getBackdrop(item?.backdrop_path, '350,')"
               :preview="false"
             />
 
