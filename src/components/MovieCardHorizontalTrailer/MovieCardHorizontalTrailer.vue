@@ -2,7 +2,7 @@
   <el-skeleton
     :loading="loading"
     animated
-    class="movie-card-horizontal-item skeleton"
+    class="movie-card-horizontal-item-trailer skeleton"
   >
     <template #template>
       <div class="img-box">
@@ -25,7 +25,7 @@
               : item?.title?.replace(/\s/g, '+').toLowerCase(),
           },
         }"
-        class="movie-card-horizontal-item"
+        class="movie-card-horizontal-item-trailer"
       >
         <div class="img-box">
           <img
