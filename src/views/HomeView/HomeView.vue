@@ -31,33 +31,43 @@
         :responsive="{
           0: {
             items: 2,
+            slideBy: 2,
           },
           590: {
             items: 2,
+            slideBy: 2,
           },
           750: {
             items: 3,
+            slideBy: 3,
           },
           800: {
             items: 2,
+            slideBy: 2,
           },
           900: {
             items: 3,
+            slideBy: 3,
           },
           1150: {
             items: 4,
+            slideBy: 4,
           },
           1500: {
             items: 5,
+            slideBy: 5,
           },
           1800: {
             items: 6,
+            slideBy: 6,
           },
           2050: {
             items: 7,
+            slideBy: 7,
           },
           2200: {
             items: 8,
+            slideBy: 8,
           },
         }"
       >
@@ -205,48 +215,63 @@
         :responsive="{
           0: {
             items: 2,
+            slideBy: 2,
           },
           500: {
             items: 2,
+            slideBy: 2,
           },
           520: {
             items: 3,
+            slideBy: 3,
           },
           700: {
             items: 4,
+            slideBy: 4,
           },
           800: {
             items: 3,
+            slideBy: 3,
           },
           900: {
             items: 4,
+            slideBy: 4,
           },
           1000: {
             items: 4,
+            slideBy: 4,
           },
           1150: {
             items: 5,
+            slideBy: 5,
           },
           1300: {
             items: 6,
+            slideBy: 6,
           },
           1400: {
             items: 6,
+            slideBy: 6,
           },
           1550: {
             items: 7,
+            slideBy: 7,
           },
           1700: {
             items: 8,
+            slideBy: 8,
           },
           1900: {
             items: 9,
+            slideBy: 9,
           },
           2000: {
             items: 10,
+            slideBy: 10,
           },
           2200: {
             items: 11,
+            slideBy: 11,
           },
         }"
       >
@@ -341,8 +366,8 @@ export default {
           .then((response) => {
             trendings.value = response[0].data?.results;
             nowPlayings.value = response[1].data?.results;
-            upComings.value = response[2].data?.results;
-            tvAiringTodays.value = response[3]?.data.results;
+            upComings.value = response[2].data?.results.slice(0, 10);
+            tvAiringTodays.value = response[3]?.data.results.slice(0, 10);
             topRateds.value = response[4].data?.results;
             if (store.state?.isLogin) {
               recommends.value = response[5].data?.results;
