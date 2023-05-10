@@ -174,7 +174,7 @@
                   {{ dataMovie?.overview }}
                 </p>
               </div>
-              <div>
+              <div class="action">
                 <a-button key="back" size="large" @click="handleCancel"
                   >Đóng
                 </a-button>
