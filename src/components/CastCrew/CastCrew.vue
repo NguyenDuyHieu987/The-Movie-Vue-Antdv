@@ -95,39 +95,51 @@ export default {
     const responsiveCarousel = ref({
       0: {
         items: 2,
+        slideBy: 2,
       },
       520: {
         items: 3,
+        slideBy: 3,
       },
       750: {
         items: 4,
+        slideBy: 4,
       },
       830: {
         items: 4,
+        slideBy: 4,
       },
       1000: {
         items: 5,
+        slideBy: 5,
       },
       1175: {
         items: 6,
+        slideBy: 6,
       },
       1300: {
         items: 6,
+        slideBy: 6,
       },
       1400: {
         items: 7,
+        slideBy: 7,
       },
       1500: {
         items: 8,
+        slideBy: 8,
       },
       1700: {
         items: 9,
+        slideBy: 9,
       },
       2000: {
         items: 10,
+        slideBy: 10,
       },
       2200: {
         items: 12,
+        slideBy: 12,
       },
     });
 

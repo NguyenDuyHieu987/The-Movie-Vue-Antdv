@@ -96,45 +96,59 @@ export default {
     const responsive = ref({
       0: {
         items: 2,
+        slideBy: 2,
       },
       500: {
         items: 2,
+        slideBy: 2,
       },
       520: {
         items: 3,
+        slideBy: 3,
       },
       700: {
         items: 4,
+        slideBy: 4,
       },
       800: {
         items: 3,
+        slideBy: 3,
       },
       900: {
         items: 4,
+        slideBy: 4,
       },
       1175: {
         items: 5,
+        slideBy: 5,
       },
       1300: {
         items: 6,
+        slideBy: 6,
       },
       1400: {
         items: 6,
+        slideBy: 6,
       },
       1550: {
         items: 7,
+        slideBy: 7,
       },
       1700: {
         items: 8,
+        slideBy: 8,
       },
       1900: {
         items: 9,
+        slideBy: 9,
       },
       2000: {
         items: 10,
+        slideBy: 10,
       },
       2200: {
         items: 11,
+        slideBy: 11,
       },
     });
 
