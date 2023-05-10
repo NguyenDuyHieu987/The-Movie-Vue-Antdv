@@ -80,7 +80,8 @@
           @click="handleLoadMoreRecommend"
         >
           <template #icon>
-            <i class="fa-light fa-plus"></i>
+            <!-- <i class="fa-light fa-plus"></i> -->
+            <PlusOutlined />
           </template>
           {{ loadMoreRecommend ? 'Đang tải...' : 'Tải thêm' }}
         </el-button>
@@ -262,6 +263,7 @@ import {
 } from '@/services/MovieService';
 import { useMeta } from 'vue-meta';
 import { useStore } from 'vuex';
+import { PlusOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'home',
@@ -271,6 +273,7 @@ export default {
     MovieCardHorizontal,
     MovieCardVertical,
     MovieCardHorizontalTrailer,
+    PlusOutlined,
   },
   setup() {
     const store = useStore();
