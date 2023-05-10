@@ -25,7 +25,7 @@
                 >
                   <img
                     class="ant-image"
-                    v-lazy="getBackdrop(topicImage)"
+                    v-lazy="getBackdrop(topicImage, '350,')"
                     :preview="false"
                   />
 
@@ -52,7 +52,7 @@
                 >
                   <img
                     class="ant-image"
-                    v-lazy="getBackdrop(topicImage)"
+                    v-lazy="getBackdrop(topicImage, '350,')"
                     :preview="false"
                   />
 
@@ -64,7 +64,7 @@
                 <img
                   class="ant-image"
                   v-if="!dataList?.length"
-                  v-lazy="getBackdrop(topicImage)"
+                  v-lazy="getBackdrop(topicImage, '350,')"
                   :preview="false"
                 />
               </div>
@@ -173,7 +173,7 @@
                 >
                   <img
                     class="ant-image"
-                    v-lazy="getBackdrop(topicImage)"
+                    v-lazy="getBackdrop(topicImage, '350,')"
                     :preview="false"
                   />
 
@@ -200,7 +200,7 @@
                 >
                   <img
                     class="ant-image"
-                    v-lazy="getBackdrop(topicImage)"
+                    v-lazy="getBackdrop(topicImage, '350,')"
                     :preview="false"
                   />
 
@@ -212,7 +212,7 @@
                 <img
                   class="ant-image"
                   v-if="!dataList?.length"
-                  v-lazy="getBackdrop(topicImage)"
+                  v-lazy="getBackdrop(topicImage, '350,')"
                   :preview="false"
                 />
               </div>
