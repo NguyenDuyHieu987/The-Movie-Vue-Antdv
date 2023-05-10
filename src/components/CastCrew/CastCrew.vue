@@ -150,3 +150,5 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped src="./CastCrew.scss"></style>
