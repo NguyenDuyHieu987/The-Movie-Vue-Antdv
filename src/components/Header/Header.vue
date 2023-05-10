@@ -334,13 +334,15 @@ export default {
         if (st > lastScrollTop) {
           // downscroll code
           if (window.scrollY >= 65) {
-            header.style.backgroundColor = '#000';
+            // header.style.backgroundColor = '#000';
+            header.style.background =
+              'linear-gradient(to bottom, #050505 0, #05050575 50%, #05050500 100%)';
           } else {
-            header.style.backgroundColor = 'transparent';
+            header.style.background = 'transparent';
           }
         } else if (st < lastScrollTop) {
           // upscroll code
-          header.style.backgroundColor = 'transparent';
+          header.style.background = 'transparent';
         }
         lastScrollTop = st <= 0 ? 0 : st;
       };
