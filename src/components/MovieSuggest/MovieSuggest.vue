@@ -5,7 +5,7 @@
     </h2>
     <carousel
       v-if="dataSimilar?.length"
-      class="similar-container"
+      class="carousel-group"
       :items="4"
       :autoplay="true"
       :dots="false"
@@ -13,7 +13,7 @@
       :autoplayTimeout="5000"
       :margin="7"
       :autoplaySpeed="500"
-      :navText="[btnPrev, btnNext]"
+      :nav="false"
       :responsive="responsive"
     >
       <MovieCardVertical
@@ -23,6 +23,16 @@
         :item="item"
         :type="item.media_type"
       />
+      <template #prev>
+        <div class="owl-prev">
+          <font-awesome-icon icon="fa-solid fa-chevron-left" />
+        </div>
+      </template>
+      <template #next>
+        <div class="owl-next">
+          <font-awesome-icon icon="fa-solid fa-chevron-right" />
+        </div>
+      </template>
     </carousel>
   </div>
 
@@ -32,7 +42,7 @@
     </h2>
     <carousel
       v-if="dataRecommend?.length"
-      class="recommend-container"
+      class="carousel-group"
       :items="4"
       :autoplay="true"
       :dots="false"
@@ -40,7 +50,7 @@
       :autoplayTimeout="5000"
       :margin="7"
       :autoplaySpeed="500"
-      :navText="[btnPrev, btnNext]"
+      :nav="false"
       :responsive="responsive"
     >
       <MovieCardVertical
@@ -50,6 +60,16 @@
         :key="item.id"
         :type="item?.media_type"
       />
+      <template #prev>
+        <div class="owl-prev">
+          <font-awesome-icon icon="fa-solid fa-chevron-left" />
+        </div>
+      </template>
+      <template #next>
+        <div class="owl-next">
+          <font-awesome-icon icon="fa-solid fa-chevron-right" />
+        </div>
+      </template>
     </carousel>
   </div>
 </template>

@@ -17,6 +17,8 @@
           <strong class="view-all">Xem tất cả</strong>
         </router-link>
       </h2>
+
+      <!-- :navText="[btnPrev, btnNext]" -->
       <carousel
         v-if="nowPlayings?.length"
         class="carousel-group"
@@ -27,7 +29,7 @@
         :autoplayTimeout="10000"
         :margin="7"
         :autoplaySpeed="500"
-        :navText="[btnPrev, btnNext]"
+        :nav="false"
         :responsive="{
           0: {
             items: 2,
@@ -78,6 +80,17 @@
           :key="item.id"
           type="movie"
         />
+
+        <template #prev>
+          <div class="owl-prev">
+            <font-awesome-icon icon="fa-solid fa-chevron-left" />
+          </div>
+        </template>
+        <template #next>
+          <div class="owl-next">
+            <font-awesome-icon icon="fa-solid fa-chevron-right" />
+          </div>
+        </template>
       </carousel>
     </div>
 
@@ -204,6 +217,7 @@
       </h2>
       <carousel
         v-if="topRateds?.length"
+        class="carousel-group"
         :items="4"
         :autoplay="true"
         :dots="false"
@@ -211,7 +225,7 @@
         :autoplayTimeout="10000"
         :margin="7"
         :autoplaySpeed="500"
-        :navText="[btnPrev, btnNext]"
+        :nav="false"
         :responsive="{
           0: {
             items: 2,
@@ -282,6 +296,17 @@
           :key="item.id"
           type="movie"
         />
+
+        <template #prev>
+          <div class="owl-prev">
+            <font-awesome-icon icon="fa-solid fa-chevron-left" />
+          </div>
+        </template>
+        <template #next>
+          <div class="owl-next">
+            <font-awesome-icon icon="fa-solid fa-chevron-right" />
+          </div>
+        </template>
       </carousel>
     </div>
   </div>

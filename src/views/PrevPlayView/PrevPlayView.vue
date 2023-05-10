@@ -477,70 +477,13 @@
       </div>
     </div>
 
-    <!-- <h3 class="section-title">
-      <strong>Diễn viên</strong>
-    </h3> -->
+    <CastCrew :dataCredit="dataCredit" :loading="loading" />
 
-    <div class="cast-suggest">
-      <a-tabs
-        v-model:activeKey="activeTabCast"
-        v-show="dataCredit?.cast?.length"
-      >
-        <a-tab-pane key="1" tab="Diễn viên">
-          <carousel
-            v-if="dataCredit?.cast?.length"
-            class="cast"
-            :items="4"
-            :autoplay="true"
-            :dots="false"
-            :autoplayHoverPause="true"
-            :autoplayTimeout="5000"
-            :margin="7"
-            :autoplaySpeed="500"
-            :navText="[btnPrev, btnNext]"
-            :responsive="responsiveCarousel"
-          >
-            <CastCard
-              v-for="(item, index) in dataCredit?.cast"
-              :item="item"
-              :index="index"
-              :key="item.id"
-              :loading="loading"
-            />
-          </carousel>
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="Đội ngũ" force-render>
-          <carousel
-            v-if="dataCredit?.crew?.length"
-            class="cast"
-            :items="4"
-            :autoplay="true"
-            :loop="true"
-            :dots="false"
-            :autoplayHoverPause="true"
-            :autoplayTimeout="5000"
-            :margin="7"
-            :autoplaySpeed="500"
-            :navText="[btnPrev, btnNext]"
-            :responsive="responsiveCarousel"
-          >
-            <CastCard
-              v-for="(item, index) in dataCredit?.crew"
-              :item="item"
-              :index="index"
-              :key="item.id"
-              :loading="loading"
-            />
-          </carousel>
-        </a-tab-pane>
-      </a-tabs>
-
-      <MovieSuggest
-        v-if="!checkEmptyDataMovies"
-        :movieId="dataMovie?.id"
-        type="movie"
-      />
-    </div>
+    <MovieSuggest
+      v-if="!checkEmptyDataMovies"
+      :movieId="dataMovie?.id"
+      type="movie"
+    />
   </div>
 </template>
 <script>
@@ -568,10 +511,9 @@ import {
   // getList,
   // getColorImage,
 } from '@/services/MovieService';
-import carousel from 'vue-owl-carousel/src/Carousel';
 import Interaction from '@/components/Interaction/Interaction.vue';
 import RatingMovie from '@/components/RatingMovie/RatingMovie.vue';
-import CastCard from '@/components/CastCard/CastCard.vue';
+import CastCrew from '@/components/CastCrew/CastCrew.vue';
 import MovieSuggest from '@/components/MovieSuggest/MovieSuggest.vue';
 import { useStore } from 'vuex';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
@@ -586,10 +528,9 @@ import { message } from 'ant-design-vue';
 
 export default {
   components: {
-    carousel,
     Interaction,
     RatingMovie,
-    CastCard,
+    CastCrew,
     MovieSuggest,
     // QuestionCircleOutlined,
   },
@@ -604,52 +545,12 @@ export default {
     // const dataAddToList = ref([]);
     const dataSimilar = ref([]);
     const dataRecommend = ref([]);
-    const responsiveCarousel = ref({
-      0: {
-        items: 2,
-      },
-      520: {
-        items: 3,
-      },
-      750: {
-        items: 4,
-      },
-      830: {
-        items: 4,
-      },
-      1000: {
-        items: 5,
-      },
-      1175: {
-        items: 6,
-      },
-      1300: {
-        items: 6,
-      },
-      1400: {
-        items: 7,
-      },
-      1500: {
-        items: 8,
-      },
-      1700: {
-        items: 9,
-      },
-      2000: {
-        items: 10,
-      },
-      2200: {
-        items: 12,
-      },
-    });
     const isOpenContent = ref(false);
     const isOpenTrailerYoutube = ref(false);
     const loading = ref(false);
     const srcBackdropList = ref([]);
     const isAddToList = ref(false);
 
-    const btnPrev = ref('<i class="fa-solid fa-chevron-left"></i>');
-    const btnNext = ref('<i class="fa-solid fa-chevron-right"></i>');
     const internalInstance = getCurrentInstance();
 
     onMounted(() => {});
@@ -1033,7 +934,6 @@ export default {
     });
 
     return {
-      responsiveCarousel,
       srcBackdropList,
       genresName,
       isEpisodes,
@@ -1043,10 +943,7 @@ export default {
       isOpenTrailerYoutube,
       dataSimilar,
       dataRecommend,
-      btnPrev,
-      btnNext,
       loading,
-      activeTabCast: ref('1'),
       isAddToList,
       checkEmptyDataMovies,
       getPoster,
