@@ -90,6 +90,7 @@
 import { ref, onMounted } from 'vue';
 // import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons-vue';
 import TheMenu from '../TheMenu/TheMenu.vue';
+import { useStore } from 'vuex';
 
 export default {
   components: {
@@ -99,6 +100,7 @@ export default {
   },
 
   setup() {
+    const store = useStore();
     onMounted(() => {
       const menu = document.querySelector(
         '.sider-bar .ant-layout-sider-children'
@@ -107,7 +109,9 @@ export default {
 
       menu.addEventListener('scroll', (e) => {
         if (e.target.scrollTop > 0) {
-          sider_header.style.backgroundColor = '#000';
+          if (store.state.isLogin) {
+            sider_header.style.backgroundColor = '#000';
+          }
         } else {
           sider_header.style.backgroundColor = 'transparent';
         }
