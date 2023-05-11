@@ -283,7 +283,7 @@
           height="24px"
           viewBox="0 0 24 24"
           width="24px"
-          fill="#919191"
+          fill="#c5c5c5"
         >
           <g><rect fill="none" height="24" width="24" /></g>
           <g>
