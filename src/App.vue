@@ -178,6 +178,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background-color: var(--loading-background);
   .loading-page-container {
     display: flex;
     flex-direction: column;

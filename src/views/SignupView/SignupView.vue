@@ -66,22 +66,23 @@
               size="large"
               @click="handleResendVerifyEmail"
               :disabled="disabled_countdown"
+              :loading="loadingResend"
               class="count-down-button"
               :class="{ disabled: disabled_countdown }"
             >
-              {{ countdown }}
+              <span v-if="!loadingResend"> {{ countdown }}</span>
             </a-button>
           </a-form-item>
 
           <a-form-item>
             <a-button
-              :disabled="false"
               type="primary"
               html-type="submit"
               class="verify-form-button"
               size="large"
               @click="handleVerify"
               :loading="loadingVerify"
+              :disabled="disabledVerifyEmail"
             >
               Xác nhận
             </a-button>
@@ -297,7 +298,7 @@ export default defineComponent({
     const isSignUp = ref(false);
     const jwtToken_VerifyEmail = ref('');
     const disabled_countdown = ref(true);
-
+    const loadingResend = ref(false);
     const countdown = ref('60 s');
 
     watch(isSignUp, () => {
@@ -384,6 +385,10 @@ export default defineComponent({
         formState.checkPass &&
         formState.password == formState.checkPass
       );
+    });
+
+    const disabledVerifyEmail = computed(() => {
+      return !(formStateVerify.email && formStateVerify.otp.length == 6);
     });
 
     const checkConfirmPassword = async (_rule, value) => {
@@ -520,6 +525,7 @@ export default defineComponent({
     };
 
     const handleResendVerifyEmail = () => {
+      loadingResend.value = true;
       verifyEmail({
         id: formState.id,
         username: formState.username,
@@ -535,7 +541,7 @@ export default defineComponent({
 
           if (response?.data?.isVerify === true) {
             disabled_countdown.value = true;
-            loadingSignUp.value = false;
+            loadingResend.value = false;
 
             ElNotification.success({
               title: 'Thành công!',
@@ -549,7 +555,7 @@ export default defineComponent({
 
             jwtToken_VerifyEmail.value = response.headers.get('Authorization');
           } else if (response.data?.isInValidEmail == true) {
-            loadingSignUp.value = false;
+            loadingResend.value = false;
 
             ElNotification.error({
               title: 'Lỗi!',
@@ -560,7 +566,7 @@ export default defineComponent({
                 }),
             });
           } else if (response.data?.isEmailExist == true) {
-            loadingSignUp.value = false;
+            loadingResend.value = false;
 
             ElNotification.error({
               title: 'Lỗi!',
@@ -571,7 +577,7 @@ export default defineComponent({
                 }),
             });
           } else if (response.data?.isSendEmail == false) {
-            loadingSignUp.value = false;
+            loadingResend.value = false;
 
             ElNotification.error({
               title: 'Lỗi!',
@@ -582,7 +588,7 @@ export default defineComponent({
                 }),
             });
           } else {
-            loadingSignUp.value = false;
+            loadingResend.value = false;
 
             ElNotification.error({
               title: 'Failed!',
@@ -596,7 +602,7 @@ export default defineComponent({
         })
         .catch((e) => {
           setTimeout(() => {
-            loadingSignUp.value = false;
+            loadingResend.value = false;
 
             ElNotification.error({
               title: 'Failed!',
@@ -811,6 +817,8 @@ export default defineComponent({
       rules,
       loadingSignUp,
       loadingVerify,
+      loadingResend,
+      disabledVerifyEmail,
       isSignUp,
       countdown,
       disabled_countdown,

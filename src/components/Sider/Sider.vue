@@ -110,7 +110,7 @@ export default {
       menu.addEventListener('scroll', (e) => {
         if (e.target.scrollTop > 0) {
           if (store.state.isLogin) {
-            sider_header.style.backgroundColor = '#000';
+            sider_header.style.backgroundColor = '#070707';
           }
         } else {
           sider_header.style.backgroundColor = 'transparent';
