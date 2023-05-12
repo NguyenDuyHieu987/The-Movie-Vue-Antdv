@@ -272,9 +272,7 @@
       height: 330px;
       width: 350px;
       transition-delay: 2s;
-      background-color: #000;
-      border-top-right-radius: 5px;
-      border-top-left-radius: 5px;
+      background-color: var(--background-content-color);
       box-shadow: 0 3px 6px -4px #000000ba, 0 6px 16px 0 #00000098,
         0 9px 28px 8px #00000077;
       transition-duration: 0.3s;
