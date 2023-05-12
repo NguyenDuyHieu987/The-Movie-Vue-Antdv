@@ -104,6 +104,8 @@
         transition: all 0s;
         border-radius: 0 20px 20px 0;
         border-left: none;
+        display: flex;
+        align-items: center;
 
         svg {
           font-size: 1.9rem;
