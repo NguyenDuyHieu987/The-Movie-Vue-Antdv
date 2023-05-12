@@ -7,11 +7,11 @@
   }
 
   .home-section {
+    // clip-path: inset(-100vw 0 -100vw 0);
+
     &.recommend {
       .movie-group.horizontal,
       .movie-group.vertical {
-        // display: flex;
-        // flex-direction: row;
         grid-auto-flow: column;
         transition: all 0.3s;
         clip-path: inset(-100vw 0 -100vw 0);
