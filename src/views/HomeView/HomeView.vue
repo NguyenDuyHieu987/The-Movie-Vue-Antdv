@@ -133,7 +133,7 @@
           :item="item"
           :index="index"
           :key="item.id"
-          type="movie"
+          :type="item.media_type"
         />
 
         <template #prev>
