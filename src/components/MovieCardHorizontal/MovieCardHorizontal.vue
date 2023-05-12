@@ -373,7 +373,7 @@ export default {
 
           if (detailFlow?.style) {
             // if (rect.left <= 300) {
-            if (e.x - x.offsetWidth <= 250) {
+            if (e.x - x.offsetWidth <= 230) {
               detailFlow.style.left = '10px';
               detailFlow.style.right = 'auto';
               detailFlow.style.transform =
