@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 // import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons-vue';
 import TheMenu from '../TheMenu/TheMenu.vue';
 // import { useStore } from 'vuex';
@@ -101,22 +101,24 @@ export default {
 
   setup() {
     // const store = useStore();
-    // onMounted(() => {
-    //   const menu = document.querySelector(
-    //     '.sider-bar .ant-layout-sider-children'
-    //   );
-    //   const sider_header = document.querySelector('.sider-header');
+    onMounted(() => {
+      const menu = document.querySelector(
+        '.sider-bar .ant-layout-sider-children'
+      );
+      const sider_header = document.querySelector('.sider-header');
 
-    //   menu.addEventListener('scroll', (e) => {
-    //     if (e.target.scrollTop > 0) {
-    //       if (store.state.isLogin) {
-    //         sider_header.style.backgroundColor = '#070707';
-    //       }
-    //     } else {
-    //       sider_header.style.backgroundColor = 'transparent';
-    //     }
-    //   });
-    // });
+      menu.addEventListener('scroll', (e) => {
+        if (e.target.scrollTop > 0) {
+          // if (store.state.isLogin) {
+          sider_header.style.backgroundColor =
+            'var(--background-content-color)';
+
+          // }
+        } else {
+          sider_header.style.backgroundColor = 'transparent';
+        }
+      });
+    });
 
     return {
       selectedKeys1: ref(['2']),
