@@ -338,13 +338,13 @@ export default {
             header.style.background = '#0b0b0bcc';
           } else if (window.scrollY == 0) {
             header.style.background =
-              'linear-gradient(to bottom, #050505 0, #05050575 70%, #05050500 100%)';
+              'linear-gradient(to bottom, #050505 0, #05050500 100%)';
           }
         } else if (st < lastScrollTop) {
           // upscroll code
           if (window.scrollY == 0) {
             header.style.background =
-              'linear-gradient(to bottom, #050505 0, #05050575 70%, #05050500 100%)';
+              'linear-gradient(to bottom, #050505 0, #05050500 100%)';
           }
         }
         lastScrollTop = st <= 0 ? 0 : st;
