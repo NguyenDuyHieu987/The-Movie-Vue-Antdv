@@ -19,38 +19,18 @@
       </h2>
 
       <!-- :navText="[btnPrev, btnNext]" -->
-      <carousel
-        v-if="nowPlayings?.length"
-        class="carousel-group"
-        :items="4"
-        :autoplay="true"
-        :dots="false"
-        :autoplayHoverPause="true"
-        :autoplayTimeout="10000"
-        :margin="7"
-        :autoplaySpeed="500"
-        :nav="false"
-        :responsive="responsiveHorizoltal"
-      >
-        <MovieCardHorizontal
-          v-for="(item, index) in nowPlayings"
-          :item="item"
-          :index="index"
-          :key="item.id"
-          type="movie"
-        />
 
-        <template #prev>
-          <div class="owl-prev">
-            <font-awesome-icon icon="fa-solid fa-chevron-left" />
-          </div>
+      <CarouselGroup :data="nowPlayings" :responsive="responsiveHorizoltal">
+        <template #content>
+          <MovieCardHorizontal
+            v-for="(item, index) in nowPlayings"
+            :item="item"
+            :index="index"
+            :key="item.id"
+            type="movie"
+          />
         </template>
-        <template #next>
-          <div class="owl-next">
-            <font-awesome-icon icon="fa-solid fa-chevron-right" />
-          </div>
-        </template>
-      </carousel>
+      </CarouselGroup>
     </div>
 
     <div
@@ -115,38 +95,17 @@
         </NuxtLink>
       </h2>
 
-      <carousel
-        v-if="cartoons?.length"
-        class="carousel-group"
-        :items="5"
-        :autoplay="true"
-        :dots="false"
-        :autoplayHoverPause="true"
-        :autoplayTimeout="10000"
-        :margin="7"
-        :autoplaySpeed="500"
-        :nav="false"
-        :responsive="responsiveHorizoltal"
-      >
-        <MovieCardHorizontal
-          v-for="(item, index) in cartoons"
-          :item="item"
-          :index="index"
-          :key="item.id"
-          :type="item.media_type"
-        />
-
-        <template #prev>
-          <div class="owl-prev">
-            <font-awesome-icon icon="fa-solid fa-chevron-left" />
-          </div>
+      <CarouselGroup :data="cartoons" :responsive="responsiveHorizoltal">
+        <template #content>
+          <MovieCardHorizontal
+            v-for="(item, index) in cartoons"
+            :item="item"
+            :index="index"
+            :key="item.id"
+            :type="item.media_type"
+          />
         </template>
-        <template #next>
-          <div class="owl-next">
-            <font-awesome-icon icon="fa-solid fa-chevron-right" />
-          </div>
-        </template>
-      </carousel>
+      </CarouselGroup>
     </div>
 
     <div class="home-section tv-new" v-show="tvAiringTodays?.length">
@@ -166,48 +125,17 @@
         </router-link>
       </h2>
 
-      <!-- <section class="movie-group vertical">
-        <MovieCardVertical
-          v-for="(item, index) in tvAiringTodays"
-          :index="index"
-          :key="item.id"
-          :item="item"
-          type="tv"
-        />
-      </section> -->
-
-      <carousel
-        v-if="tvAiringTodays?.length"
-        class="carousel-group"
-        :items="4"
-        :autoplay="true"
-        :dots="false"
-        :autoplayHoverPause="true"
-        :autoplayTimeout="10000"
-        :margin="7"
-        :autoplaySpeed="500"
-        :nav="false"
-        :responsive="responsiveVertical"
-      >
-        <MovieCardVertical
-          v-for="(item, index) in tvAiringTodays"
-          :index="index"
-          :key="item.id"
-          :item="item"
-          type="tv"
-        />
-
-        <template #prev>
-          <div class="owl-prev">
-            <font-awesome-icon icon="fa-solid fa-chevron-left" />
-          </div>
+      <CarouselGroup :data="tvAiringTodays" :responsive="responsiveVertical">
+        <template #content>
+          <MovieCardVertical
+            v-for="(item, index) in tvAiringTodays"
+            :index="index"
+            :key="item.id"
+            :item="item"
+            type="tv"
+          />
         </template>
-        <template #next>
-          <div class="owl-next">
-            <font-awesome-icon icon="fa-solid fa-chevron-right" />
-          </div>
-        </template>
-      </carousel>
+      </CarouselGroup>
     </div>
 
     <div class="home-section trailer" v-show="upComings?.length">
@@ -255,38 +183,18 @@
           <strong class="view-all">Xem tất cả</strong>
         </router-link>
       </h2>
-      <carousel
-        v-if="topRateds?.length"
-        class="carousel-group"
-        :items="4"
-        :autoplay="true"
-        :dots="false"
-        :autoplayHoverPause="true"
-        :autoplayTimeout="10000"
-        :margin="7"
-        :autoplaySpeed="500"
-        :nav="false"
-        :responsive="responsiveVertical"
-      >
-        <MovieCardVertical
-          v-for="(item, index) in topRateds"
-          :item="item"
-          :index="index"
-          :key="item.id"
-          type="movie"
-        />
 
-        <template #prev>
-          <div class="owl-prev">
-            <font-awesome-icon icon="fa-solid fa-chevron-left" />
-          </div>
+      <CarouselGroup :data="topRateds" :responsive="responsiveVertical">
+        <template #content>
+          <MovieCardVertical
+            v-for="(item, index) in topRateds"
+            :item="item"
+            :index="index"
+            :key="item.id"
+            type="movie"
+          />
         </template>
-        <template #next>
-          <div class="owl-next">
-            <font-awesome-icon icon="fa-solid fa-chevron-right" />
-          </div>
-        </template>
-      </carousel>
+      </CarouselGroup>
     </div>
 
     <div class="home-section on-the-air">
@@ -302,38 +210,17 @@
         </NuxtLink>
       </h2>
 
-      <carousel
-        v-if="tvOnTheAirs?.length"
-        class="carousel-group"
-        :items="5"
-        :autoplay="true"
-        :dots="false"
-        :autoplayHoverPause="true"
-        :autoplayTimeout="10000"
-        :margin="7"
-        :autoplaySpeed="500"
-        :nav="false"
-        :responsive="responsiveHorizoltal"
-      >
-        <MovieCardHorizontal
-          v-for="(item, index) in tvOnTheAirs"
-          :item="item"
-          :index="index"
-          :key="item.id"
-          type="tv"
-        />
-
-        <template #prev>
-          <div class="owl-prev">
-            <font-awesome-icon icon="fa-solid fa-chevron-left" />
-          </div>
+      <CarouselGroup :data="tvOnTheAirs" :responsive="responsiveHorizoltal">
+        <template #content>
+          <MovieCardHorizontal
+            v-for="(item, index) in tvOnTheAirs"
+            :item="item"
+            :index="index"
+            :key="item.id"
+            type="tv"
+          />
         </template>
-        <template #next>
-          <div class="owl-next">
-            <font-awesome-icon icon="fa-solid fa-chevron-right" />
-          </div>
-        </template>
-      </carousel>
+      </CarouselGroup>
     </div>
   </div>
 </template>
@@ -342,7 +229,7 @@
 // @ is an alias to /src
 import { onBeforeMount, ref } from 'vue';
 import axios from 'axios';
-import carousel from 'vue-owl-carousel/src/Carousel';
+import CarouselGroup from '@/components/CarouselGroup/CarouselGroup.vue';
 import SlideTopicHome from '@/components/SlideTopicHome/SlideTopicHome.vue';
 import MovieCardHorizontal from '@/components/MovieCardHorizontal/MovieCardHorizontal.vue';
 import MovieCardVertical from '@/components/MovieCardVertical/MovieCardVertical.vue';
@@ -365,7 +252,7 @@ export default {
   name: 'home',
   components: {
     SlideTopicHome,
-    carousel,
+    CarouselGroup,
     MovieCardHorizontal,
     MovieCardVertical,
     MovieCardHorizontalTrailer,
