@@ -38,12 +38,17 @@
       // border-right: 0.25px solid var( --border-regular-light);
       // margin-right: 10px;
 
+      &:active {
+        opacity: 0.8;
+      }
+
       svg {
         font-size: 1.3em;
         // cursor: pointer;
         // margin-right: 10px;
         // margin-bottom: 3px;
       }
+
       .el-icon {
         margin-top: 1px;
         margin-left: -5px;
@@ -155,6 +160,10 @@
         // background-color: var(--hover-regular-color) !important;
         background-color: none !important;
         background: none !important;
+
+        &:active {
+          opacity: 0.8;
+        }
       }
     }
 
