@@ -49,6 +49,7 @@
             title="Tìm kiếm"
             content="Tìm kiếm"
             effect="dark"
+            placement="bottom"
           >
             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
           </el-tooltip>

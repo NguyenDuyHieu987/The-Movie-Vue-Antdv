@@ -42,6 +42,8 @@
   --background-admin-color: #181818;
   --loading-background: #101010;
 
+  --search-focus-background: #141414;
+
   --hover-regular-color: #002135;
   --hover-dropdown-color: #222222;
 
@@ -480,6 +482,7 @@ dl {
   padding: 10px 18px;
 
   & > span {
+    font-size: 1.3rem;
   }
 
   .el-popper__arrow {
