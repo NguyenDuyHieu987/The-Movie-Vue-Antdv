@@ -556,10 +556,13 @@ dl {
         // color: #007ea5;
         color: #fff;
         transform: scale(1.2);
+      }
+    }
 
-        &:active {
-          opacity: 0.7;
-        }
+    &:active {
+      i,
+      svg {
+        opacity: 0.7;
       }
     }
   }
