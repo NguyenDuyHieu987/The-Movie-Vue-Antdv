@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    v-if="openDrawer"
+    v-if="$store.state.openDrawer == true"
     v-model="$store.state.openDrawer"
     direction="ltr"
     placement="left"
