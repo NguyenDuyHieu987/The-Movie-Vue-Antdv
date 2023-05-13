@@ -160,10 +160,6 @@
         // background-color: var(--hover-regular-color) !important;
         background-color: none !important;
         background: none !important;
-
-        &:active {
-          opacity: 0.8;
-        }
       }
     }
 
@@ -171,6 +167,10 @@
       background-color: transparent;
       display: none;
       border: none;
+
+      &:active {
+        opacity: 0.8;
+      }
     }
   }
 }
@@ -202,11 +202,11 @@
   .ant-layout-header.header {
     padding-left: 0px;
     padding-right: 0px;
-  }
 
-  .logo {
-    .menu-btn {
-      display: block;
+    .logo {
+      .menu-btn {
+        display: block;
+      }
     }
   }
 
