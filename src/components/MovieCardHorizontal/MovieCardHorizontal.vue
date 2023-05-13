@@ -190,7 +190,9 @@
 
             <el-tooltip
               :teleported="false"
-              content="Thêm vào danh sách"
+              :content="
+                !isAddToList ? 'Thêm vào danh sách' : 'Xóa khỏi danh sách'
+              "
               placement="top"
             >
               <a-button
