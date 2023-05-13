@@ -158,8 +158,10 @@
       }
     }
 
-    .ant-btn {
+    .ant-btn.search-btn-mobile {
+      background-color: transparent;
       display: none;
+      border: none;
     }
   }
 }
@@ -174,7 +176,7 @@
     display: flex;
     align-items: center;
 
-    .ant-btn {
+    .ant-btn.search-btn-mobile {
       display: block !important;
       margin-right: 0px;
     }

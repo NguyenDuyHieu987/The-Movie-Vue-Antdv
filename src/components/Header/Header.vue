@@ -20,7 +20,7 @@
       class="center-search-header"
       dropdown-class-name="certain-category-search-dropdown"
       :options="dataSearch"
-      style="width: 40%; min-width: 350px; max-width: 550px"
+      style="width: 40%; min-width: 400px; max-width: 500px"
       :open="isOpenAutoComplete"
       @change="handleChangeInput"
       @focus="isOpenAutoComplete = true"
@@ -58,10 +58,13 @@
     </a-auto-complete>
 
     <div class="right-header">
-      <!-- <el-popover trigger="click" placement="bottom" class="popover-search">
+      <el-popover trigger="click" placement="bottom" class="popover-search">
         <template #reference>
-          <a-button type="primary" shape="circle" size="large">
-            <template #icon><SearchOutlined /></template>
+          <a-button type="text" shape="circle" class="search-btn-mobile">
+            <template #icon>
+              <!-- <SearchOutlined /> -->
+              <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+            </template>
           </a-button>
         </template>
 
@@ -89,7 +92,6 @@
             </template>
             <a-input-search
               class="center-search-header-responsive"
-              enter-button
               placeholder="Nhập tên phim để tìm kiếm..."
               size="large"
               allowClear
@@ -97,10 +99,13 @@
               :loading="loadingSearch"
               @search="handleSearch"
             >
+              <template #enterButton>
+                <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+              </template>
             </a-input-search>
           </a-auto-complete>
         </template>
-      </el-popover> -->
+      </el-popover>
 
       <a-menu
         theme="dark"
