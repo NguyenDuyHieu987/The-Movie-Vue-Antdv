@@ -12,7 +12,6 @@
               slug2: 'nowplaying',
             },
           }"
-          style="font-size: 1.8rem"
         >
           <strong class="view-all">Xem tất cả</strong>
         </router-link>
@@ -89,7 +88,6 @@
           :to="{
             path: `/discover/genres/hoat-hinh`,
           }"
-          style="font-size: 1.8rem"
         >
           <strong class="view-all">Xem tất cả</strong>
         </NuxtLink>
@@ -119,7 +117,6 @@
               slug2: 'airingtoday',
             },
           }"
-          style="font-size: 1.8rem"
         >
           <strong class="view-all">Xem tất cả</strong>
         </router-link>
@@ -150,7 +147,6 @@
               slug2: 'upcoming',
             },
           }"
-          style="font-size: 1.8rem"
         >
           <strong class="view-all">Xem tất cả</strong>
         </router-link>
@@ -178,7 +174,6 @@
               slug2: 'toprated',
             },
           }"
-          style="font-size: 1.8rem"
         >
           <strong class="view-all">Xem tất cả</strong>
         </router-link>
@@ -204,7 +199,6 @@
           :to="{
             path: `/discover/tv/ontheair`,
           }"
-          style="font-size: 1.8rem"
         >
           <strong class="view-all">Xem tất cả</strong>
         </NuxtLink>
