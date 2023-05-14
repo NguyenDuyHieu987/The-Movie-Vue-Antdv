@@ -107,8 +107,7 @@ body {
 
 ::-webkit-scrollbar {
   width: 10px;
-  // background-color: #000;
-  background-color: transparent;
+  background-color: var(--background-content-color);
   transition: all 0.1s;
 
   &:hover {
