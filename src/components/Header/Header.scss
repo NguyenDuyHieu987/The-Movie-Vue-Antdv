@@ -106,7 +106,7 @@
       .ant-input-search-button {
         background: transparent;
         border: 1px solid var(--border-regular-light);
-        transition: all 0s;
+        transition: all 0.25s;
         border-radius: 0 20px 20px 0;
         border-left: none;
         display: flex;
@@ -116,8 +116,10 @@
           font-size: 1.9rem;
         }
 
-        &:hover {
-          // border-color: #00dac8;
+        &:active {
+          svg {
+            opacity: 0.8;
+          }
         }
       }
     }
