@@ -107,7 +107,8 @@ body {
 
 ::-webkit-scrollbar {
   width: 10px;
-  background: #000;
+  // background-color: #000;
+  background-color: transparent;
   transition: all 0.1s;
 
   &:hover {
@@ -117,7 +118,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background: #acacac;
+  background-color: #acacac;
   transition: all 0.1s;
 
   &:active {
