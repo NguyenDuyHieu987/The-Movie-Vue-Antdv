@@ -125,81 +125,6 @@ export default {
     const metaHead = ref('');
     const internalInstance = getCurrentInstance();
 
-    // const getMetahead = () => {
-    //   switch (route.params?.slug) {
-    //     case 'search':
-    //       metaHead.value = 'Kết quả tìm kiếm cho: ' + route.params?.slug2;
-    //       break;
-    //     case 'movie':
-    //       if (route.params?.slug2) {
-    //         switch (route.params?.slug2) {
-    //           case 'all':
-    //             metaHead.value = 'Phim lẻ: Tất cả';
-    //             break;
-
-    //           case 'nowplaying':
-    //             metaHead.value = 'Phim lẻ: Now playing';
-    //             break;
-
-    //           case 'popular':
-    //             metaHead.value = 'Phim lẻ: Phổ biến';
-    //             break;
-    //           case 'toprated':
-    //             metaHead.value = 'Phim lẻ: Top đánh giá';
-    //             break;
-    //           case 'upcoming':
-    //             metaHead.value = 'Phim lẻ: Sắp công chiéu';
-    //         }
-    //       }
-    //       break;
-    //     case 'tv':
-    //       if (route.params?.slug2) {
-    //         switch (route.params?.slug2) {
-    //           case 'all':
-    //             metaHead.value = 'Phim bộ: Tất cả';
-    //             break;
-    //           case 'airingtoday':
-    //             metaHead.value = 'Phim bộ: Airing today';
-    //             break;
-    //           case 'ontheair':
-    //             metaHead.value = 'Phim bộ: On the air';
-    //             break;
-    //           case 'tvpopular':
-    //             metaHead.value = 'Phim bộ: Phổ biến';
-    //             break;
-    //           case 'tvtoprated':
-    //             metaHead.value = 'Phim bộ: Top đánh giá';
-    //         }
-    //       }
-    //       break;
-    //     case 'genres':
-    //       metaHead.value =
-    //         'Thể loại: ' +
-    //         getGenresNameByShortName(
-    //           route.params?.slug2,
-    //           store.state?.allGenres
-    //         )?.name_vietsub;
-
-    //       break;
-    //     case 'years':
-    //       metaHead.value = /^\d+$/.test(route.params?.slug2)
-    //         ? 'Năm ' + route.params?.slug2
-    //         : 'Trước năm ' + route.params?.slug2?.slice(-4);
-
-    //       break;
-    //     case 'countries':
-    //       metaHead.value =
-    //         'Quốc gia: ' +
-    //         store.state.allCountries.find(
-    //           (country) => country.short_name === route.params?.slug2
-    //         )?.name;
-
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // };
-
     const getData = () => {
       if (isFilter.value) {
         FilterDataMovie(formFilterSelect.value)
@@ -408,7 +333,10 @@ export default {
       loading.value = true;
       internalInstance.appContext.config.globalProperties.$Progress.start();
       getData();
-      document.title = `Phimhay247 - ${metaHead.value}`;
+      useMeta({
+        title: '`Phimhay247 - ' + metaHead.value,
+        htmlAttrs: { lang: 'vi', amp: true },
+      });
       setTimeout(() => {
         loading.value = false;
         internalInstance.appContext.config.globalProperties.$Progress.finish();
