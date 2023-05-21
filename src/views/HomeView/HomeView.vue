@@ -394,8 +394,15 @@ export default {
         topRateds.value = store.state?.topRateds;
         recommends.value = store.state?.recommends;
       } else {
+        getTrending(1)
+          .then((response) => {
+            trendings.value = response.data?.results.slice(0, 11);
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+
         Promise.all([
-          getTrending(1),
           getNowPlaying(1),
           getUpComing(1),
           getTvAiringToday(1),
@@ -407,16 +414,15 @@ export default {
             : null,
         ])
           .then((response) => {
-            trendings.value = response[0].data?.results.slice(0, 11);
-            nowPlayings.value = response[1].data?.results.slice(0, 10);
-            upComings.value = response[2].data?.results.slice(0, 10);
-            tvAiringTodays.value = response[3]?.data.results.slice(0, 10);
-            topRateds.value = response[4].data?.results.slice(0, 10);
-            tvOnTheAirs.value = response[5].data?.results.slice(0, 10);
-            cartoons.value = response[6].data?.results.slice(0, 10);
+            nowPlayings.value = response[0].data?.results.slice(0, 10);
+            upComings.value = response[1].data?.results.slice(0, 10);
+            tvAiringTodays.value = response[2]?.data.results.slice(0, 10);
+            topRateds.value = response[3].data?.results.slice(0, 10);
+            tvOnTheAirs.value = response[4].data?.results.slice(0, 10);
+            cartoons.value = response[5].data?.results.slice(0, 10);
 
             if (store.state?.isLogin) {
-              recommends.value = response[7].data?.results;
+              recommends.value = response[6].data?.results;
             }
           })
           .catch((e) => {
