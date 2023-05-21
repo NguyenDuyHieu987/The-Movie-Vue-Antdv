@@ -22,22 +22,17 @@
       <div class="topic-item-info-head">
         <img class="pngegg" src="/images/pngegg.png" />
         <p>
-          <span class="release-date">
+          <span class="release-date" v-if="item.media_type == 'movie'">
+            {{ item?.release_date }}
+          </span>
+          <span v-else class="release-date">
             {{
-              item?.release_date
-                ? item?.release_date
-                : item?.last_air_date
-                ? item?.last_air_date
-                : item?.first_air_date
+              item?.last_air_date ? item?.last_air_date : item?.first_air_date
             }}
           </span>
 
           <span class="genres">
-            {{
-              getAllGenresById(item?.genre_ids, $store.state?.allGenres).join(
-                ' • '
-              )
-            }}
+            {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
           </span>
 
           <!-- {{ getAllGenresById(item?.genres).join(' • ') }} -->
@@ -48,7 +43,7 @@
       </div>
 
       <h1 class="title">
-        {{ item?.name ? item?.name : item?.title }}
+        {{ item?.name }}
       </h1>
 
       <p class="overview">{{ item?.overview }}</p>
