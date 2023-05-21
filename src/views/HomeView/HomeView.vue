@@ -26,7 +26,7 @@
             :item="item"
             :index="index"
             :key="item.id"
-            type="movie"
+            :type="item.media_type"
           />
         </template>
       </CarouselGroup>
@@ -129,7 +129,7 @@
             :index="index"
             :key="item.id"
             :item="item"
-            type="tv"
+            :type="item.media_type"
           />
         </template>
       </CarouselGroup>
@@ -158,7 +158,7 @@
           :index="index"
           :key="item.id"
           :item="item"
-          type="movie"
+          :type="item.me_typed"
         />
       </section>
     </div>
@@ -186,7 +186,7 @@
             :item="item"
             :index="index"
             :key="item.id"
-            type="movie"
+            :type="item.me_typed"
           />
         </template>
       </CarouselGroup>
@@ -211,7 +211,7 @@
             :item="item"
             :index="index"
             :key="item.id"
-            type="tv"
+            :type="item.media_type"
           />
         </template>
       </CarouselGroup>

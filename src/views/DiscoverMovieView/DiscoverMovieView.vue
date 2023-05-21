@@ -72,6 +72,7 @@
         background
         layout="prev, pager, next, total"
         :total="totalPage"
+        :page-size="dataDiscover.length"
         :pager-count="5"
         @current-change="onChangePage"
       />
@@ -168,7 +169,7 @@ export default {
                   getNowPlaying(page.value)
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
-                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                      totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -180,7 +181,7 @@ export default {
                   getPopular(page.value)
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
-                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                      totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -192,7 +193,7 @@ export default {
                   getTopRated(page.value)
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
-                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                      totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -204,7 +205,7 @@ export default {
                   getUpComing(page.value)
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
-                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                      totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -235,7 +236,7 @@ export default {
                   getTvAiringToday(page.value)
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
-                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                      totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -247,7 +248,7 @@ export default {
                   getTvOntheAir(page.value)
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
-                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                      totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -259,7 +260,7 @@ export default {
                   getTvPopular(page.value)
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
-                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                      totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -271,7 +272,7 @@ export default {
                   getTvTopRated(page.value)
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
-                      totalPage.value = movieResponse?.data?.total_pages * 10;
+                      totalPage.value = movieResponse?.data?.total;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
