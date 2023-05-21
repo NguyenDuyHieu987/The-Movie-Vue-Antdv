@@ -20,9 +20,7 @@
           name: isEpisodes ? 'infoTV' : 'info',
           params: {
             id: item?.id,
-            name: item?.name
-              ? item?.name?.replace(/\s/g, '+').toLowerCase()
-              : item?.title?.replace(/\s/g, '+').toLowerCase(),
+            name: item?.name?.replace(/\s/g, '+').toLowerCase(),
           },
         }"
         class="movie-card-horizontal-item-trailer"
@@ -95,7 +93,7 @@
                 :title="false"
               > -->
             <p class="title">
-              {{ item?.name ? item?.name : item?.title }}
+              {{ item?.name }}
               <span v-if="isEpisodes">
                 {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
               </span>
@@ -125,7 +123,7 @@
           class="modal-trailer"
         >
           <template #title>
-            <p>Trailer: {{ item?.name ? item?.name : item?.title }}</p>
+            <p>Trailer: {{ item?.name }}</p>
           </template>
           <iframe
             height="650px"
@@ -157,7 +155,7 @@
             >
               <div style="max-width: 70%">
                 <h3 style="display: flex">
-                  <strong> {{ item?.name ? item?.name : item?.title }}</strong>
+                  <strong> {{ item?.name }}</strong>
                 </h3>
 
                 <p
@@ -184,9 +182,7 @@
                     name: 'playTV',
                     params: {
                       id: dataMovie?.id,
-                      name: dataMovie?.name
-                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                      name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
                       tap: 'tap-1',
                     },
                   }"
@@ -200,9 +196,7 @@
                     name: 'play',
                     params: {
                       id: dataMovie?.id,
-                      name: dataMovie?.name
-                        ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                      name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
                     },
                   }"
                   class="btn-play-now"

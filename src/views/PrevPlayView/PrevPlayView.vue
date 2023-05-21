@@ -106,11 +106,7 @@
 
           <h3>
             <strong>
-              {{
-                dataMovie?.original_title
-                  ? dataMovie?.original_title
-                  : dataMovie?.original_name
-              }}
+              {{ dataMovie?.original_name }}
               {{ `(${dataMovie?.release_date?.slice(0, 4)})` }}
             </strong>
           </h3>

@@ -4,9 +4,7 @@
       name: isEpisodes ? 'infoTV' : 'info',
       params: {
         id: item?.id,
-        name: item?.name
-          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+        name: item?.name?.replace(/\s/g, '+').toLowerCase(),
       },
     }"
     class="movie-card-horizontal-item"
@@ -81,7 +79,7 @@
               :title="false"
             > -->
             <p class="title">
-              {{ item?.name ? item?.name : item?.title }}
+              {{ item?.name }}
               <span v-if="isEpisodes">
                 {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
               </span>
@@ -135,9 +133,7 @@
                   name: 'playTV',
                   params: {
                     id: item?.id,
-                    name: item?.name
-                      ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                      : item?.title?.replace(/\s/g, '+').toLowerCase(),
+                    name: item?.name?.replace(/\s/g, '+').toLowerCase(),
                     tap: 'tap-1',
                   },
                 }"
@@ -164,9 +160,7 @@
                   name: 'play',
                   params: {
                     id: item?.id,
-                    name: item?.name
-                      ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                      : item?.title?.replace(/\s/g, '+').toLowerCase(),
+                    name: item?.name?.replace(/\s/g, '+').toLowerCase(),
                   },
                 }"
                 class="btn-play-now"
@@ -216,7 +210,7 @@
               <ShareNetwork
                 network="facebook"
                 :url="urlShare"
-                :title="dataMovie?.name ? dataMovie?.name : dataMovie?.title"
+                :title="dataMovie?.name"
                 hashtags="phimhay247.site,vite"
                 style="white-space: nowrap; display: block"
               >
@@ -245,9 +239,7 @@
                   name: isEpisodes ? 'infoTV' : 'info',
                   params: {
                     id: item?.id,
-                    name: item?.name
-                      ? item?.name?.replace(/\s/g, '+').toLowerCase()
-                      : item?.title?.replace(/\s/g, '+').toLowerCase(),
+                    name: item?.name?.replace(/\s/g, '+').toLowerCase(),
                   },
                 }"
               >
@@ -263,7 +255,7 @@
         </div>
         <div class="info">
           <h3 class="title">
-            {{ item?.name ? item?.name : item?.title }}
+            {{ item?.name }}
             <span v-if="isEpisodes">
               {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
             </span>

@@ -4,9 +4,7 @@
       name: item?.type || item?.media_type == 'tv' ? 'infoTV' : 'info',
       params: {
         id: item?.id,
-        name: item?.name
-          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+        name: item?.name?.replace(/\s/g, '+').toLowerCase(),
       },
     }"
     class="movie-rank-item"
@@ -26,7 +24,7 @@
     <div class="info">
       <div class="top">
         <p class="title">
-          {{ item?.name ? item?.name : item?.title }}
+          {{ item?.name }}
           <span v-if="isEpisodes">
             {{ ' - Phần ' + item?.last_episode_to_air?.season_number }}
           </span>

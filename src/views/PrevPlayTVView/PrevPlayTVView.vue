@@ -110,11 +110,7 @@
 
           <h3>
             <strong>
-              {{
-                dataMovie?.original_title
-                  ? dataMovie?.original_title
-                  : dataMovie?.original_name
-              }}
+              {{ dataMovie?.original_name }}
               {{
                 `(${
                   dataMovie?.last_air_date?.slice(0, 4)
