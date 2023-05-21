@@ -72,9 +72,7 @@
                 name: 'playTV',
                 params: {
                   id: dataMovie?.id,
-                  name: dataMovie?.name
-                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
                   tap: 'tap-1',
                 },
               }"
@@ -100,9 +98,7 @@
           :title="false"
         >
           <h2>
-            <strong>{{
-              dataMovie?.name ? dataMovie?.name : dataMovie?.title
-            }}</strong>
+            <strong>{{ dataMovie?.name }}</strong>
             <strong>
               {{ ' - Phần ' + dataMovie?.last_episode_to_air?.season_number }}
             </strong>
@@ -177,9 +173,7 @@
                 name: 'playTV',
                 params: {
                   id: dataMovie?.id,
-                  name: dataMovie?.name
-                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
                   tap: 'tap-1',
                 },
               }"

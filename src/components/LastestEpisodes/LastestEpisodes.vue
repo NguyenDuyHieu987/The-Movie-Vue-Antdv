@@ -86,9 +86,7 @@
             name: 'playTV',
             params: {
               id: dataMovie?.id,
-              name: dataMovie?.name
-                ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
               tap: `tap-${item?.episode_number}`,
             },
           }"
@@ -101,9 +99,7 @@
             name: 'playTV',
             params: {
               id: dataMovie?.id,
-              name: dataMovie?.name
-                ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
               tap: `tap-${item?.episode_number}`,
             },
           }"

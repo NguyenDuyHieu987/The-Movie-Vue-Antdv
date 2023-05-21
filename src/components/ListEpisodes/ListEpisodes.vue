@@ -24,7 +24,7 @@
     </div>
     <h3 class="section-title" style="display: flex; align-items: center">
       <strong style="margin-right: 10px">
-        {{ dataMovie?.name ? dataMovie?.name : dataMovie?.title }}
+        {{ dataMovie?.name }}
         - Tập
         {{ $route.params?.tap?.replace('tap-', '') }}
         |
@@ -98,9 +98,7 @@
             name: 'playTV',
             params: {
               id: dataMovie?.id,
-              name: dataMovie?.name
-                ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+              name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
               tap: `tap-${item.episode_number}`,
             },
           }"

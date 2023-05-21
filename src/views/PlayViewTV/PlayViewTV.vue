@@ -145,7 +145,7 @@
 
     <h3 class="section-title">
       <strong v-if="!checkEmptyDataMovies">
-        {{ dataMovie?.name ? dataMovie?.name : dataMovie?.title }}
+        {{ dataMovie?.name }}
         {{
           ` (${
             dataMovie?.last_air_date?.slice(0, 4)
@@ -170,9 +170,7 @@
               name: 'infoTV',
               params: {
                 id: dataMovie?.id,
-                name: dataMovie?.name
-                  ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                  : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
               },
             }"
           >

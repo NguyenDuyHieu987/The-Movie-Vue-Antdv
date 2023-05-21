@@ -72,9 +72,7 @@
                 name: 'play',
                 params: {
                   id: dataMovie?.id,
-                  name: dataMovie?.name
-                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
                 },
               }"
               class="btn-play-now"
@@ -99,9 +97,7 @@
           :title="false"
         >
           <h2>
-            <strong>{{
-              dataMovie?.name ? dataMovie?.name : dataMovie?.title
-            }}</strong>
+            <strong>{{ dataMovie?.name }}</strong>
           </h2>
 
           <h3>
@@ -164,9 +160,7 @@
                 name: 'play',
                 params: {
                   id: dataMovie?.id,
-                  name: dataMovie?.name
-                    ? dataMovie?.name?.replace(/\s/g, '+').toLowerCase()
-                    : dataMovie?.title?.replace(/\s/g, '+').toLowerCase(),
+                  name: dataMovie?.name?.replace(/\s/g, '+').toLowerCase(),
                 },
               }"
               class="btn-play-now"
