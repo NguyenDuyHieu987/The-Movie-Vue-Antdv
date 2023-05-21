@@ -30,6 +30,7 @@
             layout="prev, pager, next, total"
             :total="totalPage"
             :pager-count="5"
+            :pageSize="pageSize"
             @current-change="onChangePage"
           />
           <!-- @current-change="onChangePage" -->
@@ -61,6 +62,7 @@ export default {
     const trendings = ref([]);
     const pageTrending = ref(route?.query?.page ? route?.query?.page : 1);
     const totalPage = ref(100);
+    const pageSize = ref(20);
     const internalInstance = getCurrentInstance();
 
     useMeta({
@@ -74,7 +76,8 @@ export default {
       getTrending(pageTrending.value)
         .then((movieRespone) => {
           trendings.value = movieRespone.data?.results;
-          totalPage.value = movieRespone.data?.total_pages * 10;
+          totalPage.value = movieRespone.data?.total;
+          pageSize.value = movieRespone.data?.page_size;
 
           setTimeout(() => {
             internalInstance.appContext.config.globalProperties.$Progress.finish();
@@ -107,6 +110,7 @@ export default {
       trendings,
       pageTrending,
       totalPage,
+      pageSize,
       onChangePage,
     };
   },

@@ -72,7 +72,7 @@
         background
         layout="prev, pager, next, total"
         :total="totalPage"
-        :page-size="dataDiscover.length"
+        :pageSize="pageSize"
         :pager-count="5"
         @current-change="onChangePage"
       />
@@ -119,6 +119,7 @@ export default {
     const dataTv = ref([]);
     const page = ref(route.query?.page ? +route.query?.page : 1);
     const totalPage = ref(100);
+    const pageSize = ref(20);
     const isFilter = ref(false);
     const loading = ref(false);
     const formFilterSelect = ref({});
@@ -158,6 +159,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -170,6 +172,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -182,6 +185,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -194,6 +198,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -206,6 +211,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -223,6 +229,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -237,6 +244,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -249,6 +257,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -261,6 +270,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -273,6 +283,7 @@ export default {
                     .then((movieResponse) => {
                       dataDiscover.value = movieResponse?.data?.results;
                       totalPage.value = movieResponse?.data?.total;
+                      pageSize.value = movieResponse.data?.page_size;
                     })
                     .catch((e) => {
                       if (axios.isCancel(e)) return;
@@ -418,6 +429,7 @@ export default {
     return {
       metaHead,
       page,
+      pageSize,
       loading,
       totalPage,
       dataDiscover,
