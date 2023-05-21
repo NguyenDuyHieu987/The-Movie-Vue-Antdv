@@ -37,27 +37,27 @@
           <div v-if="isInHistory" class="viewed-overlay-bar"></div>
 
           <div class="duration-episode-box">
-            <p class="duration-episode">
+            <p v-if="!isEpisodes" class="duration-episode">
+              {{ dataMovie?.runtime + ' min' }}
+            </p>
+            <p v-else class="duration-episode">
               {{
-                isEpisodes
-                  ? dataMovie?.last_episode_to_air?.episode_number
-                    ? 'Tập ' + dataMovie?.last_episode_to_air?.episode_number
-                    : ''
-                  : dataMovie?.runtime
-                  ? dataMovie?.runtime + ' min'
+                dataMovie?.last_episode_to_air?.episode_number
+                  ? 'Tập ' + dataMovie?.last_episode_to_air?.episode_number
                   : ''
               }}
             </p>
           </div>
 
           <div class="release-date-box">
-            <p class="release-date">
+            <p class="release-date" v-if="!isEpisodes">
+              {{ item?.release_date?.slice(0, 4) }}
+            </p>
+            <p v-else class="release-date">
               {{
-                item?.release_date
-                  ? item?.release_date?.slice(0, 4)
-                  : item?.last_air_date?.slice(0, 4)
-                  ? item?.last_air_date?.slice(0, 4)
-                  : item?.first_air_date?.slice(0, 4)
+                dataMovie?.last_air_date?.slice(0, 4)
+                  ? dataMovie?.last_air_date?.slice(0, 4)
+                  : dataMovie?.first_air_date?.slice(0, 4)
               }}
             </p>
           </div>
