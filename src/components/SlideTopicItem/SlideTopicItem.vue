@@ -4,9 +4,7 @@
       name: item?.media_type == 'movie' ? 'info' : 'infoTV',
       params: {
         id: item?.id,
-        name: item?.name
-          ? item?.name?.replace(/\s/g, '+').toLowerCase()
-          : item?.title?.replace(/\s/g, '+').toLowerCase(),
+        name: item?.name?.replace(/\s/g, '+').toLowerCase(),
       },
     }"
     class="topic-item"
