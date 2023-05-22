@@ -17,8 +17,8 @@
                     params: {
                       id: dataList[0]?.id,
                       name: dataList[0]?.name
-                        ? dataList[0]?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataList[0]?.title?.replace(/\s/g, '+').toLowerCase(),
+                        ?.replace(/\s/g, '+')
+                        .toLowerCase(),
                       tap: 'tap-1',
                     },
                   }"
@@ -45,8 +45,8 @@
                     params: {
                       id: dataList[0]?.id,
                       name: dataList[0]?.name
-                        ? dataList[0]?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataList[0]?.title?.replace(/\s/g, '+').toLowerCase(),
+                        ?.replace(/\s/g, '+')
+                        .toLowerCase(),
                     },
                   }"
                 >
@@ -165,8 +165,8 @@
                     params: {
                       id: dataList[0]?.id,
                       name: dataList[0]?.name
-                        ? dataList[0]?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataList[0]?.title?.replace(/\s/g, '+').toLowerCase(),
+                        ?.replace(/\s/g, '+')
+                        .toLowerCase(),
                       tap: 'tap-1',
                     },
                   }"
@@ -193,8 +193,8 @@
                     params: {
                       id: dataList[0]?.id,
                       name: dataList[0]?.name
-                        ? dataList[0]?.name?.replace(/\s/g, '+').toLowerCase()
-                        : dataList[0]?.title?.replace(/\s/g, '+').toLowerCase(),
+                        ?.replace(/\s/g, '+')
+                        .toLowerCase(),
                     },
                   }"
                 >

@@ -19,12 +19,8 @@
                     params: {
                       id: dataHistory[0]?.id,
                       name: dataHistory[0]?.name
-                        ? dataHistory[0]?.name
-                            ?.replace(/\s/g, '+')
-                            .toLowerCase()
-                        : dataHistory[0]?.title
-                            ?.replace(/\s/g, '+')
-                            .toLowerCase(),
+                        ?.replace(/\s/g, '+')
+                        .toLowerCase(),
                       tap: 'tap-1',
                     },
                   }"
@@ -51,12 +47,8 @@
                     params: {
                       id: dataHistory[0]?.id,
                       name: dataHistory[0]?.name
-                        ? dataHistory[0]?.name
-                            ?.replace(/\s/g, '+')
-                            .toLowerCase()
-                        : dataHistory[0]?.title
-                            ?.replace(/\s/g, '+')
-                            .toLowerCase(),
+                        ?.replace(/\s/g, '+')
+                        .toLowerCase(),
                     },
                   }"
                 >
@@ -179,12 +171,8 @@
                     params: {
                       id: dataHistory[0]?.id,
                       name: dataHistory[0]?.name
-                        ? dataHistory[0]?.name
-                            ?.replace(/\s/g, '+')
-                            .toLowerCase()
-                        : dataHistory[0]?.title
-                            ?.replace(/\s/g, '+')
-                            .toLowerCase(),
+                        ?.replace(/\s/g, '+')
+                        .toLowerCase(),
                       tap: 'tap-1',
                     },
                   }"
@@ -211,12 +199,8 @@
                     params: {
                       id: dataHistory[0]?.id,
                       name: dataHistory[0]?.name
-                        ? dataHistory[0]?.name
-                            ?.replace(/\s/g, '+')
-                            .toLowerCase()
-                        : dataHistory[0]?.title
-                            ?.replace(/\s/g, '+')
-                            .toLowerCase(),
+                        ?.replace(/\s/g, '+')
+                        .toLowerCase(),
                     },
                   }"
                 >
