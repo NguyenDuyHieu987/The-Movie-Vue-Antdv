@@ -321,9 +321,8 @@ import {
   getLanguage,
   addItemList,
   removeItemList,
-  // getList,
-  getItemList,
-  getItemHistory,
+  // getItemList,
+  // getItemHistory,
 } from '@/services/MovieService';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -466,26 +465,35 @@ export default {
       }
 
       if (store.state.isLogin) {
-        getItemList(store.state?.userAccount?.id, props.item?.id)
-          .then((movieRespone) => {
-            if (movieRespone?.data.success == true) {
-              isAddToList.value = true;
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
+        if (dataMovie.value?.in_list) {
+          isAddToList.value = true;
+        }
 
-        getItemHistory(store.state?.userAccount?.id, props.item?.id)
-          .then((movieRespone) => {
-            if (movieRespone?.data.success == true) {
-              isInHistory.value = true;
-              percent.value = movieRespone?.data?.result?.percent;
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
+        if (dataMovie.value?.in_history) {
+          isInHistory.value = true;
+          percent.value = dataMovie.value?.history_progress?.percent;
+        }
+
+        // getItemList(store.state?.userAccount?.id, props.item?.id)
+        //   .then((movieRespone) => {
+        //     if (movieRespone?.data.success == true) {
+        //       isAddToList.value = true;
+        //     }
+        //   })
+        //   .catch((e) => {
+        //     if (axios.isCancel(e)) return;
+        //   });
+
+        // getItemHistory(store.state?.userAccount?.id, props.item?.id)
+        //   .then((movieRespone) => {
+        //     if (movieRespone?.data.success == true) {
+        //       isInHistory.value = true;
+        //       percent.value = movieRespone?.data?.result?.percent;
+        //     }
+        //   })
+        //   .catch((e) => {
+        //     if (axios.isCancel(e)) return;
+        //   });
       }
     });
 
