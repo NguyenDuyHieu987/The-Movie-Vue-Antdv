@@ -29,7 +29,7 @@
           <img
             class="ant-image"
             v-if="!loading"
-            v-lazy="getBackdrop(dataMovie?.backdrop_path, ',250')"
+            v-lazy="getBackdrop(item?.backdrop_path, ',250')"
             :preview="false"
           />
 
@@ -43,14 +43,13 @@
           <div v-if="isInHistory" class="viewed-overlay-bar"></div>
 
           <div v-if="!loading" class="duration-episode-box">
-            <p class="duration-episode">
+            <p v-if="!isEpisodes" class="duration-episode">
+              {{ item?.runtime + ' min' }}
+            </p>
+            <p v-else class="duration-episode">
               {{
-                isEpisodes
-                  ? dataMovie?.last_episode_to_air?.episode_number
-                    ? 'Tập ' + dataMovie?.last_episode_to_air?.episode_number
-                    : ''
-                  : dataMovie?.runtime
-                  ? dataMovie?.runtime + ' min'
+                dataMovie?.last_episode_to_air?.episode_number
+                  ? 'Tập ' + dataMovie?.last_episode_to_air?.episode_number
                   : ''
               }}
             </p>
@@ -99,16 +98,8 @@
               </span>
             </p>
             <div class="info-bottom">
-              <!-- <p class="genres" v-if="item?.genre_ids">
-                  {{
-                    getAllGenresById(
-                      item?.genre_ids,
-                      $store.state?.allGenres
-                    ).join(' • ')
-                  }}
-                </p> -->
-              <p class="genres" v-if="dataMovie?.genres">
-                {{ Array?.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
+              <p class="genres">
+                {{ Array?.from(item?.genres, (x) => x.name).join(' • ') }}
               </p>
             </div>
             <!-- </a-skeleton> -->

@@ -24,7 +24,7 @@
         <div class="img-box">
           <img
             class="ant-image"
-            v-lazy="getBackdrop(dataMovie?.backdrop_path, ',250')"
+            v-lazy="getBackdrop(item?.backdrop_path, ',250')"
             :preview="false"
           />
 
@@ -38,7 +38,7 @@
 
           <div class="duration-episode-box">
             <p v-if="!isEpisodes" class="duration-episode">
-              {{ dataMovie?.runtime + ' min' }}
+              {{ item?.runtime + ' min' }}
             </p>
             <p v-else class="duration-episode">
               {{
@@ -55,9 +55,9 @@
             </p>
             <p v-else class="release-date">
               {{
-                dataMovie?.last_air_date?.slice(0, 4)
-                  ? dataMovie?.last_air_date?.slice(0, 4)
-                  : dataMovie?.first_air_date?.slice(0, 4)
+                item?.last_air_date?.slice(0, 4)
+                  ? item?.last_air_date?.slice(0, 4)
+                  : item?.first_air_date?.slice(0, 4)
               }}
             </p>
           </div>
@@ -112,7 +112,7 @@
         <img
           class="ant-image"
           v-show="!loading"
-          v-lazy="getBackdrop(dataMovie?.backdrop_path, ',250')"
+          v-lazy="getBackdrop(item?.backdrop_path, ',250')"
           :preview="false"
         />
 
@@ -261,14 +261,8 @@
             </span>
           </h3>
           <div class="info-bottom">
-            <p class="genres" v-if="item?.genres">
+            <p class="genres">
               {{ Array.from(item?.genres, (x) => x.name).join(' • ') }}
-            </p>
-            <p
-              class="genres"
-              v-else-if="item?.genres == undefined && dataMovie?.genres"
-            >
-              {{ Array.from(dataMovie?.genres, (x) => x.name).join(' • ') }}
             </p>
           </div>
 
