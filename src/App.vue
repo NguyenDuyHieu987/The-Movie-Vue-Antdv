@@ -129,19 +129,13 @@ export default {
         if (store.state.loadingHomePage == true) {
           next();
         } else {
-          new Promise((resolve) => {
-            store.state.loadingHomePage = true;
-            loadingHomePage.value = true;
+          store.state.loadingHomePage = true;
+          loadingHomePage.value = true;
 
-            resolve();
-            // store.dispatch('getDataHomePage'),
-            // store.dispatch('getDataMisc')
-          }).then(() => {
-            setTimeout(() => {
-              loadingHomePage.value = false;
-              next();
-            }, 2000);
-          });
+          setTimeout(() => {
+            loadingHomePage.value = false;
+            next();
+          }, 2000);
         }
       } else {
         next();

@@ -101,11 +101,12 @@
             </p>
 
             <div class="action">
-              <el-tooltip
+              <a-tooltip
                 title="Xóa khỏi Lịch sử xem"
                 content="Xóa khỏi Lịch sử xem"
                 effect="dark"
                 placement="bottom"
+                :teleported="false"
               >
                 <el-button
                   circle
@@ -119,7 +120,7 @@
                     <i class="fa-light fa-xmark"></i>
                   </template>
                 </el-button>
-              </el-tooltip>
+              </a-tooltip>
 
               <a-dropdown
                 :trigger="['click']"
@@ -272,11 +273,11 @@ import {
   getTvById,
   addItemList,
   removeItemList,
-  getItemList,
+  // getItemList,
 } from '@/services/MovieService';
 import disableScroll from 'disable-scroll';
 import axios from 'axios';
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 // import { CloseOutlined } from '@ant-design/icons-vue';
 // import { Close } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
@@ -301,7 +302,7 @@ export default {
     },
   },
   setup(props) {
-    const store = useStore();
+    // const store = useStore();
     const dataMovie = ref({});
     const isEpisodes = ref(false);
     const loading = ref(false);
@@ -329,7 +330,7 @@ export default {
       });
     });
 
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
       loading.value = true;
       percent.value = props.item?.percent;
 
@@ -421,7 +422,7 @@ export default {
       if (props?.type) {
         switch (props?.type) {
           case 'movie':
-            getMovieById(props.item?.id)
+            await getMovieById(props.item?.id)
               .then((movieResponed) => {
                 isEpisodes.value = false;
                 dataMovie.value = movieResponed?.data;
@@ -436,7 +437,7 @@ export default {
               });
             break;
           case 'tv':
-            getTvById(props.item?.id)
+            await getTvById(props.item?.id)
               .then((tvResponed) => {
                 isEpisodes.value = true;
                 dataMovie.value = tvResponed?.data;
@@ -455,7 +456,7 @@ export default {
         }
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
-          getTvById(props.item?.id)
+          await getTvById(props.item?.id)
             .then((tvResponed) => {
               isEpisodes.value = true;
               dataMovie.value = tvResponed?.data;
@@ -469,7 +470,7 @@ export default {
               if (axios.isCancel(e)) return;
             });
         } else {
-          getMovieById(props.item?.id)
+          await getMovieById(props.item?.id)
             .then((movieResponed) => {
               isEpisodes.value = false;
               dataMovie.value = movieResponed?.data;
@@ -485,22 +486,26 @@ export default {
         }
       }
 
-      getItemList(store.state?.userAccount?.id, props.item?.id)
-        .then((movieRespone) => {
-          if (movieRespone?.data.success == true) {
-            isAddToList.value = true;
-          }
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      if (dataMovie.value?.in_list) {
+        isAddToList.value = true;
+      }
+
+      // getItemList( props.item?.id)
+      //   .then((movieRespone) => {
+      //     if (movieRespone?.data.success == true) {
+      //       isAddToList.value = true;
+      //     }
+      //   })
+      //   .catch((e) => {
+      //     if (axios.isCancel(e)) return;
+      //   });
     });
 
     const handelAddToList = () => {
       if (isAddToList.value == false) {
         isAddToList.value = true;
         message.loading({ content: 'Đang thêm' });
-        addItemList(store.state?.userAccount?.id, {
+        addItemList({
           media_type: isEpisodes.value ? 'tv' : 'movie',
           media_id: dataMovie.value?.id,
         })
@@ -535,7 +540,7 @@ export default {
         isAddToList.value = false;
         message.loading({ content: 'Đang xóa' });
 
-        removeItemList(store.state?.userAccount?.id, {
+        removeItemList({
           media_id: dataMovie.value?.id,
         })
           .then((movieRespone) => {
@@ -571,7 +576,7 @@ export default {
     const handleRemoveFromHistory = () => {
       message.loading({ content: 'Đang xóa' });
 
-      removeItemHistory(store.state?.userAccount?.id, {
+      removeItemHistory({
         media_id: props.item?.id,
       })
         .then((movieRespone) => {

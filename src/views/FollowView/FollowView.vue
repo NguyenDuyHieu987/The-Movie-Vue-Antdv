@@ -489,7 +489,7 @@ export default {
       loading.value = true;
       internalInstance.appContext.config.globalProperties.$Progress.start();
 
-      getList(store?.state.userAccount?.id)
+      getList()
         .then((movieRespone) => {
           if (movieRespone.data?.result?.items?.length > 0) {
             dataList.value = movieRespone.data?.result?.items;
@@ -560,7 +560,7 @@ export default {
           dataList.value?.length < total.value
         ) {
           loadMore.value = true;
-          getList(store?.state.userAccount?.id, skip.value)
+          getList(skip.value)
             .then((movieRespone) => {
               if (movieRespone.data?.result?.length > 0) {
                 setTimeout(() => {
@@ -613,7 +613,7 @@ export default {
           onOk() {
             message.loading({ content: 'Đang xóa tất cả Danh sách phát' });
 
-            removeAllItemList(store?.state.userAccount?.id)
+            removeAllItemList()
               .then((movieRespone) => {
                 if (movieRespone.data?.success == true) {
                   setTimeout(() => {
@@ -652,7 +652,7 @@ export default {
 
         clearTimeout(debounce.value);
         debounce.value = setTimeout(() => {
-          searchList(store?.state.userAccount?.id, e.target.value)
+          searchList(e.target.value)
             .then((movieRespone) => {
               dataList.value = movieRespone?.data?.results;
               setTimeout(() => {
@@ -673,7 +673,7 @@ export default {
     const onLoadMore = () => {
       alert('g');
       loadMore.value = true;
-      getList(store?.state.userAccount?.id, skip.value)
+      getList(skip.value)
         .then((movieRespone) => {
           if (movieRespone.data?.result?.length > 0) {
             setTimeout(() => {

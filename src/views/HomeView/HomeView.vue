@@ -393,9 +393,7 @@ export default {
         getTopRated(1),
         getTvOntheAir(1),
         getMoviesByGenres('hoat-hinh', 1, 'views_desc'),
-        store.state?.isLogin
-          ? getMyRecommend(store.state.userAccount?.id, 1)
-          : null,
+        store.state?.isLogin ? getMyRecommend(1) : null,
       ])
         .then((response) => {
           nowPlayings.value = response[0].data?.results.slice(0, 10);

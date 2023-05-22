@@ -214,13 +214,12 @@ import {
   getAllGenresById,
   getBackdrop,
   getTvById,
-  // getList,
-  getItemList,
   addItemList,
   removeItemList,
   add_update_History,
   UpdateViewMovie,
-  getItemHistory,
+  // getItemList,
+  // getItemHistory,
 } from '@/services/MovieService';
 import Interaction from '@/components/Interaction/Interaction.vue';
 import RatingMovie from '@/components/RatingMovie/RatingMovie.vue';
@@ -372,7 +371,7 @@ export default {
       });
     });
 
-    const getData = () => {
+    const getData = async () => {
       loading.value = true;
       internalInstance.appContext.config.globalProperties.$Progress.start();
 
@@ -396,7 +395,7 @@ export default {
         htmlAttrs: { lang: 'vi', amp: true },
       });
 
-      getTvById(route.params?.id)
+      await getTvById(route.params?.id)
         .then((tvResponed) => {
           isEpisodes.value = true;
           dataMovie.value = tvResponed?.data;
@@ -413,38 +412,33 @@ export default {
         });
 
       if (store.state.isLogin) {
-        getItemList(store.state?.userAccount?.id, route.params?.id)
-          .then((movieRespone) => {
-            if (movieRespone?.data.success == true) {
-              isAddToList.value = true;
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
+        if (dataMovie.value?.in_list) {
+          isAddToList.value = true;
+        }
 
-        getItemHistory(store.state?.userAccount?.id, route.params?.id)
-          .then((movieRespone) => {
-            if (movieRespone?.data.success == true) {
-              isInHistory.value = true;
-              dataItemHistory.value = movieRespone?.data?.result;
-            } else {
-              isInHistory.value = false;
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
+        if (dataMovie.value?.in_history) {
+          isInHistory.value = true;
+          dataItemHistory.value = dataMovie.value?.history_progress;
+        }
 
-        // getList(store.state?.userAccount?.id)
+        // getItemList(route.params?.id)
         //   .then((movieRespone) => {
-        //     dataAddToList.value = movieRespone?.data?.items;
+        //     if (movieRespone?.data.success == true) {
+        //       isAddToList.value = true;
+        //     }
+        //   })
+        //   .catch((e) => {
+        //     if (axios.isCancel(e)) return;
+        //   });
 
-        //     dataAddToList.value?.map((item) => {
-        //       if (item?.id == route.params?.id) {
-        //         isAddToList.value = true;
-        //       }
-        //     });
+        // getItemHistory(route.params?.id)
+        //   .then((movieRespone) => {
+        //     if (movieRespone?.data.success == true) {
+        //       isInHistory.value = true;
+        //       dataItemHistory.value = movieRespone?.data?.result;
+        //     } else {
+        //       isInHistory.value = false;
+        //     }
         //   })
         //   .catch((e) => {
         //     if (axios.isCancel(e)) return;
@@ -499,7 +493,7 @@ export default {
         if (isAddToList.value == false) {
           isAddToList.value = true;
           message.loading({ content: 'Đang thêm' });
-          addItemList(store.state?.userAccount?.id, {
+          addItemList({
             media_type: 'tv',
             media_id: dataMovie.value?.id,
           })
@@ -534,7 +528,7 @@ export default {
           isAddToList.value = false;
           message.loading({ content: 'Đang xóa' });
 
-          removeItemList(store.state?.userAccount?.id, {
+          removeItemList({
             media_id: dataMovie.value?.id,
           })
             .then((movieRespone) => {

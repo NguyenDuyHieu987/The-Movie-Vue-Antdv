@@ -394,14 +394,14 @@ export default {
       });
     });
 
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
       loading.value = true;
 
       if (props?.type) {
         switch (props?.type) {
           case 'movie':
             isEpisodes.value = false;
-            getMovieById(props.item?.id)
+            await getMovieById(props.item?.id)
               .then((movieResponed) => {
                 dataMovie.value = movieResponed?.data;
 
@@ -416,7 +416,7 @@ export default {
             break;
           case 'tv':
             isEpisodes.value = true;
-            getTvById(props.item?.id)
+            await getTvById(props.item?.id)
               .then((tvResponed) => {
                 dataMovie.value = tvResponed?.data;
 
@@ -435,7 +435,7 @@ export default {
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
           isEpisodes.value = true;
-          getTvById(props.item?.id)
+          await getTvById(props.item?.id)
             .then((tvResponed) => {
               dataMovie.value = tvResponed?.data;
 
@@ -449,7 +449,7 @@ export default {
             });
         } else {
           isEpisodes.value = false;
-          getMovieById(props.item?.id)
+          await getMovieById(props.item?.id)
             .then((movieResponed) => {
               dataMovie.value = movieResponed?.data;
 
@@ -474,7 +474,7 @@ export default {
           percent.value = dataMovie.value?.history_progress?.percent;
         }
 
-        // getItemList(store.state?.userAccount?.id, props.item?.id)
+        // getItemList( props.item?.id)
         //   .then((movieRespone) => {
         //     if (movieRespone?.data.success == true) {
         //       isAddToList.value = true;
@@ -484,7 +484,7 @@ export default {
         //     if (axios.isCancel(e)) return;
         //   });
 
-        // getItemHistory(store.state?.userAccount?.id, props.item?.id)
+        // getItemHistory( props.item?.id)
         //   .then((movieRespone) => {
         //     if (movieRespone?.data.success == true) {
         //       isInHistory.value = true;
@@ -518,7 +518,7 @@ export default {
         if (isAddToList.value == false) {
           isAddToList.value = true;
           message.loading({ content: 'Đang thêm' });
-          addItemList(store.state?.userAccount?.id, {
+          addItemList({
             media_type: isEpisodes.value ? 'tv' : 'movie',
             media_id: dataMovie.value?.id,
           })
@@ -553,7 +553,7 @@ export default {
           isAddToList.value = false;
           message.loading({ content: 'Đang xóa' });
 
-          removeItemList(store.state?.userAccount?.id, {
+          removeItemList({
             media_id: dataMovie.value?.id,
           })
             .then((movieRespone) => {

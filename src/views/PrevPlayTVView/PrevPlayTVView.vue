@@ -526,7 +526,6 @@ import {
   watch,
   createVNode,
   computed,
-  h,
   getCurrentInstance,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -539,9 +538,7 @@ import {
   getLanguage,
   addItemList,
   removeItemList,
-  getItemList,
-  // getList,
-  // getColorImage,
+  // getItemList,
 } from '@/services/MovieService';
 import Interaction from '@/components/Interaction/Interaction.vue';
 import RatingMovie from '@/components/RatingMovie/RatingMovie.vue';
@@ -555,7 +552,7 @@ import {
   // message
 } from 'ant-design-vue';
 import { removeVietnameseTones } from '@/utils/RemoveVietnameseTones';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import { useMeta } from 'vue-meta';
 import { message } from 'ant-design-vue';
 
@@ -591,7 +588,7 @@ export default {
 
     onMounted(() => {});
 
-    const getData = () => {
+    const getData = async () => {
       isAddToList.value = false;
       loading.value = true;
 
@@ -619,7 +616,7 @@ export default {
 
       srcBackdropList.value = [];
 
-      getTvById(route.params?.id, 'images,credits')
+      await getTvById(route.params?.id, 'images,credits')
         .then((tvResponed) => {
           isEpisodes.value = true;
           dataMovie.value = tvResponed?.data;
@@ -648,25 +645,15 @@ export default {
         });
 
       if (store.state.isLogin) {
-        getItemList(store.state?.userAccount?.id, route.params?.id)
-          .then((movieRespone) => {
-            if (movieRespone?.data.success == true) {
-              isAddToList.value = true;
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
+        if (dataMovie.value?.in_list) {
+          isAddToList.value = true;
+        }
 
-        // getList(store.state?.userAccount?.id)
+        // getItemList( route.params?.id)
         //   .then((movieRespone) => {
-        //     dataAddToList.value = movieRespone?.data?.items;
-
-        //     dataAddToList.value?.map((item) => {
-        //       if (item?.id == route.params?.id) {
-        //         isAddToList.value = true;
-        //       }
-        //     });
+        //     if (movieRespone?.data.success == true) {
+        //       isAddToList.value = true;
+        //     }
         //   })
         //   .catch((e) => {
         //     if (axios.isCancel(e)) return;
@@ -685,158 +672,6 @@ export default {
     const scrolltoTrailerYoutube = () => {
       const trailer_youtube = document.getElementById('trailer-youtube');
       trailer_youtube.scrollIntoView();
-    };
-
-    const temp = () => {
-      if (!store.state.isLogin) {
-        Modal.confirm({
-          title: 'Bạn cần đăng nhập để sử dụng chức năng này.',
-          icon: createVNode(QuestionCircleOutlined),
-          // content: createVNode('div', 'Bạn có muốn đăng nhập không?'),
-          content: createVNode('h3', {}, 'Đăng nhập ngay?'),
-          okText: 'Có',
-          okType: 'primary',
-          cancelText: 'Không',
-          centered: true,
-          onOk() {
-            router.push({ path: '/login' });
-          },
-          onCancel() {},
-          class: 'require-login-confirm',
-        });
-      } else {
-        if (isAddToList.value == false) {
-          ElMessageBox({
-            title: 'Thông báo',
-            message: h(
-              'h3',
-              null,
-              'Bạn có muốn thêm phim vào danh sách theo dõi không?'
-            ),
-            showCancelButton: true,
-            showClose: false,
-            confirmButtonText: 'Có',
-            cancelButtonText: 'Không',
-            beforeClose: (action, instance, done) => {
-              if (action === 'confirm') {
-                instance.confirmButtonText = 'Đang thêm...';
-                instance.confirmButtonLoading = true;
-                addItemList(store.state?.userAccount?.id, {
-                  media_type: 'tv',
-                  media_id: dataMovie.value?.id,
-                })
-                  .then((response) => {
-                    if (response.data.success == true) {
-                      setTimeout(() => {
-                        done();
-                        setTimeout(() => {
-                          isAddToList.value = true;
-                          instance.confirmButtonLoading = false;
-                        }, 300);
-                      }, 2000);
-                    } else {
-                      ElMessage({
-                        type: 'error',
-                        message: `Thêm thất bại!`,
-                      });
-                    }
-                  })
-                  .catch((e) => {
-                    isAddToList.value = false;
-                    instance.confirmButtonLoading = false;
-                    ElMessage({
-                      type: 'error',
-                      message: `Thêm thất bại!`,
-                    });
-                    if (axios.isCancel(e)) return;
-                  });
-              } else {
-                done();
-              }
-            },
-          }).then(() => {
-            ElMessage({
-              type: 'success',
-              message: `Thêm thành công!`,
-            });
-          });
-
-          // message.loading({ content: 'Đang thêm...', duration: 2 });
-          // if (response.data.success == true) {
-          //   setTimeout(() => {
-          //     message.success({ content: 'Thêm thành công!', duration: 2 });
-          //     isAddToList.value = true;
-          //   }, 2200);
-          // }
-        } else {
-          ElMessageBox({
-            title: 'Thông báo',
-            message: h(
-              'h3',
-              null,
-              'Bạn có muốn xóa phim khỏi danh sách theo dõi không?'
-            ),
-            showCancelButton: true,
-            showClose: false,
-            confirmButtonText: 'Có',
-            cancelButtonText: 'Không',
-            beforeClose: (action, instance, done) => {
-              if (action === 'confirm') {
-                instance.confirmButtonText = 'Đang xóa...';
-                instance.confirmButtonLoading = true;
-                removeItemList(store.state?.userAccount?.id, {
-                  media_id: dataMovie.value?.id,
-                })
-                  .then((response) => {
-                    if (response.data.success == true) {
-                      setTimeout(() => {
-                        done();
-                        setTimeout(() => {
-                          isAddToList.value = false;
-                          instance.confirmButtonLoading = false;
-                        }, 300);
-                      }, 2000);
-                    } else {
-                      ElMessage({
-                        type: 'error',
-                        message: `Xóa thất bại!`,
-                      });
-                    }
-                  })
-                  .catch((e) => {
-                    isAddToList.value = true;
-                    instance.confirmButtonLoading = false;
-                    ElMessage({
-                      type: 'error',
-                      message: `Xóa thất bại!`,
-                    });
-                    if (axios.isCancel(e)) return;
-                  });
-              } else {
-                done();
-              }
-            },
-          }).then(() => {
-            ElMessage({
-              type: 'success',
-              message: `Xóa thành công!`,
-            });
-          });
-
-          // removeItemList(store.state?.userAccount?.id, {
-          //   media_id: dataMovie.value?.id,
-          // }).then((response) => {
-          //   message.loading({ content: 'Đang xóa...', duration: 2 });
-
-          //   if (response.data.success == true) {
-          //     setTimeout(() => {
-          //       message.success({ content: 'Xóa thành công!', duration: 2 });
-          //       isAddToList.value = false;
-          //     }, 2200);
-          //   }
-          // });
-        }
-      }
     };
 
     const handelAddToList = () => {
@@ -860,7 +695,7 @@ export default {
         if (isAddToList.value == false) {
           isAddToList.value = true;
           message.loading({ content: 'Đang thêm' });
-          addItemList(store.state?.userAccount?.id, {
+          addItemList({
             media_type: 'tv',
             media_id: dataMovie.value?.id,
           })
@@ -895,7 +730,7 @@ export default {
           isAddToList.value = false;
           message.loading({ content: 'Đang xóa' });
 
-          removeItemList(store.state?.userAccount?.id, {
+          removeItemList({
             media_id: dataMovie.value?.id,
           })
             .then((movieRespone) => {
@@ -989,7 +824,6 @@ export default {
       handelAddToList,
       handelRequireLogin,
       removeVietnameseTones,
-      temp,
     };
   },
 };

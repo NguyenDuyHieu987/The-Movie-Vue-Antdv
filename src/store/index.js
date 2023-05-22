@@ -1,17 +1,5 @@
 import { createStore } from 'vuex';
 import { getWithExpiry } from '@/utils/LocalStorage';
-import axios from 'axios';
-import {
-  getTrending,
-  getNowPlaying,
-  getTvAiringToday,
-  getTopRated,
-  getUpComing,
-  getMyRecommend,
-  getAllGenre,
-  getAllNational,
-  getAllYear,
-} from '@/services/MovieService';
 
 const store = createStore({
   state() {
@@ -71,54 +59,7 @@ const store = createStore({
       return state.userAccount;
     },
   },
-  actions: {
-    async getDataHomePage({ commit, state }) {
-      await Promise.all([
-        getTrending(1),
-        getNowPlaying(1),
-        getUpComing(1),
-        getTvAiringToday(1),
-        getTopRated(1),
-        state?.isLogin ? getMyRecommend(state.userAccount?.id, 1) : null,
-      ])
-        .then((response) => {
-          commit('setTrending', response[0].data?.results.slice(0, 11));
-          commit('setNowPlaying', response[1].data?.results.slice(0, 10));
-          commit('setUpComing', response[2].data?.results.slice(0, 10));
-          commit('setTvAiringToday', response[3].data?.results.slice(0, 10));
-          commit('setTopRated', response[4].data?.results.slice(0, 10));
-          if (state?.isLogin) {
-            commit('setRecommend', response[5].data?.results);
-          }
-          state.loadingHomePage = true;
-        })
-        .catch((e) => {
-          // state.loadingHomePage = false;
-          if (axios.isCancel(e)) return;
-        });
-    },
-
-    async getDataMisc({ commit, state }) {
-      state.loadingMisc = true;
-
-      Promise.all([getAllGenre(), getAllYear(), getAllNational()])
-        .then((response) => {
-          commit('setGenres', response[0].data);
-          commit(
-            'setYears',
-            response[1].data.sort(function (a, b) {
-              return +b.name.slice(-4) - +a.name.slice(-4);
-            })
-          );
-          commit('setCountries', response[2].data);
-          state.loadingMisc = true;
-        })
-        .catch((e) => {
-          // state.loadingMisc = false;
-          if (axios.isCancel(e)) return;
-        });
-    },
-  },
+  actions: {},
 });
 
 export default store;

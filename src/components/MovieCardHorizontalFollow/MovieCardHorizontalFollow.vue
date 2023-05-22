@@ -225,11 +225,11 @@ import {
   removeItemList,
   getMovieById,
   getTvById,
-  getItemHistory,
+  // getItemHistory,
 } from '@/services/MovieService';
 import axios from 'axios';
 import disableScroll from 'disable-scroll';
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { message } from 'ant-design-vue';
 import { ViewFormatter } from '@/utils/convertViews';
@@ -251,7 +251,7 @@ export default {
     },
   },
   setup(props) {
-    const store = useStore();
+    // const store = useStore();
     const dataMovie = ref({});
     const isEpisodes = ref(false);
     const loading = ref(false);
@@ -277,14 +277,14 @@ export default {
       });
     });
 
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
       loading.value = true;
 
       if (props?.type) {
         switch (props?.type) {
           case 'movie':
             isEpisodes.value = false;
-            getMovieById(props.item?.id)
+            await getMovieById(props.item?.id)
               .then((movieResponed) => {
                 dataMovie.value = movieResponed?.data;
 
@@ -299,7 +299,7 @@ export default {
             break;
           case 'tv':
             isEpisodes.value = true;
-            getTvById(props.item?.id)
+            await getTvById(props.item?.id)
               .then((tvResponed) => {
                 dataMovie.value = tvResponed?.data;
 
@@ -318,7 +318,7 @@ export default {
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
           isEpisodes.value = true;
-          getTvById(props.item?.id)
+          await getTvById(props.item?.id)
             .then((tvResponed) => {
               dataMovie.value = tvResponed?.data;
 
@@ -332,7 +332,7 @@ export default {
             });
         } else {
           isEpisodes.value = false;
-          getMovieById(props.item?.id)
+          await getMovieById(props.item?.id)
             .then((movieResponed) => {
               dataMovie.value = movieResponed?.data;
 
@@ -347,16 +347,21 @@ export default {
         }
       }
 
-      getItemHistory(store.state?.userAccount?.id, props.item?.id)
-        .then((movieRespone) => {
-          if (movieRespone?.data.success == true) {
-            isInHistory.value = true;
-            percent.value = movieRespone?.data?.result?.percent;
-          }
-        })
-        .catch((e) => {
-          if (axios.isCancel(e)) return;
-        });
+      if (dataMovie.value?.in_history) {
+        isInHistory.value = true;
+        percent.value = dataMovie.value?.history_progress?.percent;
+      }
+
+      // getItemHistory(props.item?.id)
+      //   .then((movieRespone) => {
+      //     if (movieRespone?.data.success == true) {
+      //       isInHistory.value = true;
+      //       percent.value = movieRespone?.data?.result?.percent;
+      //     }
+      //   })
+      //   .catch((e) => {
+      //     if (axios.isCancel(e)) return;
+      //   });
     });
 
     const temp = () => {
@@ -375,7 +380,7 @@ export default {
           if (action === 'confirm') {
             instance.confirmButtonText = 'Đang xóa...';
             instance.confirmButtonLoading = true;
-            removeItemList(store.state?.userAccount?.id, {
+            removeItemList({
               media_id: props.item?.id,
             })
               .then((movieRespone) => {
@@ -417,7 +422,7 @@ export default {
     const handleRemoveFromList = () => {
       message.loading({ content: 'Đang xóa' });
 
-      removeItemList(store.state?.userAccount?.id, {
+      removeItemList({
         media_id: props.item?.id,
       })
         .then((movieRespone) => {

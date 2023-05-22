@@ -488,7 +488,7 @@ export default {
       loading.value = true;
       internalInstance.appContext.config.globalProperties.$Progress.start();
 
-      getHistory(store?.state.userAccount?.id)
+      getHistory()
         // getMovies(1)
         .then((movieRespone) => {
           if (movieRespone.data?.result?.items?.length > 0) {
@@ -540,7 +540,7 @@ export default {
           dataHistory.value?.length < total.value
         ) {
           loadMore.value = true;
-          getHistory(store?.state.userAccount?.id, skip.value)
+          getHistory(skip.value)
             .then((movieRespone) => {
               if (movieRespone.data?.result?.length > 0) {
                 setTimeout(() => {
@@ -588,7 +588,7 @@ export default {
           onOk() {
             message.loading({ content: 'Đang xóa tất cả Lịch sử xem' });
 
-            removeAllItemHistory(store?.state.userAccount?.id)
+            removeAllItemHistory()
               .then((movieRespone) => {
                 if (movieRespone.data?.success == true) {
                   setTimeout(() => {
@@ -631,7 +631,7 @@ export default {
 
         clearTimeout(debounce.value);
         debounce.value = setTimeout(() => {
-          searchHistory(store?.state.userAccount?.id, e.target.value)
+          searchHistory(e.target.value)
             .then((movieRespone) => {
               dataHistory.value = movieRespone?.data?.results;
               setTimeout(() => {

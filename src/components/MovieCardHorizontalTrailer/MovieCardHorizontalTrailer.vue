@@ -220,9 +220,9 @@ import {
   getTvById,
   getMovieById,
   getLanguage,
-  getItemHistory,
+  // getItemHistory,
 } from '@/services/MovieService';
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 
 export default {
   components: {},
@@ -235,7 +235,7 @@ export default {
     },
   },
   setup(props) {
-    const store = useStore();
+    // const store = useStore();
     const dataMovie = ref({});
     const isEpisodes = ref(false);
     const loading = ref(false);
@@ -243,7 +243,7 @@ export default {
     const percent = ref(0);
     const isOenModalTrailer = ref(false);
 
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
       loading.value = true;
 
       if (props?.type) {
@@ -251,7 +251,7 @@ export default {
           case 'movie':
             isEpisodes.value = false;
 
-            getMovieById(props.item?.id)
+            await getMovieById(props.item?.id)
               .then((movieResponed) => {
                 dataMovie.value = movieResponed?.data;
 
@@ -266,7 +266,7 @@ export default {
             break;
           case 'tv':
             isEpisodes.value = true;
-            getTvById(props.item?.id)
+            await getTvById(props.item?.id)
               .then((tvResponed) => {
                 dataMovie.value = tvResponed?.data;
 
@@ -285,7 +285,7 @@ export default {
       } else {
         if (props?.item?.media_type == 'tv' || props?.item?.type) {
           isEpisodes.value = true;
-          getTvById(props.item?.id)
+          await getTvById(props.item?.id)
             .then((tvResponed) => {
               dataMovie.value = tvResponed?.data;
 
@@ -299,7 +299,7 @@ export default {
             });
         } else {
           isEpisodes.value = false;
-          getMovieById(props.item?.id)
+          await getMovieById(props.item?.id)
             .then((movieResponed) => {
               dataMovie.value = movieResponed?.data;
 
@@ -314,46 +314,23 @@ export default {
         }
       }
 
-      //   getTvById(props.item?.id, 'videos')
-      //     .then((tvResponed) => {
-      //       if (tvResponed?.data?.not_found === true)
-      //         getMovieById(props.item?.id, 'videos')
-      //           .then((movieResponed) => {
-      //             isEpisodes.value = false;
-      //             dataMovie.value = movieResponed?.data;
-      //             setTimeout(() => {
-      //               loading.value = false;
-      //             }, 1000);
-      //           })
-      //           .catch((e) => {
-      //       loading.value = false;
+      if (dataMovie.value?.in_history) {
+        isInHistory.value = true;
+        percent.value = dataMovie.value?.history_progress?.percent;
+      }
 
-      //             if (axios.isCancel(e)) return;
-      //           });
-      //       else {
-      //         isEpisodes.value = true;
-      //         dataMovie.value = tvResponed?.data;
-      //         setTimeout(() => {
-      //           loading.value = false;
-      //         }, 1000);
+      // if (store.state.isLogin) {
+      //   getItemHistory(props.item?.id)
+      //     .then((movieRespone) => {
+      //       if (movieRespone?.data.success == true) {
+      //         isInHistory.value = true;
+      //         percent.value = movieRespone?.data?.result?.percent;
       //       }
       //     })
       //     .catch((e) => {
-      //       loading.value = false;
       //       if (axios.isCancel(e)) return;
       //     });
-      if (store.state.isLogin) {
-        getItemHistory(store.state?.userAccount?.id, props.item?.id)
-          .then((movieRespone) => {
-            if (movieRespone?.data.success == true) {
-              isInHistory.value = true;
-              percent.value = movieRespone?.data?.result?.percent;
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
+      // }
     });
 
     const handleClickTrailerIcon = () => {
