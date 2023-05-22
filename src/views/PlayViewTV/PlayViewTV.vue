@@ -284,7 +284,7 @@ export default {
         //     percent.value > dataItemHistory.value?.percent &&
         //     dataItemHistory.value?.seconds < duration.value
         //   ) {
-        //     add_update_History(store?.state.userAccount?.id, {
+        //     add_update_History( {
         //       media_type: 'tv',
         //       media_id: dataMovie.value?.id,
         //       duration: duration.value,
@@ -295,7 +295,7 @@ export default {
         //     });
         //   } else {
         //     if (seconds.value > 0 && percent.value > 0) {
-        //       add_update_History(store?.state.userAccount?.id, {
+        //       add_update_History( {
         //         media_type: 'tv',
         //         media_id: dataMovie.value?.id,
         //         duration: dataItemHistory.value?.duration,
@@ -307,7 +307,7 @@ export default {
         //     }
         //   }
         // } else {
-        //   add_update_History(store?.state.userAccount?.id, {
+        //   add_update_History( {
         //     media_type: 'tv',
         //     media_id: dataMovie.value?.id,
         //     duration: duration.value,
@@ -319,7 +319,7 @@ export default {
         // }
 
         if (seconds.value > 0 && percent.value > 0 && duration.value > 0) {
-          add_update_History(store?.state.userAccount?.id, {
+          add_update_History({
             media_type: 'tv',
             media_id: dataMovie.value?.id,
             duration: duration.value,
