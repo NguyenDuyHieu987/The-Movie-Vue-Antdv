@@ -378,34 +378,23 @@ export default {
     const countries = ref([]);
 
     onBeforeMount(() => {
-      if (
-        store.state.allGenres?.length > 0 &&
-        store.state.allCountries?.length > 0 &&
-        store.state.allYears?.length > 0
-      ) {
-        // alert('g');
-        genres.value = store.state.allGenres;
-        countries.value = store.state.allCountries;
-        years.value = store.state.allYears;
-      } else {
-        Promise.all([getAllGenre(), getAllYear(), getAllNational()])
-          .then((response) => {
-            genres.value = response[0].data;
-            years.value = response[1].data.sort(function (a, b) {
-              return +b.name.slice(-4) - +a.name.slice(-4);
-            });
-            countries.value = response[2].data;
-
-            store.state.allGenres = response[0].data;
-            store.state.allYears = response[1].data.sort(function (a, b) {
-              return +b.name.slice(-4) - +a.name.slice(-4);
-            });
-            store.state.allCountries = response[2].data;
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
+      Promise.all([getAllGenre(), getAllYear(), getAllNational()])
+        .then((response) => {
+          genres.value = response[0].data;
+          years.value = response[1].data.sort(function (a, b) {
+            return +b.name.slice(-4) - +a.name.slice(-4);
           });
-      }
+          countries.value = response[2].data;
+
+          store.state.allGenres = response[0].data;
+          store.state.allYears = response[1].data.sort(function (a, b) {
+            return +b.name.slice(-4) - +a.name.slice(-4);
+          });
+          store.state.allCountries = response[2].data;
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     });
 
     watch(route, () => {

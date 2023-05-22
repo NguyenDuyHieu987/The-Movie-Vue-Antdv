@@ -46,15 +46,7 @@
         :index="index"
         :key="item.id"
         :item="item"
-        :type="
-          item?.media_type || isFilter
-            ? undefined
-            : $route.params.slug == 'movie'
-            ? 'movie'
-            : $route.params.slug == 'tv'
-            ? 'tv'
-            : undefined
-        "
+        :type="item?.media_type"
       />
     </section>
 

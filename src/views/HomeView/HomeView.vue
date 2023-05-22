@@ -378,57 +378,40 @@ export default {
     });
 
     onBeforeMount(() => {
-      if (
-        store.state?.trendings?.length > 0 &&
-        store.state?.nowPlayings?.length > 0 &&
-        store.state?.upComings?.length > 0 &&
-        store.state?.tvAiringTodays?.length > 0 &&
-        store.state?.topRateds?.length > 0
-        // store.state?.recommends?.length > 0
-      ) {
-        // alert('h');
-        trendings.value = store.state?.trendings;
-        nowPlayings.value = store.state?.nowPlayings;
-        upComings.value = store.state?.upComings;
-        tvAiringTodays.value = store.state?.tvAiringTodays;
-        topRateds.value = store.state?.topRateds;
-        recommends.value = store.state?.recommends;
-      } else {
-        getTrending(1)
-          .then((response) => {
-            trendings.value = response.data?.results.slice(0, 11);
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
+      getTrending(1)
+        .then((response) => {
+          trendings.value = response.data?.results.slice(0, 11);
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
 
-        Promise.all([
-          getNowPlaying(1),
-          getUpComing(1),
-          getTvAiringToday(1),
-          getTopRated(1),
-          getTvOntheAir(1),
-          getMoviesByGenres('hoat-hinh', 1, 'views_desc'),
-          store.state?.isLogin
-            ? getMyRecommend(store.state.userAccount?.id, 1)
-            : null,
-        ])
-          .then((response) => {
-            nowPlayings.value = response[0].data?.results.slice(0, 10);
-            upComings.value = response[1].data?.results.slice(0, 10);
-            tvAiringTodays.value = response[2]?.data.results.slice(0, 10);
-            topRateds.value = response[3].data?.results.slice(0, 10);
-            tvOnTheAirs.value = response[4].data?.results.slice(0, 10);
-            cartoons.value = response[5].data?.results.slice(0, 10);
+      Promise.all([
+        getNowPlaying(1),
+        getUpComing(1),
+        getTvAiringToday(1),
+        getTopRated(1),
+        getTvOntheAir(1),
+        getMoviesByGenres('hoat-hinh', 1, 'views_desc'),
+        store.state?.isLogin
+          ? getMyRecommend(store.state.userAccount?.id, 1)
+          : null,
+      ])
+        .then((response) => {
+          nowPlayings.value = response[0].data?.results.slice(0, 10);
+          upComings.value = response[1].data?.results.slice(0, 10);
+          tvAiringTodays.value = response[2]?.data.results.slice(0, 10);
+          topRateds.value = response[3].data?.results.slice(0, 10);
+          tvOnTheAirs.value = response[4].data?.results.slice(0, 10);
+          cartoons.value = response[5].data?.results.slice(0, 10);
 
-            if (store.state?.isLogin) {
-              recommends.value = response[6].data?.results;
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
+          if (store.state?.isLogin) {
+            recommends.value = response[6].data?.results;
+          }
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     });
 
     const handleLoadMoreRecommend = () => {
